@@ -10,7 +10,6 @@ Acquérir les notions de base en probabilités et statistiques nécessaires à l
 
 ## Description
 
-
 Ce module s'adresse aux étudiants du M1 BBSG. 
 
 L'ensemble du cours (théorie, TD et TP) sera motivé par l'analyse de données concrètes extraites des différents domaines d’application des deux mentions de master concernées (génomique, protéomique).
@@ -29,40 +28,34 @@ Les exemples suivants sont uniquement illustratifs. Les méthodes et application
 
 - Analyse combinatoire (permutations, combinaisons, arrangements)
 
-           o   Tirages d’échantillons dans une population finie.
-
-           o   Probabilités d’occurrences de motifs de régulation dans les séquences nucléiques
+    - Tirages d’échantillons dans une population finie.
+    - Probabilités d’occurrences de motifs de régulation dans les séquences nucléiques
 
 - Tests d’égalité de moyenne (tests de Student, de Welch, de rangs)
 
-         o   Bref rappel des notions indispensables:
+    - Bref rappel des notions indispensables:
 
-               §  Estimation des paramètres de la population sur base d’un échantillon.
+        - Estimation des paramètres de la population sur base d’un échantillon.
+        - Types de risques. Interprétation de la p-valeur.
 
-               §  Types de risques. Interprétation de la p-valeur.
+    - Applications
 
-         o   Applications
-
-               §  Détection de gènes différentiellement exprimés (y compris les corrections de tests multiples)
-
-               §  Mesures de la réponse immunitaire (taux d’anticorps, de cytokines, nombre de cellules, …)
+        - Détection de gènes différentiellement exprimés (y compris les corrections de tests multiples)
+        - Mesures de la réponse immunitaire (taux d’anticorps, de cytokines, nombre de cellules, …)
 
 - Tests d’association
 
-         o   Théorie
+    - Théorie
 
-               §  loi hypergéométrique, tests de Fisher, chi2 et apparentés
+        - loi hypergéométrique, tests de Fisher, chi2 et apparentés
 
-         o   Applications
+    - Applications
 
-               §  Enrichissement fonctionnel de groupes de gènes co-exprimés
-
-               §  Association génotype / phénotype (notamment dans les études d’association à échelle génomique)
-
-               §  Association entre niveaux (classes) d’exposition à une maladie infectieuse et niveaux (classes) d’infection
+        - Enrichissement fonctionnel de groupes de gènes co-exprimés
+        - Association génotype / phénotype (notamment dans les études d’association à échelle génomique)
+        - Association entre niveaux (classes) d’exposition à une maladie infectieuse et niveaux (classes) d’infection
 
 - Tests de corrélation (coefficients de corrélation de Pearson, Spearman)
+        - corrélations entre profils transcriptomiques (par gène, par échantillon)
 
-         o   corrélations entre taux d’anticorps
 
-         o   corrélations entre profils transcriptomiques (par gènes, par échantillons)

@@ -3,11 +3,14 @@
 Code AMU: SBBAU16L
 Volume horaire: 15 de CM - 7 de TD - 8 de TP
 
+
+****************************************************************
 ## Objectif(s)
 
 Acquérir les notions de base en probabilités et statistiques nécessaires à l’analyse de données biologiques.
 
 
+****************************************************************
 ## Description
 
 Ce module s'adresse aux étudiants du M1 BBSG. 
@@ -18,10 +21,12 @@ Les CM viseront à présenter les bases du raisonnement statistique, en faisant 
 
 Les travaux dirigés amèneront les étudiants à développer eux-mêmes le raisonnement statistique, en identifiant les traitements appropriés en fonction des types de données biologiques et des questions posées : choix des méthodes, évaluation des conditions d’applicabilité, choix des paramètres. Les travaux pratiques consisteront à mettre en œuvre les méthodes enseignées pour analyser des données au moyen de logiciels classiques de bureautique (tableurs), et à apprendre à interpréter les résultats des tests. L’organisation reposera sur une alternance de séances de CM, TD et TP, afin d’assurer une intégration progressive des concepts et de la pratique.
 
+****************************************************************
 ## Prérequis
 
 Ce cours s’adresse à des étudiants issus d’une formation en sciences de la vie, et inscrits aux Masters BBSG. Les étudiants concernés auront pour la plupart déjà suivi un ou plusieurs cours de probabilités et statistiques durant leur parcours de licence. Cependant le cours peut également être suivi sans formation préalable, moyennant un effort de mise à niveau encadré par les enseignants.
 
+****************************************************************
 ## Contenu : applications et méthodes
 
 Les exemples suivants sont uniquement illustratifs. Les méthodes et applications seront adaptées pour prendre en compte l’évolution des domaines d’application.
@@ -58,4 +63,14 @@ Les exemples suivants sont uniquement illustratifs. Les méthodes et application
 - Tests de corrélation (coefficients de corrélation de Pearson, Spearman)
         - corrélations entre profils transcriptomiques (par gène, par échantillon)
 
+****************************************************************
+## Téléchargement du cours
 
+- [Download **ZIP File**](https://github.com/jvanheld/stat1/zipball/master)
+- [View On ***GitHub**](https://github.com/jvanheld/stat1)
+- Shell command to get a git clone: 
+
+    `git clone git@github.com:jvanheld/stat1.git`
+
+
+****************************************************************

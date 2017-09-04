@@ -1,37 +1,68 @@
-## Welcome to GitHub Pages
+# Probabilités et statistiques pour la biologie
 
-You can use the [editor on GitHub](https://github.com/jvanheld/stat1/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Code AMU: SBBAU16L
+Volume horaire: 15 de CM - 7 de TD - 8 de TP
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## Objectif(s)
 
-### Markdown
+Acquérir les notions de base en probabilités et statistiques nécessaires à l’analyse de données biologiques.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
-```markdown
-Syntax highlighted code block
+## Description
 
-# Header 1
-## Header 2
-### Header 3
 
-- Bulleted
-- List
+Ce module s'adresse aux étudiants du M1 BBSG. 
 
-1. Numbered
-2. List
+L'ensemble du cours (théorie, TD et TP) sera motivé par l'analyse de données concrètes extraites des différents domaines d’application des deux mentions de master concernées (génomique, protéomique).
 
-**Bold** and _Italic_ and `Code` text
+Les CM viseront à présenter les bases du raisonnement statistique, en faisant le lien entre données biologiques et modèles statistiques. Ils incluront un rappel des concepts de probabilité, des lois de distributions, et la présentation de quelques tests fréquemment utilisés.
 
-[Link](url) and ![Image](src)
-```
+Les travaux dirigés amèneront les étudiants à développer eux-mêmes le raisonnement statistique, en identifiant les traitements appropriés en fonction des types de données biologiques et des questions posées : choix des méthodes, évaluation des conditions d’applicabilité, choix des paramètres. Les travaux pratiques consisteront à mettre en œuvre les méthodes enseignées pour analyser des données au moyen de logiciels classiques de bureautique (tableurs), et à apprendre à interpréter les résultats des tests. L’organisation reposera sur une alternance de séances de CM, TD et TP, afin d’assurer une intégration progressive des concepts et de la pratique.
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+## Prérequis
 
-### Jekyll Themes
+Ce cours s’adresse à des étudiants issus d’une formation en sciences de la vie, et inscrits aux Masters BBSG. Les étudiants concernés auront pour la plupart déjà suivi un ou plusieurs cours de probabilités et statistiques durant leur parcours de licence. Cependant le cours peut également être suivi sans formation préalable, moyennant un effort de mise à niveau encadré par les enseignants.
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/jvanheld/stat1/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+## Contenu : applications et méthodes
 
-### Support or Contact
+Les exemples suivants sont uniquement illustratifs. Les méthodes et applications seront adaptées pour prendre en compte l’évolution des domaines d’application.
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+- Analyse combinatoire (permutations, combinaisons, arrangements)
+
+           o   Tirages d’échantillons dans une population finie.
+
+           o   Probabilités d’occurrences de motifs de régulation dans les séquences nucléiques
+
+- Tests d’égalité de moyenne (tests de Student, de Welch, de rangs)
+
+         o   Bref rappel des notions indispensables:
+
+               §  Estimation des paramètres de la population sur base d’un échantillon.
+
+               §  Types de risques. Interprétation de la p-valeur.
+
+         o   Applications
+
+               §  Détection de gènes différentiellement exprimés (y compris les corrections de tests multiples)
+
+               §  Mesures de la réponse immunitaire (taux d’anticorps, de cytokines, nombre de cellules, …)
+
+- Tests d’association
+
+         o   Théorie
+
+               §  loi hypergéométrique, tests de Fisher, chi2 et apparentés
+
+         o   Applications
+
+               §  Enrichissement fonctionnel de groupes de gènes co-exprimés
+
+               §  Association génotype / phénotype (notamment dans les études d’association à échelle génomique)
+
+               §  Association entre niveaux (classes) d’exposition à une maladie infectieuse et niveaux (classes) d’infection
+
+- Tests de corrélation (coefficients de corrélation de Pearson, Spearman)
+
+         o   corrélations entre taux d’anticorps
+
+         o   corrélations entre profils transcriptomiques (par gènes, par échantillons)

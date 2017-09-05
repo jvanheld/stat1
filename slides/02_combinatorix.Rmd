@@ -67,19 +67,61 @@ knitr::opts_chunk$set(
 ```
 
 
-## Problème 1 : énumération d'oligomères
+## Problème: énumération d'oligomères
 
 L'ADN est composée de 4 nucléotides distincts dénotés par les lettres A, C, G, T, et les protéines de 20 acides aminés. 
 
 Pour chacun de ces deux types de polymères, combien d'oligomères distincts peut-on former en polymérisant 20 résidus ("20-mères") ?
 
-**Approche suggérée**: 
-
-- simplifiez le problème au maximum, en commençant par des polymères beaucoup plus courts (1 résidu, 2 résidus). 
+**Approche suggérée**: simplifiez le problème au maximum, en commençant par des polymères beaucoup plus courts (1 résidu, 2 résidus). 
 
 **Questions subsidiaires**:
 
 - Généralisez la formule pour les oligomères d'une longueur arbitraure $k$ (**"k-mères"**). 
+- Quel est le nom de la fonction donnant le résultat ?
 - Dans ce processus, quel est le mode de sélection des résidus: **avec ou sans remise** ?
+
+## Problème: oligomères sans résidus répétés
+
+Combien d'oligomères peut-on former (ADN ou peptides) en utilisant chaque résidu une et une seule fois ?
+
+**Approche suggérée**: agrégez progressivement les résidus, en vous demandant à chaque étape combien d'entre eux n'ont pas encore été incorporés. 
+
+**Questions subsidiaires**:
+
+- Généralisez la formule pour des séquences d'objets tirés dans un ensemble de taille arbitraire ($n$). 
+- Quel est le nom de la fonction donnant le résultat ?
+- Dans ce processus, quel est le mode de sélection des résidus: **avec ou sans remise** ?
+
+
+## Problème: sélection d'une liste (ordonnée) de gènes
+
+Lors d'ne expérience de transcriptome indiquant le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**en tenant compte** de l'ordre relatif de ces 15 gènes) ?
+
+**Approche suggérée**: comme précédemment, simplifiez le problème en partant de la sélection minimale, et augmentez progressivement le nombre de gènes (1 gène, 2 gènes, ...). 
+
+**Questions subsidiaires**: 
+
+- Trouvez un exemple familier de jeu de pari apparenté à ce problème. 
+- Généralisez la formule pour la sélection d'une liste de $x$ gènes dans un génome qui en comporte $n$. 
+
+
+## Problème: sélection d'un ensemble (non-ordonné) de gènes
+
+Lors d'ne expérience de transcriptome indiquant le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**sans tenir compte** de l'ordre relatif de ces 15 gènes) ?
+
+**Approche suggérée**: comme précédemment, simplifiez le problème en partant de sélections minimales (1 gène, 2 gènes, ...) et généralisez la formule. 
+
+**Questions subsidiaires**: 
+
+- Trouvez un exemple familier de jeu de pari apparenté à ce problème. 
+- Généralisez la formule pour la sélection d'un ensemble de $x$ gènes dans un génome qui en comporte $n$. 
+- Connaissez-vous le nom de la formule ainsi trouvée ?
+
+
+
+
+
+
 
 

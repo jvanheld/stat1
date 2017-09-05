@@ -37,6 +37,7 @@ Ce cours s’adresse à des étudiants issus d’une formation en sciences de la
 | Séance | Contenu | Liens | 
 |------|---------------------------------|--------------------------|
 | CM1 | Introduction au cours | Diapos: [html](slides/01_introduction.html) [pdf](slides/01_introduction.pdf) [Rmd](slides/01_introduction.Rmd) |
+| CM1 | Eléments d'analyse combinatoire | Diapos: [html](slides/02_combinatorix.html) [pdf](slides/02_combinatorix.pdf) [Rmd](slides/02_combinatorix.Rmd) |
 
 <!--
 Les exemples suivants sont uniquement illustratifs. Les méthodes et applications seront adaptées pour prendre en compte l’évolution des domaines d’application.

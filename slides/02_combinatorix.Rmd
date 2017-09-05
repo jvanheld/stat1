@@ -119,11 +119,11 @@ Lors d'ne expérience de transcriptome indiquant le niveau d'expression de tous 
 
 
 
-## Problème : mutagénèse
+## Exercice : mutagénèse
 
 On soumet un fragment d'ADN de 1 kilobase à un traitement mutagène qui provoque des mutations ponctuelles (substitutions) à 5 positions indépendantes. Combien de séquences possibles existe-t-il pour le fragment muté ?
 
-## Problème : oligopeptides d'une composition donnée
+## Exercice : oligopeptides d'une composition donnée
 
 Combien d'oligopeptides de taille 60 peut-on former en utilisant exactement 3 fois chaque acide aminé ?
 

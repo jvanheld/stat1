@@ -3,17 +3,23 @@
 - Code AMU: SBBAU16L
 - Volume horaire: 15 de CM - 7 de TD - 8 de TP
 - Site Web: <https://jvanheld.github.io/stat1/>
+- Enseignants
 
-### Enseignants
+    - 2017-2018: Jacques van Helden
+    - Années précédentes: Jacques van Helden & Pascal Rihet
 
-- 2017-2018: Jacques van Helden
-- Années précédentes: Jacques van Helden & Pascal Rihet
+****************************************************************
+### Contenu
+
+| Séance | Contenu | Liens | 
+|------|---------------------------------|--------------------------|
+| CM1 | Introduction au cours | Diapos: [html](slides/01_introduction.html) [pdf](slides/01_introduction.pdf) [Rmd](slides/01_introduction.Rmd) |
+| CM1 | Eléments d'analyse combinatoire | Diapos: [html](slides/02_combinatorix.html) [pdf](slides/02_combinatorix.pdf) [Rmd](slides/02_combinatorix.Rmd) |
 
 ****************************************************************
 ### Objectif(s)
 
 Acquérir les notions de base en probabilités et statistiques nécessaires à l’analyse de données biologiques.
-
 
 ****************************************************************
 ### Description
@@ -31,15 +37,10 @@ Les travaux dirigés amèneront les étudiants à développer eux-mêmes le rais
 
 Ce cours s’adresse à des étudiants issus d’une formation en sciences de la vie, et inscrits aux Masters BBSG. Les étudiants concernés auront pour la plupart déjà suivi un ou plusieurs cours de probabilités et statistiques durant leur parcours de licence. Cependant le cours peut également être suivi sans formation préalable, moyennant un effort de mise à niveau encadré par les enseignants.
 
+
 ****************************************************************
-### Contenu
+### Exemples d'applications
 
-| Séance | Contenu | Liens | 
-|------|---------------------------------|--------------------------|
-| CM1 | Introduction au cours | Diapos: [html](slides/01_introduction.html) [pdf](slides/01_introduction.pdf) [Rmd](slides/01_introduction.Rmd) |
-| CM1 | Eléments d'analyse combinatoire | Diapos: [html](slides/02_combinatorix.html) [pdf](slides/02_combinatorix.pdf) [Rmd](slides/02_combinatorix.Rmd) |
-
-<!--
 Les exemples suivants sont uniquement illustratifs. Les méthodes et applications seront adaptées pour prendre en compte l’évolution des domaines d’application.
 
 - Analyse combinatoire (permutations, combinaisons, arrangements)
@@ -74,7 +75,6 @@ Les exemples suivants sont uniquement illustratifs. Les méthodes et application
 - Tests de corrélation (coefficients de corrélation de Pearson, Spearman)
         - corrélations entre profils transcriptomiques (par gène, par échantillon)
 
--->
 
 ****************************************************************
 ### Accès au contenu

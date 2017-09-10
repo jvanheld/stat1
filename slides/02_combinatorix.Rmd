@@ -76,7 +76,7 @@ Pour chacun de ces deux types de polymères, combien d'oligomères distincts peu
 
 **Questions subsidiaires**:
 
-- Généralisez la formule pour les oligomères d'une longueur arbitraure $k$ (**"k-mères"**). 
+- Généralisez la formule pour les oligomères d'une longueur arbitraire $k$ (**"k-mères"**). 
 - Quel est le nom de la fonction donnant le résultat ?
 - Dans ce processus, quel est le mode de sélection des résidus: **avec ou sans remise** ?
 
@@ -95,7 +95,7 @@ Combien d'oligomères peut-on former (ADN ou peptides) en utilisant chaque rési
 
 ## Problème: sélection d'une liste (ordonnée) de gènes
 
-Lors d'ne expérience de transcriptome indiquant le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**en tenant compte** de l'ordre relatif de ces 15 gènes) ?
+Lors d’en expérience de transcriptome indiquant le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**en tenant compte** de l'ordre relatif de ces 15 gènes) ?
 
 **Approche suggérée**: comme précédemment, simplifiez le problème en partant de la sélection minimale, et augmentez progressivement le nombre de gènes (1 gène, 2 gènes, ...). 
 
@@ -107,7 +107,7 @@ Lors d'ne expérience de transcriptome indiquant le niveau d'expression de tous 
 
 ## Problème: sélection d'un ensemble (non-ordonné) de gènes
 
-Lors d'ne expérience de transcriptome indiquant le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**sans tenir compte** de l'ordre relatif de ces 15 gènes) ?
+Lors d'une expérience de transcriptome indiquant le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**sans tenir compte** de l'ordre relatif de ces 15 gènes) ?
 
 **Approche suggérée**: comme précédemment, simplifiez le problème en partant de sélections minimales (1 gène, 2 gènes, ...) et généralisez la formule. 
 

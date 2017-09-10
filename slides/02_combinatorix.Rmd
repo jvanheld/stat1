@@ -1,16 +1,17 @@
 ---
 title: "Eléments d'analyse combinatoire"
-subtitle: "Probabilités et statistique pour la biologie (STAT1)"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  ioslides_presentation:
-    colortheme: dolphin
-    fonttheme: structurebold
-    highlight: tango
+  slidy_presentation:
     fig_caption: yes
     fig_height: 6
     fig_width: 7
+    highlight: tango
+    incremental: yes
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
     toc: yes
     widescreen: yes
   html_document:
@@ -20,6 +21,21 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
+  ioslides_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    smaller: yes
+    toc: yes
+    widescreen: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -32,23 +48,8 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: yes
-    toc_depth: 3
-  slidy_presentation:
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    incremental: yes
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
-    toc: yes
-    widescreen: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
+subtitle: Probabilités et statistique pour la biologie (STAT1)
 font-family: Garamond
 transition: linear
 ---
@@ -63,8 +64,11 @@ knitr::opts_chunk$set(
   echo = TRUE, eval=TRUE, 
   warning = FALSE, message = FALSE, 
   results = TRUE, comment = "")
+# knitr::asis_output("\\footnotesize")
+
 ```
 
+# Des problèmes aux solutions
 
 ## Problème: dénombrement d'oligomères
 
@@ -79,6 +83,21 @@ Pour chacun de ces deux types de polymères, combien d'oligomères distincts peu
 - Généralisez la formule pour les oligomères d'une longueur arbitraire $k$ (**"k-mères"**). 
 - Quel est le nom de la fonction donnant le résultat ?
 - Dans ce processus, quel est le mode de sélection des résidus: **avec ou sans remise** ?
+
+## Solution: dénombrement d'oligomères
+
+- Il s'agit d'un tirage avec remise: à chaque position de la séquence on a le choix entre $n$ résidus (4 pour les acides nucléiques, 20 pour les protéines).
+- Cas trivial: séquence d'un seul résidu -> le nombre de possibilités est $n$. 
+- Pour chacune des $n$ possibilités de premier résidu, il y a $n$ possibilités pour choisir le second résidu $\implies$ il existe $n \cdot n = n^2$ séquences de taille 2. 
+- Pour chacune d'entre elles, $n$ résidus possibles en $3^{ème}$ position $\implies$ il existe $n^2 \cdot n = n^3$ séquences distinctes de taille 3.
+- En généralisant, il existe $n^x$ séquences distinctes de taille $x$
+
+- Pour cet exercice, la taille des séquences $x=20$. On a donc 
+
+    - $N = n^x = 4^20 = `r signif(digits=3, 4^20)`$ oligonucléotides distincts 
+    - $N = n^x = 20^20 = `r signif(digits=3, 20^20)`$ oligopeptides distincts 
+
+
 
 ## Problème: oligomères sans résidus répétés
 
@@ -128,7 +147,27 @@ On soumet un fragment d'ADN de 1 kilobase à un traitement mutagène qui provoqu
 Combien d'oligopeptides de taille 60 peut-on former en utilisant exactement 3 fois chaque acide aminé ?
 
 
+# Résumé des concepts et formules
 
+## Tirages avec / sans remise
 
+Il existe deux types classiques de tirage d'éléments au sein d'un ensemble: avec ou sans remise. 
 
+1. **Tirage sans remise**: chaque élément peut être tiré au plus une fois. Exemples: 
 
+    - Jeu de [loto](https://fr.wikipedia.org/wiki/Loto) (ou lotto): chaque joueur dispose d'une grille avec 90 numéros
+    - Sélection aléatoire d'un ensemble de gènes dans un génome. 
+
+2. Tirage **avec remise**: chaque élément peut être tiré zéro, une ou plusieurs fois. Exemples: 
+
+    - Jeu de dés. A chaque lancer on dispose des mêmes possibilités (6 faces).
+    - Génération d'une séquence aléatoire, par sélection itérative d'un élément dans l'ensemble des résidus (4 nucléotides pour l'ADN, 20 acides aminés pour les protéines). 
+    
+## Formules
+
+| Remise | Ordre | Formule | Nom |
+|--------|-------|--------------------------|----------------|
+| Oui | Oui | $n^x$ | **Exponentielle**: séquences de $x$ éléments tirés dans un ensemble de taille $n$, avec remise. |
+| Non | Oui | $n!$ | **Factorielle**: toutes les permutations d'un ensemble de taille $n$ |
+| Non | Oui | $A^x_n = \frac{n!}{x!}$ | **Arrangements** : listes (ordonnée) de $x$ éléments tirés dans un ensemble de taille $n$ |
+| Non | Non | $C^x_n = \binom{n}{x} = \frac{n!}{x! (n - x) !}$ | **Combinaisons** : ensembles (non ordonnés) de $x$ éléments tirés dans un ensemble de taille $n$ |

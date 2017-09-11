@@ -14,7 +14,9 @@
 | Séance | Contenu | Liens | 
 |------|---------------------------------|--------------------------|
 | CM1 | Introduction au cours | Diapos: [html](slides/01_introduction.html) [pdf](slides/01_introduction.pdf) [Rmd](slides/01_introduction.Rmd) |
-| CM1 | Eléments d'analyse combinatoire | Diapos: [html](slides/02_combinatorix.html) [pdf](slides/02_combinatorix.pdf) [Rmd](slides/02_combinatorix.Rmd) |
+| CM1-2 | Eléments d'analyse combinatoire | Diapos: [html](slides/02_combinatorix.html) [pdf](slides/02_combinatorix.pdf) [Rmd](slides/02_combinatorix.Rmd) |
+| CM3 | Concepts de probabilités | Diapos: [html](slides/03_concepts_proba.html) [pdf](slides/03_concepts_proba.pdf) [Rmd](slides/03_concepts_proba.Rmd) |
+| CM4 | Distributions discrètes | Diapos: [html](slides/04_distributions_discretes.html) [pdf](slides/04_distributions_discretes.pdf) [Rmd](slides/04_distributions_discretes.Rmd) |
 
 ****************************************************************
 ### Objectif(s)

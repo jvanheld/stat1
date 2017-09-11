@@ -1,0 +1,49 @@
+/* BODY  */
+body {
+       font-family: Verdana, Helvetica, Arial, sans-serif;
+       /*  font-family: Garamond, Times new roman, Times, serif; */
+       /*  font : 14px Garamond, 12px Times new roman, 12px Times, serif;*/
+}
+
+/* Links  */
+
+A:link,A:visited {
+                   color: #0D73A7;
+                   background: transparent;
+                   text-decoration: none;
+                   }
+
+A:active {
+           color: #ff0000;
+           background: transparent;
+           text-decoration: none
+           }
+
+A:hover {
+          text-decoration: underline;
+          color: #cc6600;
+          }
+
+/* Text  */
+
+h1 {
+     color: #CCDDFF;
+/*     background-color: transparent;*/
+     }
+
+h2 {
+     /* 	text-align: center; */
+     color: #CCDDFF;
+     background-color: #115588;
+     }
+
+h3 {
+     /* 	text-align: center; */
+     color: #4466BB;
+     }
+
+h4 {
+     /* 	text-align: center; */
+     color: #4466BB;
+     }
+

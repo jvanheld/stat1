@@ -1,0 +1,199 @@
+---
+title: "Concepts de probabilités"
+author: "Jacques van Helden"
+date: '`r Sys.Date()`'
+output:
+  ioslides_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    smaller: yes
+    toc: yes
+    widescreen: yes
+  html_document:
+    fig_caption: yes
+    highlight: zenburn
+    theme: cerulean
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  beamer_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
+  slidy_presentation:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: yes
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
+font-import: http://fonts.googleapis.com/css?family=Risque
+subtitle: Probabilités et statistique pour la biologie (STAT1)
+font-family: Garamond
+transition: linear
+---
+
+```{r include=FALSE, echo=FALSE, eval=TRUE}
+options(width=300)
+knitr::opts_chunk$set(
+  fig.width = 7, fig.height = 5, 
+  fig.path='figures',
+  fig.align = "center", 
+  size = "tiny", 
+  echo = TRUE, eval=TRUE, 
+  warning = FALSE, message = FALSE, 
+  results = TRUE, comment = "")
+# knitr::asis_output("\\footnotesize")
+
+```
+
+## Définition fréquentielle de la probabilité
+
+Lors d'une expérience aléatoire, la ***probabilité*** d'un événement  $A$ est la limite de sa fréqunce de réalisation quand le nombre d'essais tend vers l'infini. 
+
+$$\operatorname{P}(A) = \lim_{n \to \infty}\frac{n_{A}}{n}$$
+
+```{r echo=FALSE, fig.height=3, fig.width=10, fig.cap="Fréquences de A lors du tirage (avec remise) de positions aléatoires dans le génome de *Mycoplasma genitalium*. "}
+################################################################
+## Illustration of the frequential definition of probability.
+##
+## We generate a fake genomic sequence having the same nucleotide 
+## composition as Mycoplasma genitalium, and perform a random sampling.  
+
+
+## Parameters for the sampling of nucleotides in the Mycoplasma genome
+
+## Instantiate a vector with the count of occurrences per residue
+## in the whole genome of Mycoplasma genitalium.
+nt.counts.mycoplasma <- c("A" = 200543,
+                          "C" = 91524,
+                          "G" = 92312,
+                          "T" = 195695)
+genome.size.mycoplasma <- sum(nt.counts.mycoplasma)
+
+## Compute genome size
+L <- sum(nt.counts.mycoplasma)  ## Genome length
+N <- 1.0e+6           ## Samplin size
+x.values <- c(1:100,10*(11:100),100*(11:100),1000*(11:100),10000*(11:100)) ## Values to be plotted (plotting the 10^6 values would generate a huge file where most points are not even visible)
+
+
+## For the sake of storage economy, rather than analyzing the actual
+## genome sequence, we generate a fake genome of the same size as 
+## Mycoplasma genitalium, and with the same nucleotide frequencies 
+## (but where residues are sorted alphabetically). Since the sampling 
+## is done in a position-independent way this does not affect the result.
+genome <- rep(names(nt.counts.mycoplasma), nt.counts.mycoplasma)
+
+## Calculate the probability of the A residue
+p.A <- nt.counts.mycoplasma["A"]/genome.size.mycoplasma
+
+
+## Generate four plots illustrating the convergence of the realization frequency of an event (sampling of nucleotide A in Myciplasma genome) towards the probability of this event (frequency of this nucleotide in the whole genome).
+par(mfrow=c(1,3)) ## Four panels per figure
+
+## Perform 4 independent trials, to give an idea of the variability of the initial frequencies
+for (i in 1:3) {
+  
+  ## Sample residues in the fake genome
+  res.sample <- sample(genome,size=N,replace=T)
+  
+  ## Count the cumulative sum of adenine residues
+  A.cumsum <- cumsum(res.sample == "A")
+  A.cumfreq <- A.cumsum/(1:N)
+  
+  plot(x.values, A.cumfreq[x.values],
+       col="black",
+       log="x",
+       type="l",
+       main=paste("Series", i),
+       xlab="Sample size",
+       ylab="Frequency of A",
+       panel.first=c(grid(col="black"),
+         abline(h=p.A,col="#444444", lwd=2,lty="dashed")),
+       ylim=c(0,1), lwd=2
+       )
+  
+}
+par(mfrow=c(1,1)) ## Restore default plot parameters
+
+```
+
+## Probabilités pour des ensemble finins
+
+Supposons qu'on tire des éléments dans un ensemble fini, en considérant certains tirages comme des succès ($A$). Dans cette situation, la probabilté est définie comme le rapport entre le nombre de tirages pouvant être considérés comme des succès ($n_A$) et le nombre total de tirages possibles ($n$).
+
+$$\operatorname{P}(A) = \frac{n_A}{n}$$
+
+
+**Exemple: ** sélection aléatoire de 4 cartes dans un jeu de 52 cartes. Quelle est la probabilité d'avoir un carré (4 cartes identiques) ?
+
+Le jeu de carte comporte 13 valeurs (As, 2, 3, ..., Dame, Roi), il y a donc 13 possibilités d'obtenir un carré: $n_A = 13$.
+
+Le nombre total de tirages de 4 cartes parmi 52 est fourni par le coefficient binomial: $$n = \binom{52}{13} = `r prettyNum(choose(n=52, k=4))`$$
+
+
+$$\operatorname{P}(A) = \frac{n_A}{n} = \frac{13}{\binom{52}{13}} = \frac{13}{`r prettyNum(choose(n=52, k=4))`} = `r signif(digits=3, 13/choose(n=52, k=4))`$$
+
+## Schéma de Bernoulli
+
+Un ***essai de Bernoulli*** est une expérience aléatoire qui peut résulter en deux événements possibles, dénommés ***succès*** et ***échec***, chacun étant associé à une probabilité. 
+
+Un ***schéma de Bernoulli*** est une série d'essais qui satisfont les conditions suivantes: 
+
+1. Indépendance: le résultat d'un essai n'affecte pas les probabilités de succès de l'essai suivant. 
+
+2. La probabilité de succès est identique pour chacun des essais. 
+
+## Schéma de Bernoulli généralisé
+
+On peut généraliser la définition précédente en considérant une série d'essais pouvant résulter en un nombre finis de résultats possibles, associés chacun à une probabilité. Si les essais successifs sont indépendants et les probabilités des événements constantes au fil des essais, on parle de ***schéma de Bernoulli généralisé***. 
+
+**Exemple: ** modèle de probabilité des nuclétides dans le génome de la levure, basé sur les fréquences nucléotidiques. 
+
+| Résidu | Occurrences génomiques | Fréquence génomique |
+|-------|----------------|---------------|
+| A | 3766191 | 0.3098064564636 | 
+| C | 2320522 | 0.1908858838986 | 
+| G | 2316991 | 0.1905954242278 | 
+| T | 3752889 | 0.3087122354100 | 
+
+Dans le cadre d'un tirage aléatoire, on va considèrer que chaque résidu a une probabilité particulière: 
+$P(A) = 0.31$, 
+$P(C) = 0.19$, 
+$P(G) = 0.19$, 
+$P(T) = 0.31$.
+
+
+## Exercice: tirage de tétranucléotides dans un génome
+
+On tire aléatoirement une position génomique. Quelle est la probabilité pour que le  tétranucléotide commençant à cette position corresponde aux critères suivants ?
+
+a. Etre composé uniquement de $A$. 
+b. Etre composé de 4 résidus distincts. 
+c. Ne comporter aucun $A$.
+
+Formulez explicitement le raisonnement qui vous amène à la formule de calcul. Indiquez ensuite la formule générale (avec des symboles), puis la formule particulière avec les valeurs numériques. Il n'est pas nécessaire de calculer le résultat final. 
+
+
+

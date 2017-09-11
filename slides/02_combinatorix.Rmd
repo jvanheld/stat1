@@ -201,8 +201,8 @@ Il existe deux types classiques de tirage d'éléments au sein d'un ensemble: av
     
 ## Formules
 
-| Remise | Ordre | Formule | Nom |
-|--------|-------|--------------------------|----------------|
+| Remise | Ordre | Formule | Description |
+|--------|-------|------------|---------------------------------|
 | Oui | Oui | $n^x$ | **Exponentielle**: séquences de $x$ éléments tirés dans un ensemble de taille $n$, avec remise. |
 | Non | Oui | $n!$ | **Factorielle**: toutes les permutations d'un ensemble de taille $n$ |
 | Non | Oui | $A^x_n = \frac{n!}{x!}$ | **Arrangements** : listes (ordonnée) de $x$ éléments tirés dans un ensemble de taille $n$ |

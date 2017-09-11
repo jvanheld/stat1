@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-09-10" />
+  <meta name="date" content="2017-09-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -95,11 +95,13 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-09-10</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-09-11</p>
           </hgroup>
   </slide>
 
-<slide class=''><hgroup><h2>Problème: dénombrement d&#39;oligomères</h2></hgroup><article  id="probleme-denombrement-doligomeres">
+<slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Des problèmes aux solutions</h2></hgroup><article  id="des-problemes-aux-solutions" class="smaller ">
+
+</article></slide><slide class=''><hgroup><h2>Problème: dénombrement d&#39;oligomères</h2></hgroup><article  id="probleme-denombrement-doligomeres" class="smaller ">
 
 <p>L&#39;ADN est composée de 4 nucléotides distincts dénotés par les lettres A, C, G, T, et les protéines de 20 acides aminés.</p>
 
@@ -115,7 +117,23 @@
 <li>Dans ce processus, quel est le mode de sélection des résidus: <strong>avec ou sans remise</strong> ?</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Problème: oligomères sans résidus répétés</h2></hgroup><article  id="probleme-oligomeres-sans-residus-repetes">
+</article></slide><slide class=''><hgroup><h2>Solution: dénombrement d&#39;oligomères</h2></hgroup><article  id="solution-denombrement-doligomeres" class="smaller ">
+
+<ul>
+<li>Il s&#39;agit d&#39;un tirage avec remise: à chaque position de la séquence on a le choix entre \(n\) résidus (4 pour les acides nucléiques, 20 pour les protéines).</li>
+<li>Cas trivial: séquence d&#39;un seul résidu \(\rightarrow\) le nombre de possibilités est \(n\).</li>
+<li>Pour chacune des \(n\) possibilités de premier résidu, il y a \(n\) possibilités pour choisir le second résidu \(\rightarrow\) il existe \(n \cdot n = n^2\) séquences de taille 2.</li>
+<li>Pour chacune d&#39;entre elles, \(n\) résidus possibles en \(3^{ème}\) position \(\rightarrow\) il existe \(n^2 \cdot n = n^3\) séquences distinctes de taille 3.</li>
+<li>En généralisant, il existe \(n^x\) séquences distinctes de taille \(x\).</li>
+<li><p>Dans notre cas, la taille des séquences \(x=20\). On a donc</p>
+
+<ul>
+<li>\(N = n^x = 4^20 = 1.1\times 10^{12}\) oligonucléotides distincts</li>
+<li>\(N = n^x = 20^20 = 1.05\times 10^{26}\) oligopeptides distincts</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Problème: oligomères sans résidus répétés</h2></hgroup><article  id="probleme-oligomeres-sans-residus-repetes" class="smaller ">
 
 <p>Combien d&#39;oligomères peut-on former (ADN ou peptides) en utilisant chaque résidu une et une seule fois ?</p>
 
@@ -129,7 +147,22 @@
 <li>Dans ce processus, quel est le mode de sélection des résidus: <strong>avec ou sans remise</strong> ?</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Problème: sélection d&#39;une liste (ordonnée) de gènes</h2></hgroup><article  id="probleme-selection-dune-liste-ordonnee-de-genes">
+</article></slide><slide class=''><hgroup><h2>Solution: oligomères sans résidus répétés</h2></hgroup><article  id="solution-oligomeres-sans-residus-repetes" class="smaller ">
+
+<ul>
+<li>Premier résidu: \(n\) possibilités.</li>
+<li>Dès le moment où on a choisi ce premier résidu, il ne reste plus que \(n-1\) possibilités pour le second. On a donc \(n \cdot (n-1)\) possibilités pour les deux premiers résidus.</li>
+<li>Pour la troisième position, en fonction des deux premiers résidus déjà tirés, il ne reste que \(n-2\) résidus. On a donc \(n \cdot (n-1) \cdot (n-2)\) possibilités pour les 3 premières positions de la séquence.</li>
+<li>Par extension, le nombre total de possibilités est donc (en supposant \(n\) suffisamment grand) \[n! = n \cdot (n-1) \cdot \ldots \cdot 2 \cdot 1\].</li>
+<li>Dans notre cas:
+
+<ul>
+<li>\(n! = 4! = 24\) oligonucléotides comportant exactement 1 fois chaque nucléotide (taille 4)</li>
+<li>\(n! = 20! = 2.43\times 10^{18}\) oligopeptides comportant exactement 1 fois chaque acide aminé (taille 20)</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Problème: listes (ordonnées) de gènes</h2></hgroup><article  id="probleme-listes-ordonnees-de-genes" class="smaller ">
 
 <p>Lors d’en expérience de transcriptome indiquant le niveau d&#39;expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (<strong>en tenant compte</strong> de l&#39;ordre relatif de ces 15 gènes) ?</p>
 
@@ -142,7 +175,28 @@
 <li>Généralisez la formule pour la sélection d&#39;une liste de \(x\) gènes dans un génome qui en comporte \(n\).</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Problème: sélection d&#39;un ensemble (non-ordonné) de gènes</h2></hgroup><article  id="probleme-selection-dun-ensemble-non-ordonne-de-genes">
+</article></slide><slide class=''><hgroup><h2>Solution: listes (ordonnées) de gènes</h2></hgroup><article  id="solution-listes-ordonnees-de-genes" class="smaller ">
+
+<p>Il s&#39;agit d&#39;une sélection <strong>sans remise</strong> (chaque gène apparaît à une et une seule position dans la liste de tous les gènes), et <strong>ordonnée</strong> (les mêmes gènes pris dans un ordre différent sont considérés comme un résultat différent).</p>
+
+<ul>
+<li>Pour le premier gène, il y a \(n=6000\) possibiité.</li>
+<li>Dès le moment où on connaît le premier gène, il n&#39;existe plus que 5999 possibilités pour le second, et donc \(n \cdot (n-1) = 6000 \cdot 5999\) possibilités pour la suite des deux premiers gènes;</li>
+<li>Par extension, il existe \(6000 \cdot 5999 \cdot 5998 \cdot \ldots \cdot 5986 = 4.62\times 10^{56}\) possibilités pour les 15 premiers gènes.</li>
+<li>En généralisant à la liste des \(x\) premiers gènes dans un ensemble de \(n\), on obtient \(N = n \cdot (n-1) \cdot (n-2) \cdot ... \cdot (n-x+1)\).</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Arrangements</h2></hgroup><article  id="arrangements" class="smaller ">
+
+<p>On appelle <strong>arrangements</strong> les tirages <em>ordonnés</em> effectués <em>sans remise</em> au sein d&#39;un ensemble.</p>
+
+<p>Nombre d&#39;arrangements de \(x\) éléments tirés parmi \(n\).</p>
+
+<p>\[A^x_n = \frac{n!}{x!} = n \cdot (n-1) \cdot \ldots \cdot (n-x+1)\]</p>
+
+<p><strong>Application typique:</strong> <strong><a href='https://fr.wikipedia.org/wiki/Tierc%C3%A9_(jeu)' title=''>tiercé</a></strong> dans l&#39;ordre. Les joueurs parient sur les trois chevaux gagnants d&#39;une course (\(x=3\)). Pour \(n=15\) chevaux partants, il existe \(n \cdot (n-1) \cdot (n-2) = 15 \cdot 14 \cdot 13 = 2730\) possibilités.</p>
+
+</article></slide><slide class=''><hgroup><h2>Problème: ensembles (non-ordonnés) de gènes</h2></hgroup><article  id="probleme-ensembles-non-ordonnes-de-genes" class="smaller ">
 
 <p>Lors d&#39;une expérience de transcriptome indiquant le niveau d&#39;expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (<strong>sans tenir compte</strong> de l&#39;ordre relatif de ces 15 gènes) ?</p>
 
@@ -156,11 +210,94 @@
 <li>Connaissez-vous le nom de la formule ainsi trouvée ?</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Exercice : mutagénèse</h2></hgroup><article  id="exercice-mutagenese">
+</article></slide><slide class=''><hgroup><h2>Solution: ensembles (non-ordonnés) de gènes</h2></hgroup><article  id="solution-ensembles-non-ordonnes-de-genes" class="smaller ">
+
+<ul>
+<li>Pour une sélection d&#39;un seul gène, il existe \(n=6000\) possibilité.</li>
+<li>Pour 2 gènes, il existe \(n \cdot (n-1) = 6000 \cdot 5999\) arrangements, mais ceci inclut deux fois chaque paire de gènes (\((a, b)\) et \((b, a)\)). Le nombre d&#39;ensembles non ordonnés est donc \(N = n \dot (n-1)/2\).</li>
+<li>De même, pour 3 gènes, il faut diviser le nombre d&#39;arrangements (\(A^x_n = \frac{n!}{(n-x)!} = 6000 \cdot 5999 \cdot 5998\)) par le nombre de permutations parmi tous les triplets de gènes (\((a, b, c), (a, c, b), (b, a, c) \ldots\)), ce qui donne \(\frac{6000!}{(6000-3)! 3!} = \frac{6000 \cdot 5999 \cdot 5888}{6} = 3.6\times 10^{10}\).</li>
+<li>Pour 15 gènes, on obtient \(\frac{n!}{(n-x)!x!} = \frac{6000!}{5985! \cdot 3!} = 3.53\times 10^{44}\) <em>combinaisons</em> possibles.</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Combinaisons</h2></hgroup><article  id="combinaisons" class="smaller ">
+
+<p>On appelle <strong>combinaisons</strong> le nombre de sous-ensembles qu&#39;on peut tirer <em>sans remise</em> dans un ensemble, sans tenir compte de l&#39;ordre des éléments tirés.</p>
+
+<p>Ce nombre est fourni par le <strong>coefficient binomial</strong>.</p>
+
+<p>\[\binom{n}{x} = C^x_n = \frac{n!}{x! (n-x)!}\]</p>
+
+<p><strong>Attention: </strong> les paramètres sont placés différemment dans la première (\(binom{n}{x}\), &quot;x parmi n&quot;) et la seconde notation (\(C^x_n\), &quot;choose&quot;).</p>
+
+<p><strong>Applications typiques: </strong> - jeu de <strong><a href='https://fr.wikipedia.org/wiki/Loto' title=''>loto</a></strong> (ou lotto): chaque joueur dispose d&#39;une grille avec 90 numéros, et doit en cocher 6. - <strong><a href='https://fr.wikipedia.org/wiki/Tierc%C3%A9_(jeu)' title=''>tiercé</a></strong> dans le désordre.</p>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Résumé des concepts et formules</h2></hgroup><article  id="resume-des-concepts-et-formules" class="smaller ">
+
+</article></slide><slide class=''><hgroup><h2>Tirages avec / sans remise</h2></hgroup><article  id="tirages-avec-sans-remise" class="smaller ">
+
+<p>Il existe deux types classiques de tirage d&#39;éléments au sein d&#39;un ensemble: avec ou sans remise.</p>
+
+<ol>
+<li><p><strong>Tirage sans remise</strong>: chaque élément peut être tiré au plus une fois. Exemples:</p>
+
+<ul>
+<li>Jeu de <a href='https://fr.wikipedia.org/wiki/Loto' title=''>loto</a> (ou lotto).</li>
+<li>Sélection aléatoire d&#39;un ensemble de gènes dans un génome.</li>
+</ul></li>
+<li><p>Tirage <strong>avec remise</strong>: chaque élément peut être tiré zéro, une ou plusieurs fois. Exemples:</p>
+
+<ul>
+<li>Jeu de dés. A chaque lancer on dispose des mêmes possibilités (6 faces).</li>
+<li>Génération d&#39;une séquence aléatoire, par sélection itérative d&#39;un élément dans l&#39;ensemble des résidus (4 nucléotides pour l&#39;ADN, 20 acides aminés pour les protéines).</li>
+</ul></li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>Formules</h2></hgroup><article  id="formules" class="smaller ">
+
+<table class = 'rmdtable'>
+<col width="12%" />
+<col width="11%" />
+<col width="37%" />
+<col width="23%" />
+<tr class="header">
+<th align="left">Remise</th>
+<th align="left">Ordre</th>
+<th align="left">Formule</th>
+<th align="left">Nom</th>
+</tr>
+<tr class="odd">
+<td align="left">Oui</td>
+<td align="left">Oui</td>
+<td align="left">\(n^x\)</td>
+<td align="left"><strong>Exponentielle</strong>: séquences de \(x\) éléments tirés dans un ensemble de taille \(n\), avec remise.</td>
+</tr>
+<tr class="even">
+<td align="left">Non</td>
+<td align="left">Oui</td>
+<td align="left">\(n!\)</td>
+<td align="left"><strong>Factorielle</strong>: toutes les permutations d&#39;un ensemble de taille \(n\)</td>
+</tr>
+<tr class="odd">
+<td align="left">Non</td>
+<td align="left">Oui</td>
+<td align="left">\(A^x_n = \frac{n!}{x!}\)</td>
+<td align="left"><strong>Arrangements</strong> : listes (ordonnée) de \(x\) éléments tirés dans un ensemble de taille \(n\)</td>
+</tr>
+<tr class="even">
+<td align="left">Non</td>
+<td align="left">Non</td>
+<td align="left">\(C^x_n = \binom{n}{x} = \frac{n!}{x! (n - x) !}\)</td>
+<td align="left"><strong>Combinaisons</strong> : ensembles (non ordonnés) de \(x\) éléments tirés dans un ensemble de taille \(n\)</td>
+</tr>
+</table>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Exercices</h2></hgroup><article  id="exercices" class="smaller ">
+
+</article></slide><slide class=''><hgroup><h2>Exercice : mutagénèse</h2></hgroup><article  id="exercice-mutagenese" class="smaller ">
 
 <p>On soumet un fragment d&#39;ADN de 1 kilobase à un traitement mutagène qui provoque des mutations ponctuelles (substitutions) à 5 positions indépendantes. Combien de séquences possibles existe-t-il pour le fragment muté ?</p>
 
-</article></slide><slide class=''><hgroup><h2>Exercice : oligopeptides d&#39;une composition donnée</h2></hgroup><article  id="exercice-oligopeptides-dune-composition-donnee">
+</article></slide><slide class=''><hgroup><h2>Exercice : oligopeptides \(3 \times 20\)</h2></hgroup><article  id="exercice-oligopeptides-3-times-20" class="smaller ">
 
 <p>Combien d&#39;oligopeptides de taille 60 peut-on former en utilisant exactement 3 fois chaque acide aminé ?</p></article></slide>
 

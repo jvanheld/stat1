@@ -152,10 +152,10 @@ $$\operatorname{P}(A) = \frac{n_A}{n}$$
 
 Le jeu de carte comporte 13 valeurs (As, 2, 3, ..., Dame, Roi), il y a donc 13 possibilités d'obtenir un carré: $n_A = 13$.
 
-Le nombre total de tirages de 4 cartes parmi 52 est fourni par le coefficient binomial: $$n = \binom{52}{13} = `r prettyNum(choose(n=52, k=4))`$$
+Le nombre total de tirages de 4 cartes parmi 52 est fourni par le coefficient binomial: $$n = \binom{52}{4} = `r prettyNum(choose(n=52, k=4))`$$
 
 
-$$\operatorname{P}(A) = \frac{n_A}{n} = \frac{13}{\binom{52}{13}} = \frac{13}{`r prettyNum(choose(n=52, k=4))`} = `r signif(digits=3, 13/choose(n=52, k=4))`$$
+$$\operatorname{P}(A) = \frac{n_A}{n} = \frac{13}{\binom{52}{4}} = \frac{13}{`r prettyNum(choose(n=52, k=4))`} = `r signif(digits=3, 13/choose(n=52, k=4))`$$
 
 ## Exercice: tirage de tétranucléotides dans un génome
 

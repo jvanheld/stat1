@@ -68,6 +68,8 @@ knitr::opts_chunk$set(
 
 ```
 
+# Définitions de la probabilité
+
 ## Définition fréquentielle de la probabilité
 
 Lors d'une expérience aléatoire, la ***probabilité*** d'un événement  $A$ est la limite de sa fréqunce de réalisation quand le nombre d'essais tend vers l'infini. 
@@ -155,6 +157,55 @@ Le nombre total de tirages de 4 cartes parmi 52 est fourni par le coefficient bi
 
 $$\operatorname{P}(A) = \frac{n_A}{n} = \frac{13}{\binom{52}{13}} = \frac{13}{`r prettyNum(choose(n=52, k=4))`} = `r signif(digits=3, 13/choose(n=52, k=4))`$$
 
+## Exercice: tirage de tétranucléotides dans un génome
+
+On tire aléatoirement une position génomique. Quelle est la probabilité pour que le  tétranucléotide commençant à cette position corresponde aux critères suivants ?
+
+a. Etre composé uniquement de $A$. 
+b. Etre composé de 4 résidus distincts. 
+c. Ne comporter aucun $A$.
+
+Formulez explicitement le raisonnement qui vous amène à la formule de calcul. Indiquez ensuite la formule générale (avec des symboles), puis la formule particulière avec les valeurs numériques. Il n'est pas nécessaire de calculer le résultat final. 
+
+# Probabilités d'événements combinés
+
+## Exclusion mutuelle
+
+On désigne des événements de **mutuellement exclusifs** quand la réalisation de l'un rend impossible la réalisation des autres. Leur **probabilité jointe** ($A_1$ et $A_2$) est donc nulle. 
+
+$$A_1,A_2 \text{mutuellement exclusifs} \iff \operatorname{P}(A_1 \land A_2) = 0$$
+
+Le symbole $\land$ correspond au ***et*** logique. 
+
+Si deux événements $A_1$ et $A_2$ sont  mutuellement exclusifs, la probabilité de réalisation de l'un ou de l'autre est la somme de leurs probabilités. 
+
+$$\operatorname{P}(A_1 \land A_2) = 0 \iff \operatorname{P}(A_1 \lor A_2) = \operatorname{P}(A_1) + \operatorname{P}(A_2)$$
+
+## Complémentarité
+
+Un ensemble d'événements ${A_1, A_2, \ldots, A_m}$ sont dit complémentaires s'ils sont mutuellement exclusifs et exhaustifs (il n'existe pas d'événement possible en dehors de l'ensemble). 
+
+La probabilité jointe d'événements complémentaires vaut 1.
+
+$$A_1, A_2, \ldots A_m \text{complementary} \Rightarrow \operatorname{P}(A_1 \lor A_2 \lor \ldots \lor A_m)   = \operatorname{P}(A_1) + \operatorname{P}(A_1) + \ldots + \operatorname{P}(A_m) = 1$$
+
+
+## Indépendance stochastique
+
+Deux événements sont stochastiquement indépendants si al réalisation de l'un n'affecte pas la probabilité de réalisation de l'autre. 
+
+La probabilité jointe d'une série d'événements indépendants est le produit de leurs probabilités. 
+
+$$A_1, A_2, \ldots A_m \text{ independent }  \nonumber\\
+  \Rightarrow \operatorname{P}(A_1 \land A_2 \land \ldots \land A_m) = \operatorname{P}(A_1) \operatorname{P}(A_2) \ldots \operatorname{P}(A_m)$$
+
+
+
+## Formule générale de probabilités combinées
+
+
+$$\operatorname{P}(A \lor B) = \operatorname{P}(A) + \operatorname{P}(B) - \operatorname{P}(A \land B)$$
+
 ## Schéma de Bernoulli
 
 Un ***essai de Bernoulli*** est une expérience aléatoire qui peut résulter en deux événements possibles, dénommés ***succès*** et ***échec***, chacun étant associé à une probabilité. 
@@ -185,15 +236,16 @@ $P(G) = 0.19$,
 $P(T) = 0.31$.
 
 
-## Exercice: tirage de tétranucléotides dans un génome
+## Exercices
 
-On tire aléatoirement une position génomique. Quelle est la probabilité pour que le  tétranucléotide commençant à cette position corresponde aux critères suivants ?
+1. On tire un nucléotide au hasard dans le génome de la levure (probabilités a priori définies ci-dessus). Quelle est la probabilité de tirer une purine ($A$ ou $G$) ?
 
-a. Etre composé uniquement de $A$. 
-b. Etre composé de 4 résidus distincts. 
-c. Ne comporter aucun $A$.
+2. En supposant qu'une séquence est composée de résidus équiprobables, quelle est la probabilité du motif $GATWNA$ ($W$ signifie "$T$ ou $A$", et $N$ correspond à n'importe quel nucléotide) ? 
 
-Formulez explicitement le raisonnement qui vous amène à la formule de calcul. Indiquez ensuite la formule générale (avec des symboles), puis la formule particulière avec les valeurs numériques. Il n'est pas nécessaire de calculer le résultat final. 
+3. Même question en supposant les probabilités distinctes pour les nucléotides: $P(A) = P(T) = 0.3$, $P(C) = P(G)$ (à vous de calculer ces dernières). 
+
+4. En supposant des nucléotides équiprobables, quelle est la probabilités de n'observer aucun $A$ dans un oligonucléotide de taille 12 ?
+
 
 
 

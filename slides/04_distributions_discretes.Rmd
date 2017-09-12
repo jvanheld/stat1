@@ -3,18 +3,6 @@ title: "Distributions discrètes"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: yes
-    toc_depth: 3
-  html_document:
-    fig_caption: yes
-    highlight: zenburn
-    theme: cerulean
-    toc: yes
-    toc_depth: 3
-    toc_float: yes
   ioslides_presentation:
     css: slides.css
     fig_caption: yes
@@ -24,6 +12,13 @@ output:
     smaller: yes
     toc: yes
     widescreen: yes
+  html_document:
+    fig_caption: yes
+    highlight: zenburn
+    theme: cerulean
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -36,6 +31,11 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -61,6 +61,7 @@ knitr::opts_chunk$set(
   fig.width = 7, fig.height = 5, 
   fig.path='figures',
   fig.align = "center", 
+  fig.path = "figures/04_",
   size = "tiny", 
   echo = TRUE, eval=TRUE, 
   warning = FALSE, message = FALSE, 
@@ -113,7 +114,7 @@ Justification:
 ## Fonction de masse de probabilité géométrique
 
 
-```{r fig.width=9, fig.height=4, echo=FALSE, fig.cap="**Probabilité de masse de la loi géométrique**. Gauche: ordonnée en échelle logarithmique. "}
+```{r geometric_PMF, fig.width=9, fig.height=4, echo=FALSE, fig.cap="**Probabilité de masse de la loi géométrique**. Gauche: ordonnée en échelle logarithmique. "}
 ################################################################
 ##
 ## Illustrations of the geometric distribution
@@ -228,7 +229,7 @@ Les queues de la distribution sont les aires comprises sous la courbe de densit�
 
 ## Queues de distribution et fonction de répartition
 
-```{r fig.width=7, fig.height=5.5, echo=FALSE, fig.cap="**Queues et fonction de répartition de probabilité géométrique**. "}
+```{r goemetric_CDF, fig.width=7, fig.height=5.5, echo=FALSE, fig.cap="**Queues et fonction de répartition de probabilité géométrique**. "}
 
 par(mfrow=c(2,2))
 
@@ -354,7 +355,7 @@ La distribution binomiale peut prendre différentes formes selon les valeurs des
 
 Quand la probabilité de succès ($p$) est très faible par rapport au nombre d'essais ($n$), la distribution prend une forme de $i$. 
 
-```{r fig.width=9, fig.height=4, echo=FALSE, fig.cap="Distribution binomiale en forme de i.  "}
+```{r binomial_i-shaped, fig.width=9, fig.height=4, echo=FALSE, fig.cap="Distribution binomiale en forme de i.  "}
 
 
 ## Drawing parameters
@@ -437,7 +438,7 @@ par(mfrow=c(1,1))
 
 Quand la probabilité de succès relativement élevée mais inférieure à 0.5, la distribution prend une forme en cloche asymétrique. 
 
-```{r fig.width=9, fig.height=4, echo=FALSE, fig.cap="**Distribution binomiale.**  "}
+```{r binomial_distrib_bell-shaped, fig.width=9, fig.height=4, echo=FALSE, fig.cap="**Distribution binomiale.**  "}
 
 ## Drawing parameters
 par(mfrow=c(1,2))
@@ -490,7 +491,7 @@ par(mfrow=c(1,1))
 
 Quand la probabilité de succès vaut 0.5, la distribution prend une forme en cloche symétrique. 
 
-```{r fig.width=9, fig.height=4, echo=FALSE, fig.cap="**Distribution binomiale.**  "}
+```{r binomial_distrib_symmetric-bell, fig.width=9, fig.height=4, echo=FALSE, fig.cap="**Distribution binomiale.**  "}
 
 ## Drawing parameters
 par(mfrow=c(1,2))
@@ -537,7 +538,7 @@ par(mfrow=c(1,1))
 
 Quand la probabilité de succès est proche de 1, la distribution prend une forme en $j$. 
 
-```{r fig.width=9, fig.height=4, echo=FALSE, fig.cap="**Distribution binomiale.**  "}
+```{r binomial_distrib_j-shaped, fig.width=9, fig.height=4, echo=FALSE, fig.cap="**Distribution binomiale.**  "}
 
 ## Drawing parameters
 par(mfrow=c(1,2))

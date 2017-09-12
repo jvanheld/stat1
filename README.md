@@ -83,8 +83,10 @@ Les exemples suivants sont uniquement illustratifs. Les méthodes et application
 
 - Site Web: <https://jvanheld.github.io/stat1/>
 - [**Archive ZIP**](https://github.com/jvanheld/stat1/zipball/master)
-- [Voir sur ***GitHub**](https://github.com/jvanheld/stat1)
-- Shell command to get a git clone: `git clone git@github.com:jvanheld/stat1.git`
+- [Voir sur **GitHub**](https://github.com/jvanheld/stat1)
+- Shell command to get a git clone: 
+
+    `git clone git@github.com:jvanheld/stat1.git`
 
 
 ****************************************************************

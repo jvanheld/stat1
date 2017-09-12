@@ -1,0 +1,114 @@
+; oligo-analysis  -v 1 -1str -i /bio/rsa-tools/data/genomes/Saccharomyces_cerevisiae/genome/contigs.txt -format filelist -1str -ovlp -l 3 -type dna -return freq,occ -o /bio/rsa-tools/data/genomes/Saccharomyces_cerevisiae/oligo-frequencies/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.freq
+; Citation: van Helden et al. (1998). J Mol Biol 281(5), 827-42. 
+; Oligomer length              	3
+; Input file                   	/bio/rsa-tools/data/genomes/Saccharomyces_cerevisiae/genome/contigs.txt
+; Input format                 	filelist
+; Output file                  	/bio/rsa-tools/data/genomes/Saccharomyces_cerevisiae/oligo-frequencies/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.freq
+; Count overlapping matches
+; Counted on a single strand
+; Method                       	
+; Sequence type                	DNA
+; Nb of sequences              	17
+; Sum of sequence lengths      	12156593
+; discarded residues           	0	 (other letters than ACGT)
+; discarded occurrences        	0	 (contain discarded residues)
+; nb possible positions        	12156559
+; total oligo occurrences      	12156559
+; alphabet size                	4
+; nb possible oligomers        	64
+; oligomers tested for significance	0
+; Threshold values
+;	Parameter      	Lower	Upper
+;	occ_P          	none	1
+; Sequences:
+;	NC_001133.5.raw	230208
+;	NC_001134.7.raw	813178
+;	NC_001135.3.raw	316616
+;	NC_001136.6.raw	1531916
+;	NC_001141.1.raw	439885
+;	NC_001224.1.raw	85779
+;	NC_001137.2.raw	576869
+;	NC_001138.4.raw	270148
+;	NC_001139.7.raw	1090946
+;	NC_001140.5.raw	562643
+;	NC_001142.5.raw	745666
+;	NC_001143.6.raw	666454
+;	NC_001144.3.raw	1078174
+;	NC_001145.2.raw	924429
+;	NC_001146.5.raw	784333
+;	NC_001147.4.raw	1091287
+;	NC_001148.3.raw	948062
+;
+; column headers
+;	1	seq            	oligomer sequence
+;	2	id             	oligomer identifier
+;	3	observed_freq  	observed relative frequency
+;	4	occ            	observed occurrences
+;	5	test           	over- or under-representation test
+;seq	id	observed_freq	occ	test
+aaa	aaa	0.0393785774412	478708	
+aac	aac	0.0180406313991	219312	
+aag	aag	0.0216691252845	263422	
+aat	aat	0.0295679887705	359445	
+aca	aca	0.0171906375809	208979	
+acc	acc	0.0116061625662	141091	
+acg	acg	0.0087229453664	106041	
+act	act	0.0150807477675	183330	
+aga	aga	0.0202703742070	246418	
+agc	agc	0.0114554620267	139259	
+agg	agg	0.0114336630950	138994	
+agt	agt	0.0151450751812	184112	
+ata	ata	0.0249118192081	302842	
+atc	atc	0.0176238193719	214245	
+atg	atg	0.0182536851094	221902	
+att	att	0.0294563617879	358088	
+caa	caa	0.0231398539669	281301	
+cac	cac	0.0106600066680	129589	
+cag	cag	0.0125541281871	152615	
+cat	cat	0.0183303515411	222834	
+cca	cca	0.0149235486785	181419	
+ccc	ccc	0.0068190348930	82896	
+ccg	ccg	0.0058428540511	71029	
+cct	cct	0.0113780552540	138318	
+cga	cga	0.0090978869925	110599	
+cgc	cgc	0.0056326794449	68474	
+cgg	cgg	0.0057879865511	70362	
+cgt	cgt	0.0087091256662	105873	
+cta	cta	0.0128086409978	155709	
+ctc	ctc	0.0111761889199	135864	
+ctg	ctg	0.0125161240117	152153	
+ctt	ctt	0.0215099519527	261487	
+gaa	gaa	0.0237596839698	288836	
+gac	gac	0.0097151669317	118103	
+gag	gag	0.0111937925855	136078	
+gat	gat	0.0175232152454	213022	
+gca	gca	0.0124114891393	150881	
+gcc	gcc	0.0078555124028	95496	
+gcg	gcg	0.0055834056331	67875	
+gct	gct	0.0114369534998	139034	
+gga	gga	0.0127004689403	154394	
+ggc	ggc	0.0078264745805	95143	
+ggg	ggg	0.0066871719209	81293	
+ggt	ggt	0.0114911629187	139693	
+gta	gta	0.0141994951038	172617	
+gtc	gtc	0.0096514975990	117329	
+gtg	gtg	0.0106072779312	128948	
+gtt	gtt	0.0179517904697	218232	
+taa	taa	0.0223781252573	272041	
+tac	tac	0.0141845237620	172435	
+tag	tag	0.0128875284527	156668	
+tat	tat	0.0248241299203	301776	
+tca	tca	0.0201584181840	245057	
+tcc	tcc	0.0126822071937	154172	
+tcg	tcg	0.0090783913441	110362	
+tct	tct	0.0201151493609	244531	
+tga	tga	0.0201230463324	244627	
+tgc	tgc	0.0123727446229	150410	
+tgg	tgg	0.0147968680940	179879	
+tgt	tgt	0.0170651908982	207454	
+tta	tta	0.0223544343428	271753	
+ttc	ttc	0.0235826601919	286684	
+ttg	ttg	0.0229808451553	279368	
+ttt	ttt	0.0391276840757	475658	
+; Job started 2006_03_20.110613
+; Job done    2006_03_20.110708

@@ -4,11 +4,10 @@ author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
   ioslides_presentation:
-    colortheme: dolphin
+    css: slides.css
     fig_caption: yes
     fig_height: 6
     fig_width: 7
-    fonttheme: structurebold
     highlight: tango
     smaller: yes
     toc: yes
@@ -55,6 +54,8 @@ transition: linear
 ---
 
 ```{r include=FALSE, echo=FALSE, eval=TRUE}
+library(knitr)
+
 options(width=300)
 knitr::opts_chunk$set(
   fig.width = 7, fig.height = 5, 
@@ -66,13 +67,51 @@ knitr::opts_chunk$set(
   results = TRUE, comment = "")
 # knitr::asis_output("\\footnotesize")
 
+dir.main <- "~/stat1"
+dir.slides <- file.path(dir.main, "slides")
+setwd(dir.slides)
 ```
+
+# Eléments de théorie
+
+## Distribution de probabilité discrète
+
+On parle de ***distribution discrète*** pour désigner la distribution de probabilité de variables ne pouvant prendre que des valeurs discrètes (par opposition aux distributions continues). 
+
+**Notes: ** 
+
+- En probabilités la variable observée ($x$) représente généralement le nombre de succès d'une série d'observations. Elle prend donc généralement des valeurs naturelles (entières et positives). 
+- La probabilité $P(x)$ prend des valeurs réelles entre 0 et 1, mais sa distribution est discrète puisqu'elle n'est définie que pour des valeurs discrètes de $x$. On la représente généralement par une fonction en escalier. 
 
 ## Distribution génométrique
 
 Application: temps d'attente jusqu'à la première réalisation d'un événement. 
 
-```{r width=10, height=7, echo=FALSE}
+Exemples: 
+- Comptage du nombre de jets d'un dé ($x$) qui précèdent la première occurrence d'un 6 (l'occurrence n'est pas incluse dans le compte).
+- Longueur d'une séquence d'ADN avant la première occurrence d'une cytosine 
+
+
+## Fonction de densité géométrique
+
+La ***fonction de masse de probabilité*** (***Probability Mass Function***, ***PMF***) indique la probabilité d'observer une valeur particulière pour une distribution discrète. 
+
+$$P(X = x) = (1-p)^x \cdot p$$
+
+Justification: 
+
+- Schema de Bernoulli avec probabilité $p$ de succès pour chaque essai.
+- Probabilité d'échec pour un essai = $1-p$ (événements complémentaires)
+- Essais indépendants $\rightarrow$ probabilité de la série est le produit des probabilités des résultats successifs. 
+- On multiplie la probabilité des $x$ non réalisations
+
+*Note: la PMF est apparentée au concept de **densité** que nous verrons lorsque nous traiterons les distributions continues.*
+
+
+## Fonction de densité géométrique (graphique)
+
+
+```{r fig.width=9, fig.height=4, echo=FALSE, fig.cap="**Probabilité de masse de la loi géométrique**. Gauche: ordonnée en échelle logarithmique. "}
 ################################################################
 ##
 ## Illustrations of the geometric distribution
@@ -92,6 +131,7 @@ x <- 0:n       # X values to be plotted
 
 test.x <- 3    #  A particular X value where an arraw will be plotted
 
+
 ## Color specification (I cannot use colors for the book, but well for slides)
 color.status <- "full"
 if (color.status == "full") {
@@ -106,18 +146,18 @@ if (color.status == "full") {
   )
 }
 
-## Drawing parameters
+# ## Drawing parameters
 par.ori <- par(no.readonly = TRUE)
-par(mfrow=c(2,3))
-par(font.lab=2)
-par(font.axis=2)
-par(font.main=2)
-par(cex=1.2)
-par(cex.main=1.2)
-par(cex.axis=1.2)
-par(cex.lab=1.2)
-par(mar=c(5.5,5.5,4.1,0.5))
-par(mgp=c(4,1,0))
+par(mfrow=c(1,2))
+# par(font.lab=2)
+# par(font.axis=2)
+# par(font.main=2)
+# par(cex=1.2)
+# par(cex.main=1.2)
+# par(cex.axis=1.2)
+# par(cex.lab=1.2)
+# par(mar=c(5.5,5.5,4.1,0.5))
+# par(mgp=c(4,1,0))
 par(las=1)
 grid.color <- '#CCCCCC'
 
@@ -143,14 +183,14 @@ plot(x - 0.5,
      type='s'
      )
 legend("topright", bty = "o", bg="white", 
-       legend=c(paste('p=',format(p)),paste('n=', n)))
+       legend=paste(sep="", 'P(X=',test.x,') =', format(p)))
 
 ## Draw arrows to illustrate the relationship between density curve and probability
 test.p <- dgeom(test.x,p)
 arrows(test.x, 0,test.x,test.p,col='#888888',length=0.1,angle=25,code=2,lwd=2)
 arrows(test.x, test.p,0,test.p,col='#888888',length=0.1,angle=25,code=2,lwd=2)
-text(test.x,0, test.x,pos=4)
-text(0,test.p, round(test.p, digits=3),pos=1)
+text(test.x,0, test.x,pos=4, cex=0.7)
+text(0,test.p, round(test.p, digits=3),pos=1, cex=0.7)
 
 ################################################################
 ## Plot the probability mass function with logarithmic Y scale. Show an
@@ -175,8 +215,27 @@ log.test.x = c(test.x, 29)
 log.test.p <- round(dgeom(log.test.x, p),digits=c(3,5))
 arrows(log.test.x, 1e-5,log.test.x,log.test.p,col='#888888',length=0.1,angle=25,code=2,lwd=2)
 arrows(log.test.x, log.test.p,0,log.test.p,col='#888888',length=0.1,angle=25,code=2,lwd=2)
-text(log.test.x,1e-5, log.test.x,pos=1)
-text(0,log.test.p, log.test.p,pos=1)
+text(log.test.x,1e-5, log.test.x,pos=1, cex=0.7)
+text(0,log.test.p, log.test.p,pos=1, cex=0.7)
+
+par(mfrow=c(1,1))
+```
+
+## Queues de distribution et fonction de répartition
+
+Les queues de la distribution sont les aires comprises sous la courbe de densité jusqu'à une certaine valeur (***queue gauche**) ou à partir d'nue certaine valeur (**queue droite**). 
+
+- La **queue droite** indique la probabilité d'observer un résultat **inférieur ou égal** à une certaine valeur: $P(X \le x$). 
+
+    **Définition: ** la ***fonction de répartition*** (***Cumulative Density Function***, ***CDF***) $P(X \le x)$ indique la probabilité qu'une variable aléatoire $X$ prenne une valeur inférieure ou égale à une valeur donnée ($x$). Elle correspond à la queue gauche (en incluant la valeur $x$ considérée). 
+
+- La **queue gauche** indique la probabilité d'observer un résultat **supérieur ou égal** à une certaine valeur: $P(X \ge x$).
+
+## Queues de distribution et fonction de répartition
+
+```{r fig.width=7, fig.height=5.5, echo=FALSE, fig.cap="**Queues et fonction de répartition de probabilité géométrique**. "}
+
+par(mfrow=c(2,2))
 
 ################################################################
 ## Plot the probability mass function and highlight the left tail
@@ -235,13 +294,14 @@ plot(x - 0.5,
      lwd=2, las=1,
      type='s'
      )
+legend('bottomright',legend=paste('P(X<=',test.x,') = ',round(pgeom(test.x,p),digits=3),sep=''),bty='o', bg='#FFFFFF')
 
 ## Draw arrows to illustrate the relationship between CDF and left tail probability
 left.tail.p <- pgeom(test.x,p)
 arrows(test.x, 0,test.x,left.tail.p,col='#888888',length=0.1,angle=25,code=2,lwd=2)
 arrows(test.x, left.tail.p,0,left.tail.p,col='#888888',length=0.1,angle=25,code=2,lwd=2)
-text(test.x,0, test.x,pos=4)
-text(0,left.tail.p, round(left.tail.p, digits=3),pos=3)
+text(test.x,0, test.x,pos=4, , cex=0.7)
+text(0,left.tail.p, round(left.tail.p, digits=3),pos=3, , cex=0.7)
 
 
 ################################################################
@@ -258,17 +318,42 @@ plot(x - 0.5,
      lwd=2, las=1,
      type='s'
      )
+legend('topright',legend=paste('P(X>=',test.x,') = ',round(pgeom(test.x-1,p,lower.tail=F),digits=3),sep=''),bty='o', bg='#FFFFFF')
 
 ## Draw arrows to illustrate the relationship between dCDF and right tail probability
 right.tail.p <- pgeom(test.x-1,p,lower.tail=F)
 arrows(test.x, 0,test.x,right.tail.p,col='#888888',length=0.1,angle=25,code=2,lwd=2)
 arrows(test.x, right.tail.p,0,right.tail.p,col='#888888',length=0.1,angle=25,code=2,lwd=2)
-text(test.x,0, test.x,pos=4)
-text(0,right.tail.p, round(right.tail.p, digits=3),pos=3)
+text(test.x,0, test.x,pos=4, cex=0.7)
+text(0,right.tail.p, round(right.tail.p, digits=3),pos=3, cex=0.7)
 
 ## Show that the sum of CDF and dCDF differ from 1
 ## print(c(dgeom(test.x, p), left.tail.p, right.tail.p, right.tail.p + left.tail.p),digits=3)
 par(par.ori)
 par(mfrow=c(1,1))
 ```
+
+# Exercices
+
+
+## Probabilité des longueurs d'ORF dans un génome
+
+On dispose d'un génome nouvellement séquencé et on détecte les cadres ouverts de lecture (*open reading frames*, *ORF*) en identifiant toutes les séquences d'ADN d'une taille multiple de 3 (taille du codon), comprises entre un start (ATG) et un stop (TAA, TAG ou TGA). Sur base des fréquences génomiques de trinucléotides, calculer la probabilité d'observer un cadre ouvert de lecture d'au moins 100 acides aminés. 
+
+
+```{r echo=FALSE}
+oligo.freq <- read.table("../data/oligo_freq/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab", sep="\t", row.names = 1)
+colnames(oligo.freq) <- c("frequency", "occurrences")
+
+oligo.freq["...",] <- c("...", "...")
+
+selected.oligos <- c("AAA", "...", "ATG", "TAA", "TAG", "TGA")
+
+kable(data.frame(oligo.freq[selected.oligos, ]), digits = 3)
+#print(data.frame(oligo.freq[selected.oligos, ]))
+```
+
+
+
+
 

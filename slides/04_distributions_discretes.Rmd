@@ -3,15 +3,11 @@ title: "Distributions discrètes"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  ioslides_presentation:
-#    css: slides.css
+  pdf_document:
     fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    smaller: yes
+    highlight: zenburn
     toc: yes
-    widescreen: yes
+    toc_depth: 3
   html_document:
     fig_caption: yes
     highlight: zenburn
@@ -19,6 +15,15 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
+  ioslides_presentation:
+    css: slides.css
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    smaller: yes
+    toc: yes
+    widescreen: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -31,11 +36,6 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: yes
-    toc_depth: 3
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -151,15 +151,6 @@ if (color.status == "full") {
 # ## Drawing parameters
 par.ori <- par(no.readonly = TRUE)
 par(mfrow=c(1,2))
-# par(font.lab=2)
-# par(font.axis=2)
-# par(font.main=2)
-# par(cex=1.2)
-# par(cex.main=1.2)
-# par(cex.axis=1.2)
-# par(cex.lab=1.2)
-# par(mar=c(5.5,5.5,4.1,0.5))
-# par(mgp=c(4,1,0))
 par(las=1)
 grid.color <- '#CCCCCC'
 
@@ -231,7 +222,7 @@ Les queues de la distribution sont les aires comprises sous la courbe de densit�
 
     - **Définition: ** la ***fonction de répartition*** (***Cumulative Density Function***, ***CDF***) $\operatorname{P}(X \le x)$ indique la probabilité qu'une variable aléatoire $X$ prenne une valeur inférieure ou égale à une valeur donnée ($x$). Elle correspond à la queue gauche (en incluant la valeur $x$ considérée). 
 
-- La **queue gauche** d'une distirbution indique la probabilité d'observer un résultat **supérieur ou égal** à une certaine valeur: $\operatorname{P}(X \ge x$). 
+- La **queue gauche** d'une distribution indique la probabilité d'observer un résultat **supérieur ou égal** à une certaine valeur: $\operatorname{P}(X \ge x$). 
 
     - ***Note: nous verrons ultérieurement l'utilisation de la queue droite de différentes distributions en tant que probabilité critique (***P value***), dans le cadre de tests d'enrichissement fonctionnel, sur-représentation de motifs, de détection de pics, $\ldots$  
 
@@ -352,14 +343,16 @@ $$\operatorname{P}(X \ge x)  =   \sum_{i=x}^{n}{P(X=i)} =  \sum_{i=x}^{n}{C_n^i 
 **Propriétés**
 
 - **Espérance** (nombre de succès attendus au hasard): $<X> = n \cdot p$
-- **variance**: $\sigma^2 = n \cdot p \cdot (1 - p)$
+- **variance**: $\sigma^2 = n \cdot p \cdot (1 - p)$. Note: la variance de la binomiale est inférieure à sa moyenne. 
+- **Ecart-type**: $\sigma = \sqrt{n \cdot p \cdot (1 - p)}$
 
-Note: la variance est inférieure à ma moyenne. 
 
 
 ## Distribution binomiale en $i$
 
-Quand la probabilité de succès est faible par rapport au nombre d'essais, la distribution prend une forme de $i$. 
+La distribution binomiale peut prendre différentes formes selon les valeurs des paramètres (probabilité de succès $p$, et nombre d'essais $n$). 
+
+Quand la probabilité de succès ($p$) est très faible par rapport au nombre d'essais ($n$), la distribution prend une forme de $i$. 
 
 ```{r fig.width=9, fig.height=4, echo=FALSE, fig.cap="Distribution binomiale en forme de i.  "}
 
@@ -623,8 +616,27 @@ kable(data.frame(oligo.freq[selected.oligos, ]), row.names = FALSE)
 ```
 
 
+## Exercice: probabilité d'un motif avec erreurs
 
+On recherche dans un génome les occurrences du motif GATAAG (où $W$ signifie "$A$ ou $T$") en admettant un certain nombre de substitutions. En supposant que les nucléotides sont indépendants et équiprobables, quelle est la probabilité de trouver à une position du génome: 
 
+a. Une instance exacte du motif (aucune substitution) ?
+b. Une séquence ne présentant aucune correspondance avec le motif (6 substitutions) ?
+c. Une instance avec exactement 1 substitution ?
+d. Une instance avec au plus 2 substitutions ?
 
+## Exercice: alignement de lectures NGS
 
+Au terme d'un séquençage de type "Next Generation Sequencing" (NGS), on dispose d'une librairie de $N=10^6$ lectures courtes. On aligne la librairie sur le génome de référence, dont la somme des chromosomes fait $G=10^9$ paires de bases, en utilisant un algorithme d'alignement sans gap.
+
+Calculez la distribution de probabilité du nombre de correspondances en fonction de la longueur des lectures ($k$). 
+
+## Exercice: sites de restriction
+
+Dans un génome bactérien de 4 Mb avec une composition de 50% de G+C, on observe 130 occurrences de l'hexanucléotide GGCGCC. On suppose un schéma de Bernoulli et une composition équiprobable de nucléotides.
+
+(a) Quelle est la probabilité d’observer une occurrence de GGCGCC à une position donnée du génome ?
+(b) Combien d'occurrences s'attend-on à trouver dans l'ensemble du génome ?
+(c) Quelle serait la probabilité d'observer un nombre aussi faible d'occurrences (130 ou moins) si l'on générait une séquence aléatoire selon le modèle de Bernoulli avec nucléotides équiprobables ?
+(d) Comment peut-on interpréter cette sous-représentation de l'hexanucléotide GGCGCC du point de vue biologique ?
 

@@ -81,7 +81,7 @@ On parle de ***distribution discrète*** pour désigner la distribution de proba
 **Notes: ** 
 
 - En probabilités la variable observée ($x$) représente généralement le nombre de succès d'une série d'observations. Elle prend donc généralement des valeurs naturelles (entières et positives). 
-- La probabilité $P(x)$ prend des valeurs réelles entre 0 et 1, mais sa distribution est discrète puisqu'elle n'est définie que pour des valeurs discrètes de $x$. On la représente généralement par une fonction en escalier. 
+- La probabilité $\operatorname{P}(x)$ prend des valeurs réelles entre 0 et 1, mais sa distribution est discrète puisqu'elle n'est définie que pour des valeurs discrètes de $x$. On la représente généralement par une fonction en escalier. 
 
 ## Distribution génométrique
 
@@ -96,7 +96,7 @@ Exemples:
 
 La ***fonction de masse de probabilité*** (***Probability Mass Function***, ***PMF***) indique la probabilité d'observer une valeur particulière pour une distribution discrète. 
 
-$$P(X = x) = (1-p)^x \cdot p$$
+$$\operatorname{P}(X = x) = (1-p)^x \cdot p$$
 
 Justification: 
 
@@ -225,11 +225,11 @@ par(mfrow=c(1,1))
 
 Les queues de la distribution sont les aires comprises sous la courbe de densité jusqu'à une certaine valeur (***queue gauche**) ou à partir d'nue certaine valeur (**queue droite**). 
 
-- La **queue droite** indique la probabilité d'observer un résultat **inférieur ou égal** à une certaine valeur: $P(X \le x$). 
+- La **queue droite** indique la probabilité d'observer un résultat **inférieur ou égal** à une certaine valeur: $\operatorname{P}(X \le x$). 
 
-    **Définition: ** la ***fonction de répartition*** (***Cumulative Density Function***, ***CDF***) $P(X \le x)$ indique la probabilité qu'une variable aléatoire $X$ prenne une valeur inférieure ou égale à une valeur donnée ($x$). Elle correspond à la queue gauche (en incluant la valeur $x$ considérée). 
+    **Définition: ** la ***fonction de répartition*** (***Cumulative Density Function***, ***CDF***) $\operatorname{P}(X \le x)$ indique la probabilité qu'une variable aléatoire $X$ prenne une valeur inférieure ou égale à une valeur donnée ($x$). Elle correspond à la queue gauche (en incluant la valeur $x$ considérée). 
 
-- La **queue gauche** indique la probabilité d'observer un résultat **supérieur ou égal** à une certaine valeur: $P(X \ge x$).
+- La **queue gauche** indique la probabilité d'observer un résultat **supérieur ou égal** à une certaine valeur: $\operatorname{P}(X \ge x$).
 
 ## Queues de distribution et fonction de répartition
 
@@ -300,8 +300,8 @@ legend('bottomright',legend=paste('P(X<=',test.x,') = ',round(pgeom(test.x,p),di
 left.tail.p <- pgeom(test.x,p)
 arrows(test.x, 0,test.x,left.tail.p,col='#888888',length=0.1,angle=25,code=2,lwd=2)
 arrows(test.x, left.tail.p,0,left.tail.p,col='#888888',length=0.1,angle=25,code=2,lwd=2)
-text(test.x,0, test.x,pos=4, , cex=0.7)
-text(0,left.tail.p, round(left.tail.p, digits=3),pos=3, , cex=0.7)
+text(x = test.x, y= 0, labels = test.x, pos=4, , cex=0.7)
+text(0, left.tail.p, round(left.tail.p, digits=3), pos=3, , cex=0.7)
 
 
 ################################################################
@@ -333,25 +333,333 @@ par(par.ori)
 par(mfrow=c(1,1))
 ```
 
+## Distribution binomiale
+
+La **distribution binomiale** indique la probabilité d'observer un certain nombre ($x$) de succès au cours d'une série de $n$ essais indépendants avec une probabilité de succès $p$ constante (schéma de Bernoulli).
+
+**Fonction de masse de probabilité binomiale**
+
+$$\operatorname{P}(X=x) = \binom{n}{x} \cdot  p^x  \cdot (1-p)^{n-x} = C_n^x  p^x  (1-p)^{n-x} = \frac{n!}{x!(n-x)!} p^x (1-p)^{n-x}$$
+
+**Fonction de répartition binomiale**
+
+$$\operatorname{P}(X \ge x)  =   \sum_{i=x}^{n}{P(X=i)} =  \sum_{i=x}^{n}{C_n^i p^i (1-p)^{n-i}}$$
+
+**Propriétés**
+
+- **Espérance** (nombre de succès attendus au hasard): $<X> = n \cdot p$
+- **variance**: $\sigma^2 = n \cdot p \cdot (1 - p)$
+
+Note: la variance est inférieure à ma moyenne. 
+
+
+## Distribution binomiale
+
+Quand la probabilité de succès est faible par rapport au nombre d'essais, la distribution prend une forme de $i$. 
+
+```{r fig.width=9, fig.height=4, echo=FALSE, fig.cap="**Distribution binomiale.**  "}
+
+## color specification
+if (color.status == "full") {
+  plot.colors <- c('probability'='blue',
+              'CDF'='darkgreen',
+              'dCDF'='purple'
+              )
+} else {
+  plot.colors <- c('probability'='black',
+              'CDF'='black',
+              'dCDF'='black'
+              )
+}
+
+
+## Drawing parameters
+par.ori <- par(no.readonly = TRUE)
+par(mfrow=c(1,2))
+# par(font.lab=2)
+# par(font.axis=2)
+# par(font.main=2)
+# par(cex=1.2)
+# par(cex.main=1.2)
+# par(cex.axis=1)
+# par(cex.lab=1.2)
+grid.color <- '#CCCCCC'
+# par(mar=c(5.5,5.5,4.1,0.5))
+# par(mgp=c(4,1,0))
+
+
+## color specification (actually I don't use colors for the book
+if (color.status == "full") {
+  plot.col <- c('probability'='blue',
+                'CDF'='darkgreen',
+                'dCDF'='purple',
+                'grid'='#CCCCCC'
+                )
+} else {
+  plot.col <- c('probability'='black',
+                'CDF'='black',
+                'dCDF'='black',
+                'grid'='#CCCCCC'
+                )
+}
+line.types <- c(probability="solid",
+                CDF="solid",
+                dCDF="solid",
+                grid="solid")
+
+## Drawing parameters
+par.ori <- par(no.readonly = TRUE)
+# par(font.lab=2)
+# par(font.axis=2)
+# par(font.main=2)
+# par(cex=1.2)
+# par(cex.main=1.2)
+# par(cex.axis=1.2)
+# par(cex.lab=1.2)
+# grid.color <- '#CCCCCC'
+# par(mfrow=c(4,3))
+# par(mar=c(5.5,5.5,4.1,0.5))
+# par(mgp=c(4,1,0))
+par(las=1)
+
+################################################################
+#
+# Binomial series
+#
+
+
+#### initialize parameters
+p.values <- c(0.02,0.1,0.5,0.98) ## Success probabilities
+n <- 20 ## Number of trials
+x.display <- 20 ## Max value to display on the X axis
+x <- c(0:n, n) ## Add an "n" at the end in order to have the last horizontal bar in the plot
+x.shifted <- (0:(n+1))-0.5
+x.grid <- x
+y.grid <- seq(from=0,to=1,by=0.2)
+  
+
+#### Binomial functions
+p <- 0.02
+binomial.mean <- p*n
+
+xmax <- 5 + 4*binomial.mean
+
+plot(x.shifted,
+     dbinom(x,n,p),
+     main=paste("Binomial probability (p=",format(p),", n=", format(n), ")"),
+     ylim=c(0,1),
+     xlab="X (successes)",
+     ylab="P(X=x)",
+     col=plot.col["probability"],
+     lty=line.types["probability"],
+     type="s",
+     lwd=2, las=1,
+     panel.first=c(abline(v=x.grid,col=plot.col['grid'],lty=line.types["grid"]),
+                   abline(h=y.grid,col=plot.col['grid'],lty=line.types["grid"]))
+)
+
+plot(x.shifted,
+     pbinom(x,n,p),
+     main=paste("CDF (p=",format(p),", n=", format(n), ")"),
+     ylim=c(0,1),
+     xlab="X (successes)",
+     ylab="P(X <= x)",
+     col=plot.col["CDF"],
+     lty=line.types["CDF"],
+     type="s",
+     lwd=2, las=1,
+     panel.first=c(abline(v=x.grid,col=plot.col['grid'],lty=line.types["grid"]),
+                   abline(h=y.grid,col=plot.col['grid'],lty=line.types["grid"]))
+)
+par(par.ori)
+par(mfrow=c(1,1))
+```
+
+## Distribution binomiale (suite)
+
+Quand la probabilité de succès relativement élevée mais inférieure à 0.5, la distribution prend une forme en cloche assymétrique. 
+
+```{r fig.width=9, fig.height=4, echo=FALSE, fig.cap="**Distribution binomiale.**  "}
+
+## Drawing parameters
+par(mfrow=c(1,2))
+par(las=1)
+
+################################################################
+#
+# Binomial series
+#
+
+
+#### Binomial functions
+p <- 0.25
+binomial.mean <- p*n
+
+xmax <- 5 + 4*binomial.mean
+
+plot(x.shifted,
+     dbinom(x,n,p),
+     main=paste("Binomial probability (p=",format(p),", n=", format(n), ")"),
+     ylim=c(0,1),
+     xlab="X (successes)",
+     ylab="P(X=x)",
+     col=plot.col["probability"],
+     lty=line.types["probability"],
+     type="s",
+     lwd=2, las=1,
+     panel.first=c(abline(v=x.grid,col=plot.col['grid'],lty=line.types["grid"]),
+                   abline(h=y.grid,col=plot.col['grid'],lty=line.types["grid"]))
+)
+
+plot(x.shifted,
+     pbinom(x,n,p),
+     main=paste("CDF (p=",format(p),", n=", format(n), ")"),
+     ylim=c(0,1),
+     xlab="X (successes)",
+     ylab="P(X <= x)",
+     col=plot.col["CDF"],
+     lty=line.types["CDF"],
+     type="s",
+     lwd=2, las=1,
+     panel.first=c(abline(v=x.grid,col=plot.col['grid'],lty=line.types["grid"]),
+                   abline(h=y.grid,col=plot.col['grid'],lty=line.types["grid"]))
+)
+par(par.ori)
+par(mfrow=c(1,1))
+```
+
+## Distribution binomiale (suite)
+
+Quand la probabilité de succès vaut 0.5, la distribution prend une forme en cloche symétrique. 
+
+```{r fig.width=9, fig.height=4, echo=FALSE, fig.cap="**Distribution binomiale.**  "}
+
+## Drawing parameters
+par(mfrow=c(1,2))
+par(las=1)
+
+p <- 0.5
+binomial.mean <- p*n
+
+xmax <- 5 + 4*binomial.mean
+
+plot(x.shifted,
+     dbinom(x,n,p),
+     main=paste("Binomial probability (p=",format(p),", n=", format(n), ")"),
+     ylim=c(0,1),
+     xlab="X (successes)",
+     ylab="P(X=x)",
+     col=plot.col["probability"],
+     lty=line.types["probability"],
+     type="s",
+     lwd=2, las=1,
+     panel.first=c(abline(v=x.grid,col=plot.col['grid'],lty=line.types["grid"]),
+                   abline(h=y.grid,col=plot.col['grid'],lty=line.types["grid"]))
+)
+
+plot(x.shifted,
+     pbinom(x,n,p),
+     main=paste("CDF (p=",format(p),", n=", format(n), ")"),
+     ylim=c(0,1),
+     xlab="X (successes)",
+     ylab="P(X <= x)",
+     col=plot.col["CDF"],
+     lty=line.types["CDF"],
+     type="s",
+     lwd=2, las=1,
+     panel.first=c(abline(v=x.grid,col=plot.col['grid'],lty=line.types["grid"]),
+                   abline(h=y.grid,col=plot.col['grid'],lty=line.types["grid"]))
+)
+par(par.ori)
+par(mfrow=c(1,1))
+```
+
+
+## Distribution binomiale (suite)
+
+Quand la probabilité de succès est proche de 1, la distribution prend une forme en $j$. 
+
+```{r fig.width=9, fig.height=4, echo=FALSE, fig.cap="**Distribution binomiale.**  "}
+
+## Drawing parameters
+par(mfrow=c(1,2))
+par(las=1)
+
+p <- 0.98
+binomial.mean <- p*n
+
+xmax <- 5 + 4*binomial.mean
+
+plot(x.shifted,
+     dbinom(x,n,p),
+     main=paste("Binomial probability (p=",format(p),", n=", format(n), ")"),
+     ylim=c(0,1),
+     xlab="X (successes)",
+     ylab="P(X=x)",
+     col=plot.col["probability"],
+     lty=line.types["probability"],
+     type="s",
+     lwd=2, las=1,
+     panel.first=c(abline(v=x.grid,col=plot.col['grid'],lty=line.types["grid"]),
+                   abline(h=y.grid,col=plot.col['grid'],lty=line.types["grid"]))
+)
+
+plot(x.shifted,
+     pbinom(x,n,p),
+     main=paste("CDF (p=",format(p),", n=", format(n), ")"),
+     ylim=c(0,1),
+     xlab="X (successes)",
+     ylab="P(X <= x)",
+     col=plot.col["CDF"],
+     lty=line.types["CDF"],
+     type="s",
+     lwd=2, las=1,
+     panel.first=c(abline(v=x.grid,col=plot.col['grid'],lty=line.types["grid"]),
+                   abline(h=y.grid,col=plot.col['grid'],lty=line.types["grid"]))
+)
+par(par.ori)
+par(mfrow=c(1,1))
+```
+
+
+
+## Applications de la binomiale
+
+1. Jeu de dés: nombre de 6 observés lors d'une série de 10 tirages. 
+2. Alignement de séquences: nombre d'identités entre deux séquences alignées sans gap.
+3. Analyse de motifs: nombre d'occurrences d'un motif dans un génome.
+
+**Note: ** le recours à la binomiale présuppose un modèlde de Bernoulli. Pour les exemples 2 et 3 ceci revient à considérer que les nucléotides se succèdent de façon indépendante, ce qui est assez peu réaliste. 
+
+
+## Un modèle de Bernoulli convient-il pour les séquences d'ADN ?
+
 # Exercices
 
+## Exercice: probabilité des longueurs d'ORF
 
-## Probabilité des longueurs d'ORF dans un génome
+On détecte les cadres ouverts de lecture (*open reading frames*, *ORF*) d'un génome en identifiant toutes les séquences de taille multiple de 3 comprises entre un start (ATG) et un stop (TAA, TAG ou TGA). 
 
-On dispose d'un génome nouvellement séquencé et on détecte les cadres ouverts de lecture (*open reading frames*, *ORF*) en identifiant toutes les séquences d'ADN d'une taille multiple de 3 (taille du codon), comprises entre un start (ATG) et un stop (TAA, TAG ou TGA). Sur base des fréquences génomiques de trinucléotides, calculer la probabilité d'observer un cadre ouvert de lecture d'au moins 100 acides aminés. 
+a. Sur base des fréquences génomiques de trinucléotides, calculer la probabilité de trouver à une position donnée du génome un ORF d'au moins 100 codons. 
+b. Sachant que le génome fait 12 Mb, quel est le nombre attendu d'ORF d'au moins 100 codons ?
 
 
 ```{r echo=FALSE}
-oligo.freq <- read.table("../data/oligo_freq/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab", sep="\t", row.names = 1)
-colnames(oligo.freq) <- c("frequency", "occurrences")
+oligo.freq <- read.table("../data/oligo_freq/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab", sep="\t", row.names = NULL)
+colnames(oligo.freq) <- c("sequence", "frequency", "occurrences")
+oligo.freq$frequency <- signif(digits=3, oligo.freq$frequency)
 
-oligo.freq["...",] <- c("...", "...")
+row.names(oligo.freq) <- oligo.freq$sequence
 
-selected.oligos <- c("AAA", "...", "ATG", "TAA", "TAG", "TGA")
+#oligo.freq["...",] <- c("...", "...", "...")
 
-kable(data.frame(oligo.freq[selected.oligos, ]), digits = 3)
+selected.oligos <- c("AAA", "ATG", "TAA", "TAG", "TGA")
+
+kable(data.frame(oligo.freq[selected.oligos, ]), row.names = FALSE)
 #print(data.frame(oligo.freq[selected.oligos, ]))
 ```
+
+
 
 
 

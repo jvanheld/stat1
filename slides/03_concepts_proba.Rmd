@@ -230,10 +230,10 @@ On peut généraliser la définition précédente en considérant une série d'e
 | T | 3752889 | 0.3087122354100 | 
 
 Dans le cadre d'un tirage aléatoire, on va considèrer que chaque résidu a une probabilité particulière: 
-$P(A) = 0.31$, 
-$P(C) = 0.19$, 
-$P(G) = 0.19$, 
-$P(T) = 0.31$.
+$\operatorname{P}(A) = 0.31$, 
+$\operatorname{P}(C) = 0.19$, 
+$\operatorname{P}(G) = 0.19$, 
+$\operatorname{P}(T) = 0.31$.
 
 
 ## Exercices
@@ -242,7 +242,7 @@ $P(T) = 0.31$.
 
 2. En supposant qu'une séquence est composée de résidus équiprobables, quelle est la probabilité du motif $GATWNA$ ($W$ signifie "$T$ ou $A$", et $N$ correspond à n'importe quel nucléotide) ? 
 
-3. Même question en supposant les probabilités distinctes pour les nucléotides: $P(A) = P(T) = 0.3$, $P(C) = P(G)$ (à vous de calculer ces dernières). 
+3. Même question en supposant les probabilités distinctes pour les nucléotides: $\operatorname{P}(A) = \operatorname{P}(T) = 0.3$, $\operatorname{P}(C) = \operatorname{P}(G)$ (à vous de calculer ces dernières). 
 
 4. En supposant des nucléotides équiprobables, quelle est la probabilités de n'observer aucun $A$ dans un oligonucléotide de taille 12 ?
 

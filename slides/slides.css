@@ -1,6 +1,8 @@
 /* BODY  */
 body {
        font-family: Verdana, Helvetica, Arial, sans-serif;
+       color: #BB0000;
+       /* color: red; */
        /*  font-family: Garamond, Times new roman, Times, serif; */
        /*  font : 14px Garamond, 12px Times new roman, 12px Times, serif;*/
 }
@@ -27,14 +29,14 @@ A:hover {
 /* Text  */
 
 h1 {
-     color: #CCDDFF;
+     color: #4466BB;
 /*     background-color: transparent;*/
      }
 
 h2 {
      /* 	text-align: center; */
-     color: #CCDDFF;
-     background-color: #115588;
+     color: #4466BB;
+/*     background-color: #115588;*/
      }
 
 h3 {

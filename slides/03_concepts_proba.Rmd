@@ -235,6 +235,16 @@ $\operatorname{P}(C) = 0.19$,
 $\operatorname{P}(G) = 0.19$, 
 $\operatorname{P}(T) = 0.31$.
 
+## Les modèles de Bernoulli conviennent-il pour les séquences biologiques ?
+
+Le schéma de Bernoulli présente un intérêt évident: sa facilité d'utilisation. Cependant il n'est pas très approprié pour modéliser les successions de résidus dans les séquences macromoléculaires, pour plusieurs raisons. 
+
+- Dans les génomes, les fréquences de nucléoides varient en fonction du contexte (codant, non-codant, ...). 
+- Dans les séquences codantes, dépendance entre les résidus d'un même codon, notamment au niveau de la dégénérescence du 3ème résidu.
+- Dans les régions non-codantes, les oligonucléotides poly-A et poly-T sont plus fréquents (propriété agrégative). 
+- Dans les séquences protéines, les contraintes structurelles ont favorisé (par sélection) certaines successions d'acides aminés et défavorisé d'autres. 
+
+Les ***modèles de Markov*** permettent une modélisation plus fine des séquences biologiques, en exprimant la dépendance entre résidus voisins. 
 
 ## Exercices
 

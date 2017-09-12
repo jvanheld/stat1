@@ -4,7 +4,7 @@ author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
   ioslides_presentation:
-    css: slides.css
+#    css: slides.css
     fig_caption: yes
     fig_height: 6
     fig_width: 7
@@ -83,32 +83,34 @@ On parle de ***distribution discrète*** pour désigner la distribution de proba
 - En probabilités la variable observée ($x$) représente généralement le nombre de succès d'une série d'observations. Elle prend donc généralement des valeurs naturelles (entières et positives). 
 - La probabilité $\operatorname{P}(x)$ prend des valeurs réelles entre 0 et 1, mais sa distribution est discrète puisqu'elle n'est définie que pour des valeurs discrètes de $x$. On la représente généralement par une fonction en escalier. 
 
-## Distribution génométrique
+## Distribution géométrique
 
-Application: temps d'attente jusqu'à la première réalisation d'un événement. 
+**Application:** temps d'attente jusqu'à la première réalisation d'un évènement au cours d'un schéma de Bernoulli. 
 
-Exemples: 
+**Exemples:**
+
 - Comptage du nombre de jets d'un dé ($x$) qui précèdent la première occurrence d'un 6 (l'occurrence n'est pas incluse dans le compte).
 - Longueur d'une séquence d'ADN avant la première occurrence d'une cytosine 
 
 
-## Fonction de densité géométrique
+## Fonction de masse de probabilité géométrique
 
 La ***fonction de masse de probabilité*** (***Probability Mass Function***, ***PMF***) indique la probabilité d'observer une valeur particulière pour une distribution discrète. 
+
+Pour la distribution discrète, elle indique la probabilité d'observer exactement $x$ échecs avant le premier succès, au cours d'une série d'essais indépendants avec une probabilité de succès $p$. 
 
 $$\operatorname{P}(X = x) = (1-p)^x \cdot p$$
 
 Justification: 
 
-- Schema de Bernoulli avec probabilité $p$ de succès pour chaque essai.
-- Probabilité d'échec pour un essai = $1-p$ (événements complémentaires)
-- Essais indépendants $\rightarrow$ probabilité de la série est le produit des probabilités des résultats successifs. 
-- On multiplie la probabilité des $x$ non réalisations
+- Probabilité d'échec pour un essai = $q = 1-p$ (évènements complémentaires)
+- Schéma de Bernoulli $\rightarrow$ les essais sont indépendants $\rightarrow$ probabilité de la série est le produit des probabilités des résultats successifs. 
+- On calcule donc le produit des probabilité des $x$ échecs initiaux et du succès au $(x+1)^\text{ème}$ essai.
 
 *Note: la PMF est apparentée au concept de **densité** que nous verrons lorsque nous traiterons les distributions continues.*
 
 
-## Fonction de densité géométrique (graphique)
+## Fonction de masse de probabilité géométrique
 
 
 ```{r fig.width=9, fig.height=4, echo=FALSE, fig.cap="**Probabilité de masse de la loi géométrique**. Gauche: ordonnée en échelle logarithmique. "}
@@ -223,13 +225,15 @@ par(mfrow=c(1,1))
 
 ## Queues de distribution et fonction de répartition
 
-Les queues de la distribution sont les aires comprises sous la courbe de densité jusqu'à une certaine valeur (***queue gauche**) ou à partir d'nue certaine valeur (**queue droite**). 
+Les queues de la distribution sont les aires comprises sous la courbe de densité jusqu'à une certaine valeur (***queue gauche***) ou à partir d’une certaine valeur (***queue droite***). 
 
-- La **queue droite** indique la probabilité d'observer un résultat **inférieur ou égal** à une certaine valeur: $\operatorname{P}(X \le x$). 
+- La ***queue droite*** indique la probabilité d'obtenir un résultat ($X$) **inférieur ou égal** à une certaine valeur ($x$): $\operatorname{P}(X \le x$). 
 
-    **Définition: ** la ***fonction de répartition*** (***Cumulative Density Function***, ***CDF***) $\operatorname{P}(X \le x)$ indique la probabilité qu'une variable aléatoire $X$ prenne une valeur inférieure ou égale à une valeur donnée ($x$). Elle correspond à la queue gauche (en incluant la valeur $x$ considérée). 
+    - **Définition: ** la ***fonction de répartition*** (***Cumulative Density Function***, ***CDF***) $\operatorname{P}(X \le x)$ indique la probabilité qu'une variable aléatoire $X$ prenne une valeur inférieure ou égale à une valeur donnée ($x$). Elle correspond à la queue gauche (en incluant la valeur $x$ considérée). 
 
-- La **queue gauche** indique la probabilité d'observer un résultat **supérieur ou égal** à une certaine valeur: $\operatorname{P}(X \ge x$).
+- La **queue gauche** d'une distirbution indique la probabilité d'observer un résultat **supérieur ou égal** à une certaine valeur: $\operatorname{P}(X \ge x$). 
+
+    - ***Note: nous verrons ultérieurement l'utilisation de la queue droite de différentes distributions en tant que probabilité critique (***P value***), dans le cadre de tests d'enrichissement fonctionnel, sur-représentation de motifs, de détection de pics, $\ldots$  
 
 ## Queues de distribution et fonction de répartition
 
@@ -353,39 +357,17 @@ $$\operatorname{P}(X \ge x)  =   \sum_{i=x}^{n}{P(X=i)} =  \sum_{i=x}^{n}{C_n^i 
 Note: la variance est inférieure à ma moyenne. 
 
 
-## Distribution binomiale
+## Distribution binomiale en $i$
 
 Quand la probabilité de succès est faible par rapport au nombre d'essais, la distribution prend une forme de $i$. 
 
-```{r fig.width=9, fig.height=4, echo=FALSE, fig.cap="**Distribution binomiale.**  "}
-
-## color specification
-if (color.status == "full") {
-  plot.colors <- c('probability'='blue',
-              'CDF'='darkgreen',
-              'dCDF'='purple'
-              )
-} else {
-  plot.colors <- c('probability'='black',
-              'CDF'='black',
-              'dCDF'='black'
-              )
-}
+```{r fig.width=9, fig.height=4, echo=FALSE, fig.cap="Distribution binomiale en forme de i.  "}
 
 
 ## Drawing parameters
 par.ori <- par(no.readonly = TRUE)
 par(mfrow=c(1,2))
-# par(font.lab=2)
-# par(font.axis=2)
-# par(font.main=2)
-# par(cex=1.2)
-# par(cex.main=1.2)
-# par(cex.axis=1)
-# par(cex.lab=1.2)
 grid.color <- '#CCCCCC'
-# par(mar=c(5.5,5.5,4.1,0.5))
-# par(mgp=c(4,1,0))
 
 
 ## color specification (actually I don't use colors for the book
@@ -409,24 +391,7 @@ line.types <- c(probability="solid",
 
 ## Drawing parameters
 par.ori <- par(no.readonly = TRUE)
-# par(font.lab=2)
-# par(font.axis=2)
-# par(font.main=2)
-# par(cex=1.2)
-# par(cex.main=1.2)
-# par(cex.axis=1.2)
-# par(cex.lab=1.2)
-# grid.color <- '#CCCCCC'
-# par(mfrow=c(4,3))
-# par(mar=c(5.5,5.5,4.1,0.5))
-# par(mgp=c(4,1,0))
 par(las=1)
-
-################################################################
-#
-# Binomial series
-#
-
 
 #### initialize parameters
 p.values <- c(0.02,0.1,0.5,0.98) ## Success probabilities
@@ -475,9 +440,9 @@ par(par.ori)
 par(mfrow=c(1,1))
 ```
 
-## Distribution binomiale (suite)
+## Distribution binomiale en cloche asymétrique
 
-Quand la probabilité de succès relativement élevée mais inférieure à 0.5, la distribution prend une forme en cloche assymétrique. 
+Quand la probabilité de succès relativement élevée mais inférieure à 0.5, la distribution prend une forme en cloche asymétrique. 
 
 ```{r fig.width=9, fig.height=4, echo=FALSE, fig.cap="**Distribution binomiale.**  "}
 
@@ -528,7 +493,7 @@ par(par.ori)
 par(mfrow=c(1,1))
 ```
 
-## Distribution binomiale (suite)
+## Distribution binomiale en cloche symétrique
 
 Quand la probabilité de succès vaut 0.5, la distribution prend une forme en cloche symétrique. 
 
@@ -575,7 +540,7 @@ par(mfrow=c(1,1))
 ```
 
 
-## Distribution binomiale (suite)
+## Distribution binomiale en $j$
 
 Quand la probabilité de succès est proche de 1, la distribution prend une forme en $j$. 
 
@@ -623,16 +588,14 @@ par(mfrow=c(1,1))
 
 
 
-## Applications de la binomiale
+## Exemples d'applications de la binomiale
 
-1. Jeu de dés: nombre de 6 observés lors d'une série de 10 tirages. 
-2. Alignement de séquences: nombre d'identités entre deux séquences alignées sans gap.
-3. Analyse de motifs: nombre d'occurrences d'un motif dans un génome.
+1. **Jeu de dés**: nombre de 6 observés lors d'une série de 10 tirages. 
+2. **Alignement de séquences**: nombre d'identités entre deux séquences alignées sans gap.
+3. **Analyse de motifs**: nombre d'occurrences d'un motif dans un génome.
 
-**Note: ** le recours à la binomiale présuppose un modèlde de Bernoulli. Pour les exemples 2 et 3 ceci revient à considérer que les nucléotides se succèdent de façon indépendante, ce qui est assez peu réaliste. 
+**Note: ** le recours à la binomiale présuppose un modèle de Bernoulli. Pour les exemples 2 et 3 ceci revient à considérer que les nucléotides se succèdent de façon indépendante, ce qui est assez peu réaliste. 
 
-
-## Un modèle de Bernoulli convient-il pour les séquences d'ADN ?
 
 # Exercices
 

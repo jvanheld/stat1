@@ -438,7 +438,7 @@ par(mfrow=c(1,1))
 
 Quand la probabilité de succès relativement élevée mais inférieure à 0.5, la distribution prend une forme en cloche asymétrique. 
 
-```{r binomial_distrib_bell-shaped, fig.width=9, fig.height=4, echo=FALSE, fig.cap="**Distribution binomiale.**  "}
+```{r binomial_distrib_bell-shaped, fig.width=9, fig.height=4, echo=FALSE, fig.cap="Distribution binomiale en forme de cloche asymétrique.  "}
 
 ## Drawing parameters
 par(mfrow=c(1,2))
@@ -491,7 +491,7 @@ par(mfrow=c(1,1))
 
 Quand la probabilité de succès vaut 0.5, la distribution prend une forme en cloche symétrique. 
 
-```{r binomial_distrib_symmetric-bell, fig.width=9, fig.height=4, echo=FALSE, fig.cap="**Distribution binomiale.**  "}
+```{r binomial_distrib_symmetric-bell, fig.width=9, fig.height=4, echo=FALSE, fig.cap="Distribution binomiale en forme de cloche symétrique (p=0.5). "}
 
 ## Drawing parameters
 par(mfrow=c(1,2))
@@ -538,7 +538,7 @@ par(mfrow=c(1,1))
 
 Quand la probabilité de succès est proche de 1, la distribution prend une forme en $j$. 
 
-```{r binomial_distrib_j-shaped, fig.width=9, fig.height=4, echo=FALSE, fig.cap="**Distribution binomiale.**  "}
+```{r binomial_distrib_j-shaped, fig.width=9, fig.height=4, echo=FALSE, fig.cap="Distribution binomiale en forme de j.  "}
 
 ## Drawing parameters
 par(mfrow=c(1,2))

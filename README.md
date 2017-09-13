@@ -20,6 +20,8 @@
 
 ### Travaux pratiques avec R
 
+| Séance | Contenu | Liens | 
+|------|---------------------------------|--------------------------|
 | TP1 | Premiers pas avec R | Diapos: [html](practicals/01_intro_R/01_intro_R.html) [pdf](practicals/01_intro_R/01_intro_R.pdf) [Rmd](practicals/01_intro_R/01_intro_R.Rmd) |
 
 

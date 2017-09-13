@@ -9,7 +9,7 @@
     - Années précédentes: Jacques van Helden & Pascal Rihet
 
 ****************************************************************
-### Contenu
+### Cours et exercices
 
 | Séance | Contenu | Liens | 
 |------|---------------------------------|--------------------------|
@@ -17,6 +17,11 @@
 | CM1-2 | Eléments d'analyse combinatoire | Diapos: [html](slides/02_combinatorix.html) [pdf](slides/02_combinatorix.pdf) [Rmd](slides/02_combinatorix.Rmd) |
 | CM3 | Concepts de probabilités | Diapos: [html](slides/03_concepts_proba.html) [pdf](slides/03_concepts_proba.pdf) [Rmd](slides/03_concepts_proba.Rmd) |
 | CM4 | Distributions discrètes | Diapos: [html](slides/04_distributions_discretes.html) [pdf](slides/04_distributions_discretes.pdf) [Rmd](slides/04_distributions_discretes.Rmd) |
+
+### Travaux pratiques avec R
+
+| TP1 | Premiers pas avec R | Diapos: [html](practicals/01_intro_R/01_intro_R.html) [pdf](practicals/01_intro_R/01_intro_R.pdf) [Rmd](practicals/01_intro_R/01_intro_R.Rmd) |
+
 
 ****************************************************************
 ### Objectif(s)

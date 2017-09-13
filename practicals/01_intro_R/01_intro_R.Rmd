@@ -1,6 +1,5 @@
 ---
 title: "Premiers pas avec R"
-subtitle: 'Probabilités et statistique pour la biologie (STAT1)'
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
@@ -58,6 +57,7 @@ output:
     toc_depth: 3
 font-import: http://fonts.googleapis.com/css ?family=Risque
 font-family: Garamond
+subtitle: Probabilités et statistique pour la biologie (STAT1)
 address: TAGC lab, Aix-Marseille Université, France
 transition: linear
 ---
@@ -101,7 +101,6 @@ Nous aborderons les éléments suivants:
 
 - Distributions de probabilités
 
-# Manipulation de variables
 
 ## Utiliser ***R*** comme calculette
 
@@ -140,10 +139,12 @@ print(a)
 ```{r}
 b <- 5
 c <- a + b
+print(a)
+print(b)
 print(c)
 ```
 
-## L'assignation informatique est différente de l'égalité mathématique
+## Assignation $\neq$ égalité
 
 **Exemple:** 
 
@@ -153,7 +154,9 @@ print(c)
 
 ```{r}
 a <- 3 ## Change the value of a
-print(c) ## Print the value of c
+print(a)
+print(b)
+print(c)
 
 ## Check whether c equals a + b
 c == a + b
@@ -185,14 +188,14 @@ c == a + b
 En  ***R***, la structure de données la plus simple est un **vecteur**. 
 
 - Dans l'exemple précédent, la variable $a$ ne contenait qu'un seul nombre, mais en pratique elle était stockée dans un vecteur à une seule entrée. 
-- La fonction **print()** indique les indices en début de lignes, ce qui est utile quand on affiche des vecteurs avec un grand nombre d'entrées. 
+- La fonction `print()` indique les indices en début de lignes, ce qui est utile quand on affiche des vecteurs avec un grand nombre d'entrées. 
 
 
 **Exemple:** créer une variable nommée  ***trois.nombres***, et l'initialiser avec un vecteur dont les valeurs sont ***27***, ***12*** and ***3000***.
 
 **Trucs:**
 - en R, les noms de variables peuvent comporter plusieurs mots séparés par des points; 
-- la fonction ***`c()`*** combine plusieurs valeurs en un vecteur.
+- la fonction `c()` combine plusieurs valeurs en un vecteur.
 
 ```{r}
 trois.nombres <- c(27,12,3000)
@@ -226,13 +229,15 @@ print(y)
 
 ## Séquences de nombres
 
-La fonction ***seq()*** permet de générer des séries de nombres avec un espacement arbitraire. 
+La fonction `seq()` permet de générer des séries de nombres avec un espacement arbitraire. 
 
 ```{r}
 seq(from=-1, to=1, by=0.1)
 ```
 
-## Variables can also contain strings
+## Les variables peuvent contenir du texte
+
+Les variables ne se limitent pas aux nombres: elles peuvent contenir du texte ("chaînes de caractères", "strings" en anglais).
 
 ```{r}
 # The # symbol allows to insert comments in R code
@@ -243,21 +248,26 @@ whoami <- c("Denis", "Siméon")
 print(whoami) # Comment at the end of a line
 ```
 
-## String concatenation
+## Concaténation de chaînes de caractèrs
+
+La fonction `paste()` permet de concaténer les variables contenant du texte. 
 
 ```{r}
 # Define  a vector named "names", and 
 # containing two names
-whoami <- c("Denis", "Siméon")
+prenom <- "Denis Siméon"
+nom <- "Poisson"
 
 # Paste the values of a vector of string 
-print(paste(sep=" ", whoami[1], whoami[2]))
+print(paste(sep=" ", prenom, nom))
 ```
 
 
-# Fonctions graphiques
+## Fonctions graphiques
 
-## Scatter plot
+R comporte un grand nombre de fonctions permettant de dessiner des graphiques simples ou élaborés. Nous allons explorer ici les méthodes les plus simples. 
+
+## Nuage de points (scatter plot)
 
 ```{r scatter_plot, fig.width=7, fig.height=5, fig.align="center"}
 x <- -10:10
@@ -265,7 +275,7 @@ y <- x^2
 plot(x,y)
 ```
 
-## Line plot
+## Courbe (line plot)
 
 
 ```{r line_plot, fig.width=7, fig.height=5, fig.align="center"}
@@ -274,21 +284,77 @@ y <- x^2
 plot(x,y, type="l")
 ```
 
+## Distributions de probabilités
 
+**R** fournit 4 fonctions pour chacune des des distributions de probabilité classiques. 
 
-## Carl's preferred distribution
+Avant d'aller plus loin, lisez attentivement l'aide pour les fonctions associées à la distribution binomiale.
 
-The function **`dpois()`** computes the Poisson **density**, i.e. the probability to observe **exactly** $x$ successes in a series of independent trials with equal probability.
+```{r binomial_help}
+help("Binomial")
 
-The Poisson distribution is defined by a single parameter: the expected number of successes $\lambda$ (read "lambda").
-
-$$P(X=x) = \frac{e^{-\lambda}\lambda^x}{x!}$$
-
-```{r eval=FALSE}
-x <- 0:14   # Define the X values from 0 to 14
-y <- dpois(x, lambda = 2.5) # Poisson density
-print(y) # Check the result
 ```
+
+**Questions:** 
+
+1. Quelle est la fonction R qui permet de calculer la fonction de masse de probabilité ?
+2. Quelle fonction R correspond à la fonction de répartition ?
+2. A quoi sert la fonction *rbinom()* ?
+
+## Graphe de la binomiale
+
+**Exercice:** en supposant des nucléotides équiprobables et indépendants, dessiner la probazbilité du nombre d'adénines pour un oligonucléotide de taille 30. 
+
+
+## Formule de la solution
+
+Le nombre d'adénines peut prendre n'importe quelle valeur entre $0$ et $30$. On peut modéliser le problème comme un schéma de Bernoulli avec $n=30$ essais pouvant chacun résulter en un succès (une adénine) avec une probabilité $p=0.25$, ou un échec (tout autre nucléotide), avec une probabilité $q = 1-p = 0.75$. 
+
+La probabilité d'observer exactement $x$ adénine vaut donc. 
+
+$$P(X=x) = \binom{n}{x} p^x (1-p)^{n-x} = \frac{30!}{x!(30-x)!} \cdot 0.25^x \cdot 0.75^{n-x}$$
+où $x$ peut prendre n'importe quelle valeur entre $0$ et $30$. 
+
+## Calcul de la fonction de masse de probabilité
+
+```{r binomial_PMF}
+## Define all possible values for X
+n <- 30
+x <- 0:n
+p <- 0.25
+
+## Compute the binomial PMF
+pmf <- dbinom(x = x, size = n, prob = p)
+```
+
+## Sous-ensemble des valeurs d'un vecteur
+
+Nous pouvons imprimer les 4 premières valeurs de la variable *pmf* (pour $x$ de $0$ à $3$) ...
+
+```{r}
+pmf[1:5]
+```
+
+... ou les 4 dernières valeurs (pour $x$ de $27$ à $30$).
+
+```{r}
+pmf[(n-3):n]
+```
+
+## Restriction du nombre de décimales
+
+La fonction `round()` arrondit un résultat à un nombre donné de décimales. 
+
+```{r}
+round(pmf, digit=3)
+```
+
+Pour des distributions de probabilités, on descend assez facilement à des valeurs très faibles, dont on désire connaître l'ordre de grandeur tout en affichant un nombre raisonnable de chiffres significatifs (ceux qui suivent la première décimale non nulle). Pour cela, il est plus pratique d'utiliser la fonction `signif()`, 
+
+```{r}
+signif(pmf, digit=3)
+```
+
 
 ## Plotting the Poisson distribution
 
@@ -536,10 +602,11 @@ $lambda=100000$
 plot(95000:105000, dpois(95000:105000,lambda=100000), type="h", col="darkblue", xlab="X",ylab="dpois(x)")
 ```
 
-## Before finishing -- keep track of your session
+## Avant de terminer : conservez la trace de votre session
 
-Tractability is an important issue in sciences. 
-The ***R*** function `sessionInfo()` summarizes information about the versions of R, the operating system, and all the libraries used during a session. 
+La traçabilité constitue un enjeu essentiel en sciences. 
+La fonction ***R***  `sessionInfo()` fournit un résumé des conditions d'une session de travail: version de R, système opérateur, bibliothèques de fonctions utilisées. 
+
 
 ```{r}
 sessionInfo()

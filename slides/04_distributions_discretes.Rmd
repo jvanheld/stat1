@@ -602,7 +602,7 @@ b. Sachant que le génome fait 12 Mb, quel est le nombre attendu d'ORF d'au moin
 
 
 ```{r echo=FALSE}
-oligo.freq <- read.table("../data/oligo_freq/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab", sep="\t", row.names = NULL)
+oligo.freq <- read.table("../data/Saccharomyces_cerevisiae/oligo_freq/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab", sep="\t", row.names = NULL)
 colnames(oligo.freq) <- c("sequence", "frequency", "occurrences")
 oligo.freq$frequency <- signif(digits=3, oligo.freq$frequency)
 

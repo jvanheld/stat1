@@ -1,0 +1,125 @@
+---
+title: "Table d'annotations génomique"
+author: "Jacques van Helden"
+date: '`r Sys.Date()`'
+output:
+  slidy_presentation:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: no
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    toc_float: yes
+    widescreen: yes
+  html_document:
+    fig_caption: yes
+    highlight: zenburn
+    theme: cerulean
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  ioslides_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_md: no
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
+  beamer_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
+  word_document:
+    toc: yes
+    toc_depth: 3
+font-import: http://fonts.googleapis.com/css ?family=Risque
+font-family: Garamond
+subtitle: Probabilités et statistique pour la biologie (STAT1)
+address: TAGC lab, Aix-Marseille Université, France
+transition: linear
+---
+
+```{r setup, include=FALSE, size="huge"}
+library(knitr)
+## Default parameters for displaying the slides
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  eval=TRUE, 
+  fig.width = 7, 
+  fig.height = 5, 
+  fig.align = "center", 
+  fig.path = "figures/",
+  size = "tiny", 
+  warning = FALSE, 
+  results = TRUE, 
+  message = FALSE, 
+  comment = "")
+
+dir.main <- "~/stat1"
+dir.current <- file.path(dir.main, "practicals", "01_intro_R")
+setwd(dir.current)
+
+```
+
+
+## But de ce tutoriel
+
+Ce tutoriel vise à manipuler une table de données génomique (les annotations du génome de la levure) et à générer des graphiques pour représenter différents aspects liés à ces données. 
+
+
+## Téléchargement des données
+
+- Connectez-vous au site FTP d'EnsemblGenomes Fungi (<http://fungi.ensembl.org/>) et cliquez sur le lien **Download**.
+- Sélectionnez le génome de *Saccharomyces cerevisiae* (boîte "Filter")
+- Cliquez sur le lien **GTF**
+- Lisez la documentation du format GTF sur les sites suivants: 
+
+    - Ensembl (<http://www.ensembl.org/info/website/upload/gff.html>)
+    - UCSC (<https://genome.ucsc.edu/FAQ/FAQformat.html#format4>)
+
+
+## Exercices
+
+1. Ecrivez un script qui charge la table de données, en utilisant la fonction R `read.delim()`. Veillez à ignorer les lignes de commentaires (qui commencent par un caractère `#`). 
+2. Ajoutez une colonne intitulée "length" qui indique la longueur de chaque élément génomique annoté. 
+3. Comptez le nombre de lignes de la table correspondant à chaque type d'annotation (3ème colonne du GTF, "feature"). 
+4. Sélectionnez les lignes correspondant à des gènes. 
+5. Comptez le nombre de gènes par chromosome.
+6. Chargez la table des tailles de chromosomes [chrom_sizes.tsv](../../data/Saccharomyces_cerevisiae/chrom_sizes.tsv), et calculez la densité de gènes pour chaque chromosome (nombre de gènes par Mb). 
+7. Dessinez la distribution de longueur des gènes. 
+8. Sur base de la taille du génome (12.156.679 bp) et des fréquences génomiques de codons définies au cours théorique, calculez la distribution attendue au hasard, et ajoutez-là au graphique. 
+
+
+## Avant de terminer : conservez la trace de votre session
+
+La traçabilité constitue un enjeu essentiel en sciences. 
+La fonction ***R***  `sessionInfo()` fournit un résumé des conditions d'une session de travail: version de R, système opérateur, bibliothèques de fonctions utilisées. 
+
+
+```{r}
+sessionInfo()
+```
+

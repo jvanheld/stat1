@@ -3,17 +3,6 @@ title: "Echantillonnage et estimation"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  slidy_presentation:
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    incremental: no
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
-    toc: yes
-    widescreen: yes
   html_document:
     fig_caption: yes
     highlight: zenburn
@@ -21,6 +10,18 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
+  beamer_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
   ioslides_presentation:
     css: slides.css
     fig_caption: yes
@@ -35,18 +36,17 @@ output:
     highlight: zenburn
     toc: yes
     toc_depth: 3
-  beamer_presentation:
-    colortheme: dolphin
+  slidy_presentation:
     fig_caption: yes
     fig_height: 6
     fig_width: 7
-    fonttheme: structurebold
     highlight: tango
     incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
     toc: yes
+    widescreen: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
 subtitle: Probabilités et statistique pour la biologie (STAT1)
 font-family: Garamond
@@ -171,6 +171,32 @@ Dans chaque cas, définissez la ou les populations, et posez-vous les questions 
 - Etude d'association à échelle génomique: SNPs de 2000 cas (diabète de type 2) et 3000 contrôles (pas de diabète. 
 
 
+## Paramètres de population
+
+Par convention, nous utiliserons les symboles suivants pour les paramètres calculés sur la **population entière**. 
+
+| Paramètre | Formule |
+|-----------|-------------|
+| Taille (nombre d'individus) | $N$ |
+| Variable mesurée | $X = \left
+| Moyenne  | $\mu = \frac{1}{N}\sum_{i=1}^{N} x_i$ |
+| Variance | $\sigma^2 = \frac{1}{N}\sum_{i=1}^{N} (x_i - \mu)^2$ |
+| Ecart-type | $\sigma = \sqrt{\sigma^2}$ |
+
+## Paramètres d'échantillons
+
+Par convention, nous utiliserons les symboles suivants pour les paramètres calculés sur un **échantillon**. 
+
+| Paramètre | Formule |
+|-----------|-------------|
+| Effectif (nombre d'individus) | $n$ |
+| Moyenne | $\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$ |
+| Variance | $s^2 = \frac{1}{n}\sum_{i=1}^{n} (x_i - \bar{x})^2$ |
+| Ecart-type | $s = \sqrt{s^2}$ |
+
+La barre au-dessus d'un symbole de variable dénote la moyenne. 
+
+
 # Démo-cours
 
 ## Jeux de données simulés
@@ -181,11 +207,19 @@ Avant d'analyser les données réelles, jouons avec des jeux de données génér
 
 ```{r rand_norm}
 N <- 10000 ## Population size
-mu <- 0
-sigma <- 1
+mu0 <- 0 ## Mean for the random generator
+sigma0 <- 1 ## Standard deviation for the random generator
 
 ## Generate the population
-x <- rnorm(n=N, mean = mu, sd = sigma)
+x <- rnorm(n=N, mean = mu0, sd = sigma0)
+
+## Check the population mean
+
+## Compute population mean and standard deviation
+mu <- mean(x)
+
+## Note: sd() computes a sample-based estimate of the population mean. Since we dispose here of the whole population, we "undo" the sampling correction (N-1). 
+sigma <- sd(x) * (N-1)/N 
 
 
 ```
@@ -198,39 +232,107 @@ sample.means <- replicate(
   n = R, 
   mean(sample(x, size = n, replace = FALSE)))
 
+## Compute the mean and standard deviation of the sample means
+m <- mean(sample.means)
+s <- sd(sample.means) * (n-1) / n
 ```
 
 On prélève un échantillon d'effectif  $n=`r n`$ (nombre d'éléments) dans une population de taille $N=`r N`$. 
 
-La population suit une distribution gaussienne de moyenne $\mu=0$ et d'écart-type $\sigma=1$.
+La population suit une distribution gaussienne de moyenne $\mu=`r mu`$ et d'écart-type $\sigma=`r sigma`$.
 
-Répétons l'échantillonnage un grand nombre de fois ($R = `r R`). Pour chaque échantillon, calculons la moyenne, et étudions la distribution de ces moyennes. 
+Répétons l'échantillonnage un grand nombre de fois ($R = `r R`$). Pour chaque échantillon, calculons la moyenne, et étudions la distribution de ces moyennes. 
 
 ## Distribution d'échantillonnage de la moyenne
 
-```{r rand_norm_sampling_mean, fig.width=5, fig.height=6, fig.cap="Distribution des moyennes d'échantillon"}
+```{r rand_norm_sampling_mean, fig.width=7, fig.height=6, fig.cap="Distribution des moyennes d'échantillon"}
 
 ## Compute the range and breaks of the histogram, with a symmetric display
 xlim <- ceiling(max(abs(range(x)))) 
 xbreaks <- seq(from=-xlim, to=xlim, by=0.1)
 
 par(mfrow=c(2,1))
+par(mar=c(4.1,4.1,2.1,1.1))
 ## Distribution of the population
-hist(x, breaks=xbreaks, col="#BBFFDD", main="Population", las=1)
+hist(x, breaks=xbreaks, xlab = NA,
+     col="#BBFFDD", main="Population", las=1)
+legend("topright", cex=0.8,
+       c(
+  paste(sep="", "N = ", round(digits=3, N)), 
+  paste(sep="", "mu = ", round(digits=3, mu)), 
+  paste(sep="", "sigma = ", round(digits=3, sigma))
+))
 
 ## Distribution of sample means
-hist(sample.means, breaks=xbreaks, col="#BBDDFF", main="Samples", las=1)
+hist(sample.means, breaks=xbreaks, xlab="x",
+     col="#BBDDFF", main="Samples", las=1)
+
+legend("topright", cex=0.8,
+       c(
+  paste(sep="", "n (sample size) = ", round(digits=3, n)), 
+  paste(sep="", "R (replicates) = ", round(digits=3, R)), 
+  paste(sep="", "m (mean of the means) = ", round(digits=3, m)), 
+  paste(sep="", "s (sd of the means) = ", round(digits=3, s))
+))
 
 par(mfrow=c(1,1))
 ```
 
+## Espérance de la moyenne d'échantillon
+
+
+**Non biaisée**: l'espérance de la moyenne d'échantillon est égale à la moyenne d'échantillon: si on prélèvait un nombre infini d'échantillons  et qu'on calculait leurs moyennes ($\bar{X}$), la moyenne de ces moyennes  de la population ($\mu$).
+
+$<\bar{X}> = \mu$
+
+## Variance de la moyenne d'échantillon
+
+**Dispersion: ** la variance de la moyenne d'échantillon diminue avec l'effectif. 
+
+$\sigma^2_{\bar{X}} = \frac{\sigma}{n}$
+
+$\sigma_{\bar{X}} = \sqrt{\frac{\sigma}{n}}$
+
+## Convergence
+
+- Quand la taille de l'échantillon augmente, la moyenne d'échantillon ($\bar{X}$) converge vers la moyenne de la population ($\mu$). 
+
+- Cette convergence est d'autant plus rapide que l'effectif ($n$) est grand. 
+
+- L'imprécision (qu'on peut mesurer par l'écart-type) diminue avec la racine carrée de l'effectif.  
+
+- En pratique, ceci signifie que *si l'on veut doubler la précision d'une estimation de moyenne, il faut quadrupler la taille d'échantillon* !
 
 ## Théorème central limite
 
 La somme de variables aléatoires indépendantes et identiquement distribuées tend vers une distribution gaussienne.
 
+
+
 ## Variance d'échantillon
 
+Variance d'échantillon.
+
+$$s^2 = \frac{1}{n}\sum_{i=1}^{n} (x_i - \bar{x})^2$$
+La variance d'échantillon constitue-t-elle un bon estimateur de la variance de la population ? **Non**. Pourquoi ?
+
+## Biais de la variance d'échantillon
+
+L'espérance de la variance d'échantillon diffère de la variance de la population. 
+
+$$<s^2> = \sigma^2 \cdot \frac{n-1}{n} \lt \sigma^2$$
+
+$s$ est un estimateur **biaisé** de $\sigma$: 
+
+- la variance d'échantillon sous-estime systématiquement la variance de la population;
+
+- le biais est d'autant plus important que l'effectif est fiable.
+
+## Estimation non-biaisée de la variance
+
+Pour estimer la variance de la population, on effectue une correction du biais mentionné. 
+
+$$\hat{\sigma^2} = \frac{n}{n-1} s^2 = \frac{1}{n-1}\sum_{i=1}^{n} (x_i - \bar{x})^2$$
 
 
 # Exercices

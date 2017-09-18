@@ -1,0 +1,236 @@
+---
+title: "Echantillonnage et estimation"
+author: "Jacques van Helden"
+date: '`r Sys.Date()`'
+output:
+  slidy_presentation:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
+  html_document:
+    fig_caption: yes
+    highlight: zenburn
+    theme: cerulean
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  ioslides_presentation:
+    css: slides.css
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    smaller: yes
+    toc: yes
+    widescreen: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
+  beamer_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
+font-import: http://fonts.googleapis.com/css?family=Risque
+subtitle: Probabilités et statistique pour la biologie (STAT1)
+font-family: Garamond
+transition: linear
+---
+
+```{r include=FALSE, echo=FALSE, eval=TRUE}
+library(knitr)
+
+options(width=300)
+knitr::opts_chunk$set(
+  fig.width = 7, fig.height = 5, 
+  fig.align = "center", 
+  fig.path = "figures/sampling-estimation_",
+  size = "tiny", 
+  echo = FALSE, eval=TRUE, 
+  warning = FALSE, message = FALSE, 
+  results = TRUE, comment = "")
+# knitr::asis_output("\\footnotesize")
+
+dir.main <- "~/stat1"
+dir.slides <- file.path(dir.main, "slides")
+setwd(dir.slides)
+```
+
+# Eléments de théorie
+
+## Population et échantillon
+
+On s'intéresse généralement à des propriétés d'une population (finie ou infinie) qu'il est impossible de couvrir de façon exhaustive (coût, temps, mesures destructives). 
+
+On prélève un **échantillon**, sur lequel on peut mesurer des **paramètres** (moyenne, écart-type). 
+
+On **estime** les paramètres de la population ($\mu$, $\sigma$) à partir des paramètres d'échantillon ($\bar{x}$, $s$). 
+
+## Population et échantillon
+
+!["Sélection d'un échantillon dans une population"](figures/population_one_sample.png)
+
+<!-- ```{r one_sample, fig.height=3, fig.cap="Sélection d'un échantillon dans une population. "} -->
+<!-- include_graphics("figures/population_one_sample.pdf") -->
+<!-- ``` -->
+
+## Population et échantillons
+
+**Problème général de l'estimation**: si l'on avait choisi un autre échantillon, on disposerait de paramètres différents. Dès lors, comment évaluer la fiabilité de nos estimateurs ?
+
+!["Sélection d'échantillons dans une population"](figures/population_some_samples.png)
+
+
+<!-- ```{r some_samples, fig.height=3, fig.cap="Sélection d'un échantillon dans une population. "} -->
+<!-- include_graphics("figures/population_some_samples.pdf") -->
+<!-- ``` -->
+
+## Exemple historique: génome de la levure
+
+```{r load_yeast_gene_lengths}
+## Read a GTF file
+## Format specification: http://www.ensembl.org/info/website/upload/gff.html
+gtf.file <- "../data/Saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.37.gtf"
+features <- read.delim(gtf.file, comment.char = "#", sep="\t", header=FALSE, row.names=NULL)
+names(features) <- c("seqname", "source", "feature", "start", "end", "score", "strand", "frame", "attribute")
+# nrow(features) ## Count feature number
+
+## Select subset of features having "gene" as "feature" attribute
+genes <- subset(features, feature=="gene")
+## nrow(genes) ## Count the number of genes
+
+```
+- 1992: publication du premier chromosome eucaryote complet, le 3ème chromosome de la levure. 
+- 1996: publication du génome complet.
+
+Sur base des gènes dU 3ème chromosome (échantillon) on peut estimer la taille moyenne d'un gène de levure. 
+
+**Questions: ** 
+
+(a) La moyenne d'échantillon (chromosome III) permettait-elle de prédire la moyenne de la population (génome complet) ?
+
+(b) Cet échantillon peut-il être qualifié de "simple et indépendant" ?
+
+## Distribution des tailles de gènes
+
+```{r gene_length_histo, fig.width=5, fig.height=6, fig.cap="Distribution of gene lengths for Saccharomyces cerevisiae. "}
+par.ori <- par(no.readonly = TRUE)
+par(mar = c(4.1,4.1,2.1,1.1))
+
+## Add a column to the table with gene lengths
+genes$length <- genes$end - genes$start +1
+max.len <- max(genes$length)
+
+## Select genes on the third chromosome
+genes.III <- subset(genes, seqname == "III")
+# View(genes.III)
+par(mfrow=c(2,1))
+
+## Plot an histogram with gene lengths
+hist(genes.III$length, 
+     breaks=seq(from=0, to=max.len+100, by=100), 
+     main="Chromosome III",
+     xlab=NA, ylab="Number of genes", 
+     col="#BBDDFF")
+
+## Plot an histogram with gene lengths
+hist(genes$length, 
+     breaks=seq(from=0, to=max.len+100, by=100), 
+     main="Full genome",
+     xlab="Gene length (bp)", ylab="Number of genes", 
+     col="#BBFFDD")
+par(mfrow=c(1,1))
+
+par <- par.ori
+
+```
+
+## Exemples actuels
+
+Dans chaque cas, définissez la ou les populations, et posez-vous les questions concernant la validité de l'échantillonnage (simple, indépendant, représentatif, ...).
+
+
+- Profils transcriptomiques de patients: 40 cas de leucémie myéloide aigue (AML) et 40 cas de leucémie lymphoblasique eaigue (ALL). 
+
+- Etude d'association à échelle génomique: SNPs de 2000 cas (diabète de type 2) et 3000 contrôles (pas de diabète. 
+
+
+# Démo-cours
+
+## Jeux de données simulés
+
+Avant d'analyser les données réelles, jouons avec des jeux de données générés selon un modèle probabilise donné. Nous conrôlons ainsi tous les paramètres, et pouvons évaluer la fiabilité des estimateurs. 
+
+## Moyennes d'échantillons
+
+```{r rand_norm}
+N <- 10000 ## Population size
+mu <- 0
+sigma <- 1
+
+## Generate the population
+x <- rnorm(n=N, mean = mu, sd = sigma)
+
+
+```
+
+```{r mean_sampling}
+## Select random samples and compute their means
+n <- 16 ## Sample size
+R <- 10000 ## Repetitions of the sampling
+sample.means <- replicate(
+  n = R, 
+  mean(sample(x, size = n, replace = FALSE)))
+
+```
+
+On prélève un échantillon d'effectif  $n=`r n`$ (nombre d'éléments) dans une population de taille $N=`r N`$. 
+
+La population suit une distribution gaussienne de moyenne $\mu=0$ et d'écart-type $\sigma=1$.
+
+Répétons l'échantillonnage un grand nombre de fois ($R = `r R`). Pour chaque échantillon, calculons la moyenne, et étudions la distribution de ces moyennes. 
+
+## Distribution d'échantillonnage de la moyenne
+
+```{r rand_norm_sampling_mean, fig.width=5, fig.height=6, fig.cap="Distribution des moyennes d'échantillon"}
+
+## Compute the range and breaks of the histogram, with a symmetric display
+xlim <- ceiling(max(abs(range(x)))) 
+xbreaks <- seq(from=-xlim, to=xlim, by=0.1)
+
+par(mfrow=c(2,1))
+## Distribution of the population
+hist(x, breaks=xbreaks, col="#BBFFDD", main="Population", las=1)
+
+## Distribution of sample means
+hist(sample.means, breaks=xbreaks, col="#BBDDFF", main="Samples", las=1)
+
+par(mfrow=c(1,1))
+```
+
+
+## Théorème central limite
+
+La somme de variables aléatoires indépendantes et identiquement distribuées tend vers une distribution gaussienne.
+
+## Variance d'échantillon
+
+
+
+# Exercices

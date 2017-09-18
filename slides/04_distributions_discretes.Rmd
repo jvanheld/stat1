@@ -59,7 +59,6 @@ library(knitr)
 options(width=300)
 knitr::opts_chunk$set(
   fig.width = 7, fig.height = 5, 
-  fig.path='figures',
   fig.align = "center", 
   fig.path = "figures/04_",
   size = "tiny", 

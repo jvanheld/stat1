@@ -3,6 +3,17 @@ title: "Echantillonnage et estimation"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
+  slidy_presentation:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
   html_document:
     fig_caption: yes
     highlight: zenburn
@@ -10,18 +21,6 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
-  beamer_presentation:
-    colortheme: dolphin
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
-    toc: yes
   ioslides_presentation:
     css: slides.css
     fig_caption: yes
@@ -36,17 +35,18 @@ output:
     highlight: zenburn
     toc: yes
     toc_depth: 3
-  slidy_presentation:
+  beamer_presentation:
+    colortheme: dolphin
     fig_caption: yes
     fig_height: 6
     fig_width: 7
+    fonttheme: structurebold
     highlight: tango
     incremental: no
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
     toc: yes
-    widescreen: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
 subtitle: Probabilités et statistique pour la biologie (STAT1)
 font-family: Garamond
@@ -303,11 +303,27 @@ $\sigma_{\bar{X}} = \sqrt{\frac{\sigma}{n}}$
 
 - En pratique, ceci signifie que *si l'on veut doubler la précision d'une estimation de moyenne, il faut quadrupler la taille d'échantillon* !
 
+## Distribution normale
+
+Egalement appelée **distribution gaussienne**.
+
+**Densité de probabilité**: 
+
+$$f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{1}{2}(\frac{x - \mu}{\sigma})^2}$$
+
+** Distribution normale standard**
+
+La distribution normale standard $\mathcal{N}(1,0)$ est une normale de moyenne $\mu=0$ et d'écart-type $\sigma=1$.
+
+**Standardisation**
+
+
+
 ## Théorème central limite
 
 La somme de variables aléatoires indépendantes et identiquement distribuées tend vers une distribution gaussienne.
 
-
+**Démo au cours**
 
 ## Variance d'échantillon
 
@@ -333,6 +349,97 @@ $s$ est un estimateur **biaisé** de $\sigma$:
 Pour estimer la variance de la population, on effectue une correction du biais mentionné. 
 
 $$\hat{\sigma^2} = \frac{n}{n-1} s^2 = \frac{1}{n-1}\sum_{i=1}^{n} (x_i - \bar{x})^2$$
+
+
+
+
+## Intervalle de confiance autour de la moyenne
+
+On dispose d'une moyenne d'échantillon $\bar{x}$.
+
+On ignore la moyenne de population $\mu$, mais on saite que la distribution de moyennes d'échantillon prélevés dans cette population suit une certaine distribution. 
+
+Sur cette base, on peut calculer un **intervalle de confiance**, qui est limité par les valeurs au-delà desquelles, si $\mu$ s'y trouvait, la probabilité d'obtenir la moyenne observée serait inférieure à une probabilité $\alpha$ donnée (exemple: $\alpha = 0.05$). 
+
+**Niveau de confiance:** $1 - \alpha$ (exemple: $1-\alpha= 0.95$).
+
+
+## Distribution de Student
+
+**Démo:** forme de la distribution de Student en fonction de $\nu$. 
+
+```{r student_distrib, fig.width=7, fig.height=4, firg.cap="Distribution de Student. "}
+## ##############################################################
+##
+## Draw a series of Student distributions with various degrees of
+## freedom
+##
+## Author: Jacques van Helden
+##
+## Running this script requires to first run the script config.R
+##
+## Single-command execution:
+## source(file.path(dir.R.files, 'student.R'))
+##
+## NOTE: THIS SCRIPT IS PROBABLY PARTLY REDUNDANT WITH
+## golub/t-test_golub.R, BUT THERE ARE INTERESTING PLOTS HERE. TO
+## CHECK.
+
+x <- seq(from = -5, to=5, by=0.01)
+
+in.colors <- TRUE ## Activate this to generate the color drawing for the book cover
+freedom <- c(30,10,5,2,1)
+
+if (in.colors) {
+  palette <-   rainbow(10)
+  bg <- '#000000'
+  fg <- '#FFFFFF'
+  file.prefix <- "student_distrib_cover"
+} else {
+  palette <- gray((0:16)/16)
+  bg <- '#FFFFFF'
+  fg <- '#000000'
+  file.prefix <- "student_distrib"
+}
+# lty <- c(1,6,5,4,2,3,1,6,5,4,2,3)
+lty <- rep(1, length.out = 12)
+
+par(bg=bg)
+par(fg=fg)
+
+i <- 1
+plot(x,dnorm(x),
+     type="l",
+     col=palette[i],
+     lwd=2,
+     lty=1,
+     main="Student distributions",
+     panel.first=grid(),
+     xlab="x",
+     ylab="density",
+     col.axis=fg,
+     col.lab=fg
+     )
+for (n in freedom) {
+  i <- i+1
+  lines(x,dt(x,n),
+        type="l",
+        col=palette[i],
+        lwd=2,
+        lty=lty[i]
+        )
+}
+
+legend("topright",
+       legend=c("normal",paste("student, df=",freedom)),
+       col=palette[1:(length(freedom)+1)],
+       lty=lty,
+       lwd=2,
+       bty="o",
+       bg=bg)
+
+
+```
 
 
 # Exercices

@@ -3,17 +3,11 @@ title: "Echantillonnage et estimation"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  slidy_presentation:
+  pdf_document:
     fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    incremental: no
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
+    highlight: zenburn
     toc: yes
-    widescreen: yes
+    toc_depth: 3
   html_document:
     fig_caption: yes
     highlight: zenburn
@@ -30,11 +24,6 @@ output:
     smaller: yes
     toc: yes
     widescreen: yes
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: yes
-    toc_depth: 3
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -47,6 +36,17 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
+  slidy_presentation:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
 subtitle: Probabilités et statistique pour la biologie (STAT1)
 font-family: Garamond
@@ -74,32 +74,76 @@ setwd(dir.slides)
 
 # Eléments de théorie
 
+## Contenu
+
+Dans ce cours, nous aborderons un problème fondamental en statistique: comment estimer les paramètres d'une population à partir d'un échantillon ?
+
+
+**Mots-clés:** 
+
+- population, échantillon, 
+- estimateurs de la tendance centrale (moyenne, médiane, mode)
+- estimateurs de dispersion (variance, écart-type, espace inter-quartile)
+- échantillonnage de la moyenne (erreur standard)
+- intervalle de confiance autour de la moyenne
+- distributions: normale, Student
+- théorème central limite
+
 ## Population et échantillon
 
-On s'intéresse généralement à des propriétés d'une population (finie ou infinie) qu'il est impossible de couvrir de façon exhaustive (coût, temps, mesures destructives). 
-
-On prélève un **échantillon**, sur lequel on peut mesurer des **paramètres** (moyenne, écart-type). 
+On s'intéresse à des propriétés mesurables d'une population (finie ou infinie) qu'il est impossible de couvrir de façon exhaustive (coût, temps, mesures destructives). On prélève un **échantillon**, sur lequel on peut mesurer des **paramètres** (moyenne, écart-type). 
 
 On **estime** les paramètres de la population ($\mu$, $\sigma$) à partir des paramètres d'échantillon ($\bar{x}$, $s$). 
 
+
 ## Population et échantillon
 
-!["Sélection d'un échantillon dans une population"](figures/population_one_sample.png)
+- $N$, $\mu$, $\sigma$: paramètres de population (nombre d'individus, moyenne,  écart-type).
+- $n$, $\bar{x}$, $s$: paramètres d'échantillon (nombre d'individus, moyenne,  écart-type).
 
-<!-- ```{r one_sample, fig.height=3, fig.cap="Sélection d'un échantillon dans une population. "} -->
-<!-- include_graphics("figures/population_one_sample.pdf") -->
-<!-- ``` -->
+
+```{r one_sample, out.width="50%", fig.cap="Sélection d'un échantillon dans une population. "}
+include_graphics("figures/population_one_sample.pdf") 
+```
 
 ## Population et échantillons
 
 **Problème général de l'estimation**: si l'on avait choisi un autre échantillon, on disposerait de paramètres différents. Dès lors, comment évaluer la fiabilité de nos estimateurs ?
 
-!["Sélection d'échantillons dans une population"](figures/population_some_samples.png)
+
+```{r some_samples, out.width="50%", fig.cap="Sélection d'un échantillon dans une population. "}
+include_graphics("figures/population_some_samples.pdf")
+```
+
+## Paramètres classiques
+
+**Moyenne: ** paramètre de tendance centrale
+
+$$\bar{x} = \frac{1}{n}\sum_{i=1}^n x_i$$
+
+**Variance: **: paramètre de dispersion
+
+$$s^2 = \frac{1}{n}\sum_{i=1}^n (x_i -x)^2$$
+
+**Ecart-type: **: paramètre de dispersion (plus pratique que la variance, car mêmes unités que les observations, et que la moyenne).
+
+$$s = \sqrt{\frac{1}{n}\sum_{i=1}^n (x_i -x)^2}$$
+
+## Paramètres robustes
+
+Les paramètres classiques (moyenne, variance) sont sensibles à la présence de valeurs aberrantes ("outliers" en anglais). En particulier, la variance est très affectée par la présence de quelques valeurs aberrantes, car ces valeurs sont prises au carré. 
+
+Alternative: se baser sur les quartiles. 
+
+- $\tilde{x}$:  la **médiane** est la plus petite valeur supérieure ou égale à la moitié des valeurs observées. La médiane est un paramètre robuste de tendance centrale. 
+
+- $Q_1$: le **premier quartile**, la valeur supérieure ou égale à $25\%$ des valeurs observées. 
+
+- $Q_3$: le **troisième quartile**, la valeur supérieure ou égale à $75\%$ des valeurs observées. 
+
+- $\text{IQR} = Q_3 - Q_1$: l'**espace inter-quartile** (***inter-quartile range***):  est un estimateur robuste de la dispersion. 
 
 
-<!-- ```{r some_samples, fig.height=3, fig.cap="Sélection d'un échantillon dans une population. "} -->
-<!-- include_graphics("figures/population_some_samples.pdf") -->
-<!-- ``` -->
 
 ## Exemple historique: génome de la levure
 
@@ -129,7 +173,7 @@ Sur base des gènes dU 3ème chromosome (échantillon) on peut estimer la taille
 
 ## Distribution des tailles de gènes
 
-```{r gene_length_histo, fig.width=5, fig.height=6, fig.cap="Distribution of gene lengths for Saccharomyces cerevisiae. "}
+```{r gene_length_histo, out.width="90%", fig.width=10, fig.height=4, fig.cap="Distribution of gene lengths for Saccharomyces cerevisiae. "}
 par.ori <- par(no.readonly = TRUE)
 par(mar = c(4.1,4.1,2.1,1.1))
 
@@ -140,7 +184,7 @@ max.len <- max(genes$length)
 ## Select genes on the third chromosome
 genes.III <- subset(genes, seqname == "III")
 # View(genes.III)
-par(mfrow=c(2,1))
+par(mfrow=c(1, 2))
 
 ## Plot an histogram with gene lengths
 hist(genes.III$length, 
@@ -175,13 +219,16 @@ Dans chaque cas, définissez la ou les populations, et posez-vous les questions 
 
 Par convention, nous utiliserons les symboles suivants pour les paramètres calculés sur la **population entière**. 
 
+- $X$:  *variable aléatoire* représentant toutes les valeurs possibles d'une observation (par exemple l'ensemble des nombres réels, ou naturels).
+- $x_i$: valeur particulière de cette variable pour le $i^{ème}$ individu d'une population.
+
 | Paramètre | Formule |
 |-----------|-------------|
 | Taille (nombre d'individus) | $N$ |
-| Variable mesurée | $X = \left
 | Moyenne  | $\mu = \frac{1}{N}\sum_{i=1}^{N} x_i$ |
 | Variance | $\sigma^2 = \frac{1}{N}\sum_{i=1}^{N} (x_i - \mu)^2$ |
 | Ecart-type | $\sigma = \sqrt{\sigma^2}$ |
+
 
 ## Paramètres d'échantillons
 
@@ -190,6 +237,7 @@ Par convention, nous utiliserons les symboles suivants pour les paramètres calc
 | Paramètre | Formule |
 |-----------|-------------|
 | Effectif (nombre d'individus) | $n$ |
+| Observations | $x = \{x_1, x_2, \cdots, x\_n \}$ |
 | Moyenne | $\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$ |
 | Variance | $s^2 = \frac{1}{n}\sum_{i=1}^{n} (x_i - \bar{x})^2$ |
 | Ecart-type | $s = \sqrt{s^2}$ |
@@ -289,9 +337,9 @@ $<\bar{X}> = \mu$
 
 **Dispersion: ** la variance de la moyenne d'échantillon diminue avec l'effectif. 
 
-$\sigma^2_{\bar{X}} = \frac{\sigma}{n}$
+$\sigma^2_{\bar{X}} = \frac{\sigma^2}{n}$
 
-$\sigma_{\bar{X}} = \sqrt{\frac{\sigma}{n}}$
+$\sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}}$
 
 ## Convergence
 
@@ -301,7 +349,13 @@ $\sigma_{\bar{X}} = \sqrt{\frac{\sigma}{n}}$
 
 - L'imprécision (qu'on peut mesurer par l'écart-type) diminue avec la racine carrée de l'effectif.  
 
-- En pratique, ceci signifie que *si l'on veut doubler la précision d'une estimation de moyenne, il faut quadrupler la taille d'échantillon* !
+- En pratique, ceci signifie que **si l'on veut doubler la précision d'une estimation de moyenne, il faut quadrupler la taille d'échantillon !**
+
+## Estimateurs robustes versus convergence
+
+**Note:** la moyenne d'échantillon ($\bar{x}$) converge plus rapidement que la médiane ($\tilde{x}$) vers la moyenne de population ($\mu$). De même, l'écart-type converge plus rapidement que l'espace interquartile. 
+
+Si l'on veut utiliser des paramètres robustes aux valeurs aberrantes ($\tilde{x}$, $\text{IQR}$), il faut donc s'assurer qu'on dspose d'un échantillon d'effectif ($n$) suffisant.
 
 ## Distribution normale
 
@@ -336,7 +390,7 @@ La variance d'échantillon constitue-t-elle un bon estimateur de la variance de 
 
 L'espérance de la variance d'échantillon diffère de la variance de la population. 
 
-$$<s^2> = \sigma^2 \cdot \frac{n-1}{n} \lt \sigma^2$$
+$$<s^2> = \sigma^2 \cdot \frac{n-1}{n} < \sigma^2$$
 
 $s$ est un estimateur **biaisé** de $\sigma$: 
 

@@ -231,6 +231,19 @@ list.files()
 
 ### Téléchargement du fichier GTF à partir d'EnsemblGenomes
 
+```{r download_GTF}
+gtf.URL <- "ftp://ftp.ensemblgenomes.org/pub/release-37/fungi/gtf/saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz"
+
+local.GTF <- file.path(dir.tuto, "Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz")
+
+if (file.exists(local.GTF)) {
+  message("GTF file already exists in the tutorial folder", local.GTF)
+} else {
+  download.file(url = gtf.URL, destfile = local.GTF)
+}
+
+
+```
 
 
 

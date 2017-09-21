@@ -384,7 +384,7 @@ R_PLATFORM            x86_64-apple-darwin13.4.0
 R_PRINTCMD            lpr
 R_QPDF                /Library/Frameworks/R.framework/Resources/bin/qpdf
 R_RD4PDF              times,inconsolata,hyper
-R_SESSION_TMPDIR      /var/folders/9s/0zkjn8tm8xj7wp0059bl3v9000020t/T//RtmpKlM2N6
+R_SESSION_TMPDIR      /var/folders/9s/0zkjn8tm8xj7wp0059bl3v9000020t/T//Rtmp4vleWw
 R_SHARE_DIR           /Library/Frameworks/R.framework/Resources/share
 R_SYSTEM_ABI          osx,gcc,gxx,gfortran,?
 R_TEXI2DVICMD         /usr/local/bin/texi2dvi
@@ -444,10 +444,19 @@ dir.tuto &lt;-<span class="st"> </span><span class="kw">file.path</span>(dir.hom
 
 ## List the files already present in the folder (if any)
 <span class="kw">list.files</span>()</code></pre></div>
-<pre><code>character(0)</code></pre>
+<pre><code>[1] &quot;Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz&quot;</code></pre>
 </div>
 <div id="telechargement-du-fichier-gtf-a-partir-densemblgenomes" class="section level3">
 <h3>Téléchargement du fichier GTF à partir d’EnsemblGenomes</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gtf.URL &lt;-<span class="st"> &quot;ftp://ftp.ensemblgenomes.org/pub/release-37/fungi/gtf/saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz&quot;</span>
+
+local.GTF &lt;-<span class="st"> </span><span class="kw">file.path</span>(dir.tuto, <span class="st">&quot;Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz&quot;</span>)
+
+<span class="cf">if</span> (<span class="kw">file.exists</span>(local.GTF)) {
+  <span class="kw">message</span>(<span class="st">&quot;GTF file already exists in the tutorial folder&quot;</span>, local.GTF)
+} <span class="cf">else</span> {
+  <span class="kw">download.file</span>(<span class="dt">url =</span> gtf.URL, <span class="dt">destfile =</span> local.GTF)
+}</code></pre></div>
 </div>
 <div id="chargement-dun-tableau-de-donnees" class="section level3">
 <h3>Chargement d’un tableau de données</h3>

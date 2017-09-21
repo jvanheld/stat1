@@ -384,7 +384,7 @@ R_PLATFORM            x86_64-apple-darwin13.4.0
 R_PRINTCMD            lpr
 R_QPDF                /Library/Frameworks/R.framework/Resources/bin/qpdf
 R_RD4PDF              times,inconsolata,hyper
-R_SESSION_TMPDIR      /var/folders/9s/0zkjn8tm8xj7wp0059bl3v9000020t/T//Rtmp4vleWw
+R_SESSION_TMPDIR      /var/folders/9s/0zkjn8tm8xj7wp0059bl3v9000020t/T//Rtmphr1u0o
 R_SHARE_DIR           /Library/Frameworks/R.framework/Resources/share
 R_SYSTEM_ABI          osx,gcc,gxx,gfortran,?
 R_TEXI2DVICMD         /usr/local/bin/texi2dvi
@@ -478,16 +478,14 @@ local.GTF &lt;-<span class="st"> </span><span class="kw">file.path</span>(dir.tu
 <li>Chargez-le au moyen de la fonction read.table (pour cela vous devez remplacer le chemin ci-dessous par celui de votre ordinateur).</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Read a GTF file with yeast genome annotations
-## 
-
-## Build the full path to the local file (TO BE ADAPTED FOR YOUR COMPUTER)
-gtf.file &lt;-<span class="st"> </span><span class="kw">file.path</span>(
-  <span class="kw">Sys.getenv</span>(<span class="st">&quot;HOME&quot;</span>), 
-  <span class="st">&quot;stat1&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;Saccharomyces_cerevisiae&quot;</span>,
-  <span class="st">&quot;Saccharomyces_cerevisiae.R64-1-1.37.gtf&quot;</span>)
 
 ## Load the feature table
-feature.table &lt;-<span class="st"> </span><span class="kw">read.delim</span>(gtf.file, <span class="dt">comment.char =</span> <span class="st">&quot;#&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">header=</span><span class="ot">FALSE</span>, <span class="dt">row.names=</span><span class="ot">NULL</span>)
+feature.table &lt;-<span class="st"> </span><span class="kw">read.table</span>(
+  local.GTF, 
+  <span class="dt">comment.char =</span> <span class="st">&quot;#&quot;</span>, 
+  <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, 
+  <span class="dt">header=</span><span class="ot">FALSE</span>, 
+  <span class="dt">row.names=</span><span class="ot">NULL</span>)
 
 ## The bed format does not contain any column header, 
 ## so we set it manually based on the description of the format, 

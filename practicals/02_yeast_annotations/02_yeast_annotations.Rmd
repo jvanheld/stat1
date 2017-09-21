@@ -269,16 +269,14 @@ Plusieurs fonctions dérivées de `read.table()` facilitent la lecture de diffé
 
 ```{r read.table, echo=TRUE, result=TRUE}
 ## Read a GTF file with yeast genome annotations
-## 
-
-## Build the full path to the local file (TO BE ADAPTED FOR YOUR COMPUTER)
-gtf.file <- file.path(
-  Sys.getenv("HOME"), 
-  "stat1", "data", "Saccharomyces_cerevisiae",
-  "Saccharomyces_cerevisiae.R64-1-1.37.gtf")
 
 ## Load the feature table
-feature.table <- read.delim(gtf.file, comment.char = "#", sep="\t", header=FALSE, row.names=NULL)
+feature.table <- read.table(
+  local.GTF, 
+  comment.char = "#", 
+  sep="\t", 
+  header=FALSE, 
+  row.names=NULL)
 
 ## The bed format does not contain any column header, 
 ## so we set it manually based on the description of the format, 

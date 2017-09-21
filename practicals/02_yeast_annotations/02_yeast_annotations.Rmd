@@ -3,18 +3,6 @@ title: "Table d'annotations génomique"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  slidy_presentation:
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    incremental: no
-    keep_md: no
-    smaller: yes
-    theme: cerulean
-    toc: yes
-    toc_float: yes
-    widescreen: yes
   html_document:
     fig_caption: yes
     highlight: zenburn
@@ -22,6 +10,18 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
+  beamer_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -40,18 +40,18 @@ output:
     highlight: zenburn
     toc: yes
     toc_depth: 3
-  beamer_presentation:
-    colortheme: dolphin
+  slidy_presentation:
     fig_caption: yes
     fig_height: 6
     fig_width: 7
-    fonttheme: structurebold
     highlight: tango
     incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
+    keep_md: no
+    smaller: yes
+    theme: cerulean
     toc: yes
+    toc_float: yes
+    widescreen: yes
   word_document:
     toc: yes
     toc_depth: 3
@@ -79,41 +79,315 @@ knitr::opts_chunk$set(
   comment = "")
 
 dir.main <- "~/stat1"
-dir.current <- file.path(dir.main, "practicals", "01_intro_R")
+dir.current <- file.path(dir.main, "practicals", "02_yeast_annotations")
 setwd(dir.current)
 
 ```
 
 
-## But de ce tutoriel
+## But de ce TP
 
-Ce tutoriel vise à manipuler une table de données génomique (les annotations du génome de la levure) et à générer des graphiques pour représenter différents aspects liés à ces données. 
+Durant ce TP, vous serez amenés à effectuer les t^âches suivantes: 
+
+1. Manipuler une table de données génomique (les annotations du génome de la levure).
+2. Sélectionner un sous-ensemble des données en filtrant les lignes sur base d'un critère déterminé (type d'annotation, chromosome).
+3. Générer des graphiques pour représenter différents aspects liés à ces données.
+4. Calculer les estimateurs de tendance centrale et dispersion.
+5. Calculer un intervalle de confiance autour de la moyenne.
 
 
-## Téléchargement des données
+## Rendu
 
-- Connectez-vous au site FTP d'EnsemblGenomes Fungi (<http://fungi.ensembl.org/>) et cliquez sur le lien **Download**.
-- Sélectionnez le génome de *Saccharomyces cerevisiae* (boîte "Filter")
-- Cliquez sur le lien **GTF**
-- Lisez la documentation du format GTF sur les sites suivants: 
+A la fin du TP, vous déposerez deux fichiers sur Ametice. 
 
-    - Ensembl (<http://www.ensembl.org/info/website/upload/gff.html>)
-    - UCSC (<https://genome.ucsc.edu/FAQ/FAQformat.html#format4>)
+1. Votre **code R**.
+2. Un **rapport d'synthétique** qui inclura une présentation des principaux résultats (figures, statistiques descriptives) et votre interprétation. 
+
+### Attendus pour le code
+
+1. Le code doit être **lisible et compréhensible**: donnez à vos variables des noms indiquant explicitement ce qu'elles contiennent.
+
+2. Le code devra être **correctement documenté** (le symbole `#` en début ou en milieu de ligne indique que le reste de cette ligne est un commentaire).
+
+- avant chaque bloc de code, expliquer ce que vous comptez faire, à quoi sert ce bloc de code; 
+- si c'st utile, ajoutez quelques mots de commentaires pour justifier l'approche choisi;
+- chaque fois que vous déinifissez une variable, ajoutez sur la même ligne un commentaire indiquant ce que cette variable représente. 
+
+3. Le code doit être **tansportable**: après l'avoir téléchargé, on doit pouvoir l'exécuter sur une autre machine. Je testerai systématiquement si les fichiers de code peuvent ^être exécutés sur ma machine. Evitez donc tout recours à des chemins absolus (nous indiquons ci-dessous comment définir des chemins relatifs par rapport à la racine de votre compte). 
+
+### Attendus pour le rapport d'interprétation
+
+Le rapport doit être synthétique (1 page de texte maximum + autant de figures et tables que vous le désirez). 
+
+Chaque question doit être exprimée explicitement avant de présenter les résultats qui y répondent et de fournir l'interprétation de ces résultats. 
+
+Chaque figure ou table doit être documentée par une légende permettant à un lecteur naïf de comprendre ce qu'elle représente. L'interprétation des résultats affichés sur une figure ou table se trouvera dans le texte principal (avec une référence au numéro de figure ou table). 
+
+## Exemple historique: génome de la levure
+
+```{r load_yeast_gene_lengths, echo=FALSE}
+## Read a GTF file
+## Format specification: http://www.ensembl.org/info/website/upload/gff.html
+gtf.file <- "../../data/Saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.37.gtf"
+feature.table <- read.delim(gtf.file, comment.char = "#", sep="\t", header=FALSE, row.names=NULL)
+names(feature.table) <- c("seqname", "source", "feature", "start", "end", "score", "strand", "frame", "attribute")
+# nrow(feature.table) ## Count feature number
+
+## Select subset of features having "gene" as "feature" attribute
+genes <- subset(feature.table, feature=="gene")
+## nrow(genes) ## Count the number of genes
+
+```
+
+- 1992: publication du premier chromosome eucaryote complet, le 3ème chromosome de la levure. 
+- 1996: publication du génome complet.
+
+Sur base des gènes dU 3ème chromosome (échantillon) on peut estimer la taille moyenne d'un gène de levure. 
+
+**Questions: ** 
+
+(a) La moyenne d'échantillon (chromosome III) permettait-elle de prédire la moyenne de la population (génome complet) ? 
+
+    Pour répondre à cette quesiton, nous imaginerons que nous sommes revenus en 1992, et utiliserons l'ensemble des gènes du chromosome III (considérés ici comme un échantillon du génome) pour estimer la taille moyenne des gènes pour l'ensemble du génome (la "population" de gènes").
+
+(b) Cet échantillon peut-il être qualifié de "simple et indépendant" ?
+
+## Analyse de la longueur des gènes de la levure du boulanger
+
+```{r gene_length_histo, out.width="90%", fig.width=10, fig.height=4, fig.cap="Distribution of gene lengths for Saccharomyces cerevisiae. ", echo=FALSE}
+par.ori <- par(no.readonly = TRUE)
+par(mar = c(4.1,4.1,2.1,1.1))
+
+## Add a column to the table with gene lengths
+genes$length <- genes$end - genes$start +1
+max.len <- max(genes$length)
+
+## Select genes on the third chromosome
+genes.III <- subset(genes, seqname == "III")
+# View(genes.III)
+par(mfrow=c(1, 2))
+
+## Plot an histogram with gene lengths
+hist(genes.III$length, 
+     breaks=seq(from=0, to=max.len+100, by=100), 
+     main="Chromosome III",
+     xlab=NA, ylab="Number of genes", 
+     col="#BBDDFF")
+
+## Plot an histogram with gene lengths
+hist(genes$length, 
+     breaks=seq(from=0, to=max.len+100, by=100), 
+     main="Full genome",
+     xlab="Gene length (bp)", ylab="Number of genes", 
+     col="#BBFFDD")
+par(mfrow=c(1,1))
+
+par <- par.ori
+
+```
+
+
+
+## Tutoriel
+
+Avant de passer aux exercices, nous vous montrons ici quelques éléments de base concernant la lecture, la manipulation et l'écriture des tableaux de données avec R.
+
+
+### Chargement d'un tableau de données
+
+R comporte plusieurs types de structures tabulaires (matrix, data.frame, table). 
+
+La structure la plus couramment utilisée est le `data.frame`, qui consiste en un tableau de valeurs (numériques ou chaînes de caractères) dont les lignes et les colonnes sont associées à des noms. 
+
+La fonction `read.table()` permet de lire un fichier texte contenant un tableau de données, et de stocker le contenu dans une variable.
+
+Plusieurs fonctions dérivées de `read.table()` facilitent la lecture de différents types de formats: 
+
+- `read.delim()` pour les fichiers dont les colonnes sont délimitées par un caractère  particulier (généralement la tabulation, représentée par "\t").
+- `read.csv()` pour les fichiers "comma-searated values".
+
+
+1. Téléchargez le fichier suivant sur votre ordinateur: 
+
+- [Saccharomyces_cerevisiae.R64-1-1.37.gtf](../../data/Saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.37.gtf)
+
+2. Chargez-le au moyen de la fonction read.table (pour cela vous devez remplacer le chemin ci-dessous par celui de votre ordinateur). 
+
+```{r read.table, echo=TRUE}
+## Read a GTF file with yeast genome annotations
+## 
+
+## Build the full path to the local file (TO BE ADAPTED FOR YOUR COMPUTER)
+gtf.file <- file.path(
+  Sys.getenv("HOME"), 
+  "stat1", "data", "Saccharomyces_cerevisiae",
+  "Saccharomyces_cerevisiae.R64-1-1.37.gtf")
+
+## Load the feature table
+feature.table <- read.delim(gtf.file, comment.char = "#", sep="\t", header=FALSE, row.names=NULL)
+
+## The bed format does not contain any column header, 
+## so we set it manually based on the description of the format, 
+## found here: 
+##     http://www.ensembl.org/info/website/upload/gff.html
+names(feature.table) <- c("seqname", "source", "feature", "start", "end", "score", "strand", "frame", "attribute")
+
+
+```
+
+### Exploration du contenu d'un tableau de données
+
+La première chose à faire après avoir chargé un tableau de données est de vérifier ses dimensions
+
+```{r}
+dim(feature.table) ## Dimensions of the tbale
+nrow(feature.table) ## Number of rows
+ncol(feature.table) ## Number of columns
+```
+
+
+
+
+### Sélection d'un sous-ensemble de lignes sur base du contenu d'une colonne
+
+```{r subset, echo=TRUE}
+## Select subset of features having "gene" as "feature" attribute
+genes <- subset(feature.table, feature=="gene")
+## nrow(genes) ## Count the number of genes
+```
+
 
 
 ## Exercices
 
-1. Ecrivez un script qui charge la table de données, en utilisant la fonction R `read.delim()`. Veillez à ignorer les lignes de commentaires (qui commencent par un caractère `#`). 
-2. Ajoutez une colonne intitulée "length" qui indique la longueur de chaque élément génomique annoté. 
-3. Comptez le nombre de lignes de la table correspondant à chaque type d'annotation (3ème colonne du GTF, "feature"). 
-4. Sélectionnez les lignes correspondant à des gènes. 
-5. Comptez le nombre de gènes par chromosome.
-6. Chargez la table des tailles de chromosomes [chrom_sizes.tsv](../../data/Saccharomyces_cerevisiae/chrom_sizes.tsv), et calculez la densité de gènes pour chaque chromosome (nombre de gènes par Mb). 
-7. Dessinez la distribution de longueur des gènes. 
-8. Sur base de la taille du génome (12.156.679 bp) et des fréquences génomiques de codons définies au cours théorique, calculez la distribution attendue au hasard, et ajoutez-là au graphique. 
+### 1. Spécifications du format GTF
+
+Lisez les spécifications du format GTF.
+
+- Ensembl (<http://www.ensembl.org/info/website/upload/gff.html>)
+- UCSC (<https://genome.ucsc.edu/FAQ/FAQformat.html#format4>)
+
+### 2. Création d'un dossier local pour le TP
+
+Créez un dossier local (par exemple: `stat1/TP_levure` à partir de la racine de votre compte). Nous vous suggérons d'utiliser les fonctions suivantes: 
+
+- `Sys.getenv("HOME")` (Linnux et Mac OS X), pour obtenir la racine de votre compte utilisateur;
+- `file.path()` pour construire un chemin;
+- `dir.create()` pour créer le dossier de ce TP. Lisez attendivement les options de cette fonction avec `help(dir.create)` 
+
+### 3. Localisation du fichier d'annotations
+
+Localisez le fichier d'annotations du génome de la levure en format GTF dans ce dossier local. 
+
+- Site Ensembl Fungi: <http://fungi.ensembl.org/>
+- Cliquez "Downloads" pour accéder au [site ftp](http://fungi.ensembl.org/info/website/ftp/)
+- Dans la bo^îte de recherche, tapez *"saccharomyces cerevisiae"* et suivez le lien "[GTF](ftp://ftp.ensemblgenomes.org/pub/release-37/fungi/gtf/saccharomyces_cerevisiae)"
+- COpiez l'adresse (URL) du ichier [Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz](ftp://ftp.ensemblgenomes.org/pub/release-37/fungi/gtf/saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz)
 
 
-## Avant de terminer : conservez la trace de votre session
+### 4. Téléchargement d'un fichier à partir d'un site ftp
+
+Fonctions suggérées: 
+
+- `download.file()` (lisez l'aide pour conna^tre les arguments)
+
+### 5. Chargement d'une table de données en R
+
+Ecrivez un script qui charge la table de données dans une variable nommée `feature.table`, en utilisant la fonction R `read.delim()`. 
+
+Veillez à ignorer les lignes de commentaires (qui commencent par un caractère `#`). 
+
+
+### 5. Calcul de la longueur des gènes
+
+- Ajoutez à la table une colonne intitulée "length" qui indique la longueur de chaque élément génomique annoté. 
+
+- Comptez le nombre de lignes de la table correspondant à chaque type d'annotation (3ème colonne du GTF, "feature"). 
+
+    - fonction `table()`
+
+
+- Sélectionnez les lignes correspondant à des gènes. 
+
+    - fonction `subset()`
+
+- Comptez le nombre de gènes par chromosome.
+
+    - fonction `table()`
+
+
+- Chargez la table des tailles de chromosomes [chrom_sizes.tsv](../../data/Saccharomyces_cerevisiae/chrom_sizes.tsv), et calculez la densité de gènes pour chaque chromosome (nombre de gènes par Mb). 
+
+
+### 6. Histogramme de la longueur des gènes
+
+Au moyen de la fonction `hist()`, dessinez un histogramme représentant la distribution de longueur des gènes. Choisissez les intervalles de classe de façon à ce que l'histogramme soit informaatif (ni trop ni trop peu de classes).
+
+Récupérez le résultat de `hist()` dans une variable nommée `gene.length.hist`.
+
+Imprimez le résultat à l'écran (`print()`) et analysez la structure de la variable `gene.length.hist` (il s'agit d'une variable de type liste). 
+
+Fonctions utiles: 
+
+- `class(gene.length.hist)`
+- `attributes(gene.length.hist)`
+
+### 7. Paramètres descriptifs
+
+Calculez les paramètres de tendance centrale (moyenne, médiane, mode) et de dispersion (variance, écart-type, écart inter-quartile) 
+
+- pour les gènes du chromosome III;
+- pour l'ensemble des gènes de la levure.
+
+Affichez ces paramètres sur l'histogramme de la longueur des gènes, en utilisant la fonction `arrows()`
+
+### 8. Intervalle de confiance
+
+A partir des gènes du chromosome III (considérés comme l'échantillon disponible en 1992), calculez un intervalle de confiance autour de la moyenne, et formulez l'interprétation de cet intervalle de confiance. 
+Evaluez ensuite si cet intervalle de confiance recouvrait ou non la moyenne de la population (tous les gènes du génome de la levure, qui devint disponible 4 ans après le chromosome III). 
+
+### 9. Distribution de la longueur des gènes
+
+- A partir du résultt de `hist()`, récupérez un tableau (dans une variable de type `data.frame`) indiquant les fréquences absolues (`count`) en fonction de la taille médiane des classes (`mids`),
+
+- Ajoutez à ce tableau une colonne indiquant la fréquence relative de chaque classe de longueurs de gènes.
+
+- Ajoutez à ce tableau des colonnes indiquant la **fonction de répartition empirique** des longueuurs de gènes (nombre de gènes d'une taille inférieure ou égale à chaque valeur $x$ observée, et fréquence relative de ce nombre). 
+
+    - fonction de base: `cumsum()`
+    - fonction avancée;`ecdf()`
+    
+- Au moyen des fonctions `plot()` et `lines()`, dessinez un graphe représentant la fréquence absolue par classe (médianes de classes en $X$, comptages en $Y$), et la fonction de répartition empirique. 
+
+    - suggestion: superposez les  utilisez le type de lignes "h" pour les fréquences de classe, et "l" ou "s" pour la fonction de répartition. 
+
+
+### 10. Distribution attendue au hasard pour la longueur des gènes
+
+Sur base de la taille du génome (12.156.679 bp) et des fréquences génomiques de codons définies ci-dessous, calculez la distribution de longueurs de gènes attendue au hasard, et ajoutez-là au graphique. 
+
+Vous pouvez télécharger les fréquences génomiques de tous les  trinucléotides ici:  [3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab](../../data/Saccharomyces_cerevisiae/oligo_freq/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab)
+
+Alternative: créez une variable `freq.3nt` et assignez-y manuellement les valeurs pour les 4 nucléotides nécessaires, à partir de la table ci-dessous.
+
+
+```{r echo=FALSE}
+oligo.freq <- read.table("../../data/Saccharomyces_cerevisiae/oligo_freq/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab", sep="\t", row.names = NULL)
+colnames(oligo.freq) <- c("sequence", "frequency", "occurrences")
+oligo.freq$frequency <- signif(digits=3, oligo.freq$frequency)
+
+row.names(oligo.freq) <- oligo.freq$sequence
+
+#oligo.freq["...",] <- c("...", "...", "...")
+
+selected.oligos <- c("AAA", "ATG", "TAA", "TAG", "TGA")
+
+kable(data.frame(oligo.freq[selected.oligos, ]), row.names = FALSE)
+#print(data.frame(oligo.freq[selected.oligos, ]))
+```
+
+
+### 11. Avant de terminer : conservez la trace de votre session
 
 La traçabilité constitue un enjeu essentiel en sciences. 
 La fonction ***R***  `sessionInfo()` fournit un résumé des conditions d'une session de travail: version de R, système opérateur, bibliothèques de fonctions utilisées. 
@@ -122,4 +396,6 @@ La fonction ***R***  `sessionInfo()` fournit un résumé des conditions d'une se
 ```{r}
 sessionInfo()
 ```
+
+## Rendu
 

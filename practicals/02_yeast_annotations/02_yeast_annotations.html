@@ -318,6 +318,137 @@ Distribution of gene lengths for Saccharomyces cerevisiae.
 <div id="tutoriel" class="section level2">
 <h2>Tutoriel</h2>
 <p>Avant de passer aux exercices, nous vous montrons ici quelques éléments de base concernant la lecture, la manipulation et l’écriture des tableaux de données avec R.</p>
+<div id="creation-dun-dossier-pour-le-tp" class="section level3">
+<h3>Création d’un dossier pour le TP</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Define a local forlder for this tutorial
+<span class="co">#</span>
+<span class="co"># A (poor) possibility  would be to hard-code it</span>
+<span class="co">#   dir.home &lt;- &quot;/Users/jvanheld&quot;</span>
+<span class="co">#   dir.home &lt;- &quot;/amuhome/votre_ID&quot;</span>
+
+<span class="co"># Better solution: use Sys.getenv to get your home folder from the system</span>
+
+## Print the complete list of environment variables
+<span class="kw">Sys.getenv</span>() </code></pre></div>
+<pre><code>__CF_USER_TEXT_ENCODING
+                      0x81A:0x0:0x0
+Apple_PubSub_Socket_Render
+                      /private/tmp/com.apple.launchd.Sj4BGz6vvY/Render
+BLAT_DIR              /Users/jvanheld/Applications/unix_apps/blatSuite
+CLASSPATH             .:/no_backup/rsat/java/lib/NeAT_javatools.jar
+CVS_RSH               ssh
+DIALIGN2_DIR          /Users/jvanheld/Applications/dialign/dialign2_dir
+DISPLAY               /private/tmp/com.apple.launchd.XD5rT34NeS/org.macosforge.xquartz:0
+DYLD_FALLBACK_LIBRARY_PATH
+                      /Library/Frameworks/R.framework/Resources/lib
+EDITOR                emacs
+EMBOSS                /usr/local/emboss/
+ENSEMBL_RELEASE       88
+ENSEMBLGENOMES_RELEASE
+                      34
+GIT_ASKPASS           rpostback-askpass
+HOME                  /Users/jvanheld
+HOMER                 /Users/jvanheld/Applications/unix_apps/HOMER
+INFOPATH              :/usr/local/texlive/2013/texmf-dist/doc/info
+LANG                  en_US.UTF-8
+LANGUAGE              en_US.UTF-8
+LC_ALL                en_US.UTF-8
+LC_CTYPE              en_US.UTF-8
+LN_S                  ln -s
+LOGNAME               jvanheld
+MAKE                  make
+MANPATH               :/usr/local/texlive/2013/texmf-dist/doc/man
+NOT_CRAN              true
+PAGER                 /usr/bin/less
+PATH                  /no_backup/miniconda3/bin:/no_backup/conda/miniconda3/bin://anaconda/bin:/usr/local/bin://anaconda/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin:/opt/local/bin:/opt/local/sbin:/usr/local/texlive/2013basic/bin/universal-darwin:/no_backup/rsat/app_sources/MEME/meme_4.9.0/bin:/no_backup/rsat/ext_lib/ensemblgenomes-34-88/ensembl-git-tools/bin:/no_backup/rsat/python-scripts:/no_backup/rsat/perl-scripts/parsers:/no_backup/rsat/perl-scripts:/no_backup/rsat/bin:.:.:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/TeX/texbin:/usr/local/bin:/Users/jvanheld/bin:/Users/jvanheld/Applications/unix_apps/blatSuite:/no_backup/rsat/app_sources/fastqc/FastQC:/Users/jvanheld/Applications/unix_apps/HOMER/bin:/usr/local/emboss//bin:/no_backup/rsat/app_sources/IGV/IGVTools:/usr/local/mysql/bin:/usr/local/blast/bin:/Users/jvanheld/Applications/Clustalx:/Applications/clustalx.app/Contents/MacOS:/Users/jvanheld/Applications/rasmol:/Users/jvanheld/Applications/unix_apps/SRA_toolkit/sratoolkit.2.1.9-mac64:/no_backup/rsat/app_sources/fastqc/FastQC:/Users/jvanheld/Applications/dialign/dialign2_dir:/Users/jvanheld/edirect
+PERL5LIB              /no_backup/rsat/ext_lib/biomart-perl/lib/::/no_backup/rsat/ext_lib/ensemblgenomes-34-88/ensemblgenomes-api/modules::/no_backup/rsat/ext_lib/ensemblgenomes-34-88/ensembl-variation/modules::/no_backup/rsat/ext_lib/ensemblgenomes-34-88/ensembl-tools/modules::/no_backup/rsat/ext_lib/ensemblgenomes-34-88/ensembl-functgenomics/modules::/no_backup/rsat/ext_lib/ensemblgenomes-34-88/ensembl-external/modules::/no_backup/rsat/ext_lib/ensemblgenomes-34-88/ensembl-compara/modules::/no_backup/rsat/ext_lib/ensemblgenomes-34-88/ensembl/modules::/no_backup/rsat/ext_lib/bioperl-release-/bioperl-live:::/Users/jvanheld/Applications/unix_apps/HOMER/bin
+PIP_DOWNLOAD_CACHE    /Users/jvanheld/.pip/cache
+PIP_REQUIRE_VIRTUALENV
+                      false
+PWD                   /Users/jvanheld/Documents/enseignement/bioinformatics_courses/stat1/practicals/02_yeast_annotations
+PYTHONPATH            /no_backup/rsat/ext_lib/python2.7/site-packages/:/no_backup/rsat/ext_lib/python2.7/site-packages
+R_ARCH                
+R_BROWSER             /usr/bin/open
+R_BZIPCMD             /usr/bin/bzip2
+R_DOC_DIR             /Library/Frameworks/R.framework/Resources/doc
+R_GZIPCMD             /usr/bin/gzip
+R_HOME                /Library/Frameworks/R.framework/Resources
+R_INCLUDE_DIR         /Library/Frameworks/R.framework/Resources/include
+R_LIBS                /Library/Frameworks/R.framework/Versions/3.3/Resources/library
+R_LIBS_SITE           
+R_LIBS_USER           ~/Library/R/3.3/library
+R_PAPERSIZE           a4
+R_PAPERSIZE_USER      a4
+R_PDFVIEWER           /usr/bin/open
+R_PLATFORM            x86_64-apple-darwin13.4.0
+R_PRINTCMD            lpr
+R_QPDF                /Library/Frameworks/R.framework/Resources/bin/qpdf
+R_RD4PDF              times,inconsolata,hyper
+R_SESSION_TMPDIR      /var/folders/9s/0zkjn8tm8xj7wp0059bl3v9000020t/T//RtmpKlM2N6
+R_SHARE_DIR           /Library/Frameworks/R.framework/Resources/share
+R_SYSTEM_ABI          osx,gcc,gxx,gfortran,?
+R_TEXI2DVICMD         /usr/local/bin/texi2dvi
+R_UNZIPCMD            /usr/bin/unzip
+R_ZIPCMD              /usr/bin/zip
+RMARKDOWN_MATHJAX_PATH
+                      /Applications/RStudio.app/Contents/Resources/resources/mathjax-26
+RMARKDOWN_PREVIEW_DIR
+                      /var/folders/9s/0zkjn8tm8xj7wp0059bl3v9000020t/T//RtmpF8L1vw
+RPYTHON_PYTHON_VERSION
+                      3
+RS_RPOSTBACK_PATH     /Applications/RStudio.app/Contents/MacOS/rpostback
+RS_SHARED_SECRET      7bae8d2a-e976-4686-a5ec-3018f7f26352
+RSAT                  /no_backup/rsat
+RSAT_SITE             caminante
+RSAT_WS               http://localhost/rsat/
+RSAT_WWW              http://localhost/rsat/
+RSTUDIO               1
+RSTUDIO_PANDOC        /Applications/RStudio.app/Contents/MacOS/pandoc
+RSTUDIO_SESSION_PORT
+                      46394
+RSTUDIO_USER_IDENTITY
+                      jvanheld
+RSTUDIO_WINUTILS      bin/winutils
+RTF2LATEX2E_DIR       /usr/local/rtf2latex2e
+SECURITYSESSIONID     187c8
+SED                   /usr/bin/sed
+SHELL                 /bin/bash
+SHLVL                 1
+SRA_DIR               /Users/jvanheld/Applications/unix_apps/SRA_toolkit/sratoolkit.2.1.9-mac64
+SSH_AUTH_SOCK         /private/tmp/com.apple.launchd.1CIFnoJUaG/Listeners
+TAR                   /usr/bin/tar
+TERM                  xterm-256color
+TERM_PROGRAM          Apple_Terminal
+TERM_PROGRAM_VERSION
+                      388.1.1
+TERM_SESSION_ID       6166933D-E28C-46C1-B3EE-E105CF0F96B9
+TMPDIR                /var/folders/9s/0zkjn8tm8xj7wp0059bl3v9000020t/T/
+USER                  jvanheld
+VISUAL                emacs
+XPC_FLAGS             0x0
+XPC_SERVICE_NAME      0</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Identify the home directory by getting the environment variable HOME 
+dir.home &lt;-<span class="st"> </span><span class="kw">Sys.getenv</span>(<span class="st">&quot;HOME&quot;</span>)
+<span class="kw">print</span>(dir.home)</code></pre></div>
+<pre><code>[1] &quot;/Users/jvanheld&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Define a variable containing the path of the results for this tutorial
+dir.tuto &lt;-<span class="st"> </span><span class="kw">file.path</span>(dir.home, <span class="st">&quot;stat1&quot;</span>, <span class="st">&quot;TP2&quot;</span>)
+
+<span class="kw">print</span>(dir.tuto)</code></pre></div>
+<pre><code>[1] &quot;/Users/jvanheld/stat1/TP2&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Create the directory for this tutorial
+<span class="kw">dir.create</span>(<span class="dt">path =</span> dir.tuto, <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>, <span class="dt">recursive =</span> <span class="ot">TRUE</span>)
+
+## Go to the tutorial directory
+<span class="kw">setwd</span>(dir.tuto)
+
+## List the files already present in the folder (if any)
+<span class="kw">list.files</span>()</code></pre></div>
+<pre><code>character(0)</code></pre>
+</div>
+<div id="telechargement-du-fichier-gtf-a-partir-densemblgenomes" class="section level3">
+<h3>Téléchargement du fichier GTF à partir d’EnsemblGenomes</h3>
+</div>
 <div id="chargement-dun-tableau-de-donnees" class="section level3">
 <h3>Chargement d’un tableau de données</h3>
 <p>R comporte plusieurs types de structures tabulaires (matrix, data.frame, table).</p>

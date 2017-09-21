@@ -193,6 +193,47 @@ par <- par.ori
 Avant de passer aux exercices, nous vous montrons ici quelques éléments de base concernant la lecture, la manipulation et l'écriture des tableaux de données avec R.
 
 
+### Création d'un dossier pour le TP
+
+```{r create_practical_dir}
+
+
+## Define a local forlder for this tutorial
+#
+# A (poor) possibility  would be to hard-code it
+#   dir.home <- "/Users/jvanheld"
+#   dir.home <- "/amuhome/votre_ID"
+
+# Better solution: use Sys.getenv to get your home folder from the system
+
+## Print the complete list of environment variables
+Sys.getenv() 
+
+## Identify the home directory by getting the environment variable HOME 
+dir.home <- Sys.getenv("HOME")
+print(dir.home)
+
+## Define a variable containing the path of the results for this tutorial
+dir.tuto <- file.path(dir.home, "stat1", "TP2")
+
+print(dir.tuto)
+
+## Create the directory for this tutorial
+dir.create(path = dir.tuto, showWarnings = FALSE, recursive = TRUE)
+
+## Go to the tutorial directory
+setwd(dir.tuto)
+
+## List the files already present in the folder (if any)
+list.files()
+
+```
+
+### Téléchargement du fichier GTF à partir d'EnsemblGenomes
+
+
+
+
 ### Chargement d'un tableau de données
 
 R comporte plusieurs types de structures tabulaires (matrix, data.frame, table). 

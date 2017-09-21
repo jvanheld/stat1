@@ -3,9 +3,7 @@ title: "Echantillonnage et estimation"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
+  word_document:
     toc: yes
     toc_depth: 3
   html_document:
@@ -24,6 +22,22 @@ output:
     smaller: yes
     toc: yes
     widescreen: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
+  slidy_presentation:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -36,17 +50,6 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
-  slidy_presentation:
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    incremental: no
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
-    toc: yes
-    widescreen: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
 subtitle: Probabilités et statistique pour la biologie (STAT1)
 font-family: Garamond
@@ -72,7 +75,6 @@ dir.slides <- file.path(dir.main, "slides")
 setwd(dir.slides)
 ```
 
-# Eléments de théorie
 
 ## Contenu
 
@@ -141,7 +143,7 @@ Alternative: se baser sur les quartiles.
 
 - $Q_3$: le **troisième quartile**, la valeur supérieure ou égale à $75\%$ des valeurs observées. 
 
-- $\text{IQR} = Q_3 - Q_1$: l'**espace inter-quartile** (***inter-quartile range***):  est un estimateur robuste de la dispersion. 
+- $\text{IQR} = Q_3 - Q_1$: l'**écart inter-quartile** (***inter-quartile range***):  est un estimateur robuste de la dispersion. 
 
 
 
@@ -245,7 +247,6 @@ Par convention, nous utiliserons les symboles suivants pour les paramètres calc
 La barre au-dessus d'un symbole de variable dénote la moyenne. 
 
 
-# Démo-cours
 
 ## Jeux de données simulés
 
@@ -495,5 +496,3 @@ legend("topright",
 
 ```
 
-
-# Exercices

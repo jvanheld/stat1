@@ -152,6 +152,14 @@ Alternative: se baser sur les quartiles.
 ```{r load_yeast_gene_lengths}
 ## Read a GTF file
 ## Format specification: http://www.ensembl.org/info/website/upload/gff.html
+
+
+## Replace this by the path of the file on your computer
+gtf.file <- "/path/to_your_downloads/Saccharomyces_cerevisiae.R64-1-1.37.gtf"
+
+## On my computer I build the path with the commands 
+## - Sys.getenv(), to get my home directory
+## - file.path(), to concatenate folder/subfolder names and the file name
 gtf.file <- "../data/Saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.37.gtf"
 features <- read.delim(gtf.file, comment.char = "#", sep="\t", header=FALSE, row.names=NULL)
 names(features) <- c("seqname", "source", "feature", "start", "end", "score", "strand", "frame", "attribute")

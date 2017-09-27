@@ -1,0 +1,168 @@
+---
+title: "Tests de comparaison de moyenne"
+author: "Jacques van Helden"
+date: '`r Sys.Date()`'
+output:
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
+  html_document:
+    fig_caption: yes
+    highlight: zenburn
+    theme: cerulean
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  ioslides_presentation:
+    css: slides.css
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    smaller: yes
+    toc: yes
+    widescreen: yes
+  beamer_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
+  slidy_presentation:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
+  word_document:
+    toc: yes
+    toc_depth: 3
+font-import: http://fonts.googleapis.com/css?family=Risque
+subtitle: Probabilités et statistique pour la biologie (STAT1)
+font-family: Garamond
+transition: linear
+---
+
+```{r include=FALSE, echo=FALSE, eval=TRUE}
+library(knitr)
+library(diagram) ## For flowcharts
+
+
+options(width=300)
+knitr::opts_chunk$set(
+  fig.width = 7, fig.height = 5, 
+  fig.align = "center", 
+  fig.path = "figures/sampling-estimation_",
+  size = "tiny", 
+  echo = FALSE, eval=TRUE, 
+  warning = FALSE, message = FALSE, 
+  results = TRUE, comment = "")
+# knitr::asis_output("\\footnotesize")
+
+dir.main <- "~/stat1"
+dir.slides <- file.path(dir.main, "slides")
+setwd(dir.slides)
+```
+
+
+## Contenu
+
+Nous présentons ici l'une des applications les plus populaires de la statistique: le test de comparaison de moyennes. 
+
+Ce test est utilisé dans un grand nombre de contextes, nous l'appliquerons ici à deux types de données: 
+
+1. Des **données artificielles** générées en tirant des échantillons au sein de deux populations qui suivent des distributions normales, et qui, selon le cas, présentent ou non une différence de moyenne. Le but sera de comprendre la mise en application du test et l'interprétation de ses résultats dans des conditions où nous contrôlons tous les paramètres (nous savons s'il existe ou non une différence entre les moyennes de populations). 
+
+2. Des **données transcriptomiques** obtenues au moyen de biopuces. Nous testerons si un gène donné présente une différence d'expression entre deux groupes d'échantillons (par exemple des patients souffrant de deux types de cancers différents). 
+
+    **Note:** la technologie des biopuces a largement été remplacée par le séquençage à haut débit, et le RNA-seq a rapidement été adopté pour les études transcriptomiques. Cependant l'analyse d'expression différentielle avec le RNA-seq requiert des concepts plus avancés, qui feront partie de cours ultérieurs. 
+
+
+## L'hypothèse à tester
+
+$$H_0: \mu_1 = \mu_2$$
+
+$$H_1: \mu_1 \neq \mu_2$$
+
+IL s'agit ici d'un **test bilatéral** (***two-tailed test***): nous désirons détecter une éventuelle différence indépendamment de son signe. 
+
+Modalité alternative: **test unilatéral** (***one-tailed test***), où l'on ne s'intéresse qu'à des différences soit positives ($H1: \mu_1 > \mu_2$) soit négatives ($H1: \mu_1 < \mu_2$).
+
+## Choix d'un test de comparaison de moyenne
+
+Il existe différentes méthodes pour tester l'égalité entre deux moyennes. Le choix de la méthode dépend de la nature des données. 
+
+```{r mean_compa_flowchart, fig.width=7, fig.height=5}
+# creates an empty plot
+openplotmat(main="Choice of a mean comparison test")
+
+# create the coordinates
+pos <- coordinates(c(1, 2, 1, 3))
+pos[2,1] <- (pos[5,1] + pos[6, 1])/2
+pos[4,1] <- (pos[5,1] + pos[6, 1])/2
+pos.labels <- c("normality ?", 
+               "Parametric", "Non-parametric",
+               "Equal var ?", 
+               "Student", "Welch", "Wilcoxon")
+fromto <- matrix(ncol = 2, byrow = TRUE,
+                 data = c(1, 2, 
+                          1, 3, 
+                          2, 4, 
+                          4, 5, 
+                          4, 6,
+                          3, 7))
+arrow.colors <- rep(length.out=nrow(fromto), "black")
+arrow.colors[1] <- "#00BB00"
+arrow.colors[2] <- "red"
+arrow.colors[4] <- "#00BB00"
+arrow.colors[5] <- "red"
+
+nr     <- nrow(fromto)
+arrpos <- matrix(ncol = 2, nrow = nr)
+for (i in 1:nr) {
+ arrpos[i, ] <- straightarrow (
+   from = pos[fromto[i, 1], ],
+   to = pos[fromto[i, 2], ],
+   lwd = 2, arr.pos = 0.5,
+   arr.length = 0.25, lcol = arrow.colors[i])
+}
+
+## Draw diamons for choices
+for (i in c(1,4)) {
+  textdiamond(
+    mid = pos[i,], radx = 0.2, rady = 0.05, 
+    lab = pos.labels[i], cex = 1, 
+    lcol="orange", lwd=2)
+}
+
+## Draw ellipses for operations 
+for (i in c(2,3,5:7)) {
+  textellipse(
+    mid = pos[i,], radx=0.15, rady=0.05,
+    lab=pos.labels[i])
+}
+
+text(arrpos[1, 1] - 0.05, arrpos[2, 2], "yes", col = "#00BB00")
+text(arrpos[2, 1] + 0.05, arrpos[2, 2], "no", col = "red")
+text(arrpos[4, 1] - 0.05, arrpos[4, 2], "yes", col = "#00BB00")
+text(arrpos[5, 1] + 0.05, arrpos[5, 2], "no", col = "red")
+
+
+```
+
+```{r}
+
+

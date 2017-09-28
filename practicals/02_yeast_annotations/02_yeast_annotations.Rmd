@@ -238,9 +238,11 @@ gtf.URL <- "ftp://ftp.ensemblgenomes.org/pub/release-37/fungi/gtf/saccharomyces_
 local.GTF <- file.path(dir.tuto, "Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz")
 
 if (file.exists(local.GTF)) {
-  message("GTF file already exists in the tutorial folder", local.GTF)
+  message("GTF file already exists in the tutorial folder: ", local.GTF)
 } else {
-  download.file(url = gtf.URL, destfile = local.GTF)
+  ## Download annotation table in GTF format
+  download.file(url = gtf.URL, 
+                destfile = local.GTF)
 }
 
 
@@ -555,19 +557,6 @@ print(cds.length.hist )
 - `class(cds.length.hist)`
 - `attributes(cds.length.hist)`
 
-Dessinez un polygnone des fréquences indiquant le nombre de gènes par classe (milieux de classe). 
-
-```{r}
-
-## Draw a frequency polygon
-plot(cds.length.hist $mids, cds.length.hist $counts, 
-     main="Frequency polygon", 
-     xlab="Gene length", ylab="Number of genes", 
-     type="l", col="darkgreen", lwd=2)
-grid()
-
-
-```
 
 ### 7. Paramètres descriptifs
 
@@ -585,6 +574,7 @@ class(x) ## Ah ah, this is not a vector but a data.frame
 ## Convert the data frame into a vector
 x <- unlist(x)
 class(x)
+head(x)
 
 ## Compute the mean, either manually or with the ad hoc R function
 n <- length(x) 
@@ -595,8 +585,27 @@ m <- mean(x)
 print(m)
 message("mean(x) = ", round(m, digits = 1))
 
+## Compute the mean manually to compare the result
+m.recalc <- sum(x)/n
+message("Manually computed sample mean: ", round(digits=1, m.recalc))
+
+## Compute manually standard dev of the sample
+sample.var <- sum((x - m)^2)/ n
+sample.sd <- sqrt(sample.var)
+message("Sample standard dev =", round(digits=1, sample.sd))
+
+## Compute an estimate of the population standard deviation
+pop.sd.est <- sqrt(sum((x - m)^2) / (n-1))
+message("Sample-based estimate of population standard dev =", round(digits=1, pop.sd.est))
+
+## Compute the standard deviation with R function sd()
+R.sd <- sd(x)
+message("Result of R sd() function =", round(digits=1, R.sd))
+
+
 ```
 
+**Ah ah! (skeptical tone)** The R function `sd()` does **not** compute the standard deviation of the input numbers ($s$), but the **estimate of the standard deviaiton of the population** ($\hat{\sigma}$)
 
 Affichez ces paramètres sur l'histogramme de la longueur des gènes, en utilisant la fonction `arrows()`
 
@@ -604,6 +613,54 @@ Affichez ces paramètres sur l'histogramme de la longueur des gènes, en utilisa
 
 A partir des gènes du chromosome III (considérés comme l'échantillon disponible en 1992), calculez un intervalle de confiance autour de la moyenne, et formulez l'interprétation de cet intervalle de confiance. 
 Evaluez ensuite si cet intervalle de confiance recouvrait ou non la moyenne de la population (tous les gènes du génome de la levure, qui devint disponible 4 ans après le chromosome III). 
+
+$$ \bar{x} \pm \frac{\hat{\sigma}}{\sqrt(n)} \cdot t_{1-\alpha/2}^{n-1}$$
+
+```{r}
+## Define alpha, the risk
+alpha <- 0.05
+
+## Let us get the critical value for the t distribution
+help("TDist")
+
+## Which value corresponds to alpha/2 
+
+## Beware ! by default the qt() function return the lower tail
+qt(p = alpha/2, df =  n - 1)
+
+## For confidence intervals we need a positive t value, we thus take the upper tail
+t.value <- qt(p = alpha/2, df =  n - 1, lower.tail = FALSE)
+
+IC.min <- m - pop.sd.est * t.value /sqrt(n)
+IC.max <- m + pop.sd.est * t.value /sqrt(n)
+
+message("Confidence interval: [", 
+        round(digits=1, IC.min), 
+        ", ", 
+        round(digits=1, IC.max), "]")
+
+```
+
+Dessinez un polygnone des fréquences indiquant le nombre de gènes par classe (milieux de classe). 
+
+```{r}
+
+## Draw a frequency polygon
+plot(cds.length.hist $mids, cds.length.hist $counts, 
+     main="Frequency polygon", 
+     xlab="Gene length", ylab="Number of genes", 
+     type="l", col="darkgreen", lwd=2, xlim=c(0, 5000))
+grid()
+
+arrows(x0 = IC.min, y0 = 100, x1 = IC.max, y1=100, length = 0, angle = 00, col="violet", lwd=3)
+abline(v = m, col="violet")
+
+pop.mean <- mean(cds$length)
+abline(v = pop.mean, col="blue")
+
+legend("topright", legend = c("genome", "chr3"), col = c("blue", "violet"), lwd=1)
+```
+
 
 ### 9. Distribution de la longueur des gènes
 

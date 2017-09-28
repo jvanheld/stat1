@@ -31,6 +31,7 @@
 |------|---------------------------------|--------------------------|
 | TP1 | Premiers pas avec R | Diapos: [html](practicals/01_intro_R/01_intro_R.html) [pdf](practicals/01_intro_R/01_intro_R.pdf) [Rmd](practicals/01_intro_R/01_intro_R.Rmd) |
 | TP2 | Table d'annotations génomiques | Diapos: [html](practicals/02_yeast_annotations/02_yeast_annotations.html) [pdf](practicals/02_yeast_annotations/02_yeast_annotations.pdf) [Rmd](practicals/02_yeast_annotations/02_yeast_annotations.Rmd) |
+| TP3 | Tests de comparaison de moyennes | Diapos: [html](practicals/03_test_comparaison_moyennes/03_test_comparaison_moyennes.html) [pdf](practicals/03_test_comparaison_moyennes/03_test_comparaison_moyennes.pdf) [Rmd](practicals/03_test_comparaison_moyennes/03_test_comparaison_moyennes.Rmd) |
 
 
 ****************************************************************

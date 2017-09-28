@@ -3,6 +3,11 @@ title: "Analyse d'une table d'annotations génomiques"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
   html_document:
     fig_caption: yes
     highlight: zenburn
@@ -10,18 +15,6 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
-  beamer_presentation:
-    colortheme: dolphin
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
-    toc: yes
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -35,11 +28,18 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
-  pdf_document:
+  beamer_presentation:
+    colortheme: dolphin
     fig_caption: yes
-    highlight: zenburn
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
     toc: yes
-    toc_depth: 3
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -79,6 +79,7 @@ knitr::opts_chunk$set(
   comment = "")
 
 dir.main <- "~/stat1"
+url.main <- "http://jvanheld.github.io/stat1"
 dir.current <- file.path(dir.main, "practicals", "02_yeast_annotations")
 setwd(dir.current)
 
@@ -493,14 +494,22 @@ table(cds$seqname)
 - Chargez la table des tailles de chromosomes [chrom_sizes.tsv](../../data/Saccharomyces_cerevisiae/chrom_sizes.tsv), et calculez la densité de gènes pour chaque chromosome (nombre de gènes par Mb). 
 
 ```{r}
+## Download tab-delimited file with chromosome sizes (unless already there)
+annot.url <- "http://jvanheld.github.io/stat1/data/Saccharomyces_cerevisiae/chrom_sizes.tsv"
+chrom.size.file <- file.path(dir.tuto, "chrom_sizes.tsv")
+
+if (!file.exists(chrom.size.file)) {
+    download.file(annot.url, destfile = file.path(dir.tuto, "chrom_sizes.tsv"))
+}
+
 ## Read chromosome sizes
 chrom.size <- read.delim(
-  file = "~/stat1/data/Saccharomyces_cerevisiae/chrom_sizes.tsv", 
+  file = chrom.size.file,
   header = FALSE, row.names = 1)
 
 ## Assign a name to the columns
 names(chrom.size) <- c("chromID", "size")
-View(chrom.size)
+# View(chrom.size)
 
 ## print the size of hte third chromosome
 chrom.size["III", "size"]

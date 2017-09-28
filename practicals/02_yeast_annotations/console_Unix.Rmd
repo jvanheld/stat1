@@ -1,0 +1,60 @@
+---
+title: "Découverte de la console Unix"
+author: "Jacques van Helden"
+date: "9/21/2017"
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Quelques commandes Unix utiles
+
+
+```{bash}
+# Display user login
+whoami
+
+# Print a message
+echo "Salut les amis"
+
+# Display the home directory
+echo $HOME
+
+echo $SHELL
+
+# Go to the home folder
+cd $HOME
+
+## Print the working directory
+pwd
+
+
+## Create a subfolder for this practical
+mkdir -p stat1_TP2
+
+## Go to this folder
+cd stat1_TP2
+
+## Check that you are in the right folder
+pwd
+
+## List the files in this folder
+ls
+
+## Print a message and store it in a file
+echo "Ceci est un fichier" > mon_fichier.txt
+
+## List files in the folder
+ls
+
+## List files and give the details
+ls -l
+
+
+```
+

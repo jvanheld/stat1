@@ -3,11 +3,6 @@ title: "Tests de comparaison de moyenne"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: yes
-    toc_depth: 3
   html_document:
     fig_caption: yes
     highlight: zenburn
@@ -15,6 +10,18 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
+  beamer_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -28,18 +35,11 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
-  beamer_presentation:
-    colortheme: dolphin
+  pdf_document:
     fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
+    highlight: zenburn
     toc: yes
+    toc_depth: 3
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -114,10 +114,37 @@ Pour les jeux de données artificiels, nous poserons arbitrairement un seuil $\a
 
 Dans un premier temps, nous allons délibérément générer des données sous hypothèse nulle ($H_0$) c'est-à-dire en tirant des échantillons dans deux populations de taille égale. Les données seront générées dans les conditions d'applicabilité du test de Student: populations normales de variance égale. Le but de l'exercice sera de mesurer le **taux de faux posiitfs**, c'est-à-dire la proportion des tests déclarés (à tort) positifs, alors qu'il n'existe pas de différence entre les moyennes des deux populations.
 
+### Génération des données
+
+Au moyen de la fonction R `rnorm()`, tirez deux échantillons de taille $n = 10$ dans des populations normales de moyenne $\mu1 = \mu2 = 7$ et d'écart-type $\sigma1 = \sigma2 = 2$.
+
+```{r}
+n1 <- 10
+n2 <- 10
+mu1 <- 7
+mu2 <- 7
+sigma1 <- 2
+sigma2 <- 2
+
+x1 <- rnorm(n = n1, mean = mu1, sd = sigma1)
+x2 <- rnorm(n = n2, mean = mu2, sd = sigma2)
+
+m1 <- mean(x1)
+m2 <- mean(x2)
+
+alpha <- 0.05
+
+t.test(x1, x2, 
+       var.equal = TRUE, 
+       alternative = "two.sided", 
+       conf.level = 1 - alpha)
+
+```
+
 
 ### Calcul manuel des statistiques de Student
 
-1. Au moyen de la fonction R `\sum()`, calculez les paramètres de vos échantillons nécessaires au test de Student ($\bar{x}_1, \bar{x}_2, s_1, s_2$). 
+1. Au moyen de la fonction R `sum()`, calculez les paramètres de vos échantillons nécessaires au test de Student ($\bar{x}_1, \bar{x}_2, s_1, s_2$). 
 
 2. Au moyen de cette même fonction `sum()`, calculez les estimateurs des mêmes paramètres pour les populations  ($\mu{x}_1, \mu{x}_2, \sigma_1, \sigma_2$).
 

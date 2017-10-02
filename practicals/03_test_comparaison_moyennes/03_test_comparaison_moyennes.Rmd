@@ -1,27 +1,21 @@
 ---
-title: "Tests de comparaison de moyenne"
+title: 'Tuto et TP: tests de comparaison de moyenne'
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
   html_document:
+    code_folding: hide
     fig_caption: yes
     highlight: zenburn
     theme: cerulean
     toc: yes
     toc_depth: 3
     toc_float: yes
-  beamer_presentation:
-    colortheme: dolphin
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
-    toc: yes
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -35,11 +29,18 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
-  pdf_document:
+  beamer_presentation:
+    colortheme: dolphin
     fig_caption: yes
-    highlight: zenburn
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
     toc: yes
-    toc_depth: 3
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -114,9 +115,17 @@ Pour les jeux de données artificiels, nous poserons arbitrairement un seuil $\a
 
 Dans un premier temps, nous allons délibérément générer des données sous hypothèse nulle ($H_0$) c'est-à-dire en tirant des échantillons dans deux populations de taille égale. Les données seront générées dans les conditions d'applicabilité du test de Student: populations normales de variance égale. Le but de l'exercice sera de mesurer le **taux de faux posiitfs**, c'est-à-dire la proportion des tests déclarés (à tort) positifs, alors qu'il n'existe pas de différence entre les moyennes des deux populations.
 
-### Génération des données
+### 1. Génération des données
 
-Au moyen de la fonction R `rnorm()`, tirez deux échantillons de taille $n = 10$ dans des populations normales de moyenne $\mu1 = \mu2 = 7$ et d'écart-type $\sigma1 = \sigma2 = 2$.
+Au moyen de la fonction `rnorm()`, tirez deux échantillons de taille $n_1 = n_2 = 10$ à partir de populations normales de moyennes $\mu_1 = \mu_2 = 7$ et d'écart-types $\sigma_1 = \sigma_2 = 2$. 
+
+
+## 2. Application du test avec la fonction `t.test()`
+
+
+Effectuez un test de comparaison de moyenne en utilisant la fonction `t.test()`. Lisez attentivement l'aide de cette fonction, et choisissez les paramètres en tenant compte des caractéristiques de vos données. Nous effectuerons ici un test bilatéral (*two-tailed*). 
+
+Interprétez le résultat de la fonction `t.test()`  (paramètres, décision, interprétation de la p-valeur). 
 
 ```{r}
 n1 <- 10
@@ -142,77 +151,127 @@ t.test(x1, x2,
 ```
 
 
-### Calcul manuel des statistiques de Student
+### 3. Calcul manuel des statistiques de Student
 
-1. Au moyen de la fonction R `sum()`, calculez les paramètres de vos échantillons nécessaires au test de Student ($\bar{x}_1, \bar{x}_2, s_1, s_2$). 
+Au moyen de la fonction R `sum()`, calculez les paramètres de vos échantillons nécessaires au test de Student ($\bar{x}_1, \bar{x}_2, s_1, s_2$). 
 
-2. Au moyen de cette même fonction `sum()`, calculez les estimateurs des mêmes paramètres pour les populations  ($\mu{x}_1, \mu{x}_2, \sigma_1, \sigma_2$).
+```{r sample_parameters}
+n1 <- length(x1)
+m1 <- sum(x1) / n1
+s1 <- sqrt(sum((x1 - m1)^2)/n1)
+n2 <- length(x2)
+m2 <- sum(x2) / n2
+s2 <- sqrt(sum((x2 - m2)^2)/n2)
+print(paste("n1 =", n1, "; m1 =", round(digits=2, m1), "; s1 = ", round(digits=2, s1)))
+print(paste("n2 =", n2, "; m2 =", round(digits=2, m2), "; s2 = ", round(digits=2, s2)))
 
-3. Recalculez ces paramètres au moyen des fonctions R `mean()` et `sd()`.
+```
+
+
+Au moyen de cette même fonction `sum()`, calculez les estimateurs de ces paramètres pour les populations  ($\mu{x}_1, \mu{x}_2, \sigma_1, \sigma_2$).
+
+```{r}
+mu1.est <- m1
+mu2.est <- m2
+sigma1.est <- s1 * sqrt(n1/(n1-1))
+sigma2.est <- s2 * sqrt(n2/(n2-1))
+
+print(paste("mu1.est = ", round(digits=2, mu1.est), "sigma1.est", round(digits=2, sigma1.est)))
+print(paste("mu2.est = ", round(digits=2, mu2.est), "sigma2.est", round(digits=2, sigma2.est)))
+
+```
+
+
+Recalculez ces paramètres au moyen des fonctions R `mean()` et `sd()`.
+
+```{r}
+mean1 <- mean(x1)
+mean2 <- mean(x2)
+sd1 <- sd(x1)
+sd2 <- sd(x2)
+
+print(paste("mean1 = ", round(digits=2, mean1), "sd1", round(digits=2, sd1)))
+print(paste("mean2 = ", round(digits=2, mean2), "sd2", round(digits=2, sd2)))
+
+
+```
 
 
 **Attention**, les fonctions R `var()` et `sd()` ne calculent pas les paramètres d'échantillons ($s^2$, $s$) mais les estimateurs des paramètres de population  correspondants ($\hat{\sigma}^2$, $\hat{\sigma}$). 
 
-4. Sur base de ces paramètres, calculez la statistique $t_{obs}$ de Student. Justifie le choix des paramètres que vous choisirez pour cette fonction. 
+Sur base de ces paramètres, calculez la statistique $t_{obs}$ de Student. Justifiez le choix des paramètres que vous choisirez pour cette fonction. 
 
-5. Avec la fonction $pt()$, calculez la p-valeur de cette valeur $t$. 
+$$t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} =  \frac{\bar{x}_{2} - \bar{x}_{1}}{\sqrt{\frac{n_1 s_{1}^2 + n_2 s_{2}^2}{n_1+n_2-2} \left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}}$$
 
-6. Interprétez les résultats (décision, interprétation de la p-valeur). 
+```{r}
 
-### Application du test avec la fonction `t.test()`
+## Difference between sample means
+diff <- m1 - m2
 
-1. Au moyen de la fonction `rnorm()`, tirez deux échantillons de taille $n_1 = n_2 = 10$ à partir de populations normales de moyennes $\mu_1 = \mu_2 = 7$ et d'écart-types $\sigma_1 = \sigma_2 = 2$. 
+## Estimation of the standard error on the difference between sample means
+Student.diff.err <- sqrt((1/n1 + 1/n2) * (n1 * s1^2 + n2 * s2^2) / (n1 + n2 - 2))
 
-2. Effectuez un test de comparaison de moyenne en utilisant la fonction `t.test()`. Lisez attentivement l'aide de cette fonction, et choisissez les paramètres en tenant compte des caractéristiques de vos données. Nous effectuerons ici un test bilatéral (*two-tailed*). 
+## Student statistics
+Student.t <- diff / Student.diff.err
 
-3. Interprétez le résultat de la fonction `t.test()`  (paramètres, décision, interprétation de la p-valeur). 
 
-### Mesure empirique du taux de faux-positifs
+## Print Student statistics with 5 significant digits
+print(paste("Student statistics  t =", signif(digits=5, Student.t)))
 
+```
+
+
+Avec la fonction $pt()$, calculez la p-valeur de cette valeur $t$. 
+
+Interprétez les résultats (décision, interprétation de la p-valeur). 
+
+
+### 4. Mesure empirique du taux de faux-positifs
 
 
 Dans cet exercice, nous allons réaliser un grand nombre de tests de Student en nous plaçant sous hypothèse nulle, et compter le nombre de tests retournant une réponse positive. 
 
-1. Avant de commencer l'expérience, indiquez le nombre de faux positifs attendus *a prior* si l'one ffectue $R = `r R`$ tests sous hypothèse nulle, avec un seuil critique de $\alpha= `r  alpha`$.
+a. Avant de commencer l'expérience, indiquez le nombre de faux positifs attendus *a prior* si l'one ffectue $R = `r R`$ tests sous hypothèse nulle, avec un seuil critique de $\alpha= `r  alpha`$.
 
-2. Répétez `r R` fois le test de Student au moyen de la fonction `t.test()` et récupérez dans deux vecteurs séparés les valeurs rapportées pour la statistique $t$ et pour la $p$ valeur. 
-
-3. Dessinez l'histogramme des valeurs $t$ obtenues empiriquement.
-
-4. Calculez la proportion de faux-positifs. Cette proportion correspond-elle à vos attentes ?
+b. Répétez `r R` fois le test de Student au moyen de la fonction `t.test()` et récupérez dans deux vecteurs séparés les valeurs rapportées pour la statistique $t$ et pour la $p$ valeur. 
 
 
-## Sous hypothèse alternative
+c. Dessinez l'histogramme des valeurs $t$ obtenues empiriquement.
+
+d. Calculez la proportion de faux-positifs. Cette proportion correspond-elle à vos attentes ?
+
+
+## 5. Test sous hypothèse alternative
 
 Effectuez $R = `r R`$ tests de comparaison de moyenne sur des échantillons aléatoires tirés dans des populations de moyennes respectives $\mu_1 = 6$ et $\mu_2  8$, ayant toutes deux un écart-type $\sigma=1$. 
 
-1. Choisissez le test et ses paramètres en fonction des caractéristiqus de vos données. 
+a. Choisissez le test et ses paramètres en fonction des caractéristiqus de vos données. 
 
-2. Comptez le nombre de résultats déclarés positifs et négatifs avec un seuil $\alpha = `r alpha`$.
+b. Comptez le nombre de résultats déclarés positifs et négatifs avec un seuil $\alpha = `r alpha`$.
 
-3. Interprétez ce résultat.
+c. Interprétez ce résultat.
 
-## Variances inégales
+## 6. Test avec variances inégales
 
 Effectuez les mêmes tests (`r R` répliques, d'abord sous hypothèse nulle puis sous hypothèse alternative) avec des données tirées de population de variances inégales: $\sigma_1^2 = 4$, $\sigma_2^2 = 25$. 
 
-1. Justiifez le choix du test et des paramètres. 
+a. Justiifez le choix du test et des paramètres. 
 
-2. Comptez le nombre de résultats déclarés positifs ou négatifs.
+b. Comptez le nombre de résultats déclarés positifs ou négatifs.
 
-3. Interprétez le résultat. 
+c. Interprétez le résultat. 
 
-## Données non-normales
+## 7. Test avec données non-normales
 
 Au moyen de la fonction R `rpois()`, générez des données selon une loi de Poisson dont l'espérance vaut $\lambda_1 = 4$ pour la première population et $\lambda_2 = 6$ pour la seconde. 
 
-1. Choisissez le test approprié.
+a. Choisissez le test approprié.
 
-2. Mesurez les proportions de tests respectivement déclarés positifs et négatifs. 
+b. Mesurez les proportions de tests respectivement déclarés positifs et négatifs. 
 
-3. Sur ces mêmes données, effectuez un test paramétrique de comparaison de moyennes (Student ou Welch, à vous de choisi en le justifiant). 
+c. Sur ces mêmes données, effectuez un test paramétrique de comparaison de moyennes (Student ou Welch, à vous de choisi en le justifiant). 
 
-3. Interprétez le résultat. 
+d. Interprétez le résultat. 
 
 ****************************************
 # Données transcriptomiques obtenues par puces à ADN
@@ -222,24 +281,24 @@ Si vous arrivez ici, suivez ce tutoriel:
 <http://pedagogix-tagc.univ-mrs.fr/ASG/practicals/microarrays_student_test/DenBoer_Student_test.html>
 
 ****************************************
-## Summary table: symbols and formulas
+# Formules mathématiques
 
 - Greek symbols ($\mu$, $\sigma$) denote population-wide statistics, and roman symbols ($\bar{x}$, $s$) sample-based statistics.
 - The "hat" ($\hat{ }$) symbol is used to denote sample-based estimates of population parameters.
 
 | Symbol       | Description   |
 |--------------|------------------------------------------------|
-| $\mu_{i,1},  \mu_{i,2}$ | Mean of expression values for the gene $i$ in the whole populations 1 and 2, respectively (in our case, the popultations correspond to all the blood samples that could possibly be taken from patients suffering from cancer of type 1 and 2). |
-| $\sigma_{i,1}, \sigma_{i,2}$ | Standard deviation of expression values for the gene $i$ in the whole populations 1 and 2, respectively. |
+| $\mu_{1},  \mu_{2}$ | Mean of expression values for the gene $i$ in the whole populations 1 and 2, respectively (in our case, the popultations correspond to all the blood samples that could possibly be taken from patients suffering from cancer of type 1 and 2). |
+| $\sigma_{1}, \sigma_{2}$ | Standard deviation of expression values for the gene $i$ in the whole populations 1 and 2, respectively. |
 | $n_1$, $n_2$ | "Sample sizes" in the statistical sense, i.e. number of observations for the groups 1 and 2, respectively. |
-| $\bar{x}_{i,1}, \bar{x}_{i,2}$ | Mean of expression values for the gene $i$ in samples of the groups 1 and 2, respectively. |
-| $s^2_{i,1}, s^2_{i,2}$ | Variance of expression values for the gene $i$ in samples of the groups 1 and 2, respectively. |
-| $s_{i,1}, s_{i,2}$ | Standard deviations of expression values for the gene $i$ in samples of the groups 1 and 2, respectively. |
+| $\bar{x}_{1}, \bar{x}_{2}$ | Mean of expression values for the gene $i$ in samples of the groups 1 and 2, respectively. |
+| $s^2_{1}, s^2_{2}$ | Variance of expression values for the gene $i$ in samples of the groups 1 and 2, respectively. |
+| $s_{1}, s_{2}$ | Standard deviations of expression values for the gene $i$ in samples of the groups 1 and 2, respectively. |
 | $\hat{\sigma}_p = \sqrt{\frac{n_1 s_1^2 + n_2 s_2^2}{n_1+n_2-2}}$ | Pooled standard deviation, used as estimator for the standard deviation of two groups altogether, when their variances are assumed equal. |
 | $d = \hat{\delta} = \hat{\mu}_2 - \hat{\mu}_1  = \bar{x}_2 - \bar{x}_1$ | $d$ = Effect size (difference between sample means), used as estimator of the difference between population means $\delta$. |
 | $\hat{\sigma}_\delta = \hat{\sigma}_p \sqrt{\left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}$  | Standard error about the difference between means of two groups whose variances are assumed equal (Student). |
-| $t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} =  \frac{\bar{x}_{i,2} - \bar{x}_{i,1}}{\sqrt{\frac{n_1 s_{i,1}^2 + n_2 s_{i,2}^2}{n_1+n_2-2} \left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}}$ | Student $t$ statistics |
-| $t_{W}=\frac{\bar{x}_{i,1} - \bar{x}_{i,2}}{\sqrt{\frac {s^2_{i,1}}{n_1} + \frac{s^2_{i,2}}{n_2}}}$ | Welch $t$ statistics |
+| $t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} =  \frac{\bar{x}_{2} - \bar{x}_{1}}{\sqrt{\frac{n_1 s_{1}^2 + n_2 s_{2}^2}{n_1+n_2-2} \left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}}$ | Student $t$ statistics |
+| $t_{W}=\frac{\bar{x}_{1} - \bar{x}_{2}}{\sqrt{\frac {s^2_{1}}{n_1} + \frac{s^2_{2}}{n_2}}}$ | Welch $t$ statistics |
 | | |
 
 

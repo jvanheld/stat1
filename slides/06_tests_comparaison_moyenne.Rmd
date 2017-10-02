@@ -3,11 +3,18 @@ title: "Tests de comparaison de moyenne"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  pdf_document:
+  beamer_presentation:
+    colortheme: dolphin
     fig_caption: yes
-    highlight: zenburn
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
     toc: yes
-    toc_depth: 3
   html_document:
     fig_caption: yes
     highlight: zenburn
@@ -24,18 +31,11 @@ output:
     smaller: yes
     toc: yes
     widescreen: yes
-  beamer_presentation:
-    colortheme: dolphin
+  pdf_document:
     fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
+    highlight: zenburn
     toc: yes
+    toc_depth: 3
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -93,72 +93,149 @@ Ce test est utilisé dans un grand nombre de contextes, nous l'appliquerons ici 
 
 ## L'hypothèse à tester
 
-$$H_0: \mu_1 = \mu_2$$
+**Principe général:** 
 
-$$H_1: \mu_1 \neq \mu_2$$
+- On observe une différence entre les moyennes d'échantillons, et on veut savoir si celle-ci résulte du hasard de l'échantillonnage ou d'une différence réelle entre les populations. 
+- On pose l'***hypothèse nulle*** ($H_0$) selon laquelle il n'existe pas de différence entre les deux populations. L'***hypothèse alternative*** ($H_1$) est qu'il existe une différence. 
+- On évalue la probabilité que les échantillons aient été générés selon cette hypothèse nulle. 
+- Si cette probabilité est trop faible, on rejette l'hypothèse nulle ($RH_0$). 
+- Sinon, on accepte (temporairement) l'hypothèse nulle ($AH_0$).
 
-IL s'agit ici d'un **test bilatéral** (***two-tailed test***): nous désirons détecter une éventuelle différence indépendamment de son signe. 
 
-Modalité alternative: **test unilatéral** (***one-tailed test***), où l'on ne s'intéresse qu'à des différences soit positives ($H1: \mu_1 > \mu_2$) soit négatives ($H1: \mu_1 < \mu_2$).
 
-## Choix d'un test de comparaison de moyenne
+## Test bilatéral (*two-tailed test*)
 
-Il existe différentes méthodes pour tester l'égalité entre deux moyennes. Le choix de la méthode dépend de la nature des données. 
+$$H_0: \mu_1 = \mu_2 \\
+H_1: \mu_1 \neq \mu_2$$
+
+Il s'agit ici d'un **test bilatéral** (***two-tailed test***): nous désirons détecter une éventuelle différence indépendamment de son signe. 
+
+## Test unilatéral (*one-tailed test*)
+
+Modalité alternative: **test unilatéral** (***one-tailed test***), où l'on ne s'intéresse qu'à des différences allant dans une direction donnée. 
+
+
+Différences positives (*right-tailed test*): 
+
+$$H_0: \mu_1 \le \mu_2 \\
+H_1: \mu_1 > \mu_2$$
+
+Différences négatives (*left-tailed test*):
+
+$$H_0: \mu_1 \ge \mu_2 \\
+H_1: \mu_1 < \mu_2$$
+
+## Hypothèses de travail
+
+- Il existe différentes méthodes pour tester l'égalité entre deux moyennes. 
+
+- Le choix de la méthode dépend de la nature des données. 
+
+- Avant de réaliser le test il est crucial de se poser quelques questions afin de choisir la méthode appropriée. 
+
+- Il s'agit de **vérifier les hypothèses de travail**, c'est-à-dire des hypothèses sur lesquelles reposera l'approche envisagée. 
+
+## Hypothèse de normalité
+
+**Les populations dont les échantillons sont tirés suivent-elles des distributions normales ?** 
+
+
+- Si oui on peut réaliser des tests paramétriques (ils reposent sur une hypothèse de normalité). Dans le cas contraire il faut recourir à des tests non-paramétriques.
+
+    **Pourquoi ?** Les tables de probabilités de risques des tests paramétriques ont été établies sur base de modèles mathématiques reposant sur l'hypothèse de normalité.
+
+- En cas de non-normalité, **les échantillons sont-ils de grande taille ?** Si oui on peut se rabattre sur les méthodes paramétriques 
+
+    **Pourquoi ?** En vertu du **théorème central limite**, les moyennes d'échantillon tendent vers une normale même si les populations-mères ne sont pas normales. 
+
+
+## Hypothèse d'homoscédasticité (égalité des variances)
+
+Pour les tests paramétriques, **les populations ont-elles (vraisemblablement) la même variance ? ** 
+
+
+- Si oui on peut appliquer le test de Student. 
+
+- Dans le cas contraire, test de Welch. 
+
+    **Pourquoi ?** La distribution de probabilité de Student a été calculée sur base d'une hypothèse d'**homoscédasticité** (égalité des variances). Le test de Welch effectue une correction en cas d'**hétéroscédasticité** (inégalité des variances), en modifiant le nombre de degrés de liberté en fonction des différences entre variances. 
+
+    
+## Schéma du choix d'un test de comparaison de moyenne
 
 ```{r mean_compa_flowchart, fig.width=7, fig.height=5}
 # creates an empty plot
 openplotmat(main="Choice of a mean comparison test")
 
 # create the coordinates
-pos <- coordinates(c(1, 2, 1, 3))
-pos[2,1] <- (pos[5,1] + pos[6, 1])/2
-pos[4,1] <- (pos[5,1] + pos[6, 1])/2
+pos <- coordinates(c(1, 2, 2, 3))
+pos[2,1] <- (pos[6,1] + pos[7, 1])/2
+pos[4,1] <- (pos[6,1] + pos[7, 1])/2
+pos[3,1] <- pos[8,1]
+pos[5,1] <- pos[8,1]
 pos.labels <- c("normality ?", 
-               "Parametric", "Non-parametric",
-               "Equal var ?", 
+               "Parametric", "Large samples ?", 
+               "Equal var ?", "Non-parametric",
                "Student", "Welch", "Wilcoxon")
+nb.nodes <- nrow(pos)
+question.nodes <- c(1, 3, 4)
+  
 fromto <- matrix(ncol = 2, byrow = TRUE,
                  data = c(1, 2, 
                           1, 3, 
+                          3, 2,
                           2, 4, 
-                          4, 5, 
-                          4, 6,
-                          3, 7))
-arrow.colors <- rep(length.out=nrow(fromto), "black")
-arrow.colors[1] <- "#00BB00"
-arrow.colors[2] <- "red"
-arrow.colors[4] <- "#00BB00"
-arrow.colors[5] <- "red"
+                          4, 6, 
+                          4, 7,
+                          3, 5,
+                          5, 8
+                          ))
+yes.arrows <- c(1,3,6)
+no.arrows <- c(2,5,7)
 
-nr     <- nrow(fromto)
-arrpos <- matrix(ncol = 2, nrow = nr)
-for (i in 1:nr) {
+
+nb.arrows     <- nrow(fromto)
+arrpos <- matrix(ncol = 2, nrow = nb.arrows)
+for (i in 1:nb.arrows) {
+  if (i %in% yes.arrows) {
+    arrow.color <- "#00BB00"
+  } else if (i %in% no.arrows) {
+    arrow.color <- "red"
+  } else {
+    arrow.color <- "black"
+  }
  arrpos[i, ] <- straightarrow (
    from = pos[fromto[i, 1], ],
    to = pos[fromto[i, 2], ],
    lwd = 2, arr.pos = 0.5,
-   arr.length = 0.25, lcol = arrow.colors[i])
+   arr.length = 0.25, lcol = arrow.color)
+  if (i %in% yes.arrows) {
+    text(arrpos[i, 1] + 0.02, arrpos[i, 2] - 0.03, "yes", col = "#00BB00")
+  } else if (i %in% no.arrows) {
+    text(arrpos[i, 1] + 0.02, arrpos[i, 2] - 0.03, "no", col = "red")
+  }
 }
 
-## Draw diamons for choices
-for (i in c(1,4)) {
-  textdiamond(
-    mid = pos[i,], radx = 0.2, rady = 0.05, 
-    lab = pos.labels[i], cex = 1, 
-    lcol="orange", lwd=2)
+for (i in 1:nb.nodes) {
+  if (i %in% question.nodes) {
+    ## Draw diamons for choices
+    textdiamond(
+      mid = pos[i,], radx = 0.2, rady = 0.05, 
+      lab = pos.labels[i], cex = 1, 
+      lcol="orange", lwd=2)
+    
+  } else {
+    ## Draw ellipses for operations 
+    textellipse(
+      mid = pos[i,], radx=0.15, rady=0.05,
+      lab=pos.labels[i])
+  }
 }
-
-## Draw ellipses for operations 
-for (i in c(2,3,5:7)) {
-  textellipse(
-    mid = pos[i,], radx=0.15, rady=0.05,
-    lab=pos.labels[i])
-}
-
-text(arrpos[1, 1] - 0.05, arrpos[2, 2], "yes", col = "#00BB00")
-text(arrpos[2, 1] + 0.05, arrpos[2, 2], "no", col = "red")
-text(arrpos[4, 1] - 0.05, arrpos[4, 2], "yes", col = "#00BB00")
-text(arrpos[5, 1] + 0.05, arrpos[5, 2], "no", col = "red")
+# text(arrpos[2, 1] + 0.05, arrpos[2, 2], "no", col = "red")
+# text(arrpos[4, 1] - 0.05, arrpos[4, 2], "yes", col = "#00BB00")
+# text(arrpos[5, 1] + 0.05, arrpos[5, 2], "no", col = "red")
+# text(arrpos[4, 1] - 0.05, arrpos[4, 2], "yes", col = "#00BB00")
+# text(arrpos[5, 1] + 0.05, arrpos[5, 2], "no", col = "red")
 
 
 ```

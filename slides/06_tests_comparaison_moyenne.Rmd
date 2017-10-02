@@ -3,18 +3,17 @@ title: "Tests de comparaison de moyenne"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  beamer_presentation:
-    colortheme: dolphin
+  slidy_presentation:
     fig_caption: yes
     fig_height: 6
     fig_width: 7
-    fonttheme: structurebold
     highlight: tango
     incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
     toc: yes
+    widescreen: yes
   html_document:
     fig_caption: yes
     highlight: zenburn
@@ -36,17 +35,18 @@ output:
     highlight: zenburn
     toc: yes
     toc_depth: 3
-  slidy_presentation:
+  beamer_presentation:
+    colortheme: dolphin
     fig_caption: yes
     fig_height: 6
     fig_width: 7
+    fonttheme: structurebold
     highlight: tango
     incremental: no
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
     toc: yes
-    widescreen: yes
   word_document:
     toc: yes
     toc_depth: 3
@@ -240,6 +240,64 @@ for (i in 1:nb.nodes) {
 
 ```
 
-```{r}
+
+## Test de Student
+
+Hypothèses d travail: **normalité** (ou bien grands échantillons), **homoscédasticité**. 
+
+Statistique: 
+
+$$t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} =  \frac{\bar{x}_{2} - \bar{x}_{1}}{\sqrt{\frac{n_1 s_{1}^2 + n_2 s_{2}^2}{n_1+n_2-2} \left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}}$$
+
+
+
+| Sens du test   | Critère de décision |
+|----------------------------|--------------------------------------|
+| Bilatéral | $RH_0 \quad \text{if} \quad \lvert t_S \rvert > t_{1-\frac{\alpha}{2}}^{n_1 + n_2 -2}$ |
+| Unilatéral à droite | $RH_0 \quad \text{if} \quad t_S > t_{1-\alpha}^{n_1 + n_2 -2}$ |
+| Unilatéral à gauche | $RH_0 \quad \text{if} \quad t_S < t_{alpha}^{n_1 + n_2 -2} = - t_{1-\alpha}^{n_1 + n_2 -2}$ |
+| | |
+
+## Exercice
+
+Un chercheur a analysé, à l’aide de biopuces, le niveau d’expression de l’ensemble des gènes à partir d’échantillons sanguins prélevés chez 50 patients (np=50) et chez 50 sujets témoins (nt=50). Il s’intéresse particulièrement à un gène qui semble montrer une différence entre les 2 groupes. Ainsi, il ré-analyse l’expression du même gène dans les mêmes échantillons en utilisant une autre technique, la qPCR. Il obtient 
+
+-	pour les patients, une moyenne $m_p= 21$
+-	pour les contrôles, une moyenne $m_t= 10$
+-	des écarts-types identiques pour les 2 groupes $s_p= s_t= s = 15$
+
+Afin de tester si la différence observée entre les moyennes est significative, le chercheur décide d’effectuer un test de Student.
+
+a.	Le choix du test de Student vous semble-t-il approprié ? Justifiez le choix du chercheur. Quelles auraient été les alternatives envisageables ?
+
+b.	Sachant qu’a priori on ne sait pas dans quel sens la maladie pourrait affecter le niveau d’expression du gène, préconisez-vous un test uni- ou bilatéral ?
+
+c.	Formulez l’hypothèse nulle et expliquez-la en une phrase.
+
+d.	Sur base de la formule ci-dessous, calculez la statistique $t$ de Student.
+
+e.	Indiquez, en vous basant sur les tables fournies, la p-valeur correspondante. 
+
+f.	Interprétez la p-valeur, et aidez le chercheur à tirer les conclusions de son étude.
+
+
+## Exercice
+
+Un groupe de chercheurs a détecté l’association, avec la résistance à la bilharziose, de taux élevés d’IgE spécifiques, une classe particulière d’anticorps. D’autres chercheurs ont cherché à répliquer ce résultat dans une population indépendante exposée à la bilharziose. Les résultats obtenus sont indiqués ci-dessous.
+
+-	Pour les sujets résistants ($n_r=32$), la moyenne $m_r=10$.
+-	Pour les sujets susceptibles ($n_s=32$), la moyenne $m_s=7$.
+-	Les écarts-types des deux groupes sont égaux : $s_r = s_s = s = 2.8$.
+
+a. Quelle méthode préconisez-vous pour tester l'égalité des moyennes (justifiez) ? Quelles sont les hypothèses de travail de ce test ?
+
+b. En partant du principe que ces conditions sont remplies dans le cas présent, formulez l’hypothèse nulle et calculez le score t de Student (formule ci-dessous). Enfin, estimez P valeur à partir de la table fournie. 
+
+c. A l'issue du test, quelle décision prenez-vous ? Justifiez votre réponse.
+
+
+
+
+
 
 

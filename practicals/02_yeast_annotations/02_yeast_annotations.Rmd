@@ -129,7 +129,17 @@ Chaque figure ou table doit être documentée par une légende permettant à un 
 ```{r load_yeast_cds_lengths, echo=FALSE}
 ## Read a GTF file
 ## Format specification: http://www.ensembl.org/info/website/upload/gff.html
-gtf.file <- "../../data/Saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.37.gtf"
+
+## Download tab-delimited file with chromosome sizes (unless already there)
+gtf.url <- "http://jvanheld.github.io/stat1/data/Saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz"
+gtf.file <- file.path(dir.main, "data", "Saccharomyces_cerevisiae", "Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz")
+
+if (file.exists(gtf.file)) {
+  message("GTF annotation file: ", gtf.file)
+} else {
+  download.file(gtf.URL, destfile = gtf.file)
+}
+
 feature.table <- read.delim(gtf.file, comment.char = "#", sep="\t", header=FALSE, row.names=NULL)
 names(feature.table) <- c("seqname", "source", "feature", "start", "end", "score", "strand", "frame", "attribute")
 # nrow(feature.table) ## Count feature number
@@ -471,7 +481,7 @@ feature.table$length <- feature.table$end - feature.table$start + 1
     - fonction `table()`
 
 ```{r}
-table(feature.table$feature)
+~table(feature.table$feature)
 ```
 
 
@@ -501,7 +511,7 @@ annot.url <- "http://jvanheld.github.io/stat1/data/Saccharomyces_cerevisiae/chro
 chrom.size.file <- file.path(dir.tuto, "chrom_sizes.tsv")
 
 if (!file.exists(chrom.size.file)) {
-    download.file(annot.url, destfile = file.path(dir.tuto, "chrom_sizes.tsv"))
+    download.file(annot.url, destfile = chrom.size.file)
 }
 
 ## Read chromosome sizes
@@ -557,6 +567,13 @@ print(cds.length.hist )
 - `class(cds.length.hist)`
 - `attributes(cds.length.hist)`
 
+
+D'autres types de graphiques permettent d'explorer la distribution d'un ensemble des données. En particulier, les boîtes à moustaches (box plots) affichent, pour une série de données, la médiane, l'écart interquartile, un intervalle de confiance et les valeurs aberrantes. 
+
+```{r fig.width=7, fig.height=5, fig.cap="Boîte à moustache indiquant la distribution de longueur des gènes par chromosome. "}
+boxplot(length ~ seqname, data = cds, col="palegreen", horizontal=TRUE, las=1, xlab="Gene length", ylab="Chromosome")
+
+```
 
 ### 7. Paramètres descriptifs
 
@@ -682,13 +699,25 @@ legend("topright", legend = c("genome", "chr3"), col = c("blue", "violet"), lwd=
 
 Sur base de la taille du génome (12.156.679 bp) et des fréquences génomiques de codons définies ci-dessous, calculez la distribution de longueurs de gènes attendue au hasard, et ajoutez-là au graphique. 
 
-Vous pouvez télécharger les fréquences génomiques de tous les  trinucléotides ici:  [3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab](../../data/Saccharomyces_cerevisiae/oligo_freq/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab)
+Vous pouvez télécharger les fréquences génomiques de tous les  trinucléotides ici:  [3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab](http://jvanheld.github.io/stat1/data/Saccharomyces_cerevisiae/oligo_freq/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab)
 
 Alternative: créez une variable `freq.3nt` et assignez-y manuellement les valeurs pour les 4 nucléotides nécessaires, à partir de la table ci-dessous.
 
 
 ```{r echo=FALSE}
-oligo.freq <- read.table("../../data/Saccharomyces_cerevisiae/oligo_freq/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab", sep="\t", row.names = NULL)
+## Download tab-delimited file with chromosome sizes (unless already there)
+freq.3nt.url <- "http://jvanheld.github.io/stat1/data/Saccharomyces_cerevisiae/oligo_freq/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab"
+freq.3nt.file <- file.path(dir.tuto, "3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab")
+
+if (file.exists(freq.3nt.file)) {
+  message("Trinucleotide frequency file: ", freq.3nt.file)
+} else {
+    download.file(freq.3nt.url, destfile = freq.3nt.file)
+}
+
+
+## Download oligonucleotide frequencies
+oligo.freq <- read.table(freq.3nt.file, sep="\t", row.names = NULL)
 colnames(oligo.freq) <- c("sequence", "frequency", "occurrences")
 oligo.freq$frequency <- signif(digits=3, oligo.freq$frequency)
 

@@ -128,61 +128,75 @@ Effectuez un test de comparaison de moyenne en utilisant la fonction `t.test()`.
 Interprétez le résultat de la fonction `t.test()`  (paramètres, décision, interprétation de la p-valeur). 
 
 ```{r}
-n1 <- 10
-n2 <- 10
-mu1 <- 7
-mu2 <- 7
-sigma1 <- 2
+n1 <- 10 ## Taille du premier échantillon
+n2 <- 10 ## Taille du second échantillojn
+mu1 <- 7 ## Moyenne de la 1ère population
+mu2 <- 7 
+sigma1 <- 2 ## Ecart-type de la popumation 1
 sigma2 <- 2
 
+## On tire des échantillons des deux populations respectives
 x1 <- rnorm(n = n1, mean = mu1, sd = sigma1)
 x2 <- rnorm(n = n2, mean = mu2, sd = sigma2)
 
+## Moyennes d'échantillons
 m1 <- mean(x1)
 m2 <- mean(x2)
 
+## Seuil critique sur le risque d'erreur de type I
 alpha <- 0.05
 
+## Utiliser la fonction t.test() pour réaliser le test de Student
 t.test(x1, x2, 
-       var.equal = TRUE, 
-       alternative = "two.sided", 
-       conf.level = 1 - alpha)
+       var.equal = TRUE,  ## On postule les variances égales
+       alternative = "two.sided", ## Test bilatéral
+       conf.level = 1 - alpha ## Niveau de confiance
+       )
 
 ```
 
 
 ### 3. Calcul manuel des statistiques de Student
 
-Au moyen de la fonction R `sum()`, calculez les paramètres de vos échantillons nécessaires au test de Student ($\bar{x}_1, \bar{x}_2, s_1, s_2$). 
+a. Au moyen de la fonction R `sum()`, calculez les paramètres de vos échantillons nécessaires au test de Student ($\bar{x}_1, \bar{x}_2, s_1, s_2$). 
 
 ```{r sample_parameters}
-n1 <- length(x1)
-m1 <- sum(x1) / n1
-s1 <- sqrt(sum((x1 - m1)^2)/n1)
-n2 <- length(x2)
+
+n1 <- length(x1) ## Taille d'échantillon
+m1 <- sum(x1) / n1 ## Moenne du premier échantillon
+s1 <- sqrt(sum((x1 - m1)^2)/n1) ## Ecart-type du premier échantillon
+
+## Idem pour le second échantillon
+n2 <- length(x2) 
 m2 <- sum(x2) / n2
 s2 <- sqrt(sum((x2 - m2)^2)/n2)
-print(paste("n1 =", n1, "; m1 =", round(digits=2, m1), "; s1 = ", round(digits=2, s1)))
-print(paste("n2 =", n2, "; m2 =", round(digits=2, m2), "; s2 = ", round(digits=2, s2)))
+
+## Afficher les paramètres des échantillons
+cat("n1 =", n1, "; m1 =", round(digits=2, m1), "; s1 = ", round(digits=2, s1))
+cat("n2 =", n2, "; m2 =", round(digits=2, m2), "; s2 = ", round(digits=2, s2))
 
 ```
 
 
-Au moyen de cette même fonction `sum()`, calculez les estimateurs de ces paramètres pour les populations  ($\mu{x}_1, \mu{x}_2, \sigma_1, \sigma_2$).
+b. Au moyen de cette même fonction `sum()`, estimez les estimateurs de ces paramètres pour les populations  ($\hat{\mu}_1, \hat{\mu}_2, \hat{\sigma}_1, \hat{\sigma}_2$).
 
 ```{r}
+## Estimation des moyennes de population
 mu1.est <- m1
 mu2.est <- m2
+
+## Estimation des écarts-types
 sigma1.est <- s1 * sqrt(n1/(n1-1))
 sigma2.est <- s2 * sqrt(n2/(n2-1))
 
-print(paste("mu1.est = ", round(digits=2, mu1.est), "sigma1.est", round(digits=2, sigma1.est)))
-print(paste("mu2.est = ", round(digits=2, mu2.est), "sigma2.est", round(digits=2, sigma2.est)))
+## Afficher les paramètres estimés pour la population
+cat("mu1.est = ", round(digits=2, mu1.est), "sigma1.est", round(digits=3, sigma1.est))
+cat("mu2.est = ", round(digits=2, mu2.est), "sigma2.est", round(digits=3, sigma2.est))
 
 ```
 
 
-Recalculez ces paramètres au moyen des fonctions R `mean()` et `sd()`.
+c. Recalculez ces paramètres au moyen des fonctions R `mean()` et `sd()`.
 
 ```{r}
 mean1 <- mean(x1)
@@ -190,16 +204,15 @@ mean2 <- mean(x2)
 sd1 <- sd(x1)
 sd2 <- sd(x2)
 
-print(paste("mean1 = ", round(digits=2, mean1), "sd1", round(digits=2, sd1)))
-print(paste("mean2 = ", round(digits=2, mean2), "sd2", round(digits=2, sd2)))
-
+cat("mean1 = ", round(digits=2, mean1), "sd1", round(digits=2, sd1))
+cat("mean2 = ", round(digits=2, mean2), "sd2", round(digits=2, sd2))
 
 ```
 
 
 **Attention**, les fonctions R `var()` et `sd()` ne calculent pas les paramètres d'échantillons ($s^2$, $s$) mais les estimateurs des paramètres de population  correspondants ($\hat{\sigma}^2$, $\hat{\sigma}$). 
 
-Sur base de ces paramètres, calculez la statistique $t_{obs}$ de Student. Justifiez le choix des paramètres que vous choisirez pour cette fonction. 
+d. Sur base de ces paramètres, calculez la statistique $t_{obs}$ de Student. Justifiez le choix des paramètres que vous choisirez pour cette fonction. 
 
 $$t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} =  \frac{\bar{x}_{2} - \bar{x}_{1}}{\sqrt{\frac{n_1 s_{1}^2 + n_2 s_{2}^2}{n_1+n_2-2} \left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}}$$
 
@@ -216,14 +229,19 @@ Student.t <- diff / Student.diff.err
 
 
 ## Print Student statistics with 5 significant digits
-print(paste("Student statistics  t =", signif(digits=5, Student.t)))
+cat("Student statistics  t =", signif(digits=5, Student.t))
 
 ```
 
 
-Avec la fonction $pt()$, calculez la p-valeur de cette valeur $t$. 
+e. Avec la fonction $pt()$, calculez la p-valeur de cette valeur $t$. 
 
-Interprétez les résultats (décision, interprétation de la p-valeur). 
+```{r}
+
+```
+
+
+f. Interprétez les résultats (décision, interprétation de la p-valeur). 
 
 
 ### 4. Mesure empirique du taux de faux-positifs
@@ -283,22 +301,22 @@ Si vous arrivez ici, suivez ce tutoriel:
 ****************************************
 # Formules mathématiques
 
-- Greek symbols ($\mu$, $\sigma$) denote population-wide statistics, and roman symbols ($\bar{x}$, $s$) sample-based statistics.
-- The "hat" ($\hat{ }$) symbol is used to denote sample-based estimates of population parameters.
+- Les syboles grecs ($\mu$, $\sigma$) correspondent aux statistiques de population, les symboles romains ($\bar{x}$, $s$) aux statistiques d'échantillon.
+- L'accent circonflexe ($\hat{ }$) indique les estimateurs de paramètres de population calculés à partir de paramètres d'échantillons. 
 
 | Symbol       | Description   |
-|--------------|------------------------------------------------|
-| $\mu_{1},  \mu_{2}$ | Mean of expression values for the gene $i$ in the whole populations 1 and 2, respectively (in our case, the popultations correspond to all the blood samples that could possibly be taken from patients suffering from cancer of type 1 and 2). |
-| $\sigma_{1}, \sigma_{2}$ | Standard deviation of expression values for the gene $i$ in the whole populations 1 and 2, respectively. |
-| $n_1$, $n_2$ | "Sample sizes" in the statistical sense, i.e. number of observations for the groups 1 and 2, respectively. |
-| $\bar{x}_{1}, \bar{x}_{2}$ | Mean of expression values for the gene $i$ in samples of the groups 1 and 2, respectively. |
-| $s^2_{1}, s^2_{2}$ | Variance of expression values for the gene $i$ in samples of the groups 1 and 2, respectively. |
-| $s_{1}, s_{2}$ | Standard deviations of expression values for the gene $i$ in samples of the groups 1 and 2, respectively. |
-| $\hat{\sigma}_p = \sqrt{\frac{n_1 s_1^2 + n_2 s_2^2}{n_1+n_2-2}}$ | Pooled standard deviation, used as estimator for the standard deviation of two groups altogether, when their variances are assumed equal. |
-| $d = \hat{\delta} = \hat{\mu}_2 - \hat{\mu}_1  = \bar{x}_2 - \bar{x}_1$ | $d$ = Effect size (difference between sample means), used as estimator of the difference between population means $\delta$. |
-| $\hat{\sigma}_\delta = \hat{\sigma}_p \sqrt{\left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}$  | Standard error about the difference between means of two groups whose variances are assumed equal (Student). |
-| $t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} =  \frac{\bar{x}_{2} - \bar{x}_{1}}{\sqrt{\frac{n_1 s_{1}^2 + n_2 s_{2}^2}{n_1+n_2-2} \left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}}$ | Student $t$ statistics |
-| $t_{W}=\frac{\bar{x}_{1} - \bar{x}_{2}}{\sqrt{\frac {s^2_{1}}{n_1} + \frac{s^2_{2}}{n_2}}}$ | Welch $t$ statistics |
+|--------------|----------------------------------------------------|
+| $\mu_{1},  \mu_{2}$ | Moyennes respectives des populations 1 et 2. |
+| $\sigma_{1}, \sigma_{2}$ | Ecarts-types respectifs des populations 1 and 2. |
+| $N_1$, $N_2$ | Tailles (nombre d'individus) des populations 1 et 2. |
+| $n_1$, $n_2$ | Effectifs (nombre d'individus) des échantillons prélevés sur les populations 1 et 2. |
+| $\bar{x}_{1}, \bar{x}_{2}$ | Moyennes d'échantillons. |
+| $\delta = \mu_{2} - \mu{1} | Différence entre les moyennes des populations. |
+| $d = \hat{\delta} = \hat{\mu}_2 - \hat{\mu}_1  = \bar{x}_2 - \bar{x}_1$ | $d$ = **Taille d'effet**: dans un test de comparaison de moyennes, il s'agit de la différence entre les moyennes d'échantillons, utilisée comme estimateur de $\delta$. |
+| $s^2_{1}, s^2_{2}$ | Variances mesurées sur les échantillons. |
+| $\hat{\sigma}_p = \sqrt{\frac{n_1 s_1^2 + n_2 s_2^2}{n_1+n_2-2}}$ | Ecart-type groupé (*pooled standard deviation*), utilisé comme estimateur de l'écart-type commun des deux populations, en supposant leurs variances égales (hypothèse de travail d'homoscédasticité). |
+| $\hat{\sigma}_\delta = \hat{\sigma}_p \sqrt{\left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}$  | Erreur standard sur la différence entre moyennes, en supposant que les populations ont la même variance (test de Student). |
+| $t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} =  \frac{\bar{x}_{2} - \bar{x}_{1}}{\sqrt{\frac{n_1 s_{1}^2 + n_2 s_{2}^2}{n_1+n_2-2} \left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}}$ | statistique $t$ de Student |
+| $t_{W}=\frac{\bar{x}_{1} - \bar{x}_{2}}{\sqrt{\frac {s^2_{1}}{n_1} + \frac{s^2_{2}}{n_2}}}$ | statistique $t$ de Welch |
 | | |
-
 

@@ -11,7 +11,7 @@
 
 <meta name="author" content="Jacques van Helden" />
 
-<meta name="date" content="2017-10-02" />
+<meta name="date" content="2017-10-05" />
 
 <title>Tuto et TP: tests de comparaison de moyenne</title>
 
@@ -267,7 +267,7 @@ div.tocify {
 <h1 class="title toc-ignore">Tuto et TP: tests de comparaison de moyenne</h1>
 <h3 class="subtitle"><em>Probabilités et statistique pour la biologie (STAT1)</em></h3>
 <h4 class="author"><em>Jacques van Helden</em></h4>
-<h4 class="date"><em>2017-10-02</em></h4>
+<h4 class="date"><em>2017-10-05</em></h4>
 
 </div>
 
@@ -302,71 +302,92 @@ div.tocify {
 <h2>2. Application du test avec la fonction <code>t.test()</code></h2>
 <p>Effectuez un test de comparaison de moyenne en utilisant la fonction <code>t.test()</code>. Lisez attentivement l’aide de cette fonction, et choisissez les paramètres en tenant compte des caractéristiques de vos données. Nous effectuerons ici un test bilatéral (<em>two-tailed</em>).</p>
 <p>Interprétez le résultat de la fonction <code>t.test()</code> (paramètres, décision, interprétation de la p-valeur).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">n1 &lt;-<span class="st"> </span><span class="dv">10</span>
-n2 &lt;-<span class="st"> </span><span class="dv">10</span>
-mu1 &lt;-<span class="st"> </span><span class="dv">7</span>
-mu2 &lt;-<span class="st"> </span><span class="dv">7</span>
-sigma1 &lt;-<span class="st"> </span><span class="dv">2</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">n1 &lt;-<span class="st"> </span><span class="dv">10</span> ## Taille du premier échantillon
+n2 &lt;-<span class="st"> </span><span class="dv">10</span> ## Taille du second échantillojn
+mu1 &lt;-<span class="st"> </span><span class="dv">7</span> ## Moyenne de la 1ère population
+mu2 &lt;-<span class="st"> </span><span class="dv">7</span> 
+sigma1 &lt;-<span class="st"> </span><span class="dv">2</span> ## Ecart-type de la popumation 1
 sigma2 &lt;-<span class="st"> </span><span class="dv">2</span>
 
+## On tire des échantillons des deux populations respectives
 x1 &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> n1, <span class="dt">mean =</span> mu1, <span class="dt">sd =</span> sigma1)
 x2 &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> n2, <span class="dt">mean =</span> mu2, <span class="dt">sd =</span> sigma2)
 
+## Moyennes d'échantillons
 m1 &lt;-<span class="st"> </span><span class="kw">mean</span>(x1)
 m2 &lt;-<span class="st"> </span><span class="kw">mean</span>(x2)
 
+## Seuil critique sur le risque d'erreur de type I
 alpha &lt;-<span class="st"> </span><span class="fl">0.05</span>
 
+## Utiliser la fonction t.test() pour réaliser le test de Student
 <span class="kw">t.test</span>(x1, x2, 
-       <span class="dt">var.equal =</span> <span class="ot">TRUE</span>, 
-       <span class="dt">alternative =</span> <span class="st">&quot;two.sided&quot;</span>, 
-       <span class="dt">conf.level =</span> <span class="dv">1</span> -<span class="st"> </span>alpha)</code></pre></div>
+       <span class="dt">var.equal =</span> <span class="ot">TRUE</span>,  ## On postule les variances égales
+       <span class="dt">alternative =</span> <span class="st">&quot;two.sided&quot;</span>, ## Test bilatéral
+       <span class="dt">conf.level =</span> <span class="dv">1</span> -<span class="st"> </span>alpha ## Niveau de confiance
+       )</code></pre></div>
 <pre><code>
     Two Sample t-test
 
 data:  x1 and x2
-t = 1.1739, df = 18, p-value = 0.2557
+t = -0.56783, df = 18, p-value = 0.5772
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -0.739101  2.610953
+ -1.939173  1.113983
 sample estimates:
 mean of x mean of y 
- 7.469517  6.533591 </code></pre>
+ 6.469654  6.882250 </code></pre>
 <div id="calcul-manuel-des-statistiques-de-student" class="section level3">
 <h3>3. Calcul manuel des statistiques de Student</h3>
-<p>Au moyen de la fonction R <code>sum()</code>, calculez les paramètres de vos échantillons nécessaires au test de Student (<span class="math inline">\(\bar{x}_1, \bar{x}_2, s_1, s_2\)</span>).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">n1 &lt;-<span class="st"> </span><span class="kw">length</span>(x1)
-m1 &lt;-<span class="st"> </span><span class="kw">sum</span>(x1) /<span class="st"> </span>n1
-s1 &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">sum</span>((x1 -<span class="st"> </span>m1)^<span class="dv">2</span>)/n1)
-n2 &lt;-<span class="st"> </span><span class="kw">length</span>(x2)
+<ol style="list-style-type: lower-alpha">
+<li>Au moyen de la fonction R <code>sum()</code>, calculez les paramètres de vos échantillons nécessaires au test de Student (<span class="math inline">\(\bar{x}_1, \bar{x}_2, s_1, s_2\)</span>).</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">n1 &lt;-<span class="st"> </span><span class="kw">length</span>(x1) ## Taille d'échantillon
+m1 &lt;-<span class="st"> </span><span class="kw">sum</span>(x1) /<span class="st"> </span>n1 ## Moenne du premier échantillon
+s1 &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">sum</span>((x1 -<span class="st"> </span>m1)^<span class="dv">2</span>)/n1) ## Ecart-type du premier échantillon
+
+## Idem pour le second échantillon
+n2 &lt;-<span class="st"> </span><span class="kw">length</span>(x2) 
 m2 &lt;-<span class="st"> </span><span class="kw">sum</span>(x2) /<span class="st"> </span>n2
 s2 &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">sum</span>((x2 -<span class="st"> </span>m2)^<span class="dv">2</span>)/n2)
-<span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;n1 =&quot;</span>, n1, <span class="st">&quot;; m1 =&quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">2</span>, m1), <span class="st">&quot;; s1 = &quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">2</span>, s1)))</code></pre></div>
-<pre><code>[1] &quot;n1 = 10 ; m1 = 7.47 ; s1 =  2&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;n2 =&quot;</span>, n2, <span class="st">&quot;; m2 =&quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">2</span>, m2), <span class="st">&quot;; s2 = &quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">2</span>, s2)))</code></pre></div>
-<pre><code>[1] &quot;n2 = 10 ; m2 = 6.53 ; s2 =  1.31&quot;</code></pre>
-<p>Au moyen de cette même fonction <code>sum()</code>, calculez les estimateurs de ces paramètres pour les populations (<span class="math inline">\(\mu{x}_1, \mu{x}_2, \sigma_1, \sigma_2\)</span>).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mu1.est &lt;-<span class="st"> </span>m1
+
+## Afficher les paramètres des échantillons
+<span class="kw">cat</span>(<span class="st">&quot;n1 =&quot;</span>, n1, <span class="st">&quot;; m1 =&quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">2</span>, m1), <span class="st">&quot;; s1 = &quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">2</span>, s1))</code></pre></div>
+<pre><code>n1 = 10 ; m1 = 6.47 ; s1 =  1.67</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="st">&quot;n2 =&quot;</span>, n2, <span class="st">&quot;; m2 =&quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">2</span>, m2), <span class="st">&quot;; s2 = &quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">2</span>, s2))</code></pre></div>
+<pre><code>n2 = 10 ; m2 = 6.88 ; s2 =  1.4</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Au moyen de cette même fonction <code>sum()</code>, estimez les estimateurs de ces paramètres pour les populations (<span class="math inline">\(\hat{\mu}_1, \hat{\mu}_2, \hat{\sigma}_1, \hat{\sigma}_2\)</span>).</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Estimation des moyennes de population
+mu1.est &lt;-<span class="st"> </span>m1
 mu2.est &lt;-<span class="st"> </span>m2
+
+## Estimation des écarts-types
 sigma1.est &lt;-<span class="st"> </span>s1 *<span class="st"> </span><span class="kw">sqrt</span>(n1/(n1<span class="dv">-1</span>))
 sigma2.est &lt;-<span class="st"> </span>s2 *<span class="st"> </span><span class="kw">sqrt</span>(n2/(n2<span class="dv">-1</span>))
 
-<span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;mu1.est = &quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">2</span>, mu1.est), <span class="st">&quot;sigma1.est&quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">2</span>, sigma1.est)))</code></pre></div>
-<pre><code>[1] &quot;mu1.est =  7.47 sigma1.est 2.11&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;mu2.est = &quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">2</span>, mu2.est), <span class="st">&quot;sigma2.est&quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">2</span>, sigma2.est)))</code></pre></div>
-<pre><code>[1] &quot;mu2.est =  6.53 sigma2.est 1.38&quot;</code></pre>
-<p>Recalculez ces paramètres au moyen des fonctions R <code>mean()</code> et <code>sd()</code>.</p>
+## Afficher les paramètres estimés pour la population
+<span class="kw">cat</span>(<span class="st">&quot;mu1.est = &quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">2</span>, mu1.est), <span class="st">&quot;sigma1.est&quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">3</span>, sigma1.est))</code></pre></div>
+<pre><code>mu1.est =  6.47 sigma1.est 1.758</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="st">&quot;mu2.est = &quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">2</span>, mu2.est), <span class="st">&quot;sigma2.est&quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">3</span>, sigma2.est))</code></pre></div>
+<pre><code>mu2.est =  6.88 sigma2.est 1.48</code></pre>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Recalculez ces paramètres au moyen des fonctions R <code>mean()</code> et <code>sd()</code>.</li>
+</ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mean1 &lt;-<span class="st"> </span><span class="kw">mean</span>(x1)
 mean2 &lt;-<span class="st"> </span><span class="kw">mean</span>(x2)
 sd1 &lt;-<span class="st"> </span><span class="kw">sd</span>(x1)
 sd2 &lt;-<span class="st"> </span><span class="kw">sd</span>(x2)
 
-<span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;mean1 = &quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">2</span>, mean1), <span class="st">&quot;sd1&quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">2</span>, sd1)))</code></pre></div>
-<pre><code>[1] &quot;mean1 =  7.47 sd1 2.11&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;mean2 = &quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">2</span>, mean2), <span class="st">&quot;sd2&quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">2</span>, sd2)))</code></pre></div>
-<pre><code>[1] &quot;mean2 =  6.53 sd2 1.38&quot;</code></pre>
+<span class="kw">cat</span>(<span class="st">&quot;mean1 = &quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">2</span>, mean1), <span class="st">&quot;sd1&quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">2</span>, sd1))</code></pre></div>
+<pre><code>mean1 =  6.47 sd1 1.76</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="st">&quot;mean2 = &quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">2</span>, mean2), <span class="st">&quot;sd2&quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">2</span>, sd2))</code></pre></div>
+<pre><code>mean2 =  6.88 sd2 1.48</code></pre>
 <p><strong>Attention</strong>, les fonctions R <code>var()</code> et <code>sd()</code> ne calculent pas les paramètres d’échantillons (<span class="math inline">\(s^2\)</span>, <span class="math inline">\(s\)</span>) mais les estimateurs des paramètres de population correspondants (<span class="math inline">\(\hat{\sigma}^2\)</span>, <span class="math inline">\(\hat{\sigma}\)</span>).</p>
-<p>Sur base de ces paramètres, calculez la statistique <span class="math inline">\(t_{obs}\)</span> de Student. Justifiez le choix des paramètres que vous choisirez pour cette fonction.</p>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>Sur base de ces paramètres, calculez la statistique <span class="math inline">\(t_{obs}\)</span> de Student. Justifiez le choix des paramètres que vous choisirez pour cette fonction.</li>
+</ol>
 <p><span class="math display">\[t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} =  \frac{\bar{x}_{2} - \bar{x}_{1}}{\sqrt{\frac{n_1 s_{1}^2 + n_2 s_{2}^2}{n_1+n_2-2} \left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}}\]</span></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Difference between sample means
 diff &lt;-<span class="st"> </span>m1 -<span class="st"> </span>m2
@@ -379,10 +400,12 @@ Student.t &lt;-<span class="st"> </span>diff /<span class="st"> </span>Student.d
 
 
 ## Print Student statistics with 5 significant digits
-<span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;Student statistics  t =&quot;</span>, <span class="kw">signif</span>(<span class="dt">digits=</span><span class="dv">5</span>, Student.t)))</code></pre></div>
-<pre><code>[1] &quot;Student statistics  t = 1.1739&quot;</code></pre>
-<p>Avec la fonction <span class="math inline">\(pt()\)</span>, calculez la p-valeur de cette valeur <span class="math inline">\(t\)</span>.</p>
-<p>Interprétez les résultats (décision, interprétation de la p-valeur).</p>
+<span class="kw">cat</span>(<span class="st">&quot;Student statistics  t =&quot;</span>, <span class="kw">signif</span>(<span class="dt">digits=</span><span class="dv">5</span>, Student.t))</code></pre></div>
+<pre><code>Student statistics  t = -0.56783</code></pre>
+<ol start="5" style="list-style-type: lower-alpha">
+<li><p>Avec la fonction <span class="math inline">\(pt()\)</span>, calculez la p-valeur de cette valeur <span class="math inline">\(t\)</span>.</p></li>
+<li><p>Interprétez les résultats (décision, interprétation de la p-valeur).</p></li>
+</ol>
 </div>
 <div id="mesure-empirique-du-taux-de-faux-positifs" class="section level3">
 <h3>4. Mesure empirique du taux de faux-positifs</h3>
@@ -434,13 +457,13 @@ Student.t &lt;-<span class="st"> </span>diff /<span class="st"> </span>Student.d
 <div id="formules-mathematiques" class="section level1">
 <h1>Formules mathématiques</h1>
 <ul>
-<li>Greek symbols (<span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma\)</span>) denote population-wide statistics, and roman symbols (<span class="math inline">\(\bar{x}\)</span>, <span class="math inline">\(s\)</span>) sample-based statistics.</li>
-<li>The “hat” (<span class="math inline">\(\hat{ }\)</span>) symbol is used to denote sample-based estimates of population parameters.</li>
+<li>Les syboles grecs (<span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma\)</span>) correspondent aux statistiques de population, les symboles romains (<span class="math inline">\(\bar{x}\)</span>, <span class="math inline">\(s\)</span>) aux statistiques d’échantillon.</li>
+<li>L’accent circonflexe (<span class="math inline">\(\hat{ }\)</span>) indique les estimateurs de paramètres de population calculés à partir de paramètres d’échantillons.</li>
 </ul>
-<table style="width:89%;">
+<table style="width:94%;">
 <colgroup>
 <col width="20%"></col>
-<col width="68%"></col>
+<col width="73%"></col>
 </colgroup>
 <thead>
 <tr class="header">
@@ -451,49 +474,53 @@ Student.t &lt;-<span class="st"> </span>diff /<span class="st"> </span>Student.d
 <tbody>
 <tr class="odd">
 <td><span class="math inline">\(\mu_{1}, \mu_{2}\)</span></td>
-<td>Mean of expression values for the gene <span class="math inline">\(i\)</span> in the whole populations 1 and 2, respectively (in our case, the popultations correspond to all the blood samples that could possibly be taken from patients suffering from cancer of type 1 and 2).</td>
+<td>Moyennes respectives des populations 1 et 2.</td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\(\sigma_{1}, \sigma_{2}\)</span></td>
-<td>Standard deviation of expression values for the gene <span class="math inline">\(i\)</span> in the whole populations 1 and 2, respectively.</td>
+<td>Ecarts-types respectifs des populations 1 and 2.</td>
 </tr>
 <tr class="odd">
+<td><span class="math inline">\(N_1\)</span>, <span class="math inline">\(N_2\)</span></td>
+<td>Tailles (nombre d’individus) des populations 1 et 2.</td>
+</tr>
+<tr class="even">
 <td><span class="math inline">\(n_1\)</span>, <span class="math inline">\(n_2\)</span></td>
-<td>“Sample sizes” in the statistical sense, i.e. number of observations for the groups 1 and 2, respectively.</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(\bar{x}_{1}, \bar{x}_{2}\)</span></td>
-<td>Mean of expression values for the gene <span class="math inline">\(i\)</span> in samples of the groups 1 and 2, respectively.</td>
+<td>Effectifs (nombre d’individus) des échantillons prélevés sur les populations 1 et 2.</td>
 </tr>
 <tr class="odd">
-<td><span class="math inline">\(s^2_{1}, s^2_{2}\)</span></td>
-<td>Variance of expression values for the gene <span class="math inline">\(i\)</span> in samples of the groups 1 and 2, respectively.</td>
+<td><span class="math inline">\(\bar{x}_{1}, \bar{x}_{2}\)</span></td>
+<td>Moyennes d’échantillons.</td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\(s_{1}, s_{2}\)</span></td>
-<td>Standard deviations of expression values for the gene <span class="math inline">\(i\)</span> in samples of the groups 1 and 2, respectively.</td>
+<td>$= _{2} - </td>
+<td>Différence entre les moyennes des populations.</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(d = \hat{\delta} = \hat{\mu}_2 - \hat{\mu}_1 = \bar{x}_2 - \bar{x}_1\)</span></td>
+<td><span class="math inline">\(d\)</span> = <strong>Taille d’effet</strong>: dans un test de comparaison de moyennes, il s’agit de la différence entre les moyennes d’échantillons, utilisée comme estimateur de <span class="math inline">\(\delta\)</span>.</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(s^2_{1}, s^2_{2}\)</span></td>
+<td>Variances mesurées sur les échantillons.</td>
 </tr>
 <tr class="odd">
 <td><span class="math inline">\(\hat{\sigma}_p = \sqrt{\frac{n_1 s_1^2 + n_2 s_2^2}{n_1+n_2-2}}\)</span></td>
-<td>Pooled standard deviation, used as estimator for the standard deviation of two groups altogether, when their variances are assumed equal.</td>
+<td>Ecart-type groupé (<em>pooled standard deviation</em>), utilisé comme estimateur de l’écart-type commun des deux populations, en supposant leurs variances égales (hypothèse de travail d’homoscédasticité).</td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\(d = \hat{\delta} = \hat{\mu}_2 - \hat{\mu}_1 = \bar{x}_2 - \bar{x}_1\)</span></td>
-<td><span class="math inline">\(d\)</span> = Effect size (difference between sample means), used as estimator of the difference between population means <span class="math inline">\(\delta\)</span>.</td>
-</tr>
-<tr class="odd">
 <td><span class="math inline">\(\hat{\sigma}_\delta = \hat{\sigma}_p \sqrt{\left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}\)</span></td>
-<td>Standard error about the difference between means of two groups whose variances are assumed equal (Student).</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} = \frac{\bar{x}_{2} - \bar{x}_{1}}{\sqrt{\frac{n_1 s_{1}^2 + n_2 s_{2}^2}{n_1+n_2-2} \left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}}\)</span></td>
-<td>Student <span class="math inline">\(t\)</span> statistics</td>
+<td>Erreur standard sur la différence entre moyennes, en supposant que les populations ont la même variance (test de Student).</td>
 </tr>
 <tr class="odd">
-<td><span class="math inline">\(t_{W}=\frac{\bar{x}_{1} - \bar{x}_{2}}{\sqrt{\frac {s^2_{1}}{n_1} + \frac{s^2_{2}}{n_2}}}\)</span></td>
-<td>Welch <span class="math inline">\(t\)</span> statistics</td>
+<td><span class="math inline">\(t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} = \frac{\bar{x}_{2} - \bar{x}_{1}}{\sqrt{\frac{n_1 s_{1}^2 + n_2 s_{2}^2}{n_1+n_2-2} \left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}}\)</span></td>
+<td>statistique <span class="math inline">\(t\)</span> de Student</td>
 </tr>
 <tr class="even">
+<td><span class="math inline">\(t_{W}=\frac{\bar{x}_{1} - \bar{x}_{2}}{\sqrt{\frac {s^2_{1}}{n_1} + \frac{s^2_{2}}{n_2}}}\)</span></td>
+<td>statistique <span class="math inline">\(t\)</span> de Welch</td>
+</tr>
+<tr class="odd">
 <td></td>
 <td></td>
 </tr>

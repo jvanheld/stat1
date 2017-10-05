@@ -23,7 +23,8 @@
 ### Supports pour les TD et l'examen
 
 
-- [Table de la distribution $t$ de Student]('supports/t-table.pdf')
+- [Table de la distribution *t* de Student](supports/t-table.pdf)
+- Formules de probabilités et statistique [[pdf](supports/formules.pdf)] [[html](supports/formules.html)]
 
 ### Travaux pratiques avec R
 

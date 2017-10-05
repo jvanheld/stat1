@@ -1,0 +1,252 @@
+---
+title: "Formules de probabilités et statistique"
+author: "Jacques van Helden"
+date: '`r Sys.Date()`'
+output:
+  html_document:
+    code_folding: hide
+    fig_caption: yes
+    highlight: zenburn
+    theme: cerulean
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  beamer_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
+  ioslides_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_md: no
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: no
+    toc_depth: 3
+  slidy_presentation:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: no
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    toc_float: yes
+    widescreen: yes
+  word_document:
+    toc: yes
+    toc_depth: 3
+font-import: http://fonts.googleapis.com/css ?family=Risque
+font-family: Garamond
+subtitle: Probabilités et statistique pour la biologie (STAT1)
+address: TAGC lab, Aix-Marseille Université, France
+transition: linear
+---
+
+```{r setup, include=FALSE, size="huge"}
+library(knitr)
+## Default parameters for displaying the slides
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  eval=TRUE, 
+  fig.width = 7, 
+  fig.height = 5, 
+  fig.align = "center", 
+  fig.path = "figures/",
+  size = "tiny", 
+  warning = FALSE, 
+  results = TRUE, 
+  message = FALSE, 
+  comment = "")
+
+dir.main <- "~/stat1"
+dir.current <- file.path(dir.main, "practicals", "02_yeast_annotations")
+setwd(dir.current)
+
+```
+
+
+# Combinatoire
+
+| Nom | Conditions | Formule |
+|---------------|---------------------|----------------------|
+| Permutations (factorielle) |  | $n! = n \cdot (n-1) \cdot \ldots \cdot 2 \cdot 1$ |
+| Arrangemenst | Sans remise, ordonné | $A^x_n = \frac{n!}{x!} = n \cdot (n-1) \cdot \ldots \cdot (n-x+1)$   |
+| Combinaison (*choose*, *coefficient binomial*) | Sans remise, sans ordre | $\binom{n}{x} = C^x_n = \frac{n!}{x! (n-x)!}$  |
+| | | |
+
+# Concepts de probabilité
+
+| Description | Conditions | Formule |
+|--------------------|---------------|--------------------------------|
+|  Définition fréquentielle de la probabilité  |  | $P(A) = \lim_{n \to \infty}\frac{n_{A}}{n}$ |
+| | | |
+| Probabilité de non-réalisation | | $P(\lnot A) = 1 - P(A)$ |
+| | | |
+| Probabilités conditionnelles | |  $P(A \mid B) = \frac{P(A \land B)}{P(B)}$|
+|  | |  $P(B \mid A) = \frac{P(A \land B)}{P(A)}$|
+| | | |
+| Probabilité de $A$ ou $B$ | En général |  $P(A \lor B) = P(A) + P(B) - P(A \land B)$ |
+| | | |
+| Probabilité de $A$ ou $B$ | Evénements mutuellement exclusifs |  $P(A \lor B) = P(A) + P(B)$ |
+| | | |
+| Probabilité de $A$ et $B$ | En général |  $P(A \land B) = P(A) \cdot P(B \mid A)$ |
+| | | |
+| Probabilité de $A$ et $B$ | Evénements indépendants |  $P(A \land B) = P(A) \cdot P(B)$ |
+| | | |
+| Règle de Bayes |  |  $P(A \land B) = P(A)\cdot P(B \mid A) = P(B) \cdot P(A \mid B)$ |
+|  |  |  $\implies P(A \mid B) = \frac{P(A) \cdot P(B \mid A)}{P(B)}$ |
+| | | $\implies P(B \mid A) = \frac{P(B) \cdot P(A \mid B)}{P(A)}$  |
+| | | |
+
+\newpage
+# Distributions de probabilité discrètes
+
+## Géométrique
+
+- Conditions : nombre d'échecs avant le premier succès dans un schéma de Bernoulli
+- Densité : $$P(X = x) = (1-p)^xp$$
+- Répartition : $$P(X \le x) = \sum\limits_{i=0}^{x}{(1-p)^ip}$$
+- Moyenne : $\mu_G = (1-p)/p$
+- Variance : $\sigma^2_G = \frac{(1-p)}{p^2}$
+
+## Binomiale
+
+- Conditions : Nombre de succès au cours d'une série d'essais indépendants avec probabilité constante de succès (Schéma de Bernoulli)
+- Densité : $$P(X = x) = C_n^x p^x (1-p)^{n-x}$$
+- Répartition : $$P(X \le x = \sum\limits_{i=0}^{x}{C_n^ip^i(1-p)^{n-i}}$$
+- Moyenne : $\mu_{B} = np$
+- Variance : $\sigma^2_B = np(1-p)$ 
+- Rapport moyenne/variance:  $\sigma^2_B < \mu_B$
+
+## Poisson
+
+- Conditions : nombre de succès observés au cours d'un intervalle de temps, en fonction du nombre attendu ($\lambda$)
+- Application : approximation de la binomiale quand $n \to \infty, p \to 0$ et  $\mu = np$ faible ($\mu_B \to \lambda$)
+- Densité : $$P(X=x) = \frac{e^{-\lambda}\lambda^x}{x!}$$
+- Répartition : $$P(X \le x) = \sum\limits_{i=0}^x\frac{e^{-\lambda}\lambda^i}{i!}$$
+- Moyenne : $\mu_P = \lambda$
+- Variance : $\sigma^2_P = \lambda$ 
+- Rapport moyenne/variance: $\sigma^2_P = \mu_P$
+
+\newpage
+## Hypergéométrique
+
+- Conditions : Tirage non ordonné, sans remise dans un ensemble fini avec deux catégories.
+- Exemple-type: urne avec boules de deux couleurs
+- Densité : $$P(X = x) = \frac{C^x_{m}C^{k-x}_{n}}{C^k_{m+n}}$$
+- Répartition : $$P(X \le x = \sum\limits_{i=x}^{\text{min}(k,m)} \frac{C^i_{m}C^{k-i}_{n}}{C^k_{m+n}}$$
+- Moyenne : $\mu_H = k \cdot \frac{m}{m+n}$
+- Variance : $\sigma^2_H = \frac{k\frac{m}{N}(1-\frac{m}{N})(N-k)}{(N -1)}; N=m+n$
+
+<!--
+\newpage
+| Distribution | Applications| Densité | Répartition | Moyenne | Variance |
+|---------------|-------------------|---------------–|--------------|---------------|-------------|
+| | | | | | |
+
+| | $P(X \le x)$ | $E[X]$
+| $V[X]$ |
+
+
+|  Geometric| Waiting time ($x$ failures before success)| $(1-p)^xp$| $\sum\limits_{i=0}^{x}{(1-p)^ip}$| $(1-p)/p$| $\frac{(1-p)}{p^2}$ |
+  \hline 
+|  Geometric| Waiting time ($x$ successes before failure)| $p^x(1-p)$| $\sum\limits_{i=0}^{x}{p^i(1-p)}$| $p/(1-p)$| $\frac{p}{(1-p)^2}$ |
+|  Hypergeometric| Orderless, without replacement| $\frac{C^x_{m}C^{k-x}_{n}}{C^k_{m+n}}$| $\sum\limits_{i=x}^{\text{min}(k,m)} \frac{C^i_{m}C^{k-i}_{n}}{C^k_{m+n}}$| $k \cdot \frac{m}{m+n}$ | $\frac{k\frac{m}{N}(1-\frac{m}{N})(N-k)}{(N -1)}; N=m+n$ |
+|  Binomial| Bernoulli schema| $C_n^x p^x (1-p)^{n-x}$| $\sum\limits_{i=0}^{x}{C_n^ip^i(1-p)^{n-i}} $| $np$| $np(1-p)$ |
+|  Exponential| | $\left\{\begin{matrix} \lambda e^{-\lambda x} &,\; x \ge 0, \\ 0 &,\; x < 0. \end{matrix}\right.$
+| $\left\{\begin{matrix} 1-e^{-\lambda x}&,\; x \ge 0, \\ 0 &,\; x < 0. \end{matrix}\right.$
+  & $1/\lambda$
+  & $1/\lambda^2$ |
+|  Poisson
+  & $n \to \infty, p \to 0, np$ small
+  & $\frac{e^{-\lambda}\lambda^x}{x!}$
+  & $\sum\limits_{i=0}^x\frac{e^{-\lambda}\lambda^i}{i!}$
+  & $\lambda$
+  & $\lambda$ |
+|%   Compound Poisson
+%   & \tbw
+%   & \tbw
+%   & \tbw
+%   & \tbw
+%   & \tbw|
+% 
+|  Normal (Gaussian)
+  &
+  & $\frac{1}{\sigma \sqrt{2 \pi}}e^{-\frac{1}{2}(\frac{x - \mu}{\sigma})^2}$
+  & $\frac{1}{\sigma \sqrt{2 \pi}}\int_{-\infty}^{x} e^{-\frac{1}{2}(\frac{u - \mu}{\sigma})^2}\, du$
+  & $\mu$ 
+  & $\sigma^2$ |
+|  Standard Normal
+  & $z=\frac{x-\mu}{\sigma}$
+  & $\frac{1}{\sqrt{2 \pi}}e^{-\frac{z^2}{2}}$
+  & $\frac{1}{\sqrt{2 \pi}}\int_{-\infty}^{z} e^{-\frac{u^2}{2}}\, du$
+  & $0$ 
+  & $1$ |
+|  Student 
+  & Error on the mean, when $\sigma$ is unkown
+  & $f(t) = c(1 + t^2/k)^{-(k + 1)/2}$
+  & 
+  & $0$
+  & $\frac{k}{k-2}$|
+
+-->
+
+# Echantillonnage et estimation
+
+- Les syboles grecs ($\mu$, $\sigma$) correspondent aux statistiques de population, les symboles romains ($\bar{x}$, $s$) aux statistiques d'échantillon.
+- L'accent circonflexe ($\hat{ }$) indique les estimateurs de paramètres de population calculés à partir de paramètres d'échantillons. 
+
+| Symbole      | Description   |
+|--------------|----------------------------------------------------|
+| $N$ | Taille (nombre d'individus) de la population. |
+| $\mu = \frac{1}{N} \sum_{i=1}^{N}{x_i}$ | Moyenne de la population. |
+| $\sigma^2 = \frac{1}{N} \sum_{i=1}^{N}{(x_i - \mu)^2}$ | Variance de la population |
+| $\sigma = \sqrt{\sigma^2}$ | Ecart-type de la population |
+| $n$ | Effectif (nombre d'individus) de l'échantillon. |
+| $\bar{x} = \frac{1}{n} \sum_{i=1}^{n}{x_i}$ | Moyenne d'échantillon. |
+| $s^2 = \frac{1}{n} \sum_{i=1}^{n}{(x_i - \bar{x})^2}$ | Variance de l'échantillons |
+| $s = \sqrt{s^2}$ | Ecart-type de l'échantillon |
+| $\hat{\sigma^2} = \frac{1}{n-1} \sum_{i=1}^{n}{(x_i - \bar{x})^2}$ | Estimateur non-biaisé de la variance de la population. |
+| $\hat{\sigma} = \sqrt{\frac{1}{n-1} \sum_{i=1}^{n}{(x_i - \bar{x})^2}}$ | Estimateur non-biaisé de l'écart-type de la population. |
+| $<\sigma_{\bar{X}}> = \frac{\hat{\sigma}}{\sqrt{n}}$ | Erreur standard: écart-type attendu sur la moyenne d'échantillon. |
+| $\bar{x} \pm \frac{\hat{\sigma}}{\sqrt(n)} \cdot t_{1-\alpha/2}^{n-1}$ | Intervalle de confiance autour de la moyenne. |
+
+\newpage
+# Test de comparaison de moyennes
+
+| Symbole      | Description   |
+|--------------|----------------------------------------------------|
+| $\mu_{1},  \mu_{2}$ | Moyennes respectives des populations 1 et 2. |
+| $\sigma_{1}, \sigma_{2}$ | Ecarts-types respectifs des populations 1 and 2. |
+| $n_1$, $n_2$ | Effectifs (nombre d'individus) des échantillons prélevés sur les populations 1 et 2. |
+| $\bar{x}_{1}, \bar{x}_{2}$ | Moyennes d'échantillons. |
+| $\delta = \mu_{2} - \mu{1}$ | Différence entre les moyennes des populations. |
+| $d = \hat{\delta} = \hat{\mu}_2 - \hat{\mu}_1  = \bar{x}_2 - \bar{x}_1$ | $d$ = **Taille d'effet**: dans un test de comparaison de moyennes, il s'agit de la différence entre les moyennes d'échantillons, utilisée comme estimateur de $\delta$. |
+| $s^2_{1}, s^2_{2}$ | Variances mesurées sur les échantillons. |
+| $\hat{\sigma}_p = \sqrt{\frac{n_1 s_1^2 + n_2 s_2^2}{n_1+n_2-2}}$ | Ecart-type groupé (*pooled standard deviation*), utilisé comme estimateur de l'écart-type commun des deux populations, en supposant leurs variances égales (hypothèse de travail d'homoscédasticité). |
+| $\hat{\sigma}_\delta = \hat{\sigma}_p \sqrt{\left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}$  | Erreur standard sur la différence entre moyennes, en supposant que les populations ont la même variance (test de Student). |
+| $t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} =  \frac{\bar{x}_{2} - \bar{x}_{1}}{\sqrt{\frac{n_1 s_{1}^2 + n_2 s_{2}^2}{n_1+n_2-2} \left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}}$ | statistique $t$ de Student |
+| $t_{W}=\frac{\bar{x}_{1} - \bar{x}_{2}}{\sqrt{\frac {s^2_{1}}{n_1} + \frac{s^2_{2}}{n_2}}}$ | statistique $t$ de Welch |
+| | |
+

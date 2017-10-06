@@ -249,6 +249,14 @@ Statistique:
 
 $$t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} =  \frac{\bar{x}_{2} - \bar{x}_{1}}{\sqrt{\frac{n_1 s_{1}^2 + n_2 s_{2}^2}{n_1+n_2-2} \left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}}$$
 
+Estimation du risque de faux-positif (***P-value***): probabilité d'obtenir, ***sous hypothèse nulle*** une statistiquue au moins aussi extrême que celle observée. Ce qu'on appellera "extrême" (la ou les queues de distribution à considérer) dépendra du sens du test. 
+
+***Décision:*** 
+
+- si la P-value est plus faible qu'un seuil fixé ($\alpha$), on rejette l'hypothèse nulle ($RH_0$) et le test est déclaré positif. 
+- si la P-value est supérieure au seuil fixé ($\alpha$), on accepte l'hypothèse nulle ($AH_0$) et le test est déclaré négatif. 
+
+## Décision en fonction du sens du test
 
 
 | Sens du test   | Critère de décision |

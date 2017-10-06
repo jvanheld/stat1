@@ -3,16 +3,6 @@ title: "Eléments d'analyse combinatoire"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  ioslides_presentation:
-    colortheme: dolphin
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    smaller: yes
-    toc: yes
-    widescreen: yes
   html_document:
     fig_caption: yes
     highlight: zenburn
@@ -32,6 +22,16 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
+  ioslides_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    smaller: yes
+    toc: yes
+    widescreen: yes
   pdf_document:
     fig_caption: yes
     highlight: zenburn
@@ -145,7 +145,7 @@ On appelle **arrangements** les tirages *ordonnés* effectués *sans remise* au 
 
 Nombre d'arrangements de $x$ éléments tirés parmi $n$. 
 
-$$A^x_n = \frac{n!}{x!} = n \cdot (n-1) \cdot \ldots \cdot (n-x+1)$$
+$$A^x_n = \frac{n!}{(n - x)!} = \frac{n(n-1) \ldots (n-x +1) (n - x) (n-x-1) \ldots 2 \cdot 1}{(n - x) (n-x-1) \ldots 2 \cdot 1} = n \cdot (n-1) \cdot \ldots \cdot (n-x+1)$$
 
 **Application typique:** **[tiercé](https://fr.wikipedia.org/wiki/Tierc%C3%A9_(jeu))** dans l'ordre. Les joueurs parient sur les trois chevaux gagnants d'une course ($x=3$). Pour $n=15$ chevaux partants, il existe $n \cdot (n-1) \cdot (n-2) = 15 \cdot 14 \cdot 13 = `r 15*14*13`$ possibilités. 
 

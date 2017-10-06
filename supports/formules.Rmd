@@ -3,6 +3,11 @@ title: "Formules de probabilités et statistique"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: no
+    toc_depth: 3
   html_document:
     code_folding: hide
     fig_caption: yes
@@ -11,18 +16,6 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
-  beamer_presentation:
-    colortheme: dolphin
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
-    toc: yes
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -36,11 +29,18 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
-  pdf_document:
+  beamer_presentation:
+    colortheme: dolphin
     fig_caption: yes
-    highlight: zenburn
-    toc: no
-    toc_depth: 3
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -91,7 +91,7 @@ setwd(dir.current)
 | Nom | Conditions | Formule |
 |---------------|---------------------|----------------------|
 | Permutations (factorielle) |  | $n! = n \cdot (n-1) \cdot \ldots \cdot 2 \cdot 1$ |
-| Arrangemenst | Sans remise, ordonné | $A^x_n = \frac{n!}{x!} = n \cdot (n-1) \cdot \ldots \cdot (n-x+1)$   |
+| Arrangements | Sans remise, ordonné | $A^x_n = \frac{n!}{(n - x)!} = n \cdot (n-1) \cdot \ldots \cdot (n-x+1)$   |
 | Combinaison (*choose*, *coefficient binomial*) | Sans remise, sans ordre | $\binom{n}{x} = C^x_n = \frac{n!}{x! (n-x)!}$  |
 | | | |
 
@@ -214,7 +214,7 @@ setwd(dir.current)
 
 # Echantillonnage et estimation
 
-- Les syboles grecs ($\mu$, $\sigma$) correspondent aux statistiques de population, les symboles romains ($\bar{x}$, $s$) aux statistiques d'échantillon.
+- Les symboles grecs ($\mu$, $\sigma$) correspondent aux statistiques de population, les symboles romains ($\bar{x}$, $s$) aux statistiques d'échantillon.
 - L'accent circonflexe ($\hat{ }$) indique les estimateurs de paramètres de population calculés à partir de paramètres d'échantillons. 
 
 | Symbole      | Description   |
@@ -222,11 +222,11 @@ setwd(dir.current)
 | $N$ | Taille (nombre d'individus) de la population. |
 | $\mu = \frac{1}{N} \sum_{i=1}^{N}{x_i}$ | Moyenne de la population. |
 | $\sigma^2 = \frac{1}{N} \sum_{i=1}^{N}{(x_i - \mu)^2}$ | Variance de la population |
-| $\sigma = \sqrt{\sigma^2}$ | Ecart-type de la population |
+| $\sigma = \sqrt{\sigma^2}$ | Écart-type de la population |
 | $n$ | Effectif (nombre d'individus) de l'échantillon. |
 | $\bar{x} = \frac{1}{n} \sum_{i=1}^{n}{x_i}$ | Moyenne d'échantillon. |
-| $s^2 = \frac{1}{n} \sum_{i=1}^{n}{(x_i - \bar{x})^2}$ | Variance de l'échantillons |
-| $s = \sqrt{s^2}$ | Ecart-type de l'échantillon |
+| $s^2 = \frac{1}{n} \sum_{i=1}^{n}{(x_i - \bar{x})^2}$ | Variance de l’échantillon |
+| $s = \sqrt{s^2}$ | Écart-type de l'échantillon |
 | $\hat{\sigma^2} = \frac{1}{n-1} \sum_{i=1}^{n}{(x_i - \bar{x})^2}$ | Estimateur non-biaisé de la variance de la population. |
 | $\hat{\sigma} = \sqrt{\frac{1}{n-1} \sum_{i=1}^{n}{(x_i - \bar{x})^2}}$ | Estimateur non-biaisé de l'écart-type de la population. |
 | $<\sigma_{\bar{X}}> = \frac{\hat{\sigma}}{\sqrt{n}}$ | Erreur standard: écart-type attendu sur la moyenne d'échantillon. |
@@ -238,13 +238,13 @@ setwd(dir.current)
 | Symbole      | Description   |
 |--------------|----------------------------------------------------|
 | $\mu_{1},  \mu_{2}$ | Moyennes respectives des populations 1 et 2. |
-| $\sigma_{1}, \sigma_{2}$ | Ecarts-types respectifs des populations 1 and 2. |
+| $\sigma_{1}, \sigma_{2}$ | Écarts-types respectifs des populations 1 et 2. |
 | $n_1$, $n_2$ | Effectifs (nombre d'individus) des échantillons prélevés sur les populations 1 et 2. |
 | $\bar{x}_{1}, \bar{x}_{2}$ | Moyennes d'échantillons. |
 | $\delta = \mu_{2} - \mu{1}$ | Différence entre les moyennes des populations. |
 | $d = \hat{\delta} = \hat{\mu}_2 - \hat{\mu}_1  = \bar{x}_2 - \bar{x}_1$ | $d$ = **Taille d'effet**: dans un test de comparaison de moyennes, il s'agit de la différence entre les moyennes d'échantillons, utilisée comme estimateur de $\delta$. |
 | $s^2_{1}, s^2_{2}$ | Variances mesurées sur les échantillons. |
-| $\hat{\sigma}_p = \sqrt{\frac{n_1 s_1^2 + n_2 s_2^2}{n_1+n_2-2}}$ | Ecart-type groupé (*pooled standard deviation*), utilisé comme estimateur de l'écart-type commun des deux populations, en supposant leurs variances égales (hypothèse de travail d'homoscédasticité). |
+| $\hat{\sigma}_p = \sqrt{\frac{n_1 s_1^2 + n_2 s_2^2}{n_1+n_2-2}}$ | Écart-type groupé (*pooled standard deviation*), utilisé comme estimateur de l'écart-type commun des deux populations, en supposant leurs variances égales (hypothèse de travail d'homoscédasticité). |
 | $\hat{\sigma}_\delta = \hat{\sigma}_p \sqrt{\left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}$  | Erreur standard sur la différence entre moyennes, en supposant que les populations ont la même variance (test de Student). |
 | $t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} =  \frac{\bar{x}_{2} - \bar{x}_{1}}{\sqrt{\frac{n_1 s_{1}^2 + n_2 s_{2}^2}{n_1+n_2-2} \left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}}$ | statistique $t$ de Student |
 | $t_{W}=\frac{\bar{x}_{1} - \bar{x}_{2}}{\sqrt{\frac {s^2_{1}}{n_1} + \frac{s^2_{2}}{n_2}}}$ | statistique $t$ de Welch |

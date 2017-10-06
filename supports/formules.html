@@ -247,9 +247,9 @@ div.tocify {
 <td><span class="math inline">\(n! = n \cdot (n-1) \cdot \ldots \cdot 2 \cdot 1\)</span></td>
 </tr>
 <tr class="even">
-<td>Arrangemenst</td>
+<td>Arrangements</td>
 <td>Sans remise, ordonné</td>
-<td><span class="math inline">\(A^x_n = \frac{n!}{x!} = n \cdot (n-1) \cdot \ldots \cdot (n-x+1)\)</span></td>
+<td><span class="math inline">\(A^x_n = \frac{n!}{(n - x)!} = n \cdot (n-1) \cdot \ldots \cdot (n-x+1)\)</span></td>
 </tr>
 <tr class="odd">
 <td>Combinaison (<em>choose</em>, <em>coefficient binomial</em>)</td>
@@ -482,7 +482,7 @@ div.tocify {
 <div id="echantillonnage-et-estimation" class="section level1">
 <h1>Echantillonnage et estimation</h1>
 <ul>
-<li>Les syboles grecs (<span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma\)</span>) correspondent aux statistiques de population, les symboles romains (<span class="math inline">\(\bar{x}\)</span>, <span class="math inline">\(s\)</span>) aux statistiques d’échantillon.</li>
+<li>Les symboles grecs (<span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma\)</span>) correspondent aux statistiques de population, les symboles romains (<span class="math inline">\(\bar{x}\)</span>, <span class="math inline">\(s\)</span>) aux statistiques d’échantillon.</li>
 <li>L’accent circonflexe (<span class="math inline">\(\hat{ }\)</span>) indique les estimateurs de paramètres de population calculés à partir de paramètres d’échantillons.</li>
 </ul>
 <table style="width:94%;">
@@ -511,7 +511,7 @@ div.tocify {
 </tr>
 <tr class="even">
 <td><span class="math inline">\(\sigma = \sqrt{\sigma^2}\)</span></td>
-<td>Ecart-type de la population</td>
+<td>Écart-type de la population</td>
 </tr>
 <tr class="odd">
 <td><span class="math inline">\(n\)</span></td>
@@ -523,11 +523,11 @@ div.tocify {
 </tr>
 <tr class="odd">
 <td><span class="math inline">\(s^2 = \frac{1}{n} \sum_{i=1}^{n}{(x_i - \bar{x})^2}\)</span></td>
-<td>Variance de l’échantillons</td>
+<td>Variance de l’échantillon</td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\(s = \sqrt{s^2}\)</span></td>
-<td>Ecart-type de l’échantillon</td>
+<td>Écart-type de l’échantillon</td>
 </tr>
 <tr class="odd">
 <td><span class="math inline">\(\hat{\sigma^2} = \frac{1}{n-1} \sum_{i=1}^{n}{(x_i - \bar{x})^2}\)</span></td>
@@ -569,7 +569,7 @@ div.tocify {
 </tr>
 <tr class="even">
 <td><span class="math inline">\(\sigma_{1}, \sigma_{2}\)</span></td>
-<td>Ecarts-types respectifs des populations 1 and 2.</td>
+<td>Écarts-types respectifs des populations 1 et 2.</td>
 </tr>
 <tr class="odd">
 <td><span class="math inline">\(n_1\)</span>, <span class="math inline">\(n_2\)</span></td>
@@ -593,7 +593,7 @@ div.tocify {
 </tr>
 <tr class="even">
 <td><span class="math inline">\(\hat{\sigma}_p = \sqrt{\frac{n_1 s_1^2 + n_2 s_2^2}{n_1+n_2-2}}\)</span></td>
-<td>Ecart-type groupé (<em>pooled standard deviation</em>), utilisé comme estimateur de l’écart-type commun des deux populations, en supposant leurs variances égales (hypothèse de travail d’homoscédasticité).</td>
+<td>Écart-type groupé (<em>pooled standard deviation</em>), utilisé comme estimateur de l’écart-type commun des deux populations, en supposant leurs variances égales (hypothèse de travail d’homoscédasticité).</td>
 </tr>
 <tr class="odd">
 <td><span class="math inline">\(\hat{\sigma}_\delta = \hat{\sigma}_p \sqrt{\left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}\)</span></td>

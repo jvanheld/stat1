@@ -3,18 +3,26 @@ title: "Analyse d'une table d'annotations génomiques"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: yes
-    toc_depth: 3
   html_document:
+    code_folding: hide
     fig_caption: yes
     highlight: zenburn
     theme: cerulean
     toc: yes
     toc_depth: 3
     toc_float: yes
+  beamer_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -28,18 +36,11 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
-  beamer_presentation:
-    colortheme: dolphin
+  pdf_document:
     fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
+    highlight: zenburn
     toc: yes
+    toc_depth: 3
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -218,7 +219,7 @@ Avant de passer aux exercices, nous vous montrons ici quelques éléments de bas
 # Better solution: use Sys.getenv to get your home folder from the system
 
 ## Print the complete list of environment variables
-Sys.getenv() 
+## Sys.getenv()  # Commented to avoid printing a long list in the report. 
 
 ## Identify the home directory by getting the environment variable HOME 
 dir.home <- Sys.getenv("HOME")
@@ -390,6 +391,10 @@ feature.table[100:106, c("seqname", "start", "end", "strand")]
 
 
 ### Sélection d'un sous-ensemble de lignes sur base du contenu d'une colonne
+
+La fonction `subset()` permet de sélectionner un sous-ensemble des lignes d'un data.frame sur base d'une condition appliquée à une ou plusieurs colonnes. 
+
+Nous pouvons l'appliquer pour sélectionner le sous-ensemble des lignes du tableau d'annotations correspondant à des séquences codantes (CDS).
 
 ```{r echo=TRUE, eval=TRUE, result=TRUE}
 ## Select subset of features having "cds" as "feature" attribute

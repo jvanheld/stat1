@@ -4,7 +4,7 @@ author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
   html_document:
-    code_folding: hide
+    code_folding: show
     fig_caption: yes
     highlight: zenburn
     theme: cerulean
@@ -205,26 +205,37 @@ par <- par.ori
 Avant de passer aux exercices, nous vous montrons ici quelques éléments de base concernant la lecture, la manipulation et l'écriture des tableaux de données avec R.
 
 
+### Le chemin de la maison (manuel)
+
+Nous allons créer un dossier pour ce tuto, en partant de la racine de nore compte. 
+
+Première possibilité (**rapide mais peu élégant**):  entrer (manuellement) le chemin de la racine de votre compte dans une variable
+
+`dir.home <- /le/chemin/de/ma/maison`
+
+- Avantage: rapide et pratique
+- Désavantage: non portable, ne fonctionnera que sur votre ordinateur
+
+### Le chemin de la maison (automatique)
+
+Une solution plus générale: utiliser la commande **R** `Sys.getenv()`.
+
+- Invoquée sans paramètre, cette commande liste toutes les variables d'environnement (votre configuration système). 
+- On peut restreindre l'output à une variable d'environnement donnée, par exemple `Sys.getenv("HOME")` retourne le chemin de la racine de votre compte.
+
+**Note:** écriture équivalente sous Linux: le symbole tilde `~` indique également le chemin de la rachine de votre compte. 
+
+```{r get_home}
+## Identify the home directory 
+## by getting the environment variable HOME 
+dir.home <- Sys.getenv("HOME")
+print(dir.home)
+```
+
+
 ### Création d'un dossier pour le TP
 
 ```{r create_practical_dir}
-
-
-## Define a local forlder for this tutorial
-#
-# A (poor) possibility  would be to hard-code it
-#   dir.home <- "/Users/jvanheld"
-#   dir.home <- "/amuhome/votre_ID"
-
-# Better solution: use Sys.getenv to get your home folder from the system
-
-## Print the complete list of environment variables
-## Sys.getenv()  # Commented to avoid printing a long list in the report. 
-
-## Identify the home directory by getting the environment variable HOME 
-dir.home <- Sys.getenv("HOME")
-print(dir.home)
-
 ## Define a variable containing the path of the results for this tutorial
 dir.tuto <- file.path(dir.home, "stat1", "TP2")
 
@@ -243,23 +254,23 @@ list.files()
 
 ### Téléchargement du fichier GTF à partir d'EnsemblGenomes
 
+**Astuce: ** avant de télécharger le fichier d'annotations (GTF) depuis EnsemblGenomes vers notre ordinateur, nous allons vérifier s'il est déjà présent (et dans ce cas on ne le re-télécharge pas). 
+
 ```{r download_GTF}
+## Define the URL of the annotation file (GTF-formatted)
 gtf.URL <- "ftp://ftp.ensemblgenomes.org/pub/release-37/fungi/gtf/saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz"
 
+## Define the path where the local copy will be stored
 local.GTF <- file.path(dir.tuto, "Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz")
 
+## If the local file file laready exists, skip the download
 if (file.exists(local.GTF)) {
   message("GTF file already exists in the tutorial folder: ", local.GTF)
 } else {
   ## Download annotation table in GTF format
-  download.file(url = gtf.URL, 
-                destfile = local.GTF)
+  download.file(url = gtf.URL, destfile = local.GTF)
 }
-
-
 ```
-
-
 
 ### Chargement d'un tableau de données
 
@@ -315,18 +326,19 @@ L'affichage du tableau d'annotations complet ne serait pas très lisible, puisqu
 
 Nous pouvons afficher les premières lignes avec la fonction `head()`. 
 
+**Note: ** la dernière colonne est particulièrement lourde (elle contient un tas d'information). Nous verrons plus loin comment sélectionner un sous-ensemble des colonnes pour alléger l'affichage.  
+
 ```{r echo=TRUE, eval=TRUE, result=TRUE}
-## Display the 20 first rows of the feature table
-head(feature.table, n = 20) 
+## Display the 5 first rows of the feature table
+head(feature.table, n = 5) 
 ```
 
 La fonction `tail()` affiche les dernières lignes:
 
 ```{r echo=TRUE, eval=TRUE, result=TRUE}
-## Display the 20 last rows of the feature table
-tail(feature.table, n = 20) 
+## Display the 5 last rows of the feature table
+tail(feature.table, n = 5) 
 ```
-
 
 If you are using the **RStudio** environment, you can display the table in a dynamic viewer pane with the function  `View()`.
 
@@ -338,19 +350,19 @@ View(feature.table)
 
 ### Sélection de sous-ensembles d'un tableau
 
-Sélection d'une ligne par son indice.
+Sélection d'une ligne spécifiée par son indice.
 
 ```{r echo=TRUE, eval=TRUE, result=TRUE}
 feature.table[12,]
 ```
 
-Sélection d'une colonne par son indice (affichage des premières valeurs seulement.
+Sélection d'une colonne spécifiée par son indice (affichage des premières valeurs seulement.
 
 ```{r echo=TRUE, eval=TRUE, result=TRUE}
 head(feature.table[,3])
 ```
 
-Selection d'une cellule par indices de ligne et colonne.
+Selection d'une cellule en combinant indices de ligne et colonne.
 
 ```{r echo=TRUE, eval=TRUE, result=TRUE}
 feature.table[12, 3]
@@ -747,5 +759,6 @@ La fonction ***R***  `sessionInfo()` fournit un résumé des conditions d'une se
 sessionInfo()
 ```
 
+<!--
 ## Rendu
-
+-->

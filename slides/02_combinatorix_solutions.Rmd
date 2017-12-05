@@ -3,11 +3,14 @@ title: "Eléments d'analyse combinatoire - solutions des exercices"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  pdf_document:
+  html_document:
+    code_folding: hide
     fig_caption: yes
     highlight: zenburn
+    theme: cerulean
     toc: yes
     toc_depth: 3
+    toc_float: yes
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -29,14 +32,11 @@ output:
     smaller: yes
     toc: yes
     widescreen: yes
-  html_document:
-    code_folding: hide
+  pdf_document:
     fig_caption: yes
     highlight: zenburn
-    theme: cerulean
     toc: yes
     toc_depth: 3
-    toc_float: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -104,7 +104,12 @@ Il existe deux types classiques de tirage d'éléments au sein d'un ensemble: av
 
 Il s'agit de choisir  au hasard 5 positions mutantes parmi les 1000 nucléotides du fragment d'ADN. Il s'agit d'un choix sans remise (chaque position ne peut être tirée qu'une fois), on choisit donc le coefficient binomial.
 
+
 $$\binom{n}{x} = \binom{1000}{5} = C^5_{1000} = \frac{1000!}{5! 995!} = `r choose(n=1000, k=5)`$$
+
+Pour chacune des 5 positions mutées, on 3 substitutions possibles. Le nombre de mutations distinctes est donc $3^5$ fois le nombre de choix de 5 positions parmi 1000. 
+
+$$N = 3^5 \cdot  \binom{1000}{5} =`r 3^5*choose(n=1000, k=5)`$$
 
 ## Solution de l'exercice 2 : oligopeptides $3 \times 20$
 

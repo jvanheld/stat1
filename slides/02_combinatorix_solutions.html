@@ -1591,6 +1591,8 @@ div.tocify {
 <p><em>On soumet un fragment d’ADN de 1 kilobase à un traitement mutagène qui provoque des mutations ponctuelles (substitutions) à 5 positions distinctes indépendantes. Combien de séquences possibles existe-t-il pour le fragment muté ?</em></p>
 <p>Il s’agit de choisir au hasard 5 positions mutantes parmi les 1000 nucléotides du fragment d’ADN. Il s’agit d’un choix sans remise (chaque position ne peut être tirée qu’une fois), on choisit donc le coefficient binomial.</p>
 <p><span class="math display">\[\binom{n}{x} = \binom{1000}{5} = C^5_{1000} = \frac{1000!}{5! 995!} = 8.2502913\times 10^{12}\]</span></p>
+<p>Pour chacune des 5 positions mutées, on 3 substitutions possibles. Le nombre de mutations distinctes est donc <span class="math inline">\(3^5\)</span> fois le nombre de choix de 5 positions parmi 1000.</p>
+<p><span class="math display">\[N = 3^5 \cdot  \binom{1000}{5} =2.0048208\times 10^{15}\]</span></p>
 </section>
 <section id="solution-de-lexercice-2-oligopeptides-3-times-20" class="level2">
 <h2>Solution de l’exercice 2 : oligopeptides <span class="math inline">\(3 \times 20\)</span></h2>
@@ -1737,11 +1739,11 @@ div.tocify {
 </table>
 <pre><code>AAACCCDDDEEEFFFGGGHHHIIIKKKLLLMMMNNNPPPQQQRRRSSSTTTVVVWWWYYY</code></pre>
 <p>Les permutations de ces 60 lettres sont des solutions valudes. En voici trois exemples.</p>
-<pre><code>HHKIDASCFAKMNMQDNGRYPETKCIQPLWWQRLTDCHNVSSYIGVMPTFELVEFRAWYG</code></pre>
-<pre><code>VAFHIQHYRISFCELHNTDISMWCRQKGWMDQFYAPLKNWGTPKEMAVDYSRGCVPETNL</code></pre>
-<pre><code>WHSMCMFTGQPVRSWYDCVINNCTGGKQRAFAQMLSFIKDTEYEPLVPENYILAHHKDWR</code></pre>
+<pre><code>EDGFNTSNGVDQFCMILVHEAYTACQHYIPSPYVMSHLMQKEKNLPGAWKWRRDFCIWTR</code></pre>
+<pre><code>NFCLDSDHESKLRHAPDRLEPTVMYCPNKQGFQGGTMAYVQTAIMWCYHWFNVERIIWSK</code></pre>
+<pre><code>VFAETAEEIGQHVLRKGPCPLFYIDHWIGHYWCLFDADKNMMCMRRTQSKPTNWSNYVQS</code></pre>
 <pre><code>...</code></pre>
-<pre><code>FNVACTVTWHVSYLGCSHLDGMFPNYAGQDWLEAHDIIFRWQMKTRPMNESKIREYCPQK</code></pre>
+<pre><code>EDTRGRKQHANAMMETKPIDVFHSQISPELNWMGVQWYPNAHRYDGIVFKYTFCCWSLLC</code></pre>
 <p>Le nombre total de permutations possibles parmi 60 éléments est <span class="math inline">\(60! = 8.3209871\times 10^{81}\)</span>. Cependant, cenombre dépasse de loin le nombre de séquences distinctes. En effet, dans chacune des séquences ci-dessus, chaque lettre apparaît 3 fois. Or, des permutations entre les trois positions occupées par des <span class="math inline">\(A\)</span> ne changeront pas la séquence. Il en va de même pour les permutations entre les positions occupées par chacun des acides aminées : <span class="math inline">\(A\)</span>, <span class="math inline">\(C\)</span>, <span class="math inline">\(D\)</span>, <span class="math inline">\(\ldots\)</span></p>
 <p>Il faut donc diviser le nombre total de permutations (<span class="math inline">\(60!\)</span>) par le nombre de permutations qui ne modifient pas la séquence: <span class="math inline">\(3!\)</span> pour <span class="math inline">\(A\)</span>, <span class="math inline">\(3!\)</span> pour <span class="math inline">\(D\)</span>, et ainsi de suite pour chacun des 20 acides aminés.</p>
 <p>La formule finale est donc:</p>

@@ -21,7 +21,7 @@ publish: clean
 ################################################################
 ## Browse the Web site
 #BROWSER=firefox
-LOCAL=index.html
+LOCAL=README.html
 local:
 	open  ${LOCAL}
 

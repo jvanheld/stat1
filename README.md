@@ -13,12 +13,13 @@
 
 | Séance | Contenu | Liens | 
 |------|---------------------------------|--------------------------|
-| CM1 | Introduction au cours | Diapos: [[html](slides/01_introduction.html)] [[pdf](slides/01_introduction.pdf)] [[Rmd](slides/01_introduction.Rmd)] |
-| CM1-2 | Eléments d'analyse combinatoire | Diapos: [[html](slides/02_combinatorix.html)] [[pdf](slides/02_combinatorix.pdf)] [[Rmd](slides/02_combinatorix.Rmd)] |
-| CM3 | Concepts de probabilités | Diapos: [[html](slides/03_concepts_proba.html)] [[pdf](slides/03_concepts_proba.pdf)] [[Rmd](slides/03_concepts_proba.Rmd)] |
-| CM4 | Distributions discrètes | Diapos: [[html](slides/04_distributions_discretes.html)] [[pdf](slides/04_distributions_discretes.pdf)] [[Rmd](slides/04_distributions_discretes.Rmd)] |
-| CM5 | Echantillonnage et estimation | Diapos: [[html](slides/05_echantillonnage_estimation.html)] [[pdf](slides/05_echantillonnage_estimation.pdf)] [[Rmd](slides/05_echantillonnage_estimation.Rmd)] [[R demo](R_demos/05_echantillonnage_estimation_demo.R)] |
-| CM6 | Test de comparaison de moyenne | Diapos: [[html](slides/06_tests_comparaison_moyenne.html)] [[pdf](slides/06_tests_comparaison_moyenne.pdf)] [[Rmd](slides/06_tests_comparaison_moyenne.Rmd)] |
+| CM1 | Introduction au cours |  [[html](slides/01_introduction.html)] [[pdf](slides/01_introduction.pdf)] [[Rmd](slides/01_introduction.Rmd)] |
+| CM1-2 | Eléments d'analyse combinatoire |  [[html](slides/02_combinatorix.html)] [[pdf](slides/02_combinatorix.pdf)] [[Rmd](slides/02_combinatorix.Rmd)] |
+| | Solutions des exercices de combinatoire |  [[html](slides/02_combinatorix_solutions.html)] [[pdf](slides/02_combinatorix_solutions.pdf)] [[Rmd](slides/02_combinatorix_solutions.Rmd)] |
+| CM3 | Concepts de probabilités | [[html](slides/03_concepts_proba.html)] [[pdf](slides/03_concepts_proba.pdf)] [[Rmd](slides/03_concepts_proba.Rmd)] |
+| CM4 | Distributions discrètes | [[html](slides/04_distributions_discretes.html)] [[pdf](slides/04_distributions_discretes.pdf)] [[Rmd](slides/04_distributions_discretes.Rmd)] |
+| CM5 | Echantillonnage et estimation |  [[html](slides/05_echantillonnage_estimation.html)] [[pdf](slides/05_echantillonnage_estimation.pdf)] [[Rmd](slides/05_echantillonnage_estimation.Rmd)] [[R demo](R_demos/05_echantillonnage_estimation_demo.R)] |
+| CM6 | Test de comparaison de moyenne | [[html](slides/06_tests_comparaison_moyenne.html)] [[pdf](slides/06_tests_comparaison_moyenne.pdf)] [[Rmd](slides/06_tests_comparaison_moyenne.Rmd)] |
 
 ### Supports pour les TD et l'examen
 

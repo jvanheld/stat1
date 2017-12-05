@@ -20,6 +20,7 @@
 | CM4 | Distributions discrètes | [[html](slides/04_distributions_discretes.html)] [[pdf](slides/04_distributions_discretes.pdf)] [[Rmd](slides/04_distributions_discretes.Rmd)] |
 | CM5 | Echantillonnage et estimation |  [[html](slides/05_echantillonnage_estimation.html)] [[pdf](slides/05_echantillonnage_estimation.pdf)] [[Rmd](slides/05_echantillonnage_estimation.Rmd)] [[R demo](R_demos/05_echantillonnage_estimation_demo.R)] |
 | CM6 | Test de comparaison de moyenne | [[html](slides/06_tests_comparaison_moyenne.html)] [[pdf](slides/06_tests_comparaison_moyenne.pdf)] [[Rmd](slides/06_tests_comparaison_moyenne.Rmd)] |
+| Exercices | Exercices | [[html](exercices/exercices_proba-stat.html)] [[pdf](exercices/exercices_proba-stat.pdf)] [[Rmd](exercices/exercices_proba-stat.Rmd)] |
 
 ### Supports pour les TD et l'examen
 

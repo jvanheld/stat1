@@ -3,11 +3,6 @@ title: 'Tuto et TP: tests de comparaison de moyenne'
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: yes
-    toc_depth: 3
   html_document:
     code_folding: hide
     fig_caption: yes
@@ -16,6 +11,11 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -96,13 +96,13 @@ alpha <- 0.05  ## Accepted risk for type I error
 
 Au cours de ce TP nous effectuerons des tests de comparaison de moyennes sur deux types de données. 
 
-1. Données artificielles générées selon des distributions normales, soit sous hypothèse nulle ($H_0$) soit sous hypothèse alternative ($H_1$).  Ceci nous permettra de réaliser des tests dans des situations où nous connaissons les  paramètres des populations à comparer ($\mu_1$, $\mu_2$, $\sigma_1$, $\sigma_2$), en connaissant donc la réponse correcte du test. Le but de cet exercice sera de 
+1. **Données artificielles** générées selon des distributions normales, soit sous hypothèse nulle ($H_0$) soit sous hypothèse alternative ($H_1$).  Ceci nous permettra de réaliser des tests dans des situations où nous connaissons les  paramètres des populations à comparer ($\mu_1$, $\mu_2$, $\sigma_1$, $\sigma_2$), en connaissant donc la réponse correcte du test. Le but de cet exercice sera de 
 
     - nous familiariser avec les tests de comparaison de moyenne: choix d'un test en fonction des caractéristiques des données, choix des paramètres du test, interprétation des résultats; 
     - évaluer l'adéquation des tests en fonction des types de données;
     - mesurer empiriquement les taux d'erreurs de types I et II, et vérifier s'ils correspondent aux attentes théoriques.
 
-2. Données de transcriptome obtenues au moyen de puces à ADN (DNA microarrays) chez 190 patients souffrant de leucémies lymphoblastiques aigues (LLA), classifiées en différents groupes selon les perturbations chromosomiques (hyperploidie) ou génétiques (mutations d'un gène particulier) supposées être à l'origine du cancer. 
+2. **Données de transcriptome** obtenues au moyen de puces à ADN (DNA microarrays) chez 190 patients souffrant de leucémies lymphoblastiques aigues (**LLA**), classifiés en différents groupes selon les perturbations chromosomiques (hyperploidie) ou génétiques (mutations d'un gène particulier) supposées être à l'origine du cancer. 
 
 Le but de cette analyse sera de détecter les gènes exprimés différentiellement (***differentially expressed genes***, **DEG**) entre deux sous-types particuliers de cancer. 
 
@@ -113,21 +113,18 @@ Pour les jeux de données artificiels, nous poserons arbitrairement un seuil $\a
 
 ## Sous hypothèse nulle
 
-Dans un premier temps, nous allons délibérément générer des données sous hypothèse nulle ($H_0$) c'est-à-dire en tirant des échantillons dans deux populations de taille égale. Les données seront générées dans les conditions d'applicabilité du test de Student: populations normales de variance égale. Le but de l'exercice sera de mesurer le **taux de faux posiitfs**, c'est-à-dire la proportion des tests déclarés (à tort) positifs, alors qu'il n'existe pas de différence entre les moyennes des deux populations.
+Dans un premier temps, nous allons délibérément générer des données sous hypothèse nulle ($H_0$) c'est-à-dire en tirant des échantillons dans deux populations de taille égale. Les données seront générées dans les **conditions d'applicabilité du test de Student** (***hypothèses de travail***, c'est-à-dore hypothèses préalables à la réalisation du test): les 2 populations dont les échantillons sont extraits sont supposées:
+
+1. suivre des distributions normales (hypothèse de normalité);
+2. avoir des variances identques (hypothèse d'homoscédasticité). 
+
+Le but de l'exercice sera de mesurer le **taux de faux posiitfs**, c'est-à-dire la proportion des tests déclarés (à tort) positifs, alors qu'il n'existe pas de différence entre les moyennes des deux populations.
 
 ### 1. Génération des données
 
 Au moyen de la fonction `rnorm()`, tirez deux échantillons de taille $n_1 = n_2 = 10$ à partir de populations normales de moyennes $\mu_1 = \mu_2 = 7$ et d'écart-types $\sigma_1 = \sigma_2 = 2$. 
 
-
-## 2. Application du test avec la fonction `t.test()`
-
-
-Effectuez un test de comparaison de moyenne en utilisant la fonction `t.test()`. Lisez attentivement l'aide de cette fonction, et choisissez les paramètres en tenant compte des caractéristiques de vos données. Nous effectuerons ici un test bilatéral (*two-tailed*). 
-
-Interprétez le résultat de la fonction `t.test()`  (paramètres, décision, interprétation de la p-valeur). 
-
-```{r}
+```{r random_numbers}
 n1 <- 10 ## Taille du premier échantillon
 n2 <- 10 ## Taille du second échantillojn
 mu1 <- 7 ## Moyenne de la 1ère population
@@ -138,10 +135,48 @@ sigma2 <- 2
 ## On tire des échantillons des deux populations respectives
 x1 <- rnorm(n = n1, mean = mu1, sd = sigma1)
 x2 <- rnorm(n = n2, mean = mu2, sd = sigma2)
+```
 
+<!--
+Calculez 
+
+- les moyennes des deux échantillons ($\bar{x_1}$, $\bar{x_2}$),
+- les écart-types ($s_1$, $s_2$) des échantillons (en utilisant les fonctions `sum()`et `sqrt()`), 
+- les estimateurs de maximum de vraisemblance des moyennes et écarts-types des populations ($\hat{\mu}_1$, $\hat{\mu}_2$, $\hat{\sigma}_1$, $\hat{\sigma}_1$), en utilisant soit `sum()` soit `sd()`.
+
+```{r mean_and_sd}
 ## Moyennes d'échantillons
 m1 <- mean(x1)
 m2 <- mean(x2)
+
+## Ecarts-types d'échantillons
+s1 <- sqrt(sum((x1 - m1)^2)/n1)
+s2 <- sqrt(sum((x2 - m2)^2)/n2)
+
+
+## Estimateurs de moyennes des populations
+mu1.est <- m1
+mu2.est <- m2
+
+## Estimateurs des écarts-types d'échantillons
+sigma1.est <- sqrt(sum((x1 - m1)^2)/(n1-1))
+sigma2.est <- sqrt(sum((x2 - m2)^2)/(n2-1))
+
+
+sigma1.est == sd(x1)
+sigma2.est == sd(x2)
+
+```
+
+-->
+## 2. Application du test avec la fonction `t.test()`
+
+
+Effectuez un test de comparaison de moyenne en utilisant la fonction `t.test()`. Lisez attentivement l'aide de cette fonction, et choisissez les paramètres en tenant compte des caractéristiques de vos données. Nous effectuerons ici un test bilatéral (*two-tailed*). 
+
+Interprétez le résultat de la fonction `t.test()`  (paramètres, décision, interprétation de la p-valeur). 
+
+```{r}
 
 ## Seuil critique sur le risque d'erreur de type I
 alpha <- 0.05
@@ -206,6 +241,19 @@ sd2 <- sd(x2)
 
 cat("mean1 = ", round(digits=2, mean1), "sd1", round(digits=2, sd1))
 cat("mean2 = ", round(digits=2, mean2), "sd2", round(digits=2, sd2))
+
+## Print the result for the knitr report
+result <- t(data.frame(
+  "moyennes de populations" = c(mu1, mu2),
+  "moyennes d'échantillons" = c(m1, m2),
+  "moyennes estimées" = c(mu1.est, mu2.est),
+  "écarts-types de population" = c(sigma1, sigma2),
+  "écarts-types d'échantillons" = c(s1, s2),
+  "écarts-types estimés" = c(sigma1.est, sigma2.est)))
+colnames(result) <- c("Population 1", "Population 2")
+
+kable(as.data.frame(result), digits = 2, caption = "Estimation des paramètres de centralité (moyenne) et dispersion (écart-type) des populations à partir des échantillons. ")
+
 
 ```
 

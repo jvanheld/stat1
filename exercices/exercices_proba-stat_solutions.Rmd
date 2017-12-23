@@ -180,9 +180,32 @@ $$
 \begin{aligned}
 P(\text{ORF}_{100}) &= P(\text{START}) \cdot  \overbrace{P(\lnot \text{STOP})  \cdot \ldots \cdot P(\lnot \text{STOP}) }^{\text{99 times}} \\
 &= P(\text{START}) \cdot P(\lnot \text{STOP})^{99} \\
-&= `r P.start` \cdot `r P.not.stop`^{99} = `r signif(digits=2, P.orf.100)`
+&= `r P.start` \cdot `r P.not.stop`^{99} = `r signif(digits=4, P.orf.100)`
 \end{aligned}
 $$
+
+A priori cette probabilité n'a pas l'air énorme. Cependant, il faut tenir compte du fait qu'en annotant un génome on considère successivement toutes les positions possibles pour évaluer si on y trouve un cadre ouvert de lecture. 
+
+### Nombre attendu d'ORF d'au moins 100 codons
+
+Pour calculer le nombre d'ORF attendus au hasard, il faut multiplier la probabilité d'observer un ORF à une position donnée par le nombre de positions considérées. 
+
+```{r genome_expected_ORFs}
+G <- 12e6
+exp.ORFs <- P.orf.100 * 2 * G
+```
+
+Pour un génome de 12 Mb ($G = `r G`$), on va considérer toutes les positions sur chacun des deux brins (on multiple donc par deux la taille du génome). 
+
+$$E(\text{ORF}_{100}) = P(\text{ORF}_{100}) \cdot 2 \cdot G = `r signif(digits=4, P.orf.100)` \cdot 2 \cdot `r G` = `r round(digits=1, exp.ORFs)`$$
+
+### Interprétation du résultat
+
+En 1996, lors de la première vague d'annotation du génome de la levure du boulanger, la stratégie d'annotation consistait à predire un gène codant chaque fois qu'on détectait un cadre ouvert de lecture d'au moins 100 codons. Les chercheurs étaient conscients du fait que cette stratégie était susceptible de produire un nombre important de fausses prédictions, mais il s'agissait du tout premier génome eucaryote séquencé, et il fallait bien commencr par quelque chose pour se donner une chance d'y découvrir de nouveaux gènes. 
+
+Nous venons de calculer le nombre attendu de faux-positifs dans ce processus: si on avait généré une séquence aléatoire de la même taille selon un modèle de Markov respectant les mêmes fréquences de trinucléotides, on s'attendrait à y trouver `r round(digits=1, exp.ORFs)` cadres ouverts de lecture d'au moins 100 codons. Ceci indique que les gènes de taille relativement courte (300 nucléotides) devaient être considérés avec circonspection, et soumis à analyse ultérieure avant d'être annotés comme des gènes fiables. 
+
+En 2003, une stratégie complémentaire a été mise à contribution pour évaluer la fiabilité des ORF prédits dans le génome de *Saccharomyces cerevisiae*, en s'appuyant sur la génomique comparative: après avoir séquençé les génomes de quelques autres espèces du même genre (*Saccharomyces*), on a testé la conservation des ORF initialement prédits, en supposant que si on trouvait des ORF similaires dans les 4 espèces, cela suggérait une pression sélective positive pour l'absence de codon stop dans ces régions, et renforçait la prédiction d'un gène codant correspondant à ce cadre ouvert de lecture. 
 
 ## Probabilité d'un motif avec erreurs
 

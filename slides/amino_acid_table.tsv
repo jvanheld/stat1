@@ -1,0 +1,22 @@
+Aminoacid	Symbol3	Symbol	Codons
+Alanine	Ala	A	GCA, GCC, GCG, GCT
+Arginine	Arg	R	CGA, CGC, CGG, CGT, AGA, AGG
+Aspartic acid	Asp	D	GAC, GAT
+Asparagine	Asn	N	AAC, AAT
+Cysteine	Cys	C	TGC, TGT
+Glutamic acid	Glu	E	GAA, GAG
+Glutamine	Gln	Q	CAA, CAG
+Glycine	Gly	G	GGA, GGC, GGG, GGT
+Histidine	His	H	CAC, CAT
+Isoleucine	Ile	I	ATA, ATC, ATT
+Leucine	Leu	L	CTA, CTC, CTG, CTT, TTA, TTG
+Lysine	Lys	K	AAA, AAG
+Methionine	Met	M	ATG
+Phenylalanine	Phe	F	TTC, TTT
+Proline	Pro	P	CCA, CCC, CCG, CCT
+Serine	Ser	S	TCA, TCC, TCG, TCT, AGC, AGT
+Threonine	Thr	T	ACT, ACC, ACG, ACT
+Tryptophan	Trp	W	TGG
+Tyrosine	Tyr	Y	TAC, TAT
+Valine	Val	V	GTA, GTC, GTG, GTT
+STOP	-	-	TAG, TAA, TGA

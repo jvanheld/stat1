@@ -1781,9 +1781,43 @@ P(i \ge 4 | n=6, p=0.25) &amp;= \sum_{i=4}^{n} C_n^i p^i (1-p)^{n-i}  \\
 </ul>
 <ol type="a">
 <li><p>Quelle méthode préconisez-vous pour tester l’égalité des moyennes (justifiez) ? Quelles sont les hypothèses de travail de ce test ?</p></li>
-<li><p>En partant du principe que ces conditions sont remplies dans le cas présent, formulez l’hypothèse nulle et calculez le score t de Student (formule ci-dessous). Enfin, estimez P valeur à partir de la table fournie.</p></li>
+<li><p>En partant du principe que ces conditions sont remplies dans le cas présent, formulez l’hypothèse nulle et calculez le score <span class="math inline">\(t\)</span> de Student (formule ci-dessous). Enfin, estimez P valeur à partir de la table fournie.</p></li>
 <li><p>A l’issue du test, quelle décision prenez-vous ? Justifiez votre réponse.</p></li>
 </ol>
+<section id="methode-preconisee-pour-tester-legalite-des-moyennes" class="level3">
+<h3>Méthode préconisée pour tester l’égalité des moyennes</h3>
+<p>Pour choisir un test d’égalité des moyennes, la première question est de savoir si l’on peut ou non appliquer un test paramétrique.</p>
+<p>A priori nnous ne disposons pas d’information concernant la distribution des taux d’IgE dans les populations résistantes et susceptibles. Nous ne pouvons donc pas présupposer que les données suivent une distribution normale.</p>
+<p>Cependant, les deux échantillons sont de taille suffisante (<span class="math inline">\(n_1 = n_2 = 32\)</span>) pour qu’on puisse s’affranchir de cette condition. En effet, même si les données ne suivent pas une distribution normale, la moyenne d’échantillons tend vers la normalité quand l’effectif augmente, et, de façon pragmatique, on considère généralement qu’au-delà de 30 éléments par échantillon on peut appliquer un test paramétrique.</p>
+<p>Parmi les tests paramétriques, on choisira soit un test <span class="math inline">\(t\)</span> de Student si les deux populations sont de même variance (<em>homoscédasticité</em>), soit un test <span class="math inline">\(t\)</span> de Welch si leurs variances diffèrent (<em>hétéroscédasticité</em>). Comme dans notre cas les écarts-types des deux échantillons sont identiques, on peut présupposer que les populations dont ils sont extraits ont la même variance (en tout état de cause, si l’on réalisait un test d’égalité des variances, on serait amené à accepter l’hypothèse nulle).</p>
+</section>
+<section id="hypothese-nulle" class="level3">
+<h3>Hypothèse nulle</h3>
+<p>On effectue un <strong>test unilatéral</strong> puisqu’on teste specifiquement l’association de la résistance à un taux élevé d’anticorps.</p>
+<p><span class="math display">\[H_0: \mu_R \le \mu_S \\
+H_1: \mu_R &gt; \mu_S \\\]</span></p>
+<p>où <span class="math inline">\(\mu_R\)</span> et <span class="math inline">\(\mu_S\)</span> sont respectivement les taux moyens d’anticorps chez les individus résistants et sensibles.</p>
+</section>
+<section id="calcul-du-score-t-de-student" class="level3">
+<h3>Calcul du score <span class="math inline">\(t\)</span> de Student</h3>
+<p><span class="math display">\[
+\begin{aligned}
+t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} &amp;= \frac{\bar{x}_{2} - \bar{x}_{1}}{\sqrt{\frac{n_1 s_{1}^2 + n_2 s_{2}^2}{n_1+n_2-2} \left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}} \\
+&amp;= \frac{10 - 7}{\sqrt{\frac{32 \cdot 2.8^2 + 32 \cdot 2.8^2}{32 + 32 - 2} \left(\frac{1}{32}+ \frac{1}{32}\right)}} \\
+&amp;=\frac{10 - 7}{2.8 \cdot \sqrt{\frac{64}{62}} \sqrt{\frac{1}{32} + \frac{1}{32}}} \\
+ &amp;= \frac{3}{2.8 \cdot 1.016 \cdot \frac{1}{4}} = 4.22
+\end{aligned}\]</span></p>
+</section>
+<section id="estimation-de-la-probabilite-critique-p-valeur" class="level3">
+<h3>Estimation de la probabilité critique (p valeur)</h3>
+<p>On se base sur le <a href="../supports/t-table.pdf">tableau de la distribution <span class="math inline">\(t\)</span> de Student</a> (disponible pour l’examen), en considérant le test unilatéral (<em>one-tail</em>).</p>
+<p>On sélectionne la ligne correspondant aux degrés de liberté <span class="math inline">\(\text{df} = n_1 + n_2 -2 = 62\)</span>). Comme le tableau ne mentionne pas cette valeur, on choisit la ligne la plus proche (<span class="math inline">\(\text{df} = 60\)</span>).</p>
+<p>La valeur <span class="math inline">\(t\)</span> observée (<span class="math inline">\(t_{obs} = 4.22\)</span>) est supérieure à la plus grande valeur indiquée dans la table (<span class="math inline">\(t=3.460\)</span>, pour <span class="math inline">\(p=0.0005\)</span>). On peut donc conclure que la probabilité critique est inférieure à <span class="math inline">\(0.0005\)</span>.</p>
+</section>
+<section id="decision-et-jusification" class="level3">
+<h3>Décision et jusification</h3>
+<p>Pour un test isolé, une probabilité critique de <span class="math inline">\(p=0.0005\)</span> signifie que sous hypothèse nulle – c’est-à-dire si la résistance n’était pas associée à un taux élevé d’anticorps – la probabilité d’obsrver une différence de moyennes aussi grande serait de <span class="math inline">\(0.0005\)</span>. Cette probabilité est très faible, on peut donc rejeter l’hypothèse nulle, et conclure que la différence observée est significative.</p>
+</section>
 </section>
 <section id="enrichissement-fonctionnel" class="level2">
 <h2>Enrichissement fonctionnel</h2>

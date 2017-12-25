@@ -3,11 +3,14 @@ title: 'Solutions des exercices: probabilités et statistique'
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  pdf_document:
+  html_document:
+    code_folding: hide
     fig_caption: yes
     highlight: zenburn
-    toc: no
+    theme: cerulean
+    toc: yes
     toc_depth: 3
+    toc_float: yes
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -33,14 +36,11 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
-  html_document:
-    code_folding: hide
+  pdf_document:
     fig_caption: yes
     highlight: zenburn
-    theme: cerulean
-    toc: yes
+    toc: no
     toc_depth: 3
-    toc_float: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -379,9 +379,56 @@ Un groupe de chercheurs a détecté l’association, avec la résistance à la b
 
 a. Quelle méthode préconisez-vous pour tester l'égalité des moyennes (justifiez) ? Quelles sont les hypothèses de travail de ce test ?
 
-b. En partant du principe que ces conditions sont remplies dans le cas présent, formulez l’hypothèse nulle et calculez le score t de Student (formule ci-dessous). Enfin, estimez P valeur à partir de la table fournie. 
+b. En partant du principe que ces conditions sont remplies dans le cas présent, formulez l’hypothèse nulle et calculez le score $t$ de Student (formule ci-dessous). Enfin, estimez P valeur à partir de la table fournie. 
 
 c. A l'issue du test, quelle décision prenez-vous ? Justifiez votre réponse.
+
+
+### Méthode préconisée pour tester l'égalité des moyennes
+
+Pour choisir un test d'égalité des moyennes, la première question est de savoir si l'on peut ou non appliquer un test paramétrique. 
+
+A priori nnous ne disposons pas d’information concernant la distribution des taux d’IgE dans les populations résistantes et susceptibles. Nous ne pouvons donc pas présupposer que les données suivent une distribution normale. 
+
+Cependant, les deux échantillons sont de taille suffisante ($n_1 = n_2 = 32$) pour qu'on puisse s'affranchir de cette condition. En effet, même si les données ne suivent pas une distribution normale, la moyenne d'échantillons tend vers la normalité quand l'effectif augmente, et, de façon pragmatique, on considère généralement qu'au-delà de 30 éléments par échantillon on peut appliquer un test paramétrique. 
+
+Parmi les tests paramétriques, on choisira soit un test $t$ de Student si les deux populations sont de même variance (*homoscédasticité*), soit un test $t$ de Welch si leurs variances diffèrent (*hétéroscédasticité*). Comme dans notre cas les écarts-types des deux échantillons sont identiques, on peut présupposer que les populations dont ils sont extraits ont la même variance (en tout état de cause, si l’on réalisait un test d’égalité des variances, on serait amené à accepter l’hypothèse nulle). 
+
+
+### Hypothèse nulle
+
+On effectue un **test unilatéral** puisqu'on teste specifiquement l'association de la résistance à un taux élevé d'anticorps. 
+
+$$H_0: \mu_R \le \mu_S \\
+H_1: \mu_R > \mu_S \\$$
+
+où $\mu_R$ et $\mu_S$ sont respectivement les taux moyens d'anticorps chez les individus résistants et sensibles. 
+
+
+### Calcul du score $t$ de Student
+
+$$
+\begin{aligned}
+t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} &= \frac{\bar{x}_{2} - \bar{x}_{1}}{\sqrt{\frac{n_1 s_{1}^2 + n_2 s_{2}^2}{n_1+n_2-2} \left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}} \\
+&= \frac{10 - 7}{\sqrt{\frac{32 \cdot 2.8^2 + 32 \cdot 2.8^2}{32 + 32 - 2} \left(\frac{1}{32}+ \frac{1}{32}\right)}} \\
+&=\frac{10 - 7}{2.8 \cdot \sqrt{\frac{64}{62}} \sqrt{\frac{1}{32} + \frac{1}{32}}} \\
+ &= \frac{3}{2.8 \cdot `r signif(digits=4,sqrt(64/62))` \cdot \frac{1}{4}} = `r signif(digits=3, 4*3/(2.8*sqrt(64/62)))`
+\end{aligned}$$
+
+
+### Estimation de la probabilité critique (p valeur)
+
+On se base sur le [tableau de la distribution $t$ de Student](../supports/t-table.pdf) (disponible pour l'examen), en considérant le test unilatéral (*one-tail*).
+
+On sélectionne la ligne correspondant aux degrés de liberté $\text{df} = n_1 + n_2 -2 = 62$). Comme le tableau ne mentionne pas cette valeur, on choisit la ligne la plus proche ($\text{df} = 60$).
+
+La valeur $t$ observée ($t_{obs} = 4.22$) est supérieure à la plus grande valeur indiquée dans la table ($t=3.460$, pour $p=0.0005$). On peut donc conclure que la probabilité critique est inférieure à $0.0005$. 
+
+
+### Décision et jusification
+
+Pour un test isolé, une probabilité critique de $p=0.0005$ signifie que sous hypothèse nulle -- c'est-à-dire si la résistance n'était pas associée à un taux élevé d'anticorps -- la probabilité d'obsrver une différence de moyennes aussi grande serait de $0.0005$. Cette probabilité est très faible, on peut donc rejeter l'hypothèse nulle, et conclure que la différence observée est significative. 
+
 
 ## Enrichissement fonctionnel
 

@@ -183,18 +183,18 @@ $$\operatorname{P}(A_1 \land A_2) = 0 \iff \operatorname{P}(A_1 \lor A_2) = \ope
 
 ## Complémentarité
 
-Un ensemble d'événements ${A_1, A_2, \ldots, A_m}$ sont dit complémentaires s'ils sont mutuellement exclusifs et exhaustifs (il n'existe pas d'événement possible en dehors de l'ensemble). 
+Un ensemble d'événements ${A_1, A_2, \ldots, A_m}$ sont dit **complémentaires** s'ils sont mutuellement exclusifs et exhaustifs (il n'existe pas d'événement possible en dehors de l'ensemble). 
 
-La probabilité jointe d'événements complémentaires vaut 1.
+La **probabilité de l'union** d'événements complémentaires vaut 1.
 
 $$A_1, A_2, \ldots A_m \text{complementary} \Rightarrow \operatorname{P}(A_1 \lor A_2 \lor \ldots \lor A_m)   = \operatorname{P}(A_1) + \operatorname{P}(A_1) + \ldots + \operatorname{P}(A_m) = 1$$
 
 
 ## Indépendance stochastique
 
-Deux événements sont stochastiquement indépendants si al réalisation de l'un n'affecte pas la probabilité de réalisation de l'autre. 
+Deux événements sont **stochastiquement indépendants** si la réalisation de l'un n'affecte pas la probabilité de réalisation de l'autre. 
 
-La probabilité jointe d'une série d'événements indépendants est le produit de leurs probabilités. 
+La **probabilité jointe** d'une série d'événements indépendants est le produit de leurs probabilités. 
 
 $$A_1, A_2, \ldots A_m \text{ independent }  \nonumber\\
   \Rightarrow \operatorname{P}(A_1 \land A_2 \land \ldots \land A_m) = \operatorname{P}(A_1) \operatorname{P}(A_2) \ldots \operatorname{P}(A_m)$$

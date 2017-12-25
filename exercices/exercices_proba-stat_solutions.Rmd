@@ -87,6 +87,8 @@ setwd(dir.slides)
 
 ## Probabilité des longueurs d'ORF
 
+### Enoncé
+
 On détecte les cadres ouverts de lecture (*open reading frames*, *ORF*) d'un génome en identifiant toutes les séquences de taille multiple de 3 comprises entre un start (ATG) et un stop (TAA, TAG ou TGA). 
 
 a. Sur base des fréquences génomiques de trinucléotides, calculer la probabilité de trouver à une position donnée du génome un ORF d'au moins 100 codons (plus précisément, la probabilité qu'à cette position précise commence un cadre ouvert de lecture d'au moins 100 codons). 
@@ -107,6 +109,30 @@ selected.oligos <- c("AAA", "ATG", "TAA", "TAG", "TGA")
 kable(data.frame(oligo.freq[selected.oligos, ]), row.names = FALSE)
 #print(data.frame(oligo.freq[selected.oligos, ]))
 ```
+
+
+### Approche
+
+Cet exercice repose sur les concepts de probabilités combinées entre événements. 
+
+En particulier, nous mobiliserons les règles suivantes: 
+
+1. Des événements ($A_1, A_2$)sont mutuellement exclusifs si leur probabilité jointe est nulle ($P(A_1 \land A_2)=0$).  
+
+2. La probabilité de l'union d'événements mutuellement exclusifs est la somme de leurs probabilités; 
+
+$$\operatorname{P}(A_1 \land A_2) = 0 \iff \operatorname{P}(A_1 \lor A_2) = \operatorname{P}(A_1) + \operatorname{P}(A_2)$$
+3. Des événements sont **complémentaires** s'ils sont mutuellement exclusifs et exhaustifs (ils couvrent l'ensemble des possibilités).  La somme des probabilité d'événements complémentaires vaut 1. 
+
+$$A_1, A_2, \ldots A_m \text{ complémentaires } \Rightarrow \operatorname{P}(A_1 \lor A_2 \lor \ldots \lor A_m)   = \operatorname{P}(A_1) + \operatorname{P}(A_1) + \ldots + \operatorname{P}(A_m) = 1$$
+4. Deux événements sont **stochastiquement indépendants** si la réalisation de l'un n'affecte pas la probabilité de réalisation de l'autre. 
+
+La **probabilité jointe** d'une série d'événements indépendants est le produit de leurs probabilités. 
+
+$$A_1, A_2, \ldots A_m \text{ indépendants }  \nonumber\\
+  \Rightarrow \operatorname{P}(A_1 \land A_2 \land \ldots \land A_m) = \operatorname{P}(A_1) \operatorname{P}(A_2) \ldots \operatorname{P}(A_m)$$
+
+
 
 ### Solution: probabilité des longueurs d'ORF
 
@@ -156,8 +182,7 @@ P.not.stop <- 1 - P.stop
 
 
 $$P(\lnot\text{STOP}) = 1 = P(\text{STOP} = 1 - `r round(digits=2, P.stop)` = `r round(digits=2, P.not.stop)` $$
-### Probabilité d'absence du codon stop à une position donnée
-
+### Probabilité de présence d'ORF
 
 Nous pouvons maintenant calculer la probabilité d'avoir un cadre ouvert de lecture d'au moins 100 codons qui commence à une position arbitraire $i$ du génome. 
 
@@ -209,12 +234,91 @@ En 2003, une stratégie complémentaire a été mise à contribution pour évalu
 
 ## Probabilité d'un motif avec erreurs
 
-On recherche dans un génome les occurrences du motif GATAAG  en admettant un certain nombre de substitutions. En supposant que les nucléotides sont indépendants et équiprobables, quelle est la probabilité de trouver à une position du génome: 
+On recherche dans un génome les occurrences du motif GATAAG  en admettant un certain nombre de substitutions. En supposant que les nucléotides sont indépendants et équiprobables, quelle est la probabilité de trouver à une position du génome.
 
 a. Une instance exacte du motif (aucune substitution) ?
 b. Une séquence ne présentant aucune correspondance avec le motif (6 substitutions) ?
 c. Une instance avec exactement 1 substitution ?
 d. Une instance avec au plus 2 substitutions ?
+
+### Cadre théorique
+
+On modélise le problème comme un **schéma de Bernoulli**: chaque position de la séquence correspond à un essai, qui peut donner soit un *succès* (correspondance avec motif) soit un *échec* (différence avec le motif), et on suppose que la probabilité de succès est constante (nucléotides indépendants et équiprobables). 
+
+Le motif GATAAG fait 6 nucléotides, on aura donc 6 essais successifs, qui viseront à tester successivement l'identité entre le premier, second, ... sixième nucléotide de la séquence et le nucléotide à la position correspondante du motif. Pour chaque position, on a une probabilité de succès $p=1/4$ et d'échec $q = 1-p = 3/4$.
+
+
+### Probabilité d'nstance exacte du motif (aucune substitution)
+
+Pour avoir une instance exacte du motif, il faut une succession de 6 correspondances entre nucléotides. 
+
+$$P(\text{perfect match})  = p^6 = 0.25^6 = `r signif(digits=2,0.25^6)`$$
+
+
+### Probabilité d'une séquence ne présentant aucune correspondance avec le motif (6 substitutions)
+
+$$P(\text{full mismatch}) = (1-p)^6 = 0.75^6 = `r signif(digits=3, 0.75^6)`$$
+
+### Probabilité d'une instance avec exactement 1 substitution
+
+On peut trouver la réponse par un raisonnement assez simple. Les instances avec 1 substitutions combinent 
+- 5 "succès"" (correspondances) ayant une probabilité $p=0.25$,
+- 1 "échec" (substitition) $q = 1-p = 0.75$.
+
+La substitution peut se trouver à n'importe quelle position du motif. Si l'on représente respectivement par $1$ et $0$ les succès et échecs, on acceptera les disposition suivantes de succès et d'échecs. 
+
+
+| Disposition | Probabilité |
+|-------------|---------------------------------|
+| 111110 | $p \cdot p \cdot p \cdot p \cdot p \cdot (1-p) = p^5(1-p)$ |
+| 111101 | $p \cdot p \cdot p \cdot p \cdot (1-p) \cdot p = p^5(1-p)$ |
+| 111011 | $p \cdot p \cdot p \cdot (1-p) \cdot p \cdot p = p^5(1-p)$ |
+| 110111 | $p \cdot p \cdot (1-p) \cdot p \cdot p \cdot p = p^5(1-p)$ |
+| 101111 | $p \cdot (1-p) \cdot p \cdot p \cdot p \cdot p = p^5(1-p)$ |
+| 011111 | $(1-p) \cdot p \cdot p \cdot p \cdot p \cdot p = p^5(1-p)$ |
+
+Ces dispositions sont mutuellement exclusive (si on a exactement une substitution, elle peut se trouver soit à la première soit à la deuxième position, mais pas aux deux en même temps). On peut donc calculer la prbabilité de l'union des 6 dispositions comme la somme de leurs probabilités. 
+
+$$P(\text{match withb 1 subst}) = 6 \cdot p^5 \cdot (1-p) = 6 \cdot 0.25^5 \cdot 0.75 = `r signif(digits=2, 6*0.25^5*0.75)`$$
+
+Un raisonnement plus rapide: il s'agit d'un schéma de Bernoulli avec 6 essais indépendant, ayant la même probabilité de succès $p=0.25$. La probabilité d'observer exactement $x=5$ succès parmi $n=6$ essais est donnée par la **distribution binomiale**. 
+
+$$
+\begin{aligned}
+P(x=5 | n=6, p=0.25) &= \binom{n}{x}p^x(1-p)^{n-x} \\
+ &= \frac{n}{x!(n-x)!}p^x(1-p)^{n-x} \\
+ &= \frac{6}{5! \cdot 1!} 0.25^5 \cdot 0.75 = `r signif(digits=2, dbinom(x = 5, prob=0.25, size=6))`
+\end{aligned}
+$$
+
+### Probabilité d'une instance avec au plus 2 substitutions
+
+Pour avoir au plus deux substitutions, il faut avoir soit 0, soir 1, soit 2 subsitution. Ces possibilités sont mutuellement exclusives (on ne peut avoir à la fois 1 et 2 substitutions), la probabilité de leur union est donc la somme de leurs probabilités. 
+
+Nous avons calculé ci-dessus la probabilité d'avoir 0 et 1 substitution. 
+Par le même raisonnement, on peut calculer la prbabilité de 2 substitutions avec le distribution binomiale. 
+
+$$
+\begin{aligned}
+P(x=4 | n=6, p=0.25) &= \binom{n}{x}p^x(1-p)^{n-x} \\
+ &= \frac{n}{x!(n-x)!}p^x(1-p)^{n-x} \\
+ &= \frac{6}{4! \cdot 2!} 0.25^4 \cdot 0.75^2 = `r signif(digits=2, dbinom(x = 4, prob=0.25, size=6))`
+\end{aligned}
+$$
+
+La solution peut s'écrire sous la forme de 3 probabilités binomiales correspondant respectivement à 0, 1 et 2 substitutions, ou, de façon équivalente, à 4, 5 ou 6 succès ($x \ge 4$). 
+
+**Note:** afin de vous familiariser avec les deux formulations alternatives du coefficient binomial, nous utilisons ici la formule "choose" $C_n^x$, qui est équivalente à  $\binom{n}{x}$ (notez l'inversion des positions de $x$ et $n$).
+
+$$
+\begin{aligned}
+P(i \ge 4 | n=6, p=0.25) &= \sum_{i=4}^{n} C_n^i p^i (1-p)^{n-i}  \\
+ &= \sum_{i=4}^{6} \frac{6}{i! \cdot (n-i) !} 0.25^i \cdot 0.75^{n-i} \\
+ &=  `r signif(digits=2, dbinom(x = 4, prob=0.25, size=6))` + `r signif(digits=2, dbinom(x = 5, prob=0.25, size=6))` + `r signif(digits=2, dbinom(x = 6, prob=0.25, size=6))` \\
+ &= `r signif(digits=2, pbinom(q = 3, prob=0.25, size=6, lower=FALSE))`
+\end{aligned}
+$$
+
 
 ## Alignement de lectures NGS sans erreur
 

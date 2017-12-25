@@ -11,7 +11,7 @@
 
 <meta name="author" content="Jacques van Helden" />
 
-<meta name="date" content="2017-12-23" />
+<meta name="date" content="2017-12-25" />
 
 <title>Solutions des exercices: probabilités et statistique</title>
 
@@ -1515,13 +1515,15 @@ div.tocify {
 <h1 class="title toc-ignore">Solutions des exercices: probabilités et statistique</h1>
 <h3 class="subtitle"><em>Probabilités et statistique pour la biologie (STAT1)</em></h3>
 <h4 class="author"><em>Jacques van Helden</em></h4>
-<h4 class="date"><em>2017-12-23</em></h4>
+<h4 class="date"><em>2017-12-25</em></h4>
 
 </div>
 
 
 <section id="probabilite-des-longueurs-dorf" class="level2">
 <h2>Probabilité des longueurs d’ORF</h2>
+<section id="enonce" class="level3">
+<h3>Enoncé</h3>
 <p>On détecte les cadres ouverts de lecture (<em>open reading frames</em>, <em>ORF</em>) d’un génome en identifiant toutes les séquences de taille multiple de 3 comprises entre un start (ATG) et un stop (TAA, TAG ou TGA).</p>
 <ol type="a">
 <li>Sur base des fréquences génomiques de trinucléotides, calculer la probabilité de trouver à une position donnée du génome un ORF d’au moins 100 codons (plus précisément, la probabilité qu’à cette position précise commence un cadre ouvert de lecture d’au moins 100 codons).</li>
@@ -1563,6 +1565,21 @@ div.tocify {
 </tr>
 </tbody>
 </table>
+</section>
+<section id="approche" class="level3">
+<h3>Approche</h3>
+<p>Cet exercice repose sur les concepts de probabilités combinées entre événements.</p>
+<p>En particulier, nous mobiliserons les règles suivantes:</p>
+<ol type="1">
+<li><p>Des événements (<span class="math inline">\(A_1, A_2\)</span>)sont mutuellement exclusifs si leur probabilité jointe est nulle (<span class="math inline">\(P(A_1 \land A_2)=0\)</span>).</p></li>
+<li><p>La probabilité de l’union d’événements mutuellement exclusifs est la somme de leurs probabilités;</p></li>
+</ol>
+<p><span class="math display">\[\operatorname{P}(A_1 \land A_2) = 0 \iff \operatorname{P}(A_1 \lor A_2) = \operatorname{P}(A_1) + \operatorname{P}(A_2)\]</span> 3. Des événements sont <strong>complémentaires</strong> s’ils sont mutuellement exclusifs et exhaustifs (ils couvrent l’ensemble des possibilités). La somme des probabilité d’événements complémentaires vaut 1.</p>
+<p><span class="math display">\[A_1, A_2, \ldots A_m \text{ complémentaires } \Rightarrow \operatorname{P}(A_1 \lor A_2 \lor \ldots \lor A_m)   = \operatorname{P}(A_1) + \operatorname{P}(A_1) + \ldots + \operatorname{P}(A_m) = 1\]</span> 4. Deux événements sont <strong>stochastiquement indépendants</strong> si la réalisation de l’un n’affecte pas la probabilité de réalisation de l’autre.</p>
+<p>La <strong>probabilité jointe</strong> d’une série d’événements indépendants est le produit de leurs probabilités.</p>
+<p><span class="math display">\[A_1, A_2, \ldots A_m \text{ indépendants }  \nonumber\\
+  \Rightarrow \operatorname{P}(A_1 \land A_2 \land \ldots \land A_m) = \operatorname{P}(A_1) \operatorname{P}(A_2) \ldots \operatorname{P}(A_m)\]</span></p>
+</section>
 <section id="solution-probabilite-des-longueurs-dorf" class="level3">
 <h3>Solution: probabilité des longueurs d’ORF</h3>
 <p>On sélectionne aléatoirement une position du génome (<span class="math inline">\(i\)</span>). Nous allons raisonner en terme de codons (triplets de nucléotides): pour chaque position <span class="math inline">\(i\)</span> on observe le triplet couvrant les nucléotides de <span class="math inline">\(i\)</span> à <span class="math inline">\(i+1\)</span>, et on avance par pas de 3 (<span class="math inline">\(i, i+3, +6, \ldots\)</span>).</p>
@@ -1585,7 +1602,7 @@ P(\text{STOP}) &amp;= P(\text{TAA}) + P(\text{TAG}) + P(\text{TGA}) \\
 \end{aligned}
 \]</span></p>
 <p>On en détuit la probabilité d’<strong>absence d’un codon stop</strong> à une position donnée.</p>
-<p><span class="math display">\[P(\lnot\text{STOP}) = 1 = P(\text{STOP} = 1 - 0.06 = 0.94 \]</span> ### Probabilité d’absence du codon stop à une position donnée</p>
+<p><span class="math display">\[P(\lnot\text{STOP}) = 1 = P(\text{STOP} = 1 - 0.06 = 0.94 \]</span> ### Probabilité de présence d’ORF</p>
 <p>Nous pouvons maintenant calculer la probabilité d’avoir un cadre ouvert de lecture d’au moins 100 codons qui commence à une position arbitraire <span class="math inline">\(i\)</span> du génome.</p>
 <p>Ceci correspond à la <em>probabilité jointe</em> (le ET logique) de l’ensemble des conditions requises.</p>
 <ul>
@@ -1620,13 +1637,98 @@ P(\text{ORF}_{100}) &amp;= P(\text{START}) \cdot  \overbrace{P(\lnot \text{STOP}
 </section>
 <section id="probabilite-dun-motif-avec-erreurs" class="level2">
 <h2>Probabilité d’un motif avec erreurs</h2>
-<p>On recherche dans un génome les occurrences du motif GATAAG en admettant un certain nombre de substitutions. En supposant que les nucléotides sont indépendants et équiprobables, quelle est la probabilité de trouver à une position du génome:</p>
+<p>On recherche dans un génome les occurrences du motif GATAAG en admettant un certain nombre de substitutions. En supposant que les nucléotides sont indépendants et équiprobables, quelle est la probabilité de trouver à une position du génome.</p>
 <ol type="a">
 <li>Une instance exacte du motif (aucune substitution) ?</li>
 <li>Une séquence ne présentant aucune correspondance avec le motif (6 substitutions) ?</li>
 <li>Une instance avec exactement 1 substitution ?</li>
 <li>Une instance avec au plus 2 substitutions ?</li>
 </ol>
+<section id="cadre-theorique" class="level3">
+<h3>Cadre théorique</h3>
+<p>On modélise le problème comme un <strong>schéma de Bernoulli</strong>: chaque position de la séquence correspond à un essai, qui peut donner soit un <em>succès</em> (correspondance avec motif) soit un <em>échec</em> (différence avec le motif), et on suppose que la probabilité de succès est constante (nucléotides indépendants et équiprobables).</p>
+<p>Le motif GATAAG fait 6 nucléotides, on aura donc 6 essais successifs, qui viseront à tester successivement l’identité entre le premier, second, … sixième nucléotide de la séquence et le nucléotide à la position correspondante du motif. Pour chaque position, on a une probabilité de succès <span class="math inline">\(p=1/4\)</span> et d’échec <span class="math inline">\(q = 1-p = 3/4\)</span>.</p>
+</section>
+<section id="probabilite-dnstance-exacte-du-motif-aucune-substitution" class="level3">
+<h3>Probabilité d’nstance exacte du motif (aucune substitution)</h3>
+<p>Pour avoir une instance exacte du motif, il faut une succession de 6 correspondances entre nucléotides.</p>
+<p><span class="math display">\[P(\text{perfect match})  = p^6 = 0.25^6 = 2.4\times 10^{-4}\]</span></p>
+</section>
+<section id="probabilite-dune-sequence-ne-presentant-aucune-correspondance-avec-le-motif-6-substitutions" class="level3">
+<h3>Probabilité d’une séquence ne présentant aucune correspondance avec le motif (6 substitutions)</h3>
+<p><span class="math display">\[P(\text{full mismatch}) = (1-p)^6 = 0.75^6 = 0.178\]</span></p>
+</section>
+<section id="probabilite-dune-instance-avec-exactement-1-substitution" class="level3">
+<h3>Probabilité d’une instance avec exactement 1 substitution</h3>
+<p>On peut trouver la réponse par un raisonnement assez simple. Les instances avec 1 substitutions combinent - 5 “succès”&quot; (correspondances) ayant une probabilité <span class="math inline">\(p=0.25\)</span>, - 1 “échec” (substitition) <span class="math inline">\(q = 1-p = 0.75\)</span>.</p>
+<p>La substitution peut se trouver à n’importe quelle position du motif. Si l’on représente respectivement par <span class="math inline">\(1\)</span> et <span class="math inline">\(0\)</span> les succès et échecs, on acceptera les disposition suivantes de succès et d’échecs.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Disposition</th>
+<th>Probabilité</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>111110</td>
+<td><span class="math inline">\(p \cdot p \cdot p \cdot p \cdot p \cdot (1-p) = p^5(1-p)\)</span></td>
+</tr>
+<tr class="even">
+<td>111101</td>
+<td><span class="math inline">\(p \cdot p \cdot p \cdot p \cdot (1-p) \cdot p = p^5(1-p)\)</span></td>
+</tr>
+<tr class="odd">
+<td>111011</td>
+<td><span class="math inline">\(p \cdot p \cdot p \cdot (1-p) \cdot p \cdot p = p^5(1-p)\)</span></td>
+</tr>
+<tr class="even">
+<td>110111</td>
+<td><span class="math inline">\(p \cdot p \cdot (1-p) \cdot p \cdot p \cdot p = p^5(1-p)\)</span></td>
+</tr>
+<tr class="odd">
+<td>101111</td>
+<td><span class="math inline">\(p \cdot (1-p) \cdot p \cdot p \cdot p \cdot p = p^5(1-p)\)</span></td>
+</tr>
+<tr class="even">
+<td>011111</td>
+<td><span class="math inline">\((1-p) \cdot p \cdot p \cdot p \cdot p \cdot p = p^5(1-p)\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Ces dispositions sont mutuellement exclusive (si on a exactement une substitution, elle peut se trouver soit à la première soit à la deuxième position, mais pas aux deux en même temps). On peut donc calculer la prbabilité de l’union des 6 dispositions comme la somme de leurs probabilités.</p>
+<p><span class="math display">\[P(\text{match withb 1 subst}) = 6 \cdot p^5 \cdot (1-p) = 6 \cdot 0.25^5 \cdot 0.75 = 0.0044\]</span></p>
+<p>Un raisonnement plus rapide: il s’agit d’un schéma de Bernoulli avec 6 essais indépendant, ayant la même probabilité de succès <span class="math inline">\(p=0.25\)</span>. La probabilité d’observer exactement <span class="math inline">\(x=5\)</span> succès parmi <span class="math inline">\(n=6\)</span> essais est donnée par la <strong>distribution binomiale</strong>.</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(x=5 | n=6, p=0.25) &amp;= \binom{n}{x}p^x(1-p)^{n-x} \\
+ &amp;= \frac{n}{x!(n-x)!}p^x(1-p)^{n-x} \\
+ &amp;= \frac{6}{5! \cdot 1!} 0.25^5 \cdot 0.75 = 0.0044
+\end{aligned}
+\]</span></p>
+</section>
+<section id="probabilite-dune-instance-avec-au-plus-2-substitutions" class="level3">
+<h3>Probabilité d’une instance avec au plus 2 substitutions</h3>
+<p>Pour avoir au plus deux substitutions, il faut avoir soit 0, soir 1, soit 2 subsitution. Ces possibilités sont mutuellement exclusives (on ne peut avoir à la fois 1 et 2 substitutions), la probabilité de leur union est donc la somme de leurs probabilités.</p>
+<p>Nous avons calculé ci-dessus la probabilité d’avoir 0 et 1 substitution. Par le même raisonnement, on peut calculer la prbabilité de 2 substitutions avec le distribution binomiale.</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(x=4 | n=6, p=0.25) &amp;= \binom{n}{x}p^x(1-p)^{n-x} \\
+ &amp;= \frac{n}{x!(n-x)!}p^x(1-p)^{n-x} \\
+ &amp;= \frac{6}{4! \cdot 2!} 0.25^4 \cdot 0.75^2 = 0.033
+\end{aligned}
+\]</span></p>
+<p>La solution peut s’écrire sous la forme de 3 probabilités binomiales correspondant respectivement à 0, 1 et 2 substitutions, ou, de façon équivalente, à 4, 5 ou 6 succès (<span class="math inline">\(x \ge 4\)</span>).</p>
+<p><strong>Note:</strong> afin de vous familiariser avec les deux formulations alternatives du coefficient binomial, nous utilisons ici la formule “choose” <span class="math inline">\(C_n^x\)</span>, qui est équivalente à <span class="math inline">\(\binom{n}{x}\)</span> (notez l’inversion des positions de <span class="math inline">\(x\)</span> et <span class="math inline">\(n\)</span>).</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(i \ge 4 | n=6, p=0.25) &amp;= \sum_{i=4}^{n} C_n^i p^i (1-p)^{n-i}  \\
+ &amp;= \sum_{i=4}^{6} \frac{6}{i! \cdot (n-i) !} 0.25^i \cdot 0.75^{n-i} \\
+ &amp;=  0.033 + 0.0044 + 2.4\times 10^{-4} \\
+ &amp;= 0.038
+\end{aligned}
+\]</span></p>
+</section>
 </section>
 <section id="alignement-de-lectures-ngs-sans-erreur" class="level2">
 <h2>Alignement de lectures NGS sans erreur</h2>

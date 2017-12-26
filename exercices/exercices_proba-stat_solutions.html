@@ -1732,8 +1732,64 @@ P(i \ge 4 | n=6, p=0.25) &amp;= \sum_{i=4}^{n} C_n^i p^i (1-p)^{n-i}  \\
 </section>
 <section id="alignement-de-lectures-ngs-sans-erreur" class="level2">
 <h2>Alignement de lectures NGS sans erreur</h2>
-<p>Au terme d’un séquençage de type “Next Generation Sequencing” (NGS), on dispose d’une librairie de <span class="math inline">\(N=10^6\)</span> lectures courtes. On aligne la librairie sur le génome de référence, dont la somme des chromosomes fait <span class="math inline">\(G=10^9\)</span> paires de bases, en utilisant un algorithme d’alignement sans gap.</p>
-<p>Calculez la distribution de probabilité du nombre de correspondances en fonction de la longueur des lectures (<span class="math inline">\(k\)</span>).</p>
+<p>Au terme d’un séquençage de type “Next Generation Sequencing” (NGS), on dispose d’une librairie de <span class="math inline">\(N=10^6\)</span> lectures courtes. On aligne la librairie sur le génome de référence, dont la somme des chromosomes fait 1 gigabase (<span class="math inline">\(G=10^9\)</span> paires de bases), en utilisant un algorithme d’alignement sans gap.</p>
+<p>Calculez la distribution de probabilité d’obtenir un alignement sans erreur en fonction de la longueur des lectures (<span class="math inline">\(k\)</span>).</p>
+<section id="cadre-theorique-1" class="level3">
+<h3>Cadre théorique</h3>
+<p>Schéma de Bernoulli: on suppose que les nucléotides se succèdent de façon indépendante et ont une probabilité constante <span class="math inline">\(p=1/4\)</span> (équiprobabilité).</p>
+<p>La probabilité de n’obtenir aucune erreur sur <span class="math inline">\(k\)</span> nucléotides vaut.</p>
+<p><span class="math inline">\(P(X = k) = p^k\)</span></p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">k</th>
+<th style="text-align: left;">Proba.match</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">2.50e-01</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">6.25e-02</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">1.56e-02</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">3.91e-03</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">9.77e-04</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">2.44e-04</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">6.10e-05</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">1.53e-05</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">3.81e-06</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">10</td>
+<td style="text-align: left;">9.54e-07</td>
+</tr>
+</tbody>
+</table>
+</section>
 </section>
 <section id="alignement-de-lecture-ngs-avec-erreurs" class="level2">
 <h2>Alignement de lecture NGS avec erreurs</h2>
@@ -1742,6 +1798,25 @@ P(i \ge 4 | n=6, p=0.25) &amp;= \sum_{i=4}^{n} C_n^i p^i (1-p)^{n-i}  \\
 <li><p>En supposant un modèle de fond basé sur des nucléotides équiprobables et distribués de façon indépendante, comment calculeriez-vous la probabilité pour qu’un read s’aligne complètement à une position arbitraire du génome, avec au plus 3 substitutions (sans indel). Indiquez la formule et justifiez votre choix.</p></li>
 <li><p>Sous ces mêmes conditions, quel serait le nombre de faux-positifs attendus si l’on aligne l’ensemble de la librairie de séquences sur l’ensemble du génome ?</p></li>
 </ol>
+<section id="a.-probabilite-dalignement-avec-au-plus-3-substitutions" class="level3">
+<h3>a. Probabilité d’alignement avec au plus 3 substitutions</h3>
+<p>On modélise l’alignement(sans gap) d’un read à une position donnée du génome comme un schéma de Bernoulli, où chaque position alignée (nucléotide) correspond à un essai, avec une probabilité de succès <span class="math inline">\(p=0.25\)</span> (identité entre le nucléotide du read et celui du génome) et d’échec <span class="math inline">\(q=1-p = 0.75\)</span> (différence entre les deux nucléotides alignés), et où le nombre d’essais correspond à la longueur des reads (<span class="math inline">\(k=35\)</span>).</p>
+<p>La probabilité d’observer au plus 3 substitutions est la somme des probabilités d’observer exactement 0, 1, 2 ou 3 substitutions.</p>
+<p>Chacune de ces probabilités peut s’obtenir avec la loi de densité binomiale.</p>
+<p><span class="math display">\[P(X=i) = C_k^i p^i (1-p) ^{k-i}\]</span></p>
+<p><span class="math inline">\(m\)</span> étant le nombre de différences (mismatches), le nombre d’identités vaut donc <span class="math inline">\(i = k - m\)</span>. <span class="math inline">\(i\)</span> prendra donc successivement les valeurs de 32 à 35.</p>
+<p>La probabilité de l’alignement avec au plus 3 substitutions vaut donc.</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(M \le 3) = P(X \ge k - 3) &amp;= \sum_{i=k-3}^{k} C_k^i \cdot p^i \cdot  (1-p) ^{k-i} \\
+ &amp;= \sum_{i=32}^{35} C_{35}^i \cdot 0.25^i \cdot 0.75^{35-i} \\
+ &amp;= 1.54\times 10^{-16}
+\end{aligned}
+\]</span></p>
+</section>
+<section id="b.-nombre-de-faux-positifs-attendus-en-alignant-lensemble-de-la-librairie-sur-le-genome-complet" class="level3">
+<h3>b. Nombre de faux-positifs attendus en alignant l’ensemble de la librairie sur le génome complet</h3>
+</section>
 </section>
 <section id="sites-de-restriction" class="level2">
 <h2>Sites de restriction</h2>
@@ -1822,11 +1897,12 @@ t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} &amp;= \frac{\bar{x}_{2} - \bar
 <section id="enrichissement-fonctionnel" class="level2">
 <h2>Enrichissement fonctionnel</h2>
 <p>Dans le génome de la levure, 40 gènes ont été assignés à la classe fonctionnelle “Biological Process: Methionin Biosynthesis”. Une expérience de transcriptome rapporte 80 gènes différentiellement exprimés, dont 10 appartiennent à cette classe fonctionnelle. Sachant que le génome comporte 6000 gènes, peut-on consiérer ce résultat comme significatif ?</p>
+<p><strong><em>Pas vu en (2016-2017.</em></strong></p>
 </section>
 <section id="jeu-de-roulette" class="level2">
 <h2>Jeu de roulette</h2>
 <p>La roulette comporte 37 nombres allant du 0 au 36. Un joueur a décidé de miser systématiquement 1 euro sur le nombre 17 jusqu’à ce que ce nombre sorte, et de s’arrêter ensuite. Sachant que quand on mise sur un seul nombre, le gain vaut 36 fois la mise, quelle est la probabilité pour que le joueur sorte du casino en ayant gagné de l’argent ? Il n’est pas nécessaire de fournir une réponse numérique, vous pouvez vous contenter d’indiquer la formule, en indiquant les nombres correspondant aux différents symboles mathématiques. Justifiez votre réponse en expliquant votre raisonnement.</p>
-<section id="cadre-theorique-1" class="level3">
+<section id="cadre-theorique-2" class="level3">
 <h3>Cadre théorique</h3>
 <p>Il s’agit de calculer le temps d’attente du premier succès dans un schéma de Bernoulli. Chaque pari que le joueur place sur le nombre 17 peut être considéré comme un essai qui peut résulter soit en un succès (le nombre 17 sort) soit en un échec (un autre nombre sort).</p>
 <p>La (petite) difficulté est de coupler la réflexion sur ce temps d’attente avec un calcul des coûts et bénéfices.</p>

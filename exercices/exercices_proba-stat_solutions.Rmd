@@ -3,11 +3,14 @@ title: 'Solutions des exercices: probabilités et statistique'
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  pdf_document:
+  html_document:
+    code_folding: hide
     fig_caption: yes
     highlight: zenburn
-    toc: no
+    theme: cerulean
+    toc: yes
     toc_depth: 3
+    toc_float: yes
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -33,14 +36,11 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
-  html_document:
-    code_folding: hide
+  pdf_document:
     fig_caption: yes
     highlight: zenburn
-    theme: cerulean
-    toc: yes
+    toc: no
     toc_depth: 3
-    toc_float: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -322,9 +322,26 @@ $$
 
 ## Alignement de lectures NGS sans erreur
 
-Au terme d'un séquençage de type "Next Generation Sequencing" (NGS), on dispose d'une librairie de $N=10^6$ lectures courtes. On aligne la librairie sur le génome de référence, dont la somme des chromosomes fait $G=10^9$ paires de bases, en utilisant un algorithme d'alignement sans gap.
+Au terme d'un séquençage de type "Next Generation Sequencing" (NGS), on dispose d'une librairie de $N=10^6$ lectures courtes. On aligne la librairie sur le génome de référence, dont la somme des chromosomes fait 1 gigabase ($G=10^9$ paires de bases), en utilisant un algorithme d'alignement sans gap.
 
-Calculez la distribution de probabilité du nombre de correspondances en fonction de la longueur des lectures ($k$). 
+Calculez la distribution de probabilité d'obtenir un alignement sans erreur en fonction de la longueur des lectures ($k$). 
+
+### Cadre théorique
+
+Schéma de Bernoulli: on suppose que les nucléotides se succèdent de façon indépendante et ont une probabilité constante $p=1/4$ (équiprobabilité). 
+
+La probabilité de n'obtenir aucune erreur sur $k$ nucléotides vaut. 
+
+$P(X = k) = p^k$
+
+```{r}
+k <- 1:10
+p <- 1/4
+p.match <- p^k
+
+result <- data.frame(k=k, "Proba.match"=p.match)
+kable(format(result, digits=3))
+```
 
 
 ## Alignement de lecture NGS avec erreurs
@@ -335,6 +352,40 @@ a. En supposant un modèle de fond basé sur des nucléotides équiprobables et 
 
 b. Sous ces mêmes conditions, quel serait le nombre de faux-positifs attendus si l’on aligne l’ensemble de la librairie de séquences sur l’ensemble du génome ?
 
+### a. Probabilité d'alignement avec au plus 3 substitutions
+
+On modélise l'alignement(sans gap) d'un read à une position donnée du génome comme un schéma de Bernoulli, où chaque position alignée (nucléotide) correspond à un essai, avec une probabilité de succès $p=0.25$ (identité entre le nucléotide du read et celui du génome) et d'échec $q=1-p = 0.75$ (différence entre les deux nucléotides alignés), et où le nombre d'essais correspond à la longueur des reads ($k=35$). 
+
+La probabilité d'observer au plus 3 substitutions est la somme des probabilités d'observer exactement 0, 1, 2 ou 3 substitutions. 
+
+Chacune de ces probabilités peut s'obtenir avec la loi de densité binomiale. 
+
+$$P(X=i) = C_k^i p^i (1-p) ^{k-i}$$
+
+$m$ étant le nombre de différences (mismatches), le nombre d'identités vaut donc $i = k - m$. $i$ prendra donc successivement les valeurs de 32 à 35. 
+
+La probabilité de l'alignement avec au plus 3 substitutions vaut donc. 
+
+```{r}
+p <- 0.25
+k <- 35
+m <- 3
+pval <- pbinom(q=k-m - 1, prob=p, size=k, lower=FALSE)
+```
+
+
+$$
+\begin{aligned}
+P = P(M \le 3) = P(X \ge k - 3) &= \sum_{i=k-3}^{k} C_k^i \cdot p^i \cdot  (1-p) ^{k-i} \\
+ &= \sum_{i=32}^{35} C_{35}^i \cdot 0.25^i \cdot 0.75^{35-i} \\
+ &= `r signif(digits=3, pval)`
+\end{aligned}
+$$
+
+
+### b.  Nombre de faux-positifs attendus en alignant l'ensemble de la librairie sur le génome complet
+
+Le nombre de faux positifs attendus ($E$) est la p-valeur ($P$) calculée ci-dessus multiplée par le nombre de tests. 
 
 ## Sites de restriction
 
@@ -434,6 +485,7 @@ Pour un test isolé, une probabilité critique de $p=0.0005$ signifie que sous h
 
 Dans le génome de la levure, 40 gènes ont été assignés à la classe fonctionnelle "Biological Process: Methionin Biosynthesis". Une expérience de transcriptome rapporte 80 gènes différentiellement exprimés, dont 10 appartiennent à cette classe fonctionnelle. Sachant que le génome comporte 6000 gènes, peut-on consiérer ce résultat comme significatif ?
 
+***Pas vu en (2016-2017.***
 
 ## Jeu de roulette
 

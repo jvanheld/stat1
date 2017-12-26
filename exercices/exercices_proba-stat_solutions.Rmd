@@ -439,6 +439,56 @@ Dans le génome de la levure, 40 gènes ont été assignés à la classe fonctio
 
 La roulette comporte 37 nombres allant du 0 au 36. Un joueur a décidé de miser systématiquement 1 euro sur le nombre 17 jusqu’à ce que ce nombre sorte, et de s’arrêter ensuite. Sachant que quand on mise sur un seul nombre, le gain vaut 36 fois la mise, quelle est la probabilité pour que le joueur sorte du casino en ayant gagné de l’argent ? Il n’est pas nécessaire de fournir une réponse numérique, vous pouvez vous contenter d’indiquer la formule, en indiquant les nombres correspondant aux différents symboles mathématiques. Justifiez votre réponse en expliquant votre raisonnement. 
 
+### Cadre théorique
+
+Il s'agit de calculer le temps d'attente du premier succès dans un schéma de Bernoulli. Chaque pari que le joueur place sur le nombre 17 peut être considéré comme un essai qui peut résulter soit en un succès (le nombre 17 sort) soit en un échec (un autre nombre sort).
+
+La (petite) difficulté est de coupler la réflexion sur ce temps d'attente avec un calcul des coûts et bénéfices. 
+
+
+
+### Temps d'attente du premier succès
+
+```{r}
+p <- 1/37
+```
+
+A chaque essai, la probabilité de succès vaut $p = 1/37 = `r signif(digits=3, p)`$. La probabilité d'obtenir le premier succès au $x^{\text{ième}}$ essai se calcule selon la **loi géométrique**. 
+
+$$P(X = x) = (1-p)^{x-1} p$$
+En effet pour que le premier succès se produise au $x^{\text{ième}}$ essai, il faut commencer par $x-1$ essais infructuex (avec une probabilité $q = 1-p$) et terminer par un essai fructueux (de probabilité $p$). 
+
+### Fonction cumulative de distribution
+
+La fonction cumulative de distribution (***CDF***) indique la probabilité pour que le pemier succès ait lieu au $x^\text{ième}$ essai ou avant. Pour la loi géométrique, elle s'obtient aisément en raisonnant sur le complément: la probabilité de n'obtenir aucun succès durant les $x$ premiers essais vaut $(1-p)^x$. La probabilité pour que le premier succès sorte au plus tard au $x^\text{ième}$ essai vaut donc.
+
+$$P(X \le x) = 1 - (1-p)^x$$
+
+
+### Calcul des coûts / bénéfices
+
+A chaque essai, le joueur mise un euro. Durant les $x-1$ premiers essais (ceux où il échoue), ses pertes cumulées s'élèvent donc à $(x-1) \cdot 1$€.
+Au $x^\text{ième}$ essai, il remporte 36€ et arrête le jeu. 
+
+Si le numéro 17 sort avant le 36ème essai, le joueur sortira gagnant. S’il sort au 36ème essai, il ne sera ni gagnant ni perdant, et après le 36ème essai il sera perdant. 
+
+On peut facilement calculer la probabilité de ne pas sortir gagnant c’est-à-dire de n’obtenir aucun succès durant les 35 premiers essais. 
+
+$$P(x \ge 36) = (1-p)^{35}= `r signif(digits=3, (1-p)^35)`$$
+
+
+La probabilité d’obtenir un premier succès avant le 36ème essai est le complément de cette probabilité : 
+
+$$P(X < 36) = 1 – P(x \ge 36) = 1 – (1-p)^{35} = 1 – \left( \frac{36}{37} \right) ^{35} = `r signif(digits=3, 1 - (1-p)^35)`$$
+
+P(X≤36) = 1 – P(x≥36) = 1 – (1-p)35 = 1 – (36/37)35=0.617
+
+**Information complémentaire :** le fait que la probabilité de sortir gagnant soit supérieure à $50\%$ indique que le joueur a plus de chances de gagner que de perdre, ce qui semble paradoxal puisque si c’était le cas le casino jouerait perdant. Cependant, il faut également prendre en compte le montant des gains et des pertes en fonction du temps d’attente (ceci ne faisait pas partie de la question). 
+
+Certes, s’ils suivent la procédure indiquée (miser systématiquement 1€ jusqu’au premier succès), la majorité des joueurs sortent gagnants ($61.7\%$ voient leur nombre sortir avant la 36ème tentative), mais ***le gain moyen est négatif***, car les sommes perçues auprès des perdants (les $38.3\%$ de joueurs dont le nombre ne sort pas avant le $36^\text{ème}$ essai) dépassent les bénéfices des gagnants. 
+
+On peut démontrer que le bénéfice attendu est de -1 (perte de 1€). Autrement dit, si un grand nombre de joueurs adoptent cette stratégie (miser 1 euro sur un nombre particulier et s’arrêter dès le premier succès) le casino gagne en moyenne un euro par joueur. Comme pour tous les jeux de hasard, le gagnant systématique est le casino. 
+
 
 ## Concepts de probabilité
 

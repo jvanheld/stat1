@@ -11,7 +11,7 @@
 
 <meta name="author" content="Jacques van Helden" />
 
-<meta name="date" content="2017-12-25" />
+<meta name="date" content="2017-12-26" />
 
 <title>Solutions des exercices: probabilités et statistique</title>
 
@@ -1515,7 +1515,7 @@ div.tocify {
 <h1 class="title toc-ignore">Solutions des exercices: probabilités et statistique</h1>
 <h3 class="subtitle"><em>Probabilités et statistique pour la biologie (STAT1)</em></h3>
 <h4 class="author"><em>Jacques van Helden</em></h4>
-<h4 class="date"><em>2017-12-25</em></h4>
+<h4 class="date"><em>2017-12-26</em></h4>
 
 </div>
 
@@ -1826,6 +1826,34 @@ t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} &amp;= \frac{\bar{x}_{2} - \bar
 <section id="jeu-de-roulette" class="level2">
 <h2>Jeu de roulette</h2>
 <p>La roulette comporte 37 nombres allant du 0 au 36. Un joueur a décidé de miser systématiquement 1 euro sur le nombre 17 jusqu’à ce que ce nombre sorte, et de s’arrêter ensuite. Sachant que quand on mise sur un seul nombre, le gain vaut 36 fois la mise, quelle est la probabilité pour que le joueur sorte du casino en ayant gagné de l’argent ? Il n’est pas nécessaire de fournir une réponse numérique, vous pouvez vous contenter d’indiquer la formule, en indiquant les nombres correspondant aux différents symboles mathématiques. Justifiez votre réponse en expliquant votre raisonnement.</p>
+<section id="cadre-theorique-1" class="level3">
+<h3>Cadre théorique</h3>
+<p>Il s’agit de calculer le temps d’attente du premier succès dans un schéma de Bernoulli. Chaque pari que le joueur place sur le nombre 17 peut être considéré comme un essai qui peut résulter soit en un succès (le nombre 17 sort) soit en un échec (un autre nombre sort).</p>
+<p>La (petite) difficulté est de coupler la réflexion sur ce temps d’attente avec un calcul des coûts et bénéfices.</p>
+</section>
+<section id="temps-dattente-du-premier-succes" class="level3">
+<h3>Temps d’attente du premier succès</h3>
+<p>A chaque essai, la probabilité de succès vaut <span class="math inline">\(p = 1/37 = 0.027\)</span>. La probabilité d’obtenir le premier succès au <span class="math inline">\(x^{\text{ième}}\)</span> essai se calcule selon la <strong>loi géométrique</strong>.</p>
+<p><span class="math display">\[P(X = x) = (1-p)^{x-1} p\]</span> En effet pour que le premier succès se produise au <span class="math inline">\(x^{\text{ième}}\)</span> essai, il faut commencer par <span class="math inline">\(x-1\)</span> essais infructuex (avec une probabilité <span class="math inline">\(q = 1-p\)</span>) et terminer par un essai fructueux (de probabilité <span class="math inline">\(p\)</span>).</p>
+</section>
+<section id="fonction-cumulative-de-distribution" class="level3">
+<h3>Fonction cumulative de distribution</h3>
+<p>La fonction cumulative de distribution (<strong><em>CDF</em></strong>) indique la probabilité pour que le pemier succès ait lieu au <span class="math inline">\(x^\text{ième}\)</span> essai ou avant. Pour la loi géométrique, elle s’obtient aisément en raisonnant sur le complément: la probabilité de n’obtenir aucun succès durant les <span class="math inline">\(x\)</span> premiers essais vaut <span class="math inline">\((1-p)^x\)</span>. La probabilité pour que le premier succès sorte au plus tard au <span class="math inline">\(x^\text{ième}\)</span> essai vaut donc.</p>
+<p><span class="math display">\[P(X \le x) = 1 - (1-p)^x\]</span></p>
+</section>
+<section id="calcul-des-couts-benefices" class="level3">
+<h3>Calcul des coûts / bénéfices</h3>
+<p>A chaque essai, le joueur mise un euro. Durant les <span class="math inline">\(x-1\)</span> premiers essais (ceux où il échoue), ses pertes cumulées s’élèvent donc à <span class="math inline">\((x-1) \cdot 1\)</span>€. Au <span class="math inline">\(x^\text{ième}\)</span> essai, il remporte 36€ et arrête le jeu.</p>
+<p>Si le numéro 17 sort avant le 36ème essai, le joueur sortira gagnant. S’il sort au 36ème essai, il ne sera ni gagnant ni perdant, et après le 36ème essai il sera perdant.</p>
+<p>On peut facilement calculer la probabilité de ne pas sortir gagnant c’est-à-dire de n’obtenir aucun succès durant les 35 premiers essais.</p>
+<p><span class="math display">\[P(x \ge 36) = (1-p)^{35}= 0.383\]</span></p>
+<p>La probabilité d’obtenir un premier succès avant le 36ème essai est le complément de cette probabilité :</p>
+<p><span class="math display">\[P(X &lt; 36) = 1 – P(x \ge 36) = 1 – (1-p)^{35} = 1 – \left( \frac{36}{37} \right) ^{35} = 0.617\]</span></p>
+<p>P(X≤36) = 1 – P(x≥36) = 1 – (1-p)35 = 1 – (36/37)35=0.617</p>
+<p><strong>Information complémentaire :</strong> le fait que la probabilité de sortir gagnant soit supérieure à <span class="math inline">\(50\%\)</span> indique que le joueur a plus de chances de gagner que de perdre, ce qui semble paradoxal puisque si c’était le cas le casino jouerait perdant. Cependant, il faut également prendre en compte le montant des gains et des pertes en fonction du temps d’attente (ceci ne faisait pas partie de la question).</p>
+<p>Certes, s’ils suivent la procédure indiquée (miser systématiquement 1€ jusqu’au premier succès), la majorité des joueurs sortent gagnants (<span class="math inline">\(61.7\%\)</span> voient leur nombre sortir avant la 36ème tentative), mais <strong><em>le gain moyen est négatif</em></strong>, car les sommes perçues auprès des perdants (les <span class="math inline">\(38.3\%\)</span> de joueurs dont le nombre ne sort pas avant le <span class="math inline">\(36^\text{ème}\)</span> essai) dépassent les bénéfices des gagnants.</p>
+<p>On peut démontrer que le bénéfice attendu est de -1 (perte de 1€). Autrement dit, si un grand nombre de joueurs adoptent cette stratégie (miser 1 euro sur un nombre particulier et s’arrêter dès le premier succès) le casino gagne en moyenne un euro par joueur. Comme pour tous les jeux de hasard, le gagnant systématique est le casino.</p>
+</section>
 </section>
 <section id="concepts-de-probabilite" class="level2">
 <h2>Concepts de probabilité</h2>

@@ -352,6 +352,28 @@ a. En supposant un modèle de fond basé sur des nucléotides équiprobables et 
 
 b. Sous ces mêmes conditions, quel serait le nombre de faux-positifs attendus si l’on aligne l’ensemble de la librairie de séquences sur l’ensemble du génome ?
 
+```{r NGS_read_mapping_with_mismatches}
+######## NGS read mapping with mismatches ########
+
+## Parameters
+p <- 0.25 # Matching probability per nucleotide
+k <- 35   # Read length
+m <- 3    # Max number of mismatches
+L <- 50e+6  # Library size (number of reads)
+G <- 3e+9   # Genome size
+C <- 23     # Number of cromosomes
+
+# Nominal P-value, i.e. probability to obtain a hit by chance for a given read at a given genomic position
+pval <- pbinom(q=k-m - 1, prob=p, size=k, lower=FALSE)
+
+# Number of alignable positons on the genome for a read of length k
+N <- 2*(G - C * (k - 1))
+
+# E-value for the whole library
+eval <- pval * N * L
+```
+
+
 ### a. Probabilité d'alignement avec au plus 3 substitutions
 
 On modélise l'alignement(sans gap) d'un read à une position donnée du génome comme un schéma de Bernoulli, où chaque position alignée (nucléotide) correspond à un essai, avec une probabilité de succès $p=0.25$ (identité entre le nucléotide du read et celui du génome) et d'échec $q=1-p = 0.75$ (différence entre les deux nucléotides alignés), et où le nombre d'essais correspond à la longueur des reads ($k=35$). 
@@ -366,12 +388,6 @@ $m$ étant le nombre de différences (mismatches), le nombre d'identités vaut d
 
 La probabilité de l'alignement avec au plus 3 substitutions vaut donc. 
 
-```{r}
-p <- 0.25
-k <- 35
-m <- 3
-pval <- pbinom(q=k-m - 1, prob=p, size=k, lower=FALSE)
-```
 
 
 $$
@@ -385,17 +401,46 @@ $$
 
 ### b.  Nombre de faux-positifs attendus en alignant l'ensemble de la librairie sur le génome complet
 
-Le nombre de faux positifs attendus ($E$) est la p-valeur ($P$) calculée ci-dessus multiplée par le nombre de tests. 
+Le nombre de faux positifs attendus ($E$) est la p-valeur ($P$) calculée ci-dessus multiplée par le nombre de tests. En effet, on tente d'aligner chacun des `r L` fragments de lecture ("read") sur les 2 brins de chacune des `r G` positions du génome. 
+
+Cependant, il faut tenir compte du fait qu'un read de longueur $k = `r k`$ ne peut pas être aligné sur les $k - 1$ positions d'un chromosome, puisque l'alignement serait incomplet (rappelons qu'on effectue ici des alignements globaux, qui doivent donc couvrir l'ensemble de la longueur du read). Il faut donc soustraire $k - 1 = `r k-1`$ positions sur chaque brin de chaque chromosome, donc au total $2 \cdot C \cdot (k-1)$ positions. 
 
 ## Sites de restriction
 
 Dans un génome bactérien de 4 Mb avec une composition de 50% de G+C, on observe 130 occurrences de l'hexanucléotide GGCGCC. On suppose un schéma de Bernoulli et une composition équiprobable de nucléotides.
 
-(a) Quelle est la probabilité d’observer une occurrence de GGCGCC à une position donnée du génome ?
-(b) Combien d'occurrences s'attend-on à trouver dans l'ensemble du génome ?
-(c) Quelle serait la probabilité d'observer un nombre aussi faible d'occurrences (130 ou moins) si l'on générait une séquence aléatoire selon le modèle de Bernoulli avec nucléotides équiprobables ?
-(d) Comment peut-on interpréter cette sous-représentation de l'hexanucléotide GGCGCC du point de vue biologique ?
+a. Quelle est la probabilité d’observer une occurrence de GGCGCC à une position donnée du génome ?
 
+b. Combien d'occurrences s'attend-on à trouver dans l'ensemble du génome ?
+
+c. Quelle serait la probabilité d'observer un nombre aussi faible d'occurrences (130 ou moins) si l'on générait une séquence aléatoire selon le modèle de Bernoulli avec nucléotides équiprobables ?
+
+d. Comment peut-on interpréter cette sous-représentation de l'hexanucléotide GGCGCC du point de vue biologique ?
+
+### Probabilité d'occurrence
+
+```{r}
+k <- 6 ## Length of the GGCGCC restriction site
+p <- 1/4  ## Residue probability (equiprobable)
+P.site <- p^k ## Prior probability
+
+G <- 4e+6 ## Genome size
+exp.sites <- G * P.site ## Number of occurrences expected at random
+```
+
+$$P(\text{GGCGCC}) = p^k = `r p`^{`r k`} = `r signif(digits=3, P.site)`$$
+
+### Occurrences attendues sur l'ensemble du génome
+
+On multiplie la probabilité d'occurrence à une position donnée par le nombre de positions génomiques. 
+
+Comme le site de restriction est réverse complémentaire palindromique, chaque occurrence sur un brin est nécessairement associée à une occurrence sur l'autre brin. Pour connaître le nombre de positions génomiques susceptibles d'être reconnues par l'enzyme de restriction, il suffit donc de compter les occurrences sur un brin du génome.
+
+$$E(\text{GGCGCC}) = P(\text{GGCGCC}) \cdot G = `r signif(digits=3, P.site)` \cdot G = `r round(digits=1, exp.sites)`$$
+
+### Probabilité d'observer au plus 130 occurrences
+
+Le nombre d'occurrences observées ($x = 130$)
 
 ## Détection de différence d'expression
 

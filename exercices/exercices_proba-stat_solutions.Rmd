@@ -426,6 +426,12 @@ P.site <- p^k ## Prior probability
 
 G <- 4e+6 ## Genome size
 exp.sites <- G * P.site ## Number of occurrences expected at random
+
+x <- 130 ## Number of occurrences of the restriction site in the genome
+excluded.positions <- x * (k-1)
+
+pval.log <- pbinom(q = x-1, prob = P.site, size = G, lower.tail = TRUE, log.p = TRUE)
+pval <- exp(pval.log)
 ```
 
 $$P(\text{GGCGCC}) = p^k = `r p`^{`r k`} = `r signif(digits=3, P.site)`$$
@@ -440,7 +446,31 @@ $$E(\text{GGCGCC}) = P(\text{GGCGCC}) \cdot G = `r signif(digits=3, P.site)` \cd
 
 ### Probabilité d'observer au plus 130 occurrences
 
-Le nombre d'occurrences observées ($x = 130$)
+Le nombre d'occurrences observées ($x = 130$) semble nettement inférieur à l'espérance ($E(\text{GGCGCC}) =  `r round(digits=1, exp.sites)`$), c'est-à-dire le nombre attendu étant donné le modèle de background. Nous allons maintenant évaluer la significativité statistique de cette observation en calculant la probabilité d'observer une telle différence par hasard. Si cette probabilité est très faible, on considérera le résultat comme significatif et on tentera d'en fournir une interprétation biologique.
+
+Selon le modèle null (séquences générées au hasard avec des nucléotides équiprobables) on peut modéliser les occurrences d'un site de restriction comme un schéma de Bernoulli: à chaque position génomique, on observe un site (*succès*) ou non (*échec*), avec une probabilité constante $P(\text{GGCGCC}) = `r signif(digits=3, P.site)`$. 
+
+
+Par simplification, on considérera que la présence/absence d'un site à une position $i$ est indépendante de sa présence/absence à la position $i-1$ (l'undépendance entre essais successifs est une des conditions du modèle de Bernoulli). 
+
+Notons qu'il s'agit là d'une simplification abusive, car si l'on observe un site $\text{GGCGCC}$ à une position donnée, il est impossible d'en observer une autre occurrence sur les 5 positions suivantes. Puisque le génome comporte $x=`r x`$ occurrences du site de restriction, on sait donc qu'il ext exclus de trouver un site sur les $`r k-1` \cdot `r x` = `r (k-1) * x`$ positions qui chevauchent ces instances. Il existe des méthodes permettant de modéliser de telles dépendances, mais elles reposent sur des modélisations trop avancées pour ce cours. Dans l'immédiat, nous adopterons une solution pratique, en considérant que ces `r excluded.positions` positions exclues ne représentent qu'une fraction négligeable du génome ($G = `r G`$).
+
+Après avoir jusitifié (toute mesure gardée) notre modèle de Bernoulli, nous pouvons calculer la probabilité du nombre de sites de restriction avec la **loi binomiale**. Nous calculons ici la surface de la **queue à gauche** de l'observation: $P(X \le `r x`)$, c'est-à-dire la probabilité d'observer entre 0 et `r x` occurrences. 
+
+
+$$
+\begin{aligned}
+P(X \le x) &= \sum_{i=0}^{x} C_G^i P(\text{GGCGCC})^i \cdot \left( 1 - P(\text{GGCGCC}) \right)^{G -i}\\
+ & = \sum_{i=0}^{`r x`} C_{`r G`}^i \cdot (`r signif(digits=3, P.site)`)^i \cdot \left( 1 - `r signif(digits=3, P.site)`\right)^{`r G` -i} \\
+ & = `r signif(digits=3, pval)`
+\end{aligned}
+ $$
+
+Cette probabilité est extrêmement faible, il serait donc extrêmement improbable d'obtenir un aussi petit nombre d'instances du motif $\text{GGCGCC}$ dans un génome de même taille généré aléatoirement. 
+
+### Interprétation biologique
+
+Le très faible nombre d'occurrences du site $\text{GGCGCC}$ se comprend parfaitement dès qu'on sait que ce site est reconnu par une enzyme de restriction, dont l'activité moléculaire est de cliver l'ADN. Ces enzymes jouent un rôle de protection en fragmentant les molécules d'ADN étrangères au génome de *Escherichia coli*, mais elle pourrait également endommager le génome propre de la bactérie. Le très faible nombre de sites pour sa propre enzyme de restriction résulte d'un effet de contre-sélection de ces sites dans le génome d'*Escherichia coli*. 
 
 ## Détection de différence d'expression
 
@@ -530,7 +560,7 @@ Pour un test isolé, une probabilité critique de $p=0.0005$ signifie que sous h
 
 Dans le génome de la levure, 40 gènes ont été assignés à la classe fonctionnelle "Biological Process: Methionin Biosynthesis". Une expérience de transcriptome rapporte 80 gènes différentiellement exprimés, dont 10 appartiennent à cette classe fonctionnelle. Sachant que le génome comporte 6000 gènes, peut-on consiérer ce résultat comme significatif ?
 
-***Pas vu en (2016-2017.***
+***Pas vu en 2016-2017.***
 
 ## Jeu de roulette
 

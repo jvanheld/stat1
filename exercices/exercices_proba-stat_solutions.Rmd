@@ -401,7 +401,7 @@ $$
 
 ### b.  Nombre de faux-positifs attendus en alignant l'ensemble de la librairie sur le génome complet
 
-Le nombre de faux positifs attendus ($E$) est la p-valeur ($P$) calculée ci-dessus multiplée par le nombre de tests. En effet, on tente d'aligner chacun des `r L` fragments de lecture ("read") sur les 2 brins de chacune des `r G` positions du génome. 
+Le nombre de faux positifs attendus ($E$) est la p-valeur ($P$) calculée ci-dessus multiplée par le nombre de tests. En effet, on tente d'aligner chacun des $`r L`$ fragments de lecture ("read") sur les 2 brins de chacune des $`r G`$ positions du génome. 
 
 Cependant, il faut tenir compte du fait qu'un read de longueur $k = `r k`$ ne peut pas être aligné sur les $k - 1$ positions d'un chromosome, puisque l'alignement serait incomplet (rappelons qu'on effectue ici des alignements globaux, qui doivent donc couvrir l'ensemble de la longueur du read). Il faut donc soustraire $k - 1 = `r k-1`$ positions sur chaque brin de chaque chromosome, donc au total $2 \cdot C \cdot (k-1)$ positions. 
 
@@ -608,7 +608,6 @@ La probabilité d’obtenir un premier succès avant le 36ème essai est le comp
 
 $$P(X < 36) = 1 – P(x \ge 36) = 1 – (1-p)^{35} = 1 – \left( \frac{36}{37} \right) ^{35} = `r signif(digits=3, 1 - (1-p)^35)`$$
 
-P(X≤36) = 1 – P(x≥36) = 1 – (1-p)35 = 1 – (36/37)35=0.617
 
 **Information complémentaire :** le fait que la probabilité de sortir gagnant soit supérieure à $50\%$ indique que le joueur a plus de chances de gagner que de perdre, ce qui semble paradoxal puisque si c’était le cas le casino jouerait perdant. Cependant, il faut également prendre en compte le montant des gains et des pertes en fonction du temps d’attente (ceci ne faisait pas partie de la question). 
 

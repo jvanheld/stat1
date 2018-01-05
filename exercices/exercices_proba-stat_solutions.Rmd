@@ -1,16 +1,13 @@
 ---
-title: 'Solutions des exercices: probabilités et statistique'
+title: 'Solutions des exercices: probabilités et statistiques pour la biologie'
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  html_document:
-    code_folding: hide
+  pdf_document:
     fig_caption: yes
     highlight: zenburn
-    theme: cerulean
-    toc: yes
+    toc: no
     toc_depth: 3
-    toc_float: yes
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -36,11 +33,14 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
-  pdf_document:
+  html_document:
+    code_folding: hide
     fig_caption: yes
     highlight: zenburn
-    toc: no
+    theme: cerulean
+    toc: yes
     toc_depth: 3
+    toc_float: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -85,6 +85,7 @@ setwd(dir.slides)
 ```
 
 
+****************************************************************
 ## Probabilité des longueurs d'ORF
 
 ### Enoncé
@@ -232,6 +233,7 @@ Nous venons de calculer le nombre attendu de faux-positifs dans ce processus: si
 
 En 2003, une stratégie complémentaire a été mise à contribution pour évaluer la fiabilité des ORF prédits dans le génome de *Saccharomyces cerevisiae*, en s'appuyant sur la génomique comparative: après avoir séquençé les génomes de quelques autres espèces du même genre (*Saccharomyces*), on a testé la conservation des ORF initialement prédits, en supposant que si on trouvait des ORF similaires dans les 4 espèces, cela suggérait une pression sélective positive pour l'absence de codon stop dans ces régions, et renforçait la prédiction d'un gène codant correspondant à ce cadre ouvert de lecture. 
 
+****************************************************************
 ## Probabilité d'un motif avec erreurs
 
 On recherche dans un génome les occurrences du motif GATAAG  en admettant un certain nombre de substitutions. En supposant que les nucléotides sont indépendants et équiprobables, quelle est la probabilité de trouver à une position du génome.
@@ -320,6 +322,7 @@ P(i \ge 4 | n=6, p=0.25) &= \sum_{i=4}^{n} C_n^i p^i (1-p)^{n-i}  \\
 $$
 
 
+****************************************************************
 ## Alignement de lectures NGS sans erreur
 
 Au terme d'un séquençage de type "Next Generation Sequencing" (NGS), on dispose d'une librairie de $N=10^6$ lectures courtes. On aligne la librairie sur le génome de référence, dont la somme des chromosomes fait 1 gigabase ($G=10^9$ paires de bases), en utilisant un algorithme d'alignement sans gap.
@@ -329,6 +332,8 @@ Calculez la distribution de probabilité d'obtenir un alignement sans erreur en 
 ### Cadre théorique
 
 Schéma de Bernoulli: on suppose que les nucléotides se succèdent de façon indépendante et ont une probabilité constante $p=1/4$ (équiprobabilité). 
+
+### Probabilité d'alignement sans erreur
 
 La probabilité de n'obtenir aucune erreur sur $k$ nucléotides vaut. 
 
@@ -344,13 +349,14 @@ kable(format(result, digits=3))
 ```
 
 
+****************************************************************
 ## Alignement de lecture NGS avec erreurs
 
-Un biologiste a fait séquencer un échantillon et a obtenu un fichier comportant 50 millions de lectures (« short reads ») de 35 paires de base, qu’il aligne sur le génome humain (3 gigabases répartis sur 23 chromosomes). Durant l’alignement, il choisit d’accepter au maximum 3 substitutions par lecture.  
+Un biologiste a fait séquencer un échantillon et a obtenu un fichier comportant 50 millions de lectures (« short reads ») de 35 paires de base, qu'il aligne sur le génome humain (3 gigabases répartis sur 23 chromosomes). Durant l'alignement, il choisit d'accepter au maximum 3 substitutions par lecture.  
 
-a. En supposant un modèle de fond basé sur des nucléotides équiprobables et distribués de façon indépendante, comment calculeriez-vous la probabilité pour qu’un read s’aligne complètement à une position arbitraire du génome, avec au plus 3 substitutions (sans indel). Indiquez la formule et justifiez votre choix.
+a. En supposant un modèle de fond basé sur des nucléotides équiprobables et distribués de façon indépendante, comment calculeriez-vous la probabilité pour qu'un read s'aligne complètement à une position arbitraire du génome, avec au plus 3 substitutions (sans indel). Indiquez la formule et justifiez votre choix.
 
-b. Sous ces mêmes conditions, quel serait le nombre de faux-positifs attendus si l’on aligne l’ensemble de la librairie de séquences sur l’ensemble du génome ?
+b. Sous ces mêmes conditions, quel serait le nombre de faux-positifs attendus si l'on aligne l'ensemble de la librairie de séquences sur l'ensemble du génome ?
 
 ```{r NGS_read_mapping_with_mismatches}
 ######## NGS read mapping with mismatches ########
@@ -405,11 +411,12 @@ Le nombre de faux positifs attendus ($E$) est la p-valeur ($P$) calculée ci-des
 
 Cependant, il faut tenir compte du fait qu'un read de longueur $k = `r k`$ ne peut pas être aligné sur les $k - 1$ positions d'un chromosome, puisque l'alignement serait incomplet (rappelons qu'on effectue ici des alignements globaux, qui doivent donc couvrir l'ensemble de la longueur du read). Il faut donc soustraire $k - 1 = `r k-1`$ positions sur chaque brin de chaque chromosome, donc au total $2 \cdot C \cdot (k-1)$ positions. 
 
+****************************************************************
 ## Sites de restriction
 
 Dans un génome bactérien de 4 Mb avec une composition de 50% de G+C, on observe 130 occurrences de l'hexanucléotide GGCGCC. On suppose un schéma de Bernoulli et une composition équiprobable de nucléotides.
 
-a. Quelle est la probabilité d’observer une occurrence de GGCGCC à une position donnée du génome ?
+a. Quelle est la probabilité d'observer une occurrence de GGCGCC à une position donnée du génome ?
 
 b. Combien d'occurrences s'attend-on à trouver dans l'ensemble du génome ?
 
@@ -472,21 +479,22 @@ Cette probabilité est extrêmement faible, il serait donc extrêmement improbab
 
 Le très faible nombre d'occurrences du site $\text{GGCGCC}$ se comprend parfaitement dès qu'on sait que ce site est reconnu par une enzyme de restriction, dont l'activité moléculaire est de cliver l'ADN. Ces enzymes jouent un rôle de protection en fragmentant les molécules d'ADN étrangères au génome de *Escherichia coli*, mais elle pourrait également endommager le génome propre de la bactérie. Le très faible nombre de sites pour sa propre enzyme de restriction résulte d'un effet de contre-sélection de ces sites dans le génome d'*Escherichia coli*. 
 
-## Détection de différence d'expression
+****************************************************************
+## Détection de gènes différentiellement exprimés
 
-Un chercheur a analysé, à l’aide de biopuces, le niveau d’expression de l’ensemble des gènes à partir d’échantillons sanguins prélevés chez 50 patients (np=50) et chez 50 sujets témoins (nt=50). Il s’intéresse particulièrement à un gène qui semble montrer une différence entre les 2 groupes. Ainsi, il ré-analyse l’expression du même gène dans les mêmes échantillons en utilisant une autre technique, la qPCR. Il obtient 
+Un chercheur a analysé, à l'aide de biopuces, le niveau d'expression de l'ensemble des gènes à partir d'échantillons sanguins prélevés chez 50 patients ($n_p=50$) et chez 50 sujets témoins ($n_t=50$). Il s'intéresse particulièrement à un gène qui semble montrer une différence entre les 2 groupes. Ainsi, il ré-analyse l'expression du même gène dans les mêmes échantillons en utilisant une autre technique, la qPCR. Il obtient 
 
 -	pour les patients, une moyenne $m_p= 21$
 -	pour les contrôles, une moyenne $m_t= 10$
 -	des écarts-types identiques pour les 2 groupes $s_p= s_t= s = 15$
 
-Afin de tester si la différence observée entre les moyennes est significative, le chercheur décide d’effectuer un test de Student.
+Afin de tester si la différence observée entre les moyennes est significative, le chercheur décide d'effectuer un test de Student.
 
 a.	Le choix du test de Student vous semble-t-il approprié ? Justifiez le choix du chercheur. Quelles auraient été les alternatives envisageables ?
 
-b.	Sachant qu’a priori on ne sait pas dans quel sens la maladie pourrait affecter le niveau d’expression du gène, préconisez-vous un test uni- ou bilatéral ?
+b.	Sachant qu'a priori on ne sait pas dans quel sens la maladie pourrait affecter le niveau d'expression du gène, préconisez-vous un test uni- ou bilatéral ?
 
-c.	Formulez l’hypothèse nulle et expliquez-la en une phrase.
+c.	Formulez l'hypothèse nulle et expliquez-la en une phrase.
 
 d.	Sur base de la formule ci-dessous, calculez la statistique $t$ de Student.
 
@@ -494,10 +502,58 @@ e.	Indiquez, en vous basant sur les tables fournies, la p-valeur correspondante.
 
 f.	Interprétez la p-valeur, et aidez le chercheur à tirer les conclusions de son étude.
 
+### Choix du test
 
+Le test de Student repose sur deux hypothèses de travail: normalité des données et homoscédasticité.
+
+La première hypothèse de travail du test de Student est la normalité dans chacune des deux populations dont l'échantillon est extrait. A priori on ne peut pas garantir que les données d'expression suivent une distribution normale. Le choix d'un test paramétrique pourrait donc être mis en question. On pourrait envisager d'effectuer, préalablement au test de comparaison de moyenne, un test de normalité (séparément pour chaque gène et dans chaque groupe). Si le test s'avère positif (rejet de l'hypothèse de normalité), on optera pour un test non-paramétrique (Mann-Whitney-Wilcoxon). 
+
+Toutefois, le test de normalité ne serait sans doute pas très informatif, car avec un effectif de 50 par test on aurait une trop faible puissance pour pouvoir détecter de écarts à la normalité. Cependant, nous savons que les tests paramétriques de Student et de Welch sont relativement robustes à la non-normalité quand la taille de l'échantillon est suffisamment grande (typiquement $n > 30$). 
+
+La seconde hypothèse de travail est que les populations d'où proviennent les échantillons ont la même variance (homoscédasticité). En cas d'homoscédasticité on peut appliquer le test de Student, et dans le cas contraire on recourt au test de Welch. Comme nous observons des écarts-types identiques pour les deux échantillons, nous pouvons considérer que cette hypothèse de travail est valide.
+
+Dans le cas présent, nous pouvons donc appliquer un test de Student. 
+
+
+### Orientation du test
+
+On appliquera un test bilatéral, afin de détecter un impact sur l'expression, qu'il s'agisse d'une augmentation ou d'une diminution. 
+
+### Formulez l'hypothèse nulle et expliquez-la en une phrase
+
+
+$$H_0: \mu_p = \mu_t$$
+
+Nous testons l'égalité des moyennes d'expression de ce gène entre les populations de patients ($\mu_p$) et de témoins ($\mu_t$). 
+
+Il faut noter qu'on représente ici les moyennes de populations par le symbole grec $\mu$ ("mu"), alors que les moyennes d'échantillons sont représentées par la lettre latine $m$. Les hypothèses à tester portent toujours sur les paramètres de la population, et non sur ceux des échantillons (les moyennes d'échantillons sont différentes, puisque $21 \ne 10$). 
+
+### Calcul de la statistique $t$ de Student
+
+
+$$t= \frac{m_p-m_t}{s \cdot \sqrt{\frac{1}{n_p} +\frac{1}{n_t}}} = \frac{21-10}{15 \cdot \sqrt{\frac{1}{50} + \frac{1}{50}}} = \frac{11}{\frac{15}{5}}=\frac{11}{3}=3.667$$
+
+### Extraction de la p-valeur à partir de la table de Student
+
+Nous nous basons sur la table de $t$, avec $\nu = n_1 + n_2 – 2 = 98$ degrés de liberté (dans la table fournie, nous utiliserons la ligne correspondant à 100 degrés de libertés). La valeur $t$ la plus élevée dans la table est $t=3.390$, qui pour le test bilatéral correspond à une p-valeur de 0.001.  Nous pouvons donc conclure que la p-valeur correspondant à une statistique t de 3.667 est inférieure à 0.001.
+
+Note: avec **R** nous pouvons calculer précisément la p-valeur associée à cette valeur de la statistique de Student: $P(t \ge 3.667) = `r 2*signif(digits=3, pt(q=3.677, df=98, lower.tail=FALSE))`$.
+
+### Interprétation de la p-valeur et décision
+
+La P-valeur d'un test d'hypothèse indique la probabilité d'obtenir un résultat au moins aussi extrême que celui observé, si l'on était sous hypothèse nulle (autrement dit si les échantillons avaient été tirés de populations ayant la même moyenne). Comme il s'agit d'un test bilatéral, on considérera comme extrêmes les deux queues de la distribution de Student.
+
+$$P=P((T \ge 3.667) \lor (T \ge -3.667))= 2 \cdot P(T \ge 3.667)$$
+
+Une P-valeur très faible indique qu'il est très peu probable que des échantillons tirés de deux populations de même moyenne diffèrent autant. 
+
+Comme le test ne s'applique qu'à un seul gène (celui pour lequel on aeffectué l'expérience de PCR), une valeur $P < 0.001$ peut être considérée comme très significative, et l'on peut rejeter l'hypothèse nulle. On peut donc considérer que ce gène est différentiellement exprimé entre les deux populations.  
+
+
+****************************************************************
 ## Taux d'anticorps
 
-Un groupe de chercheurs a détecté l’association, avec la résistance à la bilharziose, de taux élevés d’IgE spécifiques, une classe particulière d’anticorps. D’autres chercheurs ont cherché à répliquer ce résultat dans une population indépendante exposée à la bilharziose. Les résultats obtenus sont indiqués ci-dessous.
+Un groupe de chercheurs a détecté l'association, avec la résistance à la bilharziose, de taux élevés d'IgE spécifiques, une classe particulière d'anticorps. D'autres chercheurs ont cherché à répliquer ce résultat dans une population indépendante exposée à la bilharziose. Les résultats obtenus sont indiqués ci-dessous.
 
 -	Pour les sujets résistants ($n_r=32$), la moyenne $m_r=10$.
 -	Pour les sujets susceptibles ($n_s=32$), la moyenne $m_s=7$.
@@ -505,7 +561,7 @@ Un groupe de chercheurs a détecté l’association, avec la résistance à la b
 
 a. Quelle méthode préconisez-vous pour tester l'égalité des moyennes (justifiez) ? Quelles sont les hypothèses de travail de ce test ?
 
-b. En partant du principe que ces conditions sont remplies dans le cas présent, formulez l’hypothèse nulle et calculez le score $t$ de Student (formule ci-dessous). Enfin, estimez P valeur à partir de la table fournie. 
+b. En partant du principe que ces conditions sont remplies dans le cas présent, formulez l'hypothèse nulle et calculez le score $t$ de Student (formule ci-dessous). Enfin, estimez P valeur à partir de la table fournie. 
 
 c. A l'issue du test, quelle décision prenez-vous ? Justifiez votre réponse.
 
@@ -514,11 +570,11 @@ c. A l'issue du test, quelle décision prenez-vous ? Justifiez votre réponse.
 
 Pour choisir un test d'égalité des moyennes, la première question est de savoir si l'on peut ou non appliquer un test paramétrique. 
 
-A priori nnous ne disposons pas d’information concernant la distribution des taux d’IgE dans les populations résistantes et susceptibles. Nous ne pouvons donc pas présupposer que les données suivent une distribution normale. 
+A priori nnous ne disposons pas d'information concernant la distribution des taux d'IgE dans les populations résistantes et susceptibles. Nous ne pouvons donc pas présupposer que les données suivent une distribution normale. 
 
 Cependant, les deux échantillons sont de taille suffisante ($n_1 = n_2 = 32$) pour qu'on puisse s'affranchir de cette condition. En effet, même si les données ne suivent pas une distribution normale, la moyenne d'échantillons tend vers la normalité quand l'effectif augmente, et, de façon pragmatique, on considère généralement qu'au-delà de 30 éléments par échantillon on peut appliquer un test paramétrique. 
 
-Parmi les tests paramétriques, on choisira soit un test $t$ de Student si les deux populations sont de même variance (*homoscédasticité*), soit un test $t$ de Welch si leurs variances diffèrent (*hétéroscédasticité*). Comme dans notre cas les écarts-types des deux échantillons sont identiques, on peut présupposer que les populations dont ils sont extraits ont la même variance (en tout état de cause, si l’on réalisait un test d’égalité des variances, on serait amené à accepter l’hypothèse nulle). 
+Parmi les tests paramétriques, on choisira soit un test $t$ de Student si les deux populations sont de même variance (*homoscédasticité*), soit un test $t$ de Welch si leurs variances diffèrent (*hétéroscédasticité*). Comme dans notre cas les écarts-types des deux échantillons sont identiques, on peut présupposer que les populations dont ils sont extraits ont la même variance (en tout état de cause, si l'on réalisait un test d'égalité des variances, on serait amené à accepter l'hypothèse nulle). 
 
 
 ### Hypothèse nulle
@@ -556,15 +612,17 @@ La valeur $t$ observée ($t_{obs} = 4.22$) est supérieure à la plus grande val
 Pour un test isolé, une probabilité critique de $p=0.0005$ signifie que sous hypothèse nulle -- c'est-à-dire si la résistance n'était pas associée à un taux élevé d'anticorps -- la probabilité d'obsrver une différence de moyennes aussi grande serait de $0.0005$. Cette probabilité est très faible, on peut donc rejeter l'hypothèse nulle, et conclure que la différence observée est significative. 
 
 
+****************************************************************
 ## Enrichissement fonctionnel
 
 Dans le génome de la levure, 40 gènes ont été assignés à la classe fonctionnelle "Biological Process: Methionin Biosynthesis". Une expérience de transcriptome rapporte 80 gènes différentiellement exprimés, dont 10 appartiennent à cette classe fonctionnelle. Sachant que le génome comporte 6000 gènes, peut-on consiérer ce résultat comme significatif ?
 
 ***Pas vu en 2016-2017.***
 
+****************************************************************
 ## Jeu de roulette
 
-La roulette comporte 37 nombres allant du 0 au 36. Un joueur a décidé de miser systématiquement 1 euro sur le nombre 17 jusqu’à ce que ce nombre sorte, et de s’arrêter ensuite. Sachant que quand on mise sur un seul nombre, le gain vaut 36 fois la mise, quelle est la probabilité pour que le joueur sorte du casino en ayant gagné de l’argent ? Il n’est pas nécessaire de fournir une réponse numérique, vous pouvez vous contenter d’indiquer la formule, en indiquant les nombres correspondant aux différents symboles mathématiques. Justifiez votre réponse en expliquant votre raisonnement. 
+La roulette comporte 37 nombres allant du 0 au 36. Un joueur a décidé de miser systématiquement 1 euro sur le nombre 17 jusqu'à ce que ce nombre sorte, et de s'arrêter ensuite. Sachant que quand on mise sur un seul nombre, le gain vaut 36 fois la mise, quelle est la probabilité pour que le joueur sorte du casino en ayant gagné de l'argent ? Il n'est pas nécessaire de fournir une réponse numérique, vous pouvez vous contenter d'indiquer la formule, en indiquant les nombres correspondant aux différents symboles mathématiques. Justifiez votre réponse en expliquant votre raisonnement. 
 
 ### Cadre théorique
 
@@ -597,28 +655,48 @@ $$P(X \le x) = 1 - (1-p)^x$$
 A chaque essai, le joueur mise un euro. Durant les $x-1$ premiers essais (ceux où il échoue), ses pertes cumulées s'élèvent donc à $(x-1) \cdot 1$€.
 Au $x^\text{ième}$ essai, il remporte 36€ et arrête le jeu. 
 
-Si le numéro 17 sort avant le 36ème essai, le joueur sortira gagnant. S’il sort au 36ème essai, il ne sera ni gagnant ni perdant, et après le 36ème essai il sera perdant. 
+Si le numéro 17 sort avant le 36ème essai, le joueur sortira gagnant. S'il sort au 36ème essai, il ne sera ni gagnant ni perdant, et après le 36ème essai il sera perdant. 
 
-On peut facilement calculer la probabilité de ne pas sortir gagnant c’est-à-dire de n’obtenir aucun succès durant les 35 premiers essais. 
+On peut facilement calculer la probabilité de ne pas sortir gagnant c'est-à-dire de n'obtenir aucun succès durant les 35 premiers essais. 
 
 $$P(x \ge 36) = (1-p)^{35}= `r signif(digits=3, (1-p)^35)`$$
 
 
-La probabilité d’obtenir un premier succès avant le 36ème essai est le complément de cette probabilité : 
+La probabilité d'obtenir un premier succès avant le 36ème essai est le complément de cette probabilité : 
 
 $$P(X < 36) = 1 – P(x \ge 36) = 1 – (1-p)^{35} = 1 – \left( \frac{36}{37} \right) ^{35} = `r signif(digits=3, 1 - (1-p)^35)`$$
 
 
-**Information complémentaire :** le fait que la probabilité de sortir gagnant soit supérieure à $50\%$ indique que le joueur a plus de chances de gagner que de perdre, ce qui semble paradoxal puisque si c’était le cas le casino jouerait perdant. Cependant, il faut également prendre en compte le montant des gains et des pertes en fonction du temps d’attente (ceci ne faisait pas partie de la question). 
+**Information complémentaire :** le fait que la probabilité de sortir gagnant soit supérieure à $50\%$ indique que le joueur a plus de chances de gagner que de perdre, ce qui semble paradoxal puisque si c'était le cas le casino jouerait perdant. Cependant, il faut également prendre en compte le montant des gains et des pertes en fonction du temps d'attente (ceci ne faisait pas partie de la question). 
 
-Certes, s’ils suivent la procédure indiquée (miser systématiquement 1€ jusqu’au premier succès), la majorité des joueurs sortent gagnants ($61.7\%$ voient leur nombre sortir avant la 36ème tentative), mais ***le gain moyen est négatif***, car les sommes perçues auprès des perdants (les $38.3\%$ de joueurs dont le nombre ne sort pas avant le $36^\text{ème}$ essai) dépassent les bénéfices des gagnants. 
+Certes, s'ils suivent la procédure indiquée (miser systématiquement 1€ jusqu'au premier succès), la majorité des joueurs sortent gagnants ($61.7\%$ voient leur nombre sortir avant la 36ème tentative), mais ***le gain moyen est négatif***, car les sommes perçues auprès des perdants (les $38.3\%$ de joueurs dont le nombre ne sort pas avant le $36^\text{ème}$ essai) dépassent les bénéfices des gagnants. 
 
-On peut démontrer que le bénéfice attendu est de -1 (perte de 1€). Autrement dit, si un grand nombre de joueurs adoptent cette stratégie (miser 1 euro sur un nombre particulier et s’arrêter dès le premier succès) le casino gagne en moyenne un euro par joueur. Comme pour tous les jeux de hasard, le gagnant systématique est le casino. 
+On peut démontrer que le bénéfice attendu est de -1 (perte de 1€). Autrement dit, si un grand nombre de joueurs adoptent cette stratégie (miser 1 euro sur un nombre particulier et s'arrêter dès le premier succès) le casino gagne en moyenne un euro par joueur. Comme pour tous les jeux de hasard, le gagnant systématique est le casino. 
 
 
+****************************************************************
 ## Concepts de probabilité
 
 En quoi consiste le modèle de Bernoulli ? Ce modèle est-il généralement adapté à l'analyse des séquences biologiques ? Justifiez en quelques phrases.
+
+
+### Définiton du modèle de Bernoulli
+
+La définition générale du schéma de Bernoulli repose sur une série d'essais (expériences) indpendants, pouvant chacun déboucher sur deux résultats mutuellement exclusifs, respectivement qualifiés de "succès" et "échec", avec une probabilité de succès ($p$) identique pour chaque essai. 
+
+En analyse de séquences, on se base souvent sur un extension du modèle, appelée modèle de Bernoulli généralisé, où chaque essai résulte en un résultat parmi un nombre fini de possibilités. Pour le séquences nucléiques on considère 4 possibilités correspondant aux nucléotides, et pour les séquences peptidiques 20 possibilités correspondant aux acides aminés. Le modèle de Bernoulli généralisé postule que les résidus (nucléotides ou acidés aminés selon le type de séquence) se succèdent de façon indépendante, et que la probabilité d'un résidu donné est la même à chaque position de la séquence. 
+
+Attention, ceci ne signifie pas forcément que tous les résidus ont la même probabilité. On peut définir un modèle de Bernoulli où chaque résidu a une probabilité spécifique (par exemple une séquence d'ADN avec $P_A = 0.31, P_T=0.29, P_C=0.18, P_G=0.22$). Si ces probabilités sont considérées comme identiques à chaque position de la séquence, on pourra parler de modèle de Bernoulli. 
+
+### Adéquation à l'analyse des séquences biologiques
+
+Les modèles de Beroulli présentent des qualités pratiques mais il est important de connaître leurs limitations. En effet, l'hypothèse d'indépendance entre résidus successifs n'est pas réaliste pour des séquences macromoléculaires. A titre d'exemples: 
+
+- Dans les génomes de mammifères, le dinucléotde $CG$ (également dénoté $CpG$, où p indique le groupe phosphate) est beaucoup moins fréquent que ce à quoi on s'attendrait sous hypothèse d'indépendance: $F_{CG} < F_C \cdot F_G$. Ceci résulte du fait que ce dinucléotide est fréquemment méthylé par des enzymes spécifiques, qui jouent un rôle dans l'inactivation de l'ADN et la reconnaissance de l'ADN viral. La méthylation de CpG favorise la mutation vers une thymine, par déamination, ce qui a pu susciter une réduction progressive de leur fréquence au cours de l'évolution des mammifères.
+
+- Les séquences non-codantes sont enrichis en oligonucléotides riches en adénines et thymines (poly-AT) par rapport à la fréquence à laquelle on s'attendrait d'après un modèle de Bernoulli.
+
+- Les successions d'acides aminés sont en partie influencées par leurs propriétés biochimiques (par exemple, on trouvera souvent des successions d'acides aminés hydrophobes dans les domaines transmembranaires). 
 
 
 <!--
@@ -642,6 +720,7 @@ b.	Quel serait le nombre attendu de faux-positifs (la e-valeur) si l'on appliqua
 c.	Interprétez la p-valeur (calculée en a) et la e-valeur (calculée en b). Peut-on considérer que le mot GATACA est significativement surreprésenté ?
 
 -->
+****************************************************************
 
 
 

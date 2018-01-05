@@ -688,7 +688,7 @@ En analyse de séquences, on se base souvent sur un extension du modèle, appel�
 
 Attention, ceci ne signifie pas forcément que tous les résidus ont la même probabilité. On peut définir un modèle de Bernoulli où chaque résidu a une probabilité spécifique (par exemple une séquence d'ADN avec $P_A = 0.31, P_T=0.29, P_C=0.18, P_G=0.22$). Si ces probabilités sont considérées comme identiques à chaque position de la séquence, on pourra parler de modèle de Bernoulli. 
 
-### Adéquation à l'analyse des séquences biologiques
+### Adéquation pour l'analyse des séquences biologiques
 
 Les modèles de Beroulli présentent des qualités pratiques mais il est important de connaître leurs limitations. En effet, l'hypothèse d'indépendance entre résidus successifs n'est pas réaliste pour des séquences macromoléculaires. A titre d'exemples: 
 

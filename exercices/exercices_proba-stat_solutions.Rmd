@@ -3,11 +3,14 @@ title: 'Solutions des exercices: probabilités et statistiques pour la biologie'
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  pdf_document:
+  html_document:
+    code_folding: hide
     fig_caption: yes
     highlight: zenburn
-    toc: no
+    theme: cerulean
+    toc: yes
     toc_depth: 3
+    toc_float: yes
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -33,14 +36,11 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
-  html_document:
-    code_folding: hide
+  pdf_document:
     fig_caption: yes
     highlight: zenburn
-    theme: cerulean
-    toc: yes
+    toc: no
     toc_depth: 3
-    toc_float: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes

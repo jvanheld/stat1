@@ -3,17 +3,11 @@ title: "Eléments d'analyse combinatoire"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  slidy_presentation:
+  pdf_document:
     fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    incremental: yes
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
+    highlight: zenburn
     toc: yes
-    widescreen: yes
+    toc_depth: 3
   html_document:
     fig_caption: yes
     highlight: zenburn
@@ -31,11 +25,17 @@ output:
     smaller: yes
     toc: yes
     widescreen: yes
-  pdf_document:
+  slidy_presentation:
     fig_caption: yes
-    highlight: zenburn
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: yes
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
     toc: yes
-    toc_depth: 3
+    widescreen: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -257,7 +257,7 @@ aa <- aa[aa %in% LETTERS]
 cat(sort(rep(aa, times=3)), sep="")
 ```
 
-Les permutations de ces 60 lettres sont des solutions valudes. En voici trois exemples. 
+Toutes les permutations de ces 60 lettres sont des solutions valides. En voici trois exemples. 
 
 ```{r echo=FALSE}
 cat(sample(rep(aa, times=3)), sep="")
@@ -266,5 +266,5 @@ cat(sample(rep(aa, times=3)), sep="")
 ```
 
 
-
+Cependant, il faut prendre en compte le fait que certaines permutations sont identiques (toutes celles où l'on permute deux acides aminés identiques). La difficulté de l'exercice sera donc de dénombrer le nombre de permutations *distinctes*. 
 

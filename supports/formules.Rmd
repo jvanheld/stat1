@@ -3,11 +3,6 @@ title: "Formules de probabilités et statistique"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: no
-    toc_depth: 3
   html_document:
     code_folding: hide
     fig_caption: yes
@@ -16,6 +11,11 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: no
+    toc_depth: 3
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -218,12 +218,12 @@ setwd(dir.current)
 - L'accent circonflexe ($\hat{ }$) indique les estimateurs de paramètres de population calculés à partir de paramètres d'échantillons. 
 
 | Symbole      | Description   |
-|----------------------------|--------------------------------------|
+|-------------------------------------|--------------------------------------|
 | $N$ | Taille (nombre d'individus) de la population. |
 | | |
 | $\mu = \frac{1}{N} \sum_{i=1}^{N}{x_i}$ | Moyenne de la population. |
 | | |
-| $\sigma^2 = \frac{1}{N} \sum_{i=1}^{N}{(x_i - \mu)^2}$ | Variance de la population |
+| $\sigma^2 = \frac{1}{N} \sum_{i=1}^{N}{(x_i - \mu)^2} = \frac{1}{N} \sum_{i=1}^{N}{x_i^2 - \mu^2}$ | Variance de la population |
 | | |
 | $\sigma = \sqrt{\sigma^2}$ | Écart-type de la population |
 | | |
@@ -231,13 +231,13 @@ setwd(dir.current)
 | | |
 | $\bar{x} = \frac{1}{n} \sum_{i=1}^{n}{x_i}$ | Moyenne d'échantillon. |
 | | |
-| $s^2 = \frac{1}{n} \sum_{i=1}^{n}{(x_i - \bar{x})^2}$ | Variance de l’échantillon |
+| $s^2 = \frac{1}{n} \sum_{i=1}^{n}{(x_i - \bar{x})^2} = \frac{1}{n} \sum_{i=1}^{n}{x_i^2 - \bar{x}^2}$ | Variance de l’échantillon |
 | | |
 | $s = \sqrt{s^2}$ | Écart-type de l'échantillon |
 | | |
-| $\hat{\sigma^2} = \frac{1}{n-1} \sum_{i=1}^{n}{(x_i - \bar{x})^2}$ | Estimateur non-biaisé de la variance de la population. |
+| $\hat{\sigma^2} = \frac{n}{n-1} s^2 = \frac{1}{n-1} \sum_{i=1}^{n}{(x_i - \bar{x})^2}$ | Estimateur non-biaisé de la variance de la population. |
 | | |
-| $\hat{\sigma} = \sqrt{\frac{1}{n-1} \sum_{i=1}^{n}{(x_i - \bar{x})^2}}$ | Estimateur non-biaisé de l'écart-type de la population. |
+| $\hat{\sigma} = \sqrt{\hat{\sigma}^2}$ | Estimateur non-biaisé de l'écart-type de la population. |
 | | |
 | $<\sigma_{\bar{X}}> = \frac{\hat{\sigma}}{\sqrt{n}}$ | Erreur standard: écart-type attendu sur la moyenne d'échantillon. |
 | | |
@@ -255,11 +255,15 @@ setwd(dir.current)
 | | |
 | $n_1$, $n_2$ | Effectifs (nombre d'individus) des échantillons prélevés sur les populations 1 et 2. |
 | | |
+| $\bar{x} = \frac{1}{n} \sum_{i=1}^n x_i$ | Formule générale de la moyenne d'échantillon |
+| | |
 | $\bar{x}_{1}, \bar{x}_{2}$ | Moyennes d'échantillons. |
 | | |
 | $\delta = \mu_{2} - \mu{1}$ | Différence entre les moyennes des populations. |
 | | |
 | $d = \hat{\delta} = \hat{\mu}_2 - \hat{\mu}_1  = \bar{x}_2 - \bar{x}_1$ | $d$ = **Taille d'effet**: dans un test de comparaison de moyennes, il s'agit de la différence entre les moyennes d'échantillons, utilisée comme estimateur de $\delta$. |
+| | |
+| $s^2 = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2 =  \frac{1}{n} \sum_{i=1}^n x_i^2 - \bar{x}^2$ | Formule générale de la variance d'échantillon |
 | | |
 | $s^2_{1}, s^2_{2}$ | Variances mesurées sur les échantillons. |
 | | |
@@ -267,8 +271,8 @@ setwd(dir.current)
 | | |
 | $\hat{\sigma}_\delta = \hat{\sigma}_p \sqrt{\left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}$  | Erreur standard sur la différence entre moyennes, en supposant que les populations ont la même variance (test de Student). |
 | | |
-| $t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} =  \frac{\bar{x}_{2} - \bar{x}_{1}}{\sqrt{\frac{n_1 s_{1}^2 + n_2 s_{2}^2}{n_1+n_2-2} \left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}}$ | Statistique $t$ de Student |
-| | |
-| $t_{W}=\frac{\bar{x}_{1} - \bar{x}_{2}}{\sqrt{\frac {s^2_{1}}{n_1} + \frac{s^2_{2}}{n_2}}}$ | Statistique $t$ de Welch |
-| | |
+| $t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} =  \frac{\bar{x}_{2} - \bar{x}_{1}}{\sqrt{\frac{n_1 s_{1}^2 + n_2 s_{2}^2}{n_1+n_2-2} \left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}}$ | Statistique $t$ de Student, $\nu = n_1 + n_2 - 2$ d.l. |
+|  | |
+| $t_{W}=\frac{\bar{x}_{1} - \bar{x}_{2}}{\sqrt{\frac {s^2_{1}}{n_1} + \frac{s^2_{2}}{n_2}}}$ | Statistique $t$ de Welch,  $\nu = \frac{\left( \frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}\right)^2}{\frac{s_1^4}{n_1^2(n_1-1)} + \frac{s_2^4}{n_2^2(n_2-1)}}$ d.l. |
+|  | |
 

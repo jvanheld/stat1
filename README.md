@@ -32,6 +32,8 @@
 
 - Examen 2018-01-08: [Questions](practicals/consolidation_stat_2018-03/exam_stat1_2018-01-08/exam_STAT1_SBAU16L_2018-01-08_questions.pdf)
 
+- Consolidation en analyse combinatoire: [html](practicals/consolidation_stat_2018-03/C01_analyse_combinatoire/analyse_combinatoire.html) [Rmd](practicals/consolidation_stat_2018-03/C01_analyse_combinatoire/analyse_combinatoire.Rmd)
+
 
 ### Travaux pratiques avec R
 

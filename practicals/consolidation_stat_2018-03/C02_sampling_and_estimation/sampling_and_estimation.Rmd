@@ -1,0 +1,162 @@
+---
+title: "Consolidation - Echatillonnage et estimation"
+author: "Jacques van Helden"
+date: '`r Sys.Date()`'
+output:
+  html_document:
+    fig_caption: yes
+    highlight: zenburn
+    theme: cerulean
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  ioslides_presentation:
+    css: slides.css
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    smaller: yes
+    toc: yes
+    widescreen: yes
+  beamer_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
+  slidy_presentation:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
+  word_document:
+    toc: yes
+    toc_depth: 3
+font-import: http://fonts.googleapis.com/css?family=Risque
+#subtitle: "Rapport d'activités 2017"
+font-family: Garamond
+transition: linear
+---
+
+```{r include=FALSE, echo=FALSE, eval=TRUE}
+required.libraries <- c("knitr")
+for (library in required.libraries) {
+  if (!require(library, character.only = TRUE, quietly = TRUE, warn.conflicts = FALSE)) {
+    install.packages(library, dependencies = TRUE)
+  }
+  require(library, character.only = TRUE)
+}
+
+
+
+options(width=300)
+knitr::opts_chunk$set(
+  fig.width = 7, fig.height = 5, 
+  fig.align = "center", 
+  fig.path = "figures/sampling-estimation_",
+  size = "tiny", 
+  echo = FALSE, eval=TRUE, 
+  warning = FALSE, message = FALSE, 
+  results = TRUE, comment = "")
+# knitr::asis_output("\\footnotesize")
+
+dir.main <- "~/stat1"
+setwd(dir.main)
+message("Main directory\t", dir.main)
+
+
+```
+
+```{r setup, include=FALSE}
+library(knitr)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Calcul et interprétation d'estimateurs
+
+Un chercheur mesure l'activité d'une enzyme particulière chez des souris soumises ou non à un traitement, et obtient les valeurs suivantes.
+
+- Souris traitées: $x_1 = \{10, 8, 5, 13, 250, 1\}$
+- Souris non-traitées: $x_2 = \{1, 3, 2, 1, 5, 4\}$
+
+
+a. Calculez pour chaque tous les estimateurs de tendence centrale et de dispersion discutés au cours. 
+
+b. Sur base des propriétés générales de ces estimateurs, discutez des différences entre valeurs, interprétez les différences observées entre estimateurs alternatifs pour un même jeu de données. 
+
+c. Fournissez une interprétation préliminaire des différences observées entre groupes. 
+
+
+```{r}
+x1 <- c(5, 8, 6, 2, 250, 7)
+x2 <- c(7, 3, 2, 5, 8, 4)
+n <- length(x1)
+
+x <- data.frame("treated" = x1, "control" = x2)
+
+desc <- data.frame(
+  "n" = c(length(x1), length(x2)),
+  "mean" = apply(x, 2, mean),
+  "Q1" = apply(x, 2, quantile, prob=0.25),
+  "median" = apply(x, 2, median),
+  "Q3" = apply(x, 2, quantile, prob=0.75),
+  "sample.var" = apply(x, 2, var) * (n -1) / n,
+  "sample.sd" = apply(x, 2, sd) * sqrt((n -1) / n)
+  )
+desc["IQR"] <- desc["Q3"] - desc["Q1"]
+
+# kable(t(desc))
+
+
+```
+
+# Test de comparaison de moyennes
+
+Sur base des données de l'exercice précédent, effectuez un test de comparaison de moyennes.
+
+a. Formulez l'hypothèse nulle et l'hypothèse alternative. 
+
+b. Choisissez un test de comparaison de moyenne, en justifiant votre choix. 
+
+c. Calculez la statistique du test et sa probabilité critique (p-value). 
+
+d. Interprétez le résultat. 
+
+
+# Simulations : tirages aléatoires
+
+1. Générez une population de $N = 1000$ nombres aléatoires, tirés selon une loi normale.
+
+2. Effectuez un tirage aléatoire de $n = 10$ nombres dans cette population, et calculez les estimateurs de tendance centrale et dispersion. 
+
+3. Répétez cette opération $R = 10000$ fois en stockant les statistiques dans un tableau.
+
+4. Dessinez les histogrammes des distributions d'échantillonnage des paramètres mesurés. 
+
+5. 
+
+
+
+
+
+

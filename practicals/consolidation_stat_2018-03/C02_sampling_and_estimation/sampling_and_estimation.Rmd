@@ -116,6 +116,8 @@ x <- data.frame("treated" = x1, "control" = x2)
 
 desc <- data.frame(
   "n" = c(length(x1), length(x2)),
+  "sum" =  apply(x, 2, sum),
+  "sum of squared values" =  apply(x^2, 2, sum),
   "mean" = apply(x, 2, mean),
   "Q1" = apply(x, 2, quantile, prob=0.25),
   "median" = apply(x, 2, median),
@@ -125,7 +127,7 @@ desc <- data.frame(
   )
 desc["IQR"] <- desc["Q3"] - desc["Q1"]
 
-# kable(t(desc))
+kable(t(desc), digits=2)
 
 
 ```

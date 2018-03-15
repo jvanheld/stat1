@@ -1533,16 +1533,79 @@ div.tocify {
 <a class="sourceLine" id="cb1-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb1-7" data-line-number="7">desc &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
 <a class="sourceLine" id="cb1-8" data-line-number="8">  <span class="st">&quot;n&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="kw">length</span>(x1), <span class="kw">length</span>(x2)),</a>
-<a class="sourceLine" id="cb1-9" data-line-number="9">  <span class="st">&quot;mean&quot;</span> =<span class="st"> </span><span class="kw">apply</span>(x, <span class="dv">2</span>, mean),</a>
-<a class="sourceLine" id="cb1-10" data-line-number="10">  <span class="st">&quot;Q1&quot;</span> =<span class="st"> </span><span class="kw">apply</span>(x, <span class="dv">2</span>, quantile, <span class="dt">prob=</span><span class="fl">0.25</span>),</a>
-<a class="sourceLine" id="cb1-11" data-line-number="11">  <span class="st">&quot;median&quot;</span> =<span class="st"> </span><span class="kw">apply</span>(x, <span class="dv">2</span>, median),</a>
-<a class="sourceLine" id="cb1-12" data-line-number="12">  <span class="st">&quot;Q3&quot;</span> =<span class="st"> </span><span class="kw">apply</span>(x, <span class="dv">2</span>, quantile, <span class="dt">prob=</span><span class="fl">0.75</span>),</a>
-<a class="sourceLine" id="cb1-13" data-line-number="13">  <span class="st">&quot;sample.var&quot;</span> =<span class="st"> </span><span class="kw">apply</span>(x, <span class="dv">2</span>, var) <span class="op">*</span><span class="st"> </span>(n <span class="dv">-1</span>) <span class="op">/</span><span class="st"> </span>n,</a>
-<a class="sourceLine" id="cb1-14" data-line-number="14">  <span class="st">&quot;sample.sd&quot;</span> =<span class="st"> </span><span class="kw">apply</span>(x, <span class="dv">2</span>, sd) <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>((n <span class="dv">-1</span>) <span class="op">/</span><span class="st"> </span>n)</a>
-<a class="sourceLine" id="cb1-15" data-line-number="15">  )</a>
-<a class="sourceLine" id="cb1-16" data-line-number="16">desc[<span class="st">&quot;IQR&quot;</span>] &lt;-<span class="st"> </span>desc[<span class="st">&quot;Q3&quot;</span>] <span class="op">-</span><span class="st"> </span>desc[<span class="st">&quot;Q1&quot;</span>]</a>
-<a class="sourceLine" id="cb1-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co"># kable(t(desc))</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-9" data-line-number="9">  <span class="st">&quot;sum&quot;</span> =<span class="st">  </span><span class="kw">apply</span>(x, <span class="dv">2</span>, sum),</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">  <span class="st">&quot;sum of squared values&quot;</span> =<span class="st">  </span><span class="kw">apply</span>(x<span class="op">^</span><span class="dv">2</span>, <span class="dv">2</span>, sum),</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">  <span class="st">&quot;mean&quot;</span> =<span class="st"> </span><span class="kw">apply</span>(x, <span class="dv">2</span>, mean),</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12">  <span class="st">&quot;Q1&quot;</span> =<span class="st"> </span><span class="kw">apply</span>(x, <span class="dv">2</span>, quantile, <span class="dt">prob=</span><span class="fl">0.25</span>),</a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">  <span class="st">&quot;median&quot;</span> =<span class="st"> </span><span class="kw">apply</span>(x, <span class="dv">2</span>, median),</a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">  <span class="st">&quot;Q3&quot;</span> =<span class="st"> </span><span class="kw">apply</span>(x, <span class="dv">2</span>, quantile, <span class="dt">prob=</span><span class="fl">0.75</span>),</a>
+<a class="sourceLine" id="cb1-15" data-line-number="15">  <span class="st">&quot;sample.var&quot;</span> =<span class="st"> </span><span class="kw">apply</span>(x, <span class="dv">2</span>, var) <span class="op">*</span><span class="st"> </span>(n <span class="dv">-1</span>) <span class="op">/</span><span class="st"> </span>n,</a>
+<a class="sourceLine" id="cb1-16" data-line-number="16">  <span class="st">&quot;sample.sd&quot;</span> =<span class="st"> </span><span class="kw">apply</span>(x, <span class="dv">2</span>, sd) <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>((n <span class="dv">-1</span>) <span class="op">/</span><span class="st"> </span>n)</a>
+<a class="sourceLine" id="cb1-17" data-line-number="17">  )</a>
+<a class="sourceLine" id="cb1-18" data-line-number="18">desc[<span class="st">&quot;IQR&quot;</span>] &lt;-<span class="st"> </span>desc[<span class="st">&quot;Q3&quot;</span>] <span class="op">-</span><span class="st"> </span>desc[<span class="st">&quot;Q1&quot;</span>]</a>
+<a class="sourceLine" id="cb1-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="kw">kable</span>(<span class="kw">t</span>(desc), <span class="dt">digits=</span><span class="dv">2</span>)</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">treated</th>
+<th align="right">control</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>n</td>
+<td align="right">6.00</td>
+<td align="right">6.00</td>
+</tr>
+<tr class="even">
+<td>sum</td>
+<td align="right">278.00</td>
+<td align="right">29.00</td>
+</tr>
+<tr class="odd">
+<td>sum.of.squared.values</td>
+<td align="right">62678.00</td>
+<td align="right">167.00</td>
+</tr>
+<tr class="even">
+<td>mean</td>
+<td align="right">46.33</td>
+<td align="right">4.83</td>
+</tr>
+<tr class="odd">
+<td>Q1</td>
+<td align="right">5.25</td>
+<td align="right">3.25</td>
+</tr>
+<tr class="even">
+<td>median</td>
+<td align="right">6.50</td>
+<td align="right">4.50</td>
+</tr>
+<tr class="odd">
+<td>Q3</td>
+<td align="right">7.75</td>
+<td align="right">6.50</td>
+</tr>
+<tr class="even">
+<td>sample.var</td>
+<td align="right">8299.56</td>
+<td align="right">4.47</td>
+</tr>
+<tr class="odd">
+<td>sample.sd</td>
+<td align="right">91.10</td>
+<td align="right">2.11</td>
+</tr>
+<tr class="even">
+<td>IQR</td>
+<td align="right">2.50</td>
+<td align="right">3.25</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="test-de-comparaison-de-moyennes" class="section level1">
 <h1>Test de comparaison de moyennes</h1>

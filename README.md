@@ -39,7 +39,7 @@
 
 - Analyse combinatoire: [html](practicals/consolidation_stat_2018-03/C01_analyse_combinatoire/analyse_combinatoire.html) [Rmd](practicals/consolidation_stat_2018-03/C01_analyse_combinatoire/analyse_combinatoire.Rmd)
 
-- Echantillonnage et estimation [html](practicals/consolidation_stat_2018-03/C02_sampling_and_estimation/sampling_and_estimation.Rmd.html) [Rmd](practicals/consolidation_stat_2018-03/C02_sampling_and_estimation/sampling_and_estimation.Rmd.Rmd)
+- Echantillonnage et estimation [html](practicals/consolidation_stat_2018-03/C02_sampling_and_estimation/sampling_and_estimation.html) [Rmd](practicals/consolidation_stat_2018-03/C02_sampling_and_estimation/sampling_and_estimation.Rmd)
 
 ### Travaux pratiques avec R
 

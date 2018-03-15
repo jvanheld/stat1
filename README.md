@@ -28,16 +28,18 @@
 - [Table de la distribution *t* de Student](supports/t-table.pdf)
 - Formules de probabilités et statistique [[pdf](supports/formules.pdf)] [[html](supports/formules.html)]
 
-### Consolidation 2018
+### Annales d'examens
+
 
 - Examen 2018-01-08: [Questions](practicals/consolidation_stat_2018-03/exam_stat1_2018-01-08/exam_STAT1_SBAU16L_2018-01-08_questions.pdf)
 
 - Examen 2018-01-22: [Questions](practicals/consolidation_stat_2018-03/exam_stat1_2018-01-22/exam_STAT1_SBAU16L_2018-01-22_questions.pdf)
 
-- Consolidation en analyse combinatoire: [html](practicals/consolidation_stat_2018-03/C01_analyse_combinatoire/analyse_combinatoire.html) [Rmd](practicals/consolidation_stat_2018-03/C01_analyse_combinatoire/analyse_combinatoire.Rmd)
+### Consolidation 2018
 
+- Analyse combinatoire: [html](practicals/consolidation_stat_2018-03/C01_analyse_combinatoire/analyse_combinatoire.html) [Rmd](practicals/consolidation_stat_2018-03/C01_analyse_combinatoire/analyse_combinatoire.Rmd)
 
-- Consolidation: échantillonnage et estimation [html](practicals/consolidation_stat_2018-03/C02_sampling_and_estimation/sampling_and_estimation.Rmd.html) [Rmd](practicals/consolidation_stat_2018-03/C02_sampling_and_estimation/sampling_and_estimation.Rmd.Rmd)
+- Echantillonnage et estimation [html](practicals/consolidation_stat_2018-03/C02_sampling_and_estimation/sampling_and_estimation.Rmd.html) [Rmd](practicals/consolidation_stat_2018-03/C02_sampling_and_estimation/sampling_and_estimation.Rmd.Rmd)
 
 ### Travaux pratiques avec R
 

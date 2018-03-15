@@ -132,32 +132,119 @@ kable(t(desc), digits=2)
 
 ```
 
-# Test de comparaison de moyennes
+# Devoir-maison
 
-Sur base des données de l'exercice précédent, effectuez un test de comparaison de moyennes.
+## Partie 1: échantillonnage et estimation
 
-a. Formulez l'hypothèse nulle et l'hypothèse alternative. 
+Poursuivez l'analyse ci-dessus 
 
-b. Choisissez un test de comparaison de moyenne, en justifiant votre choix. 
+d. Calculez l'espace inter-quartile standardisé.
 
-c. Calculez la statistique du test et sa probabilité critique (p-value). 
+e. Calculez les statistiques descriptives du premier échantillon après avoir supprimé la valeur aberrante. On appellera cet échantillon "non-traité filtré". 
 
-d. Interprétez le résultat. 
+f. A partir des 3 jeux de paramètres d'échantillons (non-traité, traité, non-traité flitré), inférez les paramètres des populations dont ils sont extraites. 
+
+g. Résumez les résultats dans un tableau, et founissez-en une interprétation générale. 
+
+
+
+## Partie 2: test de comparaison de moyennes
+
+Sur base des données de l'exercice précédent, effectuez un test de comparaison de moyennes. Dans différentes conditions:
+
+a. Traité versus non traité, sans filtrage, en estimant les paramètres sur base des moments.
+
+b. Traité versus non traité, sans filtrage, en estimant les paramètres sur base des quartiles.
+
+c. Traité versus filtré, en estimant les paramètres sur base des moments..
+
+
+Dans chaque cas répondez aux questions suviantes. 
+
+1. Formulez l'hypothèse nulle et l'hypothèse alternative. 
+
+2. Choisissez un test de comparaison de moyenne, en justifiant votre choix. 
+
+3. Calculez la statistique du test et sa probabilité critique (p-value), avec les différents estimateurs ci-dessus (a, b, c). 
+
+4. Interprétez les résultats.  
 
 
 # Simulations : tirages aléatoires
 
-1. Générez une population de $N = 1000$ nombres aléatoires, tirés selon une loi normale.
+1. Générez une population de $N = 10000$ nombres aléatoires, tirés selon une loi normale de moyenne 10 et d'écart-type 2.
 
-2. Effectuez un tirage aléatoire de $n = 10$ nombres dans cette population, et calculez les estimateurs de tendance centrale et dispersion. 
+```{r}
+N <- 10000 ## Population size
+normal.mean <- 10 ## Moyenne de la loi normale
+normal.sd <- 2 ## Ecart-type de la loi normale
 
-3. Répétez cette opération $R = 10000$ fois en stockant les statistiques dans un tableau.
+## Generate the population
+pop <- rnorm(n = N, mean = normal.mean, sd = normal.sd)
 
-4. Dessinez les histogrammes des distributions d'échantillonnage des paramètres mesurés. 
+## Compute the population parameters
+pop.mean <- mean(pop)
+pop.sd <- sd(pop) * sqrt((N-1)/N) ## Beware: R sd() does not compute the sd of the given numbers, but infers sd of a population for whihc this would be a sample
 
-5. 
+hist(pop, breaks=100, col="palegreen", main="Population")
+legend("topleft", 
+       legend=c(
+         paste("Pop mean= ", round(digits=2, pop.mean)),
+         paste("Pop sd= ", round(digits=2, pop.sd))
+       ))
+
+```
 
 
+2. Effectuez un tirage aléatoire de $n = 10$ nombres dans cette population, et calculez les paramètres de tendance centrale et dispersion pour cet échantillons. 
+
+
+```{r}
+n <- 10  ## Sample size
+
+## Generate a population
+x <- sample(x = pop, size = n, replace = FALSE)
+# abline(v=x, col="blue")
+
+x.mean <- mean(x)
+
+sample.stat <- c(
+  mean = x.mean,
+  sum = sum(x),
+  ss = sum(x^2)
+)
+
+sample.stat["var"] <- sample.stat["ss"] / n - x.mean^2
+var(x)
+
+```
+
+3. Sur base de ces paramètres d'échantillons, estimez les paramètres de population correspondants. 
+
+4. Répétez cette opération $R = 10000$ fois en stockant les statistiques dans un tableau.
+
+```{r}
+## JvH
+```
+
+
+5. Dessinez les histogrammes des distributions d'échantillonnage des paramètres mesurés sur l'échantillon: moyenne, médiane, écart-type. 
+
+
+6. Faites la même expérience avec différentes tailles d'échantillon: $n= 2$, $n=4$, $n=16$, $n=64$ et comparez les histogrammes obtenus. 
+
+7. Interprétez les résultats (et on en discute en début de séance prochaine). 
+
+## Devoir-maison
+
+
+Effectuez des échantillonnages répétésau sein de différentes distributions: 
+
+a. Normale de moyenne 10 et d'écarts-types divers (1, 2, 4, 8). 
+b. Uniforme (entre 0 et 1)
+c. De Poisson, de paramètre $\lambda = 2.5$ (espérance). 
+
+Dans chaque cas, dessinez les histogrammes d'échantillonnage de la moyenne, la médiane et l'écart-type, et interprétez les résultats. 
 
 
 

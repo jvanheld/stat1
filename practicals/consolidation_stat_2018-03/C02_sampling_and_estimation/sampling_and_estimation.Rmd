@@ -96,7 +96,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Un chercheur mesure l'activité d'une enzyme particulière chez des souris soumises ou non à un traitement, et obtient les valeurs suivantes.
 
-- Souris traitées: $x_1 = \{10, 8, 5, 13, 250, 1\}$
+- Souris traitées: $x_1 = \{5, 8, 6, 2, 250, 7\}$
 - Souris non-traitées: $x_2 = \{7, 3, 2, 5, 8, 4\}$
 
 

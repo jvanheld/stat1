@@ -107,7 +107,7 @@ b. Sur base des propriétés générales de ces estimateurs, discutez des diffé
 c. Fournissez une interprétation préliminaire des différences observées entre groupes. 
 
 
-```{r}
+```{r echo=FALSE}
 x1 <- c(5, 8, 6, 2, 250, 7)
 x2 <- c(7, 3, 2, 5, 8, 4)
 n <- length(x1)

@@ -215,7 +215,7 @@ sample.stat <- c(
 )
 
 sample.stat["var"] <- sample.stat["ss"] / n - x.mean^2
-var(x)
+# message("Sample variance: ", sample.stat["var"], " == ", var(x) * (n-1) / n, "; pop var est: ", var(x))
 
 ```
 
@@ -228,12 +228,13 @@ var(x)
 ## and one row per samplpe (replicate), and fill it up with numbers. 
 ## We then use the apply funciton to compute the sample stats on each row. 
 
-R <- 10000
+R <- 1000
 
 ## Create an empty matrix
 sampling.matrix <- matrix(
   nrow = R, 
   ncol = n)
+
 for (i in 1:R) {
   sampling.matrix[i, ] <- sample(x = pop, size = n, replace = FALSE)
 }
@@ -254,19 +255,36 @@ sample.stat$IQR <- sample.stat$Q3 - sample.stat$Q1 ## Inter-quartile range
 
 # Standardised inter-quartile range
 norm.iqr <- 2*qnorm(p=0.25, lower.tail = FALSE)
-sample.stat$IQRs <- sample.stat$IQR * norm.iqr
+sample.stat$IQRs <- sample.stat$IQR / norm.iqr
+mean(sample.stat$IQRs)
+mean(sample.stat$sd)
 
 kable(head(sample.stat))
 # View(sample.stat)
 
 ## Compare sample mean and median
-plot(sample.stat$mean, sample.stat$median, col="grey", panel.first=grid())
+par(mfrow=c(2,2))
+lim <- c(ceiling(min(append(sample.stat$mean, sample.stat$median))),
+         ceiling(max(append(sample.stat$mean, sample.stat$median))))
+plot(sample.stat$mean, sample.stat$median, col="grey", panel.first=grid(),
+     main = "Central tendency",
+     xlim = lim, ylim = lim,
+     xlab = "Sample mean",
+     ylab = "Sample median"
+)
 abline(a=0, b=1)
 
 ## Compare sample standard deviation and standardized inter-quartile range
-plot(sample.stat$sd, sample.stat$IQRs, col="grey", panel.first=grid())
+lim <- c(0, ceiling(max(append(sample.stat$sd, sample.stat$IQRs))))
+plot(sample.stat$sd, sample.stat$IQRs, col="grey", panel.first=grid(),
+     main = "Dispersion",
+     xlim = lim, ylim = lim,
+     xlab = "Sample standard dev",
+     ylab = "Sample IQRs"
+     )
 abline(a=0, b=1)
 
+par(mfrow=c(1,1))
 
 ```
 

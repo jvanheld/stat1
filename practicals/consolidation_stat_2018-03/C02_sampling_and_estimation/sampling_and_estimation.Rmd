@@ -221,10 +221,53 @@ var(x)
 
 3. Sur base de ces paramètres d'échantillons, estimez les paramètres de population correspondants. 
 
-4. Répétez cette opération $R = 10000$ fois en stockant les statistiques dans un tableau.
+4. Répétez cette opération $R = 10000$ fois en stockant les statistiques d'échantillon dans un tableau.
 
 ```{r}
-## JvH
+## The trick: we create a big data frame with one column per individual
+## and one row per samplpe (replicate), and fill it up with numbers. 
+## We then use the apply funciton to compute the sample stats on each row. 
+
+R <- 10000
+
+## Create an empty matrix
+sampling.matrix <- matrix(
+  nrow = R, 
+  ncol = n)
+for (i in 1:R) {
+  sampling.matrix[i, ] <- sample(x = pop, size = n, replace = FALSE)
+}
+
+sample.stat <- data.frame(
+  r = 1:R,
+  sum = apply(sampling.matrix,1, sum),
+  sum.of.squares = apply(sampling.matrix^2,1, sum),
+  mean = apply(sampling.matrix,1, mean)
+  )
+sample.stat$var <- sample.stat$sum.of.squares / n - sample.stat$mean^2 # Sample variance
+sample.stat$sd <- sqrt(sample.stat$var) # Sample standard déviation
+sample.stat$Q1 <- apply(sampling.matrix, 1, quantile, prob=0.25) # FIrst quartile
+sample.stat$median <- apply(sampling.matrix, 1, median) # Median
+sample.stat$Q3 <- apply(sampling.matrix, 1, quantile, prob=0.75) ## Third quartile
+sample.stat$IQR <- sample.stat$Q3 - sample.stat$Q1 ## Inter-quartile range
+
+
+# Standardised inter-quartile range
+norm.iqr <- 2*qnorm(p=0.25, lower.tail = FALSE)
+sample.stat$IQRs <- sample.stat$IQR * norm.iqr
+
+kable(head(sample.stat))
+# View(sample.stat)
+
+## Compare sample mean and median
+plot(sample.stat$mean, sample.stat$median, col="grey", panel.first=grid())
+abline(a=0, b=1)
+
+## Compare sample standard deviation and standardized inter-quartile range
+plot(sample.stat$sd, sample.stat$IQRs, col="grey", panel.first=grid())
+abline(a=0, b=1)
+
+
 ```
 
 

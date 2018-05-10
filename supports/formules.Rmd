@@ -3,6 +3,9 @@ title: "Formules de probabilités et statistique"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
+  word_document:
+    toc: yes
+    toc_depth: 3
   html_document:
     code_folding: hide
     fig_caption: yes
@@ -11,11 +14,6 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: no
-    toc_depth: 3
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -53,8 +51,10 @@ output:
     toc: yes
     toc_float: yes
     widescreen: yes
-  word_document:
-    toc: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: no
     toc_depth: 3
 font-import: http://fonts.googleapis.com/css ?family=Risque
 font-family: Garamond
@@ -273,6 +273,6 @@ setwd(dir.current)
 | | |
 | $t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} =  \frac{\bar{x}_{2} - \bar{x}_{1}}{\sqrt{\frac{n_1 s_{1}^2 + n_2 s_{2}^2}{n_1+n_2-2} \left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}}$ | Statistique $t$ de Student, $\nu = n_1 + n_2 - 2$ d.l. |
 |  | |
-| $t_{W}=\frac{\bar{x}_{1} - \bar{x}_{2}}{\sqrt{\frac {s^2_{1}}{n_1} + \frac{s^2_{2}}{n_2}}}$ | Statistique $t$ de Welch,  $\nu = \frac{\left( \frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}\right)^2}{\frac{s_1^4}{n_1^2(n_1-1)} + \frac{s_2^4}{n_2^2(n_2-1)}}$ d.l. |
+| $t_{W}=\frac{\bar{x}_{1} - \bar{x}_{2}}{\sqrt{\frac {\hat{\sigma}^2_{1}}{n_1} + \frac{\hat{\sigma}^2_{2}}{n_2}}}$ | Statistique $t$ de Welch,  $\nu = \frac{\left( \frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}\right)^2}{\frac{s_1^4}{n_1^2(n_1-1)} + \frac{s_2^4}{n_2^2(n_2-1)}}$ d.l. |
 |  | |
 

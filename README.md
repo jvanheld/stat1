@@ -31,9 +31,11 @@
 ### Annales d'examens
 
 
-- Examen 2018-01-08: [Questions](practicals/consolidation_stat_2018-03/exam_stat1_2018-01-08/exam_STAT1_SBAU16L_2018-01-08_questions.pdf)
+- Examen 2018-01-08: [[Questions](exam/exam_stat1_2018-01-08/exam_STAT1_SBAU16L_2018-01-08_questions.pdf)] [[Solutions](exam/exam_stat1_2018-01-08/exam_STAT1_SBAU16L_2018-01-08_solutions.pdf)]
+[[Code R](exam/exam_stat1_2018-01-08/exam_STAT1_SBAU16L_2018-01-08_solutions.R)]
 
-- Examen 2018-01-22: [Questions](practicals/consolidation_stat_2018-03/exam_stat1_2018-01-22/exam_STAT1_SBAU16L_2018-01-22_questions.pdf)
+- Examen 2018-01-22: 
+[[Questions](exam/exam_stat1_2018-01-22/exam_STAT1_SBAU16L_2018-01-22_questions.pdf)]
 
 ### Consolidation 2018
 

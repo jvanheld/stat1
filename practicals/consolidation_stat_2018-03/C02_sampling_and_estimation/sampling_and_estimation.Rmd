@@ -262,8 +262,12 @@ mean(sample.stat$sd)
 kable(head(sample.stat))
 # View(sample.stat)
 
+```
+
+```{r sample_stat_plot, fig.width=10, fig.height=5, fig.cap="**Figure.** Comparaison des paramètres d'échantillons basés sur les moments (moyenne, écart-type) et sur les quartiles (médiane, espace inter-quartile). "}
+
 ## Compare sample mean and median
-par(mfrow=c(2,2))
+par(mfrow=c(1,2))
 lim <- c(ceiling(min(append(sample.stat$mean, sample.stat$median))),
          ceiling(max(append(sample.stat$mean, sample.stat$median))))
 plot(sample.stat$mean, sample.stat$median, col="grey", panel.first=grid(),
@@ -273,6 +277,11 @@ plot(sample.stat$mean, sample.stat$median, col="grey", panel.first=grid(),
      ylab = "Sample median"
 )
 abline(a=0, b=1)
+abline(h=pop.mean, col="blue")
+abline(v=pop.mean, col="blue")
+abline(h=mean(sample.stat$mean), col="darkgreen")
+abline(v=mean(sample.stat$median), col="darkgreen")
+
 
 ## Compare sample standard deviation and standardized inter-quartile range
 lim <- c(0, ceiling(max(append(sample.stat$sd, sample.stat$IQRs))))
@@ -283,6 +292,10 @@ plot(sample.stat$sd, sample.stat$IQRs, col="grey", panel.first=grid(),
      ylab = "Sample IQRs"
      )
 abline(a=0, b=1)
+abline(h=pop.sd, col="blue")
+abline(v=pop.sd, col="blue")
+abline(h=mean(sample.stat$sd), col="darkgreen")
+abline(v=mean(sample.stat$IQRs), col="darkgreen")
 
 par(mfrow=c(1,1))
 

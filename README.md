@@ -26,16 +26,23 @@
 
 
 - [Table de la distribution *t* de Student](supports/t-table.pdf)
-- Formules de probabilités et statistique [[pdf](supports/formules.pdf)] [[html](supports/formules.html)]
+- Formules de probabilités et statistique 
+[[pdf](supports/formules.pdf)] 
+[[html](supports/formules.html)]
+[[docx](supports/formules.docx)] 
+[[Rmd](supports/formules.Rmd)] 
 
 ### Annales d'examens
 
 
-- Examen 2018-01-08: [[Questions](exam/exam_stat1_2018-01-08/exam_STAT1_SBAU16L_2018-01-08_questions.pdf)] [[Solutions](exam/exam_stat1_2018-01-08/exam_STAT1_SBAU16L_2018-01-08_solutions.pdf)]
+- Examen 2018-01-08: [[Questions](exam/exam_stat1_2018-01-08/exam_STAT1_SBAU16L_2018-01-08_questions.pdf)] 
+[[Solutions](exam/exam_stat1_2018-01-08/exam_STAT1_SBAU16L_2018-01-08_solutions.pdf)]
 [[Code R](exam/exam_stat1_2018-01-08/exam_STAT1_SBAU16L_2018-01-08_solutions.R)]
 
 - Examen 2018-01-22: 
 [[Questions](exam/exam_stat1_2018-01-22/exam_STAT1_SBAU16L_2018-01-22_questions.pdf)]
+[[Solutions](exam/exam_stat1_2018-01-22/exam_STAT1_SBAU16L_2018-01-22_solutions.pdf)]
+[[Code R](exam/exam_stat1_2018-01-22/exam_STAT1_SBAU16L_2018-01-22_solutions.R)]
 
 ### Consolidation 2018
 

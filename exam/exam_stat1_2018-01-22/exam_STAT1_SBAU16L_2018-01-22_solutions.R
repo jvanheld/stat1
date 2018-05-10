@@ -2,6 +2,15 @@ library(knitr)
 
 ## Solution exam stat1 2018-01-22
 
+## Question 1
+n <- 25000 ## Number de gènes
+k <- 5     ## Nombre de gènes retenus en tête de la liste
+(N <- choose(n=n, k=k) * factorial(k)) ## En partant du coefficient binomial
+(N <- prod (seq(from=n, to=n - k +1))) ## Alternative: produit direct
+
+
+
+## Question 3
 x1 <- c(92,  96, 102,  86, 118, 110,  94, 102)
 x2 <- c(125,  86,  76, 101,  95, 136, 108, 113)
 

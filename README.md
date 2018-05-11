@@ -44,6 +44,13 @@
 [[Solutions](exam/exam_stat1_2018-01-22/exam_STAT1_SBAU16L_2018-01-22_solutions.pdf)]
 [[Code R](exam/exam_stat1_2018-01-22/exam_STAT1_SBAU16L_2018-01-22_solutions.R)]
 
+- Examen 2018-05-11: 
+Quesitons [[pdf](exam/exam_stat1_2018-05-11/exam_STAT1_SBAU16L_2018-05-11_questions.pdf)]
+Solutions: 
+[[pdf](exam/exam_stat1_2018-05-11/exam_STAT1_SBAU16L_2018-05-11_solutions.pdf)]
+[[html](exam/exam_stat1_2018-05-11/exam_STAT1_SBAU16L_2018-05-11_solutions.html)]
+[[Rmd](exam/exam_stat1_2018-05-11/exam_STAT1_SBAU16L_2018-05-11_solutions.Rmd)]
+
 ### Consolidation 2018
 
 - Analyse combinatoire: [html](practicals/consolidation_stat_2018-03/C01_analyse_combinatoire/analyse_combinatoire.html) [Rmd](practicals/consolidation_stat_2018-03/C01_analyse_combinatoire/analyse_combinatoire.Rmd)

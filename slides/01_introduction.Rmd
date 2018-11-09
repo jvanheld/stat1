@@ -3,12 +3,10 @@ title: 'STAT1 : Introduction au cours'
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  ioslides_presentation:
-    colortheme: dolphin
+  slidy_presentation:
     fig_caption: yes
     fig_height: 6
     fig_width: 7
-    fonttheme: structurebold
     highlight: tango
     incremental: yes
     keep_md: yes
@@ -40,10 +38,12 @@ output:
     highlight: zenburn
     toc: yes
     toc_depth: 3
-  slidy_presentation:
+  ioslides_presentation:
+    colortheme: dolphin
     fig_caption: yes
     fig_height: 6
     fig_width: 7
+    fonttheme: structurebold
     highlight: tango
     incremental: yes
     keep_md: yes

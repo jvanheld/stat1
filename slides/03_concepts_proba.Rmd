@@ -3,16 +3,11 @@ title: "Concepts de probabilités"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  ioslides_presentation:
-    colortheme: dolphin
+  pdf_document:
     fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    smaller: yes
+    highlight: zenburn
     toc: yes
-    widescreen: yes
+    toc_depth: 3
   html_document:
     fig_caption: yes
     highlight: zenburn
@@ -32,20 +27,25 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: yes
-    toc_depth: 3
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
     fig_width: 7
     highlight: tango
-    incremental: yes
+    incremental: no
     keep_md: yes
     smaller: yes
     theme: cerulean
+    toc: yes
+    widescreen: yes
+  ioslides_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    smaller: yes
     toc: yes
     widescreen: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
@@ -76,7 +76,7 @@ Lors d'une expérience aléatoire, la ***probabilité*** d'un événement  $A$ e
 
 $$\operatorname{P}(A) = \lim_{n \to \infty}\frac{n_{A}}{n}$$
 
-```{r echo=FALSE, fig.height=3, fig.width=10, fig.cap="Fréquences de A lors du tirage (avec remise) de positions aléatoires dans le génome de *Mycoplasma genitalium*. "}
+```{r echo=FALSE, fig.height=3, out.width="80%", fig.cap="Fréquences de A lors du tirage (avec remise) de positions aléatoires dans le génome de *Mycoplasma genitalium*. "}
 ################################################################
 ## Illustration of the frequential definition of probability.
 ##

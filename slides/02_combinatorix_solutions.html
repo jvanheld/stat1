@@ -11,7 +11,7 @@
 
 <meta name="author" content="Jacques van Helden" />
 
-<meta name="date" content="2017-12-05" />
+<meta name="date" content="2018-05-11" />
 
 <title>Eléments d’analyse combinatoire - solutions des exercices</title>
 
@@ -1515,17 +1515,17 @@ div.tocify {
 <h1 class="title toc-ignore">Eléments d’analyse combinatoire - solutions des exercices</h1>
 <h3 class="subtitle"><em>Probabilités et statistique pour la biologie (STAT1)</em></h3>
 <h4 class="author"><em>Jacques van Helden</em></h4>
-<h4 class="date"><em>2017-12-05</em></h4>
+<h4 class="date"><em>2018-05-11</em></h4>
 
 </div>
 
 
-<section id="resume-des-concepts-et-formules" class="level1">
+<div id="resume-des-concepts-et-formules" class="section level1">
 <h1>Résumé des concepts et formules</h1>
-<section id="tirages-avec-sans-remise" class="level2">
+<div id="tirages-avec-sans-remise" class="section level2">
 <h2>Tirages avec / sans remise</h2>
 <p>Il existe deux types classiques de tirage d’éléments au sein d’un ensemble: avec ou sans remise.</p>
-<ol type="1">
+<ol style="list-style-type: decimal">
 <li><p><strong>Tirage sans remise</strong>: chaque élément peut être tiré au plus une fois. Exemples:</p>
 <ul>
 <li>Jeu de <a href="https://fr.wikipedia.org/wiki/Loto">loto</a> (ou lotto).</li>
@@ -1537,15 +1537,15 @@ div.tocify {
 <li>Génération d’une séquence aléatoire, par sélection itérative d’un élément dans l’ensemble des résidus (4 nucléotides pour l’ADN, 20 acides aminés pour les protéines).</li>
 </ul></li>
 </ol>
-</section>
-<section id="formules" class="level2">
+</div>
+<div id="formules" class="section level2">
 <h2>Formules</h2>
-<table style="width:89%;">
+<table>
 <colgroup>
-<col style="width: 12%"></col>
-<col style="width: 11%"></col>
-<col style="width: 18%"></col>
-<col style="width: 47%"></col>
+<col width="13%"></col>
+<col width="11%"></col>
+<col width="20%"></col>
+<col width="55%"></col>
 </colgroup>
 <thead>
 <tr class="header">
@@ -1582,19 +1582,19 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-</section>
-</section>
-<section id="solutions-des-exercices" class="level1">
+</div>
+</div>
+<div id="solutions-des-exercices" class="section level1">
 <h1>Solutions des exercices</h1>
-<section id="solution-exercice-1-mutagenese" class="level2">
+<div id="solution-exercice-1-mutagenese" class="section level2">
 <h2>Solution exercice 1: mutagenèse</h2>
 <p><em>On soumet un fragment d’ADN de 1 kilobase à un traitement mutagène qui provoque des mutations ponctuelles (substitutions) à 5 positions distinctes indépendantes. Combien de séquences possibles existe-t-il pour le fragment muté ?</em></p>
 <p>Il s’agit de choisir au hasard 5 positions mutantes parmi les 1000 nucléotides du fragment d’ADN. Il s’agit d’un choix sans remise (chaque position ne peut être tirée qu’une fois), on choisit donc le coefficient binomial.</p>
 <p><span class="math display">\[\binom{n}{x} = \binom{1000}{5} = C^5_{1000} = \frac{1000!}{5! 995!} = 8.2502913\times 10^{12}\]</span></p>
-<p>Pour chacune des 5 positions mutées, on 3 substitutions possibles. Le nombre de mutations distinctes est donc <span class="math inline">\(3^5\)</span> fois le nombre de choix de 5 positions parmi 1000.</p>
+<p>Pour chacune des 5 positions mutées, on a 3 substitutions possibles. Le nombre de mutations distinctes est donc <span class="math inline">\(3^5\)</span> fois le nombre de choix de 5 positions parmi 1000.</p>
 <p><span class="math display">\[N = 3^5 \cdot  \binom{1000}{5} =2.0048208\times 10^{15}\]</span></p>
-</section>
-<section id="solution-de-lexercice-2-oligopeptides-3-times-20" class="level2">
+</div>
+<div id="solution-de-lexercice-2-oligopeptides-3-times-20" class="section level2">
 <h2>Solution de l’exercice 2 : oligopeptides <span class="math inline">\(3 \times 20\)</span></h2>
 <p><em>Combien d’oligopeptides de taille 60 peut-on former en utilisant exactement 3 fois chaque acide aminé ?</em></p>
 <p>Commençons par générer une séquence particulière qui remplit ces conditions, en concaténant 3 copies de chaque acide aminé, dans l’ordre alphabétique.</p>
@@ -1602,154 +1602,154 @@ div.tocify {
 <caption>Symboles des acides aminés et codons</caption>
 <thead>
 <tr class="header">
-<th style="text-align: left;">Aminoacid</th>
-<th style="text-align: left;">Symbol3</th>
-<th style="text-align: left;">Symbol</th>
-<th style="text-align: left;">Codons</th>
+<th align="left">Aminoacid</th>
+<th align="left">Symbol3</th>
+<th align="left">Symbol</th>
+<th align="left">Codons</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Alanine</td>
-<td style="text-align: left;">Ala</td>
-<td style="text-align: left;">A</td>
-<td style="text-align: left;">GCA, GCC, GCG, GCT</td>
+<td align="left">Alanine</td>
+<td align="left">Ala</td>
+<td align="left">A</td>
+<td align="left">GCA, GCC, GCG, GCT</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Arginine</td>
-<td style="text-align: left;">Arg</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">CGA, CGC, CGG, CGT, AGA, AGG</td>
+<td align="left">Arginine</td>
+<td align="left">Arg</td>
+<td align="left">R</td>
+<td align="left">CGA, CGC, CGG, CGT, AGA, AGG</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Aspartic acid</td>
-<td style="text-align: left;">Asp</td>
-<td style="text-align: left;">D</td>
-<td style="text-align: left;">GAC, GAT</td>
+<td align="left">Aspartic acid</td>
+<td align="left">Asp</td>
+<td align="left">D</td>
+<td align="left">GAC, GAT</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Asparagine</td>
-<td style="text-align: left;">Asn</td>
-<td style="text-align: left;">N</td>
-<td style="text-align: left;">AAC, AAT</td>
+<td align="left">Asparagine</td>
+<td align="left">Asn</td>
+<td align="left">N</td>
+<td align="left">AAC, AAT</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Cysteine</td>
-<td style="text-align: left;">Cys</td>
-<td style="text-align: left;">C</td>
-<td style="text-align: left;">TGC, TGT</td>
+<td align="left">Cysteine</td>
+<td align="left">Cys</td>
+<td align="left">C</td>
+<td align="left">TGC, TGT</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Glutamic acid</td>
-<td style="text-align: left;">Glu</td>
-<td style="text-align: left;">E</td>
-<td style="text-align: left;">GAA, GAG</td>
+<td align="left">Glutamic acid</td>
+<td align="left">Glu</td>
+<td align="left">E</td>
+<td align="left">GAA, GAG</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Glutamine</td>
-<td style="text-align: left;">Gln</td>
-<td style="text-align: left;">Q</td>
-<td style="text-align: left;">CAA, CAG</td>
+<td align="left">Glutamine</td>
+<td align="left">Gln</td>
+<td align="left">Q</td>
+<td align="left">CAA, CAG</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Glycine</td>
-<td style="text-align: left;">Gly</td>
-<td style="text-align: left;">G</td>
-<td style="text-align: left;">GGA, GGC, GGG, GGT</td>
+<td align="left">Glycine</td>
+<td align="left">Gly</td>
+<td align="left">G</td>
+<td align="left">GGA, GGC, GGG, GGT</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Histidine</td>
-<td style="text-align: left;">His</td>
-<td style="text-align: left;">H</td>
-<td style="text-align: left;">CAC, CAT</td>
+<td align="left">Histidine</td>
+<td align="left">His</td>
+<td align="left">H</td>
+<td align="left">CAC, CAT</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Isoleucine</td>
-<td style="text-align: left;">Ile</td>
-<td style="text-align: left;">I</td>
-<td style="text-align: left;">ATA, ATC, ATT</td>
+<td align="left">Isoleucine</td>
+<td align="left">Ile</td>
+<td align="left">I</td>
+<td align="left">ATA, ATC, ATT</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Leucine</td>
-<td style="text-align: left;">Leu</td>
-<td style="text-align: left;">L</td>
-<td style="text-align: left;">CTA, CTC, CTG, CTT, TTA, TTG</td>
+<td align="left">Leucine</td>
+<td align="left">Leu</td>
+<td align="left">L</td>
+<td align="left">CTA, CTC, CTG, CTT, TTA, TTG</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Lysine</td>
-<td style="text-align: left;">Lys</td>
-<td style="text-align: left;">K</td>
-<td style="text-align: left;">AAA, AAG</td>
+<td align="left">Lysine</td>
+<td align="left">Lys</td>
+<td align="left">K</td>
+<td align="left">AAA, AAG</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Methionine</td>
-<td style="text-align: left;">Met</td>
-<td style="text-align: left;">M</td>
-<td style="text-align: left;">ATG</td>
+<td align="left">Methionine</td>
+<td align="left">Met</td>
+<td align="left">M</td>
+<td align="left">ATG</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Phenylalanine</td>
-<td style="text-align: left;">Phe</td>
-<td style="text-align: left;">F</td>
-<td style="text-align: left;">TTC, TTT</td>
+<td align="left">Phenylalanine</td>
+<td align="left">Phe</td>
+<td align="left">F</td>
+<td align="left">TTC, TTT</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Proline</td>
-<td style="text-align: left;">Pro</td>
-<td style="text-align: left;">P</td>
-<td style="text-align: left;">CCA, CCC, CCG, CCT</td>
+<td align="left">Proline</td>
+<td align="left">Pro</td>
+<td align="left">P</td>
+<td align="left">CCA, CCC, CCG, CCT</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Serine</td>
-<td style="text-align: left;">Ser</td>
-<td style="text-align: left;">S</td>
-<td style="text-align: left;">TCA, TCC, TCG, TCT, AGC, AGT</td>
+<td align="left">Serine</td>
+<td align="left">Ser</td>
+<td align="left">S</td>
+<td align="left">TCA, TCC, TCG, TCT, AGC, AGT</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Threonine</td>
-<td style="text-align: left;">Thr</td>
-<td style="text-align: left;">T</td>
-<td style="text-align: left;">ACT, ACC, ACG, ACT</td>
+<td align="left">Threonine</td>
+<td align="left">Thr</td>
+<td align="left">T</td>
+<td align="left">ACT, ACC, ACG, ACT</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Tryptophan</td>
-<td style="text-align: left;">Trp</td>
-<td style="text-align: left;">W</td>
-<td style="text-align: left;">TGG</td>
+<td align="left">Tryptophan</td>
+<td align="left">Trp</td>
+<td align="left">W</td>
+<td align="left">TGG</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Tyrosine</td>
-<td style="text-align: left;">Tyr</td>
-<td style="text-align: left;">Y</td>
-<td style="text-align: left;">TAC, TAT</td>
+<td align="left">Tyrosine</td>
+<td align="left">Tyr</td>
+<td align="left">Y</td>
+<td align="left">TAC, TAT</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Valine</td>
-<td style="text-align: left;">Val</td>
-<td style="text-align: left;">V</td>
-<td style="text-align: left;">GTA, GTC, GTG, GTT</td>
+<td align="left">Valine</td>
+<td align="left">Val</td>
+<td align="left">V</td>
+<td align="left">GTA, GTC, GTG, GTT</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">STOP</td>
-<td style="text-align: left;">-</td>
-<td style="text-align: left;">-</td>
-<td style="text-align: left;">TAG, TAA, TGA</td>
+<td align="left">STOP</td>
+<td align="left">-</td>
+<td align="left">-</td>
+<td align="left">TAG, TAA, TGA</td>
 </tr>
 </tbody>
 </table>
 <pre><code>AAACCCDDDEEEFFFGGGHHHIIIKKKLLLMMMNNNPPPQQQRRRSSSTTTVVVWWWYYY</code></pre>
 <p>Les permutations de ces 60 lettres sont des solutions valudes. En voici trois exemples.</p>
-<pre><code>EDGFNTSNGVDQFCMILVHEAYTACQHYIPSPYVMSHLMQKEKNLPGAWKWRRDFCIWTR</code></pre>
-<pre><code>NFCLDSDHESKLRHAPDRLEPTVMYCPNKQGFQGGTMAYVQTAIMWCYHWFNVERIIWSK</code></pre>
-<pre><code>VFAETAEEIGQHVLRKGPCPLFYIDHWIGHYWCLFDADKNMMCMRRTQSKPTNWSNYVQS</code></pre>
+<pre><code>QTWHNYKTPNNCWFKMGFMQSRAKVVAFHRILYRTVSSEEPGCCGYLHPILDQEDIMWDA</code></pre>
+<pre><code>HCQTLVPDDKGQMEFWPNVSGRRHMKKELEIRCMYTFQDYLCHWFIISGNNAVTWSPYAA</code></pre>
+<pre><code>CNSPPRGYMMSCWNNTLDHQLVKFHIAFEPTREIWVVALHTMYKQDEIDARFGCQYSKGW</code></pre>
 <pre><code>...</code></pre>
-<pre><code>EDTRGRKQHANAMMETKPIDVFHSQISPELNWMGVQWYPNAHRYDGIVFKYTFCCWSLLC</code></pre>
+<pre><code>DHELCRGVHTDCRFMPQYATTCRKWSGEHWVKQSKGSIFAYMLNIIPYFAEMDLNNWPQV</code></pre>
 <p>Le nombre total de permutations possibles parmi 60 éléments est <span class="math inline">\(60! = 8.3209871\times 10^{81}\)</span>. Cependant, cenombre dépasse de loin le nombre de séquences distinctes. En effet, dans chacune des séquences ci-dessus, chaque lettre apparaît 3 fois. Or, des permutations entre les trois positions occupées par des <span class="math inline">\(A\)</span> ne changeront pas la séquence. Il en va de même pour les permutations entre les positions occupées par chacun des acides aminées : <span class="math inline">\(A\)</span>, <span class="math inline">\(C\)</span>, <span class="math inline">\(D\)</span>, <span class="math inline">\(\ldots\)</span></p>
 <p>Il faut donc diviser le nombre total de permutations (<span class="math inline">\(60!\)</span>) par le nombre de permutations qui ne modifient pas la séquence: <span class="math inline">\(3!\)</span> pour <span class="math inline">\(A\)</span>, <span class="math inline">\(3!\)</span> pour <span class="math inline">\(D\)</span>, et ainsi de suite pour chacun des 20 acides aminés.</p>
 <p>La formule finale est donc:</p>
 <p><span class="math display">\[N = \frac{\overbrace{60!}^{\text{60 lettres}}}{\underbrace{3! \cdot 3! \cdot \ldots 3!}_{\text{20 acides aminés présents 3 fois}}} = \frac{60!}{(3!)^{20}} = 2.2758825\times 10^{66}\]</span></p>
-</section>
-</section>
+</div>
+</div>
 
 
 

@@ -3,11 +3,17 @@ title: "Eléments d'analyse combinatoire"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  pdf_document:
+  slidy_presentation:
     fig_caption: yes
-    highlight: zenburn
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: yes
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
     toc: yes
-    toc_depth: 3
+    widescreen: yes
   html_document:
     fig_caption: yes
     highlight: zenburn
@@ -25,17 +31,11 @@ output:
     smaller: yes
     toc: yes
     widescreen: yes
-  slidy_presentation:
+  pdf_document:
     fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    incremental: yes
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
+    highlight: zenburn
     toc: yes
-    widescreen: yes
+    toc_depth: 3
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -69,76 +69,7 @@ knitr::opts_chunk$set(
 
 ```
 
-# Des problèmes aux solutions
-
-## Problème: dénombrement d'oligomères
-
-L'ADN est composée de 4 nucléotides distincts dénotés par les lettres A, C, G, T, et les protéines de 20 acides aminés. 
-
-Pour chacun de ces deux types de polymères, combien d'oligomères distincts peut-on former en polymérisant 20 résidus ("20-mères") ?
-
-**Approche suggérée**: simplifiez le problème au maximum, en commençant par des polymères beaucoup plus courts (1 résidu, 2 résidus). 
-
-**Questions subsidiaires**:
-
-- Généralisez la formule pour les oligomères d'une longueur arbitraire $k$ (**"k-mères"**). 
-- Quel est le nom de la fonction donnant le résultat ?
-- Dans ce processus, quel est le mode de sélection des résidus: **avec ou sans remise** ?
-
-## Solution: dénombrement d'oligomères
-
-- Il s'agit d'un tirage avec remise: à chaque position de la séquence on a le choix entre $n$ résidus (4 pour les acides nucléiques, 20 pour les protéines).
-- Cas trivial: séquence d'un seul résidu $\rightarrow$ le nombre de possibilités est $n$. 
-- Pour chacune des $n$ possibilités de premier résidu, il y a $n$ possibilités pour choisir le second résidu $\rightarrow$ il existe $n \cdot n = n^2$ séquences de taille 2. 
-- Pour chacune d'entre elles, $n$ résidus possibles en $3^{ème}$ position $\rightarrow$ il existe $n^2 \cdot n = n^3$ séquences distinctes de taille 3.
-- En généralisant, il existe $n^x$ séquences distinctes de taille $x$.
-- Dans notre cas, la taille des séquences $x=20$. On a donc 
-
-    - $N = n^x = 4^20 = `r signif(digits=3, 4^20)`$ oligonucléotides distincts 
-    - $N = n^x = 20^20 = `r signif(digits=3, 20^20)`$ oligopeptides distincts 
-
-
-## Problème: oligomères sans résidus répétés
-
-Combien d'oligomères peut-on former (ADN ou peptides) en utilisant chaque résidu une et une seule fois ?
-
-**Approche suggérée**: agrégez progressivement les résidus, en vous demandant à chaque étape combien d'entre eux n'ont pas encore été incorporés. 
-
-**Questions subsidiaires**:
-
-- Généralisez la formule pour des séquences d'objets tirés dans un ensemble de taille arbitraire ($n$). 
-- Quel est le nom de la fonction donnant le résultat ?
-- Dans ce processus, quel est le mode de sélection des résidus: **avec ou sans remise** ?
-
-## Solution: oligomères sans résidus répétés
-
-- Premier résidu: $n$ possibilités. 
-- Dès le moment où on a choisi ce premier résidu, il ne reste plus que $n-1$ possibilités pour le second. On a donc $n \cdot (n-1)$ possibilités pour les deux premiers résidus. 
-- Pour la troisième position, en fonction des deux premiers résidus déjà tirés, il ne reste que $n-2$ résidus. On a donc $n \cdot (n-1) \cdot (n-2)$ possibilités pour les 3 premières positions de la séquence.
-- Par extension, le nombre total de possibilités est donc (en supposant $n$ suffisamment grand) $$n! = n \cdot (n-1) \cdot \ldots \cdot 2 \cdot 1$$.
-- Dans notre cas:
-    - $n! = 4! = `r signif(digits=3, factorial(4))`$ oligonucléotides comportant exactement 1 fois chaque nucléotide (taille 4)
-    - $n! = 20! = `r signif(digits=3, factorial(20))`$ oligopeptides comportant exactement 1 fois chaque acide aminé (taille 20)
-
-## Problème: listes (ordonnées) de gènes
-
-Lors d’en expérience de transcriptome indiquant le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**en tenant compte** de l'ordre relatif de ces 15 gènes) ?
-
-**Approche suggérée**: comme précédemment, simplifiez le problème en partant de la sélection minimale, et augmentez progressivement le nombre de gènes (1 gène, 2 gènes, ...). 
-
-**Questions subsidiaires**: 
-
-- Trouvez un exemple familier de jeu de pari apparenté à ce problème. 
-- Généralisez la formule pour la sélection d'une liste de $x$ gènes dans un génome qui en comporte $n$. 
-
-## Solution: listes (ordonnées) de gènes
-
-Il s'agit d'une sélection **sans remise** (chaque gène apparaît à une et une seule position dans la liste de tous les gènes), et **ordonnée** (les  mêmes gènes pris dans un ordre différent sont considérés comme un résultat différent).
-
-- Pour le premier gène, il y a $n=6000$ possibiité.
-- Dès le moment où on connaît le premier gène, il n'existe plus que 5999 possibilités pour le second, et donc $n \cdot (n-1) = 6000 \cdot 5999$ possibilités pour la suite des deux premiers gènes; 
-- Par extension, il existe $6000 \cdot 5999 \cdot 5998 \cdot \ldots \cdot 5986 = `r signif(digits=3, prod(6000 - (0:14)))`$ possibilités pour les 15 premiers gènes. 
-- En généralisant à la liste des $x$ premiers gènes dans un ensemble de $n$, on obtient $N = n \cdot (n-1)  \cdot (n-2) \cdot ... \cdot (n-x+1)$. 
+# Théorie
 
 ## Arrangements
 
@@ -149,26 +80,6 @@ Nombre d'arrangements de $x$ éléments tirés parmi $n$.
 $$A^x_n = \frac{n!}{(n - x)!} = \frac{n(n-1) \ldots (n-x +1) (n - x) (n-x-1) \ldots 2 \cdot 1}{(n - x) (n-x-1) \ldots 2 \cdot 1} = n \cdot (n-1) \cdot \ldots \cdot (n-x+1)$$
 
 **Application typique:** **[tiercé](https://fr.wikipedia.org/wiki/Tierc%C3%A9_(jeu))** dans l'ordre. Les joueurs parient sur les trois chevaux gagnants d'une course ($x=3$). Pour $n=15$ chevaux partants, il existe $n \cdot (n-1) \cdot (n-2) = 15 \cdot 14 \cdot 13 = `r 15*14*13`$ possibilités. 
-
-## Problème: ensembles (non-ordonnés) de gènes
-
-Lors d'une expérience de transcriptome indiquant le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**sans tenir compte** de l'ordre relatif de ces 15 gènes) ?
-
-**Approche suggérée**: comme précédemment, simplifiez le problème en partant de sélections minimales (1 gène, 2 gènes, ...) et généralisez la formule. 
-
-**Questions subsidiaires**: 
-
-- Trouvez un exemple familier de jeu de pari apparenté à ce problème. 
-- Généralisez la formule pour la sélection d'un ensemble de $x$ gènes dans un génome qui en comporte $n$. 
-- Connaissez-vous le nom de la formule ainsi trouvée ?
-
-
-## Solution: ensembles (non-ordonnés) de gènes
-
-- Pour une sélection d'un seul gène, il existe $n=6000$ possibilité. 
-- Pour 2 gènes, il existe $n \cdot (n-1) = 6000 \cdot 5999$ arrangements, mais ceci inclut deux fois chaque paire de gènes ($(a, b)$ et $(b, a)$). Le nombre d'ensembles non ordonnés est donc $N = n \dot (n-1)/2$.
-- De même, pour 3 gènes, il faut diviser le nombre d'arrangements ($A^x_n = \frac{n!}{(n-x)!} = 6000 \cdot 5999 \cdot 5998$) par le nombre de permutations parmi tous les triplets de gènes ($(a, b, c), (a, c, b), (b, a, c) \ldots$), ce qui donne $\frac{6000!}{(6000-3)! 3!} = \frac{6000 \cdot 5999 \cdot 5888}{6} = `r signif(digits=3, choose(6000,3))`$.
-- Pour 15 gènes, on obtient $\frac{n!}{(n-x)!x!} = \frac{6000!}{5985! \cdot 3!} = `r signif(digits=3, choose(6000, 15))`$ *combinaisons* possibles.
 
 ## Combinaisons
 
@@ -217,21 +128,103 @@ Il existe deux types classiques de tirage d'éléments au sein d'un ensemble: av
 | Non | Oui | $A^x_n = \frac{n!}{x!}$ | **Arrangements** : listes (ordonnée) de $x$ éléments tirés dans un ensemble de taille $n$ |
 | Non | Non | $C^x_n = \binom{n}{x} = \frac{n!}{x! (n - x) !}$ | **Combinaisons** : ensembles (non ordonnés) de $x$ éléments tirés dans un ensemble de taille $n$ |
 
+
 # Exercices
+
+## Exercice: dénombrement d'oligomères
+
+L'ADN est composée de 4 nucléotides distincts dénotés par les lettres A, C, G, T, et les protéines de 20 acides aminés. 
+
+Pour chacun de ces deux types de polymères, combien d'oligomères distincts peut-on former en polymérisant 20 résidus ("20-mères") ?
+
+**Approche suggérée**: simplifiez le problème au maximum, en commençant par des polymères beaucoup plus courts (1 résidu, 2 résidus). 
+
+**Questions subsidiaires**:
+
+- Généralisez la formule pour les oligomères d'une longueur arbitraire $k$ (**"k-mères"**). 
+- Quel est le nom de la fonction donnant le résultat ?
+- Dans ce processus, quel est le mode de sélection des résidus: **avec ou sans remise** ?
+
+## Solution: dénombrement d'oligomères
+
+- Il s'agit d'un tirage avec remise: à chaque position de la séquence on a le choix entre $n$ résidus (4 pour les acides nucléiques, 20 pour les protéines).
+- Cas trivial: séquence d'un seul résidu $\rightarrow$ le nombre de possibilités est $n$. 
+- Pour chacune des $n$ possibilités de premier résidu, il y a $n$ possibilités pour choisir le second résidu $\rightarrow$ il existe $n \cdot n = n^2$ séquences de taille 2. 
+- Pour chacune d'entre elles, $n$ résidus possibles en $3^{ème}$ position $\rightarrow$ il existe $n^2 \cdot n = n^3$ séquences distinctes de taille 3.
+- En généralisant, il existe $n^x$ séquences distinctes de taille $x$.
+- Dans notre cas, la taille des séquences $x=20$. On a donc 
+
+    - $N = n^x = 4^20 = `r signif(digits=3, 4^20)`$ oligonucléotides distincts 
+    - $N = n^x = 20^20 = `r signif(digits=3, 20^20)`$ oligopeptides distincts 
+
+
+## Exercice: oligomères sans résidus répétés
+
+Combien d'oligomères peut-on former (ADN ou peptides) en utilisant chaque résidu une et une seule fois ?
+
+**Approche suggérée**: agrégez progressivement les résidus, en vous demandant à chaque étape combien d'entre eux n'ont pas encore été incorporés. 
+
+**Questions subsidiaires**:
+
+- Généralisez la formule pour des séquences d'objets tirés dans un ensemble de taille arbitraire ($n$). 
+- Quel est le nom de la fonction donnant le résultat ?
+- Dans ce processus, quel est le mode de sélection des résidus: **avec ou sans remise** ?
+
+## Solution: oligomères sans résidus répétés
+
+- Premier résidu: $n$ possibilités. 
+- Dès le moment où on a choisi ce premier résidu, il ne reste plus que $n-1$ possibilités pour le second. On a donc $n \cdot (n-1)$ possibilités pour les deux premiers résidus. 
+- Pour la troisième position, en fonction des deux premiers résidus déjà tirés, il ne reste que $n-2$ résidus. On a donc $n \cdot (n-1) \cdot (n-2)$ possibilités pour les 3 premières positions de la séquence.
+- Par extension, le nombre total de possibilités est donc (en supposant $n$ suffisamment grand) $$n! = n \cdot (n-1) \cdot \ldots \cdot 2 \cdot 1$$.
+- Dans notre cas:
+
+    - $n! = 4! = `r signif(digits=3, factorial(4))`$ oligonucléotides comportant exactement 1 fois chaque nucléotide (taille 4)
+    - $n! = 20! = `r signif(digits=3, factorial(20))`$ oligopeptides comportant exactement 1 fois chaque acide aminé (taille 20)
+
+## Exercice: listes (ordonnées) de gènes
+
+Lors d’en expérience de transcriptome indiquant le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**en tenant compte** de l'ordre relatif de ces 15 gènes) ?
+
+**Approche suggérée**: comme précédemment, simplifiez le problème en partant de la sélection minimale, et augmentez progressivement le nombre de gènes (1 gène, 2 gènes, ...). 
+
+**Questions subsidiaires**: 
+
+- Trouvez un exemple familier de jeu de pari apparenté à ce problème. 
+- Généralisez la formule pour la sélection d'une liste de $x$ gènes dans un génome qui en comporte $n$. 
+
+## Solution: listes (ordonnées) de gènes
+
+Il s'agit d'une sélection **sans remise** (chaque gène apparaît à une et une seule position dans la liste de tous les gènes), et **ordonnée** (les  mêmes gènes pris dans un ordre différent sont considérés comme un résultat différent).
+
+- Pour le premier gène, il y a $n=6000$ possibiité.
+- Dès le moment où on connaît le premier gène, il n'existe plus que 5999 possibilités pour le second, et donc $n \cdot (n-1) = 6000 \cdot 5999$ possibilités pour la suite des deux premiers gènes; 
+- Par extension, il existe $6000 \cdot 5999 \cdot 5998 \cdot \ldots \cdot 5986 = `r signif(digits=3, prod(6000 - (0:14)))`$ possibilités pour les 15 premiers gènes. 
+- En généralisant à la liste des $x$ premiers gènes dans un ensemble de $n$, on obtient $N = n \cdot (n-1)  \cdot (n-2) \cdot ... \cdot (n-x+1)$. 
+
+
+## Exercice: ensembles (non-ordonnés) de gènes
+
+Lors d'une expérience de transcriptome indiquant le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**sans tenir compte** de l'ordre relatif de ces 15 gènes) ?
+
+**Approche suggérée**: comme précédemment, simplifiez le problème en partant de sélections minimales (1 gène, 2 gènes, ...) et généralisez la formule. 
+
+**Questions subsidiaires**: 
+
+- Trouvez un exemple familier de jeu de pari apparenté à ce problème. 
+- Généralisez la formule pour la sélection d'un ensemble de $x$ gènes dans un génome qui en comporte $n$. 
+- Connaissez-vous le nom de la formule ainsi trouvée ?
+
+
+## Solution: ensembles (non-ordonnés) de gènes
+
+- Pour une sélection d'un seul gène, il existe $n=6000$ possibilité. 
+- Pour 2 gènes, il existe $n \cdot (n-1) = 6000 \cdot 5999$ arrangements, mais ceci inclut deux fois chaque paire de gènes ($(a, b)$ et $(b, a)$). Le nombre d'ensembles non ordonnés est donc $N = n \dot (n-1)/2$.
+- De même, pour 3 gènes, il faut diviser le nombre d'arrangements ($A^x_n = \frac{n!}{(n-x)!} = 6000 \cdot 5999 \cdot 5998$) par le nombre de permutations parmi tous les triplets de gènes ($(a, b, c), (a, c, b), (b, a, c) \ldots$), ce qui donne $\frac{6000!}{(6000-3)! 3!} = \frac{6000 \cdot 5999 \cdot 5888}{6} = `r signif(digits=3, choose(6000,3))`$.
+- Pour 15 gènes, on obtient $\frac{n!}{(n-x)!x!} = \frac{6000!}{5985! \cdot 3!} = `r signif(digits=3, choose(6000, 15))`$ *combinaisons* possibles.
 
 ## Exercice : mutagénèse
 
 *On soumet un fragment d'ADN de 1 kilobase à un traitement mutagène qui provoque des mutations ponctuelles (substitutions) à 5 positions distinctes indépendantes. Combien de séquences possibles existe-t-il pour le fragment muté ?*
-
-
-
-## Exercice : oligopeptides $3 \times 20$
-
-*Combien d'oligopeptides de taille 60 peut-on former en utilisant exactement 3 fois chaque acide aminé ?*
-
-
-
-# Solutions des exercices
 
 ## Solution exercice 1: mutagenèse
 
@@ -240,6 +233,12 @@ Il existe deux types classiques de tirage d'éléments au sein d'un ensemble: av
 Il s'agit de choisir  au hasard 5 positions mutantes parmi les 1000 nucléotides du fragment d'ADN. Il s'agit d'un choix sans remise (chaque position ne peut être tirée qu'une fois), on choisit donc le coefficient binomial.
 
 $$\binom{n}{x} = \binom{1000}{5} = C^5_{1000} = \frac{1000!}{5! 995!} = `r choose(n=1000, k=5)`$$
+
+
+## Exercice : oligopeptides $3 \times 20$
+
+*Combien d'oligopeptides de taille 60 peut-on former en utilisant exactement 3 fois chaque acide aminé ?*
+
 
 ## Solution de l'exercice : oligopeptides $3 \times 20$
 

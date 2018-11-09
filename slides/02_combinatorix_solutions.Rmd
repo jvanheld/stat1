@@ -107,7 +107,7 @@ Il s'agit de choisir  au hasard 5 positions mutantes parmi les 1000 nucléotides
 
 $$\binom{n}{x} = \binom{1000}{5} = C^5_{1000} = \frac{1000!}{5! 995!} = `r choose(n=1000, k=5)`$$
 
-Pour chacune des 5 positions mutées, on 3 substitutions possibles. Le nombre de mutations distinctes est donc $3^5$ fois le nombre de choix de 5 positions parmi 1000. 
+Pour chacune des 5 positions mutées, on a 3 substitutions possibles. Le nombre de mutations distinctes est donc $3^5$ fois le nombre de choix de 5 positions parmi 1000. 
 
 $$N = 3^5 \cdot  \binom{1000}{5} =`r 3^5*choose(n=1000, k=5)`$$
 

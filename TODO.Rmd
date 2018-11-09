@@ -1,0 +1,115 @@
+---
+title: 'STAT1 : TO DO'
+author: "Jacques van Helden, Lucie Khamvongsa, Yvon Mbouamboua"
+date: '`r Sys.Date()`'
+output:
+  html_document:
+    fig_caption: yes
+    highlight: zenburn
+    theme: cerulean
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  slidy_presentation:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: yes
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
+  beamer_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
+  ioslides_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: yes
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
+font-import: http://fonts.googleapis.com/css?family=Risque
+font-family: Garamond
+transition: linear
+---
+
+```{r include=FALSE, echo=FALSE, eval=TRUE}
+options(width=300)
+knitr::opts_chunk$set(
+  fig.width = 7, fig.height = 5, 
+  fig.path='figures',
+  fig.align = "center", 
+  size = "tiny", 
+  echo = TRUE, eval=TRUE, 
+  warning = FALSE, message = FALSE, 
+  results = TRUE, comment = "")
+```
+
+
+# Slides
+
+
+## Intro
+
+    - pas présentée cette année (c'est Pascal qui fait l'intro)
+    - JvH: adapter la diapo avec les autres cours de stat (nouvelle maquette)
+
+## Combinatoire
+
+    - JvH: ajouter exponentielle et factorielle dans la théorie
+    - L + Y: réviser les diapos
+    - JvH + L + Y: sélectionner un (tout petit) sous-ensemble d'exercices pour la séance de TD
+
+
+## Concepts de proba
+
+- vérifier si les diaps s'affichent correctement
+
+
+# Site Web
+
+- désactiver partout l'option "incremental" du yaml des diapos
+- figures: remplacer les tailles fixes d'images (fig.width=10) par des tailles relatives avec par exemple: out.width="80%"
+
+- régénérer tous les diaporamas HTML en mode slidy
+
+- générer pour chaque CM un document pdf 
+- vérifier que les liens soient fonctionnels depuis la page README.md
+
+# Idées de TP
+
+
+## Convergence de la binomiale vers la normale
+
+- avec des générateurs de nombres aléatoires (rbinom), ilustrer convergence de la binomiale vers la normale
+
+- objectifs
+
+    - jouer avec des lois de distributions théoriques
+    - jouer avec les graphiques
+    - acquérir l'intuition de l'échantillonnage et de la convergence entre lois. 
+
+

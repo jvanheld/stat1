@@ -1,0 +1,473 @@
+---
+title: "Solutions de l’examen STAT2 – session de janvier 2018
+"
+author: "Jacques van Helden"
+date: "5 avril 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 1 Partie 1 Analyse de donnéees
+
+
+## 1. Charger le fichier bosson.csv placé dans amétice, onglet EXAMEN, on le nommera BOSSON (utiliser plutôt la fonction read.csv2())
+
+Nous commençons par définir chacun.e un dossier de base (base.dir), celui où nous avons téléchargé le fichier de données. 
+
+```{r}
+base.dir <- "/home/ilyess/Bureau/BIOSTAT/"  ## Ilyess
+base.dir <- "~/stat1/practicals/consolidation_stat_2018-03/exam_stat2_2018-01"  ## Jacques
+```
+
+Nous nous positionnons dans ce dossier, ce qui évitera de manipuler de longs chemins. 
+
+```{r}
+setwd(base.dir) # set the working directory
+tableau <- read.csv2("bosson.csv", header = TRUE , sep =";", dec =".")
+
+```
+
+## 2.  Nommer les colonnes du jeu de donn ées Pays, Genre, Anévrisme, IMC, Risque.**
+
+On change le nom des colonnes du jeu de données avec la fonction `colnames()`
+
+```{r}
+colnames(tableau) <- c("Pays","Genre", "Anévrisme","IMC", "Risque")
+
+```
+
+## 3. Afficher les 6 premières lignes de la base. Afficher le nom des colonnes de BOSSON.
+
+head(tableau, n	= 6)
+```{r}
+head(tableau, n	= 6)
+
+```
+
+## 4. Quel est le type des différentes variables ?
+
+Réponse naïve (et fausse).
+
+```{r}
+typeof(tableau[,1]) #Pays : factor
+typeof(tableau[,2]) #Genre : factor
+typeof(tableau[,3]) #Anevrisme : integer
+typeof(tableau[,4]) #IMC : numeric
+typeof(tableau[,5]) #Risque : integer
+
+```
+
+Surprenant: `typeof()` indique "integer" pour Pays et Genre. 
+Explication: ces colonnes sont stockées sous la forme de facteurs, c'est-à-dire des vecteurs avec un dictionnaire de valeurs associées à des indices entiers. Ce qui est entier n'est pas le type des valeurs, mais le type des indices du facteur. 
+
+Nous pouvons obtenir le type des valeurs en convertissant préalablement chaque colonne en vecteur.  Réponse avancée: on observe la structure de données de chaque colonne.
+
+```{r}
+for (i in 1:ncol(tableau)) {
+   print( 
+     paste(collapse="\t", 
+           i, 
+           colnames(tableau[,i]), 
+           class(tableau[,i]),
+           typeof(tableau[,i]),
+           typeof(as.vector(tableau[,i]))
+           )
+     )
+}
+
+```
+
+
+## 5. Séparer dans deux data.frames les données concernant les patients vietnamiens et fran ̧cais.
+
+
+Data.frame contenant les données relatives aux patients français:
+
+```{r}
+tableauFR <-  subset(tableau, Pays== "France")
+dim(tableauFR)
+head(tableauFR)
+tail(tableauFR)
+
+```
+
+
+Data.frame contenant les données relatives aux patients vietnamiens:
+
+```{r}
+tableauVT= subset(tableau, Pays== "Vietnam")
+dim(tableauVT)
+head(tableauVT)
+tail(tableauVT)
+
+```
+
+Utilisation avancée: sélectionner les françaises ayant un indice de masse corporelle > 28.
+
+
+```{r}
+subset(tableau, Pays== "France" & Genre == "F" & IMC > 28)
+
+```
+
+
+
+
+## 6. Quel est le nombre de facteurs de risque moyen des hommes, des femmes ?
+
+```{r}
+risqueHommes <- subset(tableau, Genre=="M"); risqueHommes
+mean(risqueHommes$Risque)  # 1.56
+
+```
+
+
+```{r}
+risqueFemmes <- subset(tableau, Genre=="F"); risqueFemmes
+mean(risqueFemmes$Risque) #0.84
+
+```
+
+Solution plus élégante: essayez la fonction by() (utilisez l’aide).
+
+```{r}
+# help(by)
+by(data = tableau$Risque, 
+   INDICES = tableau$Genre, 
+   FUN = mean)
+
+```
+
+
+```{r}
+
+hommes<- subset(tableau, Genre =="M")
+moyH<- mean(hommes$Risque)
+moyH
+
+```
+
+```{r}
+femmes<- subset(tableau, Genre =="F")
+moyF<- mean(femmes$Risque)
+moyF
+```
+
+## 7. Calculer les effectifs et les proportions d’hommes et femmes.
+
+```{r}
+tableauHommes <- subset(tableau, Genre=="M"); tableauHommes
+tableauFemmes <- subset(tableau, Genre=="F"); tableauFemmes
+
+effectifHommes <- nrow(tableauHommes); 
+message("Effectif hommes = ", effectifHommes)
+
+effectifFemmes <- nrow(tableauFemmes); 
+message("Effectif femme = ", effectifFemmes)
+
+proportionHommes <- effectifHommes / nrow(tableau)
+message("Proportion hommes = ", round(digits=2, proportionHommes))
+
+proportionFemmes <-  effectifFemmes/nrow(tableau)
+message("Proportion femmes = ", round(digits=2, proportionFemmes))
+
+```
+
+
+
+## 8. Quelle est la proportion de vietnamiens dans le data frame ?
+
+
+```{r}
+effectifVietnamiens = nrow(subset(tableau, Pays=="Vietnam"))
+message("Effectif Vietnamiens = ", effectifVietnamiens)
+
+proportionsVietnamiens <-effectifVietnamiens/nrow(tableau)
+message ("Proportion Vietnamiens = ", round(digits=2, proportionsVietnamiens))
+
+```
+
+## 9. Tracer la répartition du genre selon le pays.
+
+
+```{r}
+## Calcul d'une table de confusion genre versus pays
+table(tableau$Pays, tableau$Genre)
+
+
+## Quand on donne à la fonction plot 2 vecteurs de chaînes de caractères, elle calcule automatiquement une table de confusion (avec les proportions) et la dessine
+plot(tableau$Pays, tableau$Genre, 
+     main="Repartition du genre selon le pays", 
+     ylab = "Genre", xlab ="Pays")
+
+help("plot.table")
+```
+
+## 10. Tracer une représentation du nombre de facteurs de risque selon le pays.
+
+```{r}
+## Box plot
+plot(tableau$Pays, tableau$Risque, main="Repartition du nombre de facteurs de risque selon le pays", ylab = "Facteurs de risque", xlab ="Pays", type ="l", col=c("blue", "green"))
+
+```
+
+
+Alternative: dessiner 2 histogrammes dans des panneaux séparés. 
+
+```{r}
+par(mfrow=c(2,1))## Subdiviser l'espace graphique en 2 panneaux horizontaux
+
+risqueFrance <- unlist(subset(tableau, Pays=="France", select = "Risque"))
+
+h.France <- hist(x = risqueFrance, breaks=0:(max(tableau$Risque)+1), main = "France", xlab="Nombre de facteurs de risque", ylab = "Nombre d'individus", col="blue")
+
+abline(v=mean(risqueFrance), col="orange", lwd=3)
+
+risqueVietnam <- unlist(subset(tableau, Pays=="Vietnam", select = "Risque"))
+
+h.Vietnam <- hist(x = risqueVietnam, breaks=0:(max(tableau$Risque)+1), main = "Vietnam", xlab="Nombre de facteurs de risque", ylab = "Nombre d'individus", col="#00BB00")
+
+abline(v=mean(risqueVietnam), col="orange", lwd=3)
+
+par(mfrow=c(1,1))
+
+# sum(tableau$Pays == "France")
+# sum(h.France$counts)
+```
+
+
+
+## 11. Tracer un boxplot de la colonne anévrisme en fonction du genre.
+
+```{r}
+## La solution d'Ilyes (trouvée sur Internet): Utiliser la fonciton split() pour séparer les valeurs d'anévrisme selon les genres
+anevrisme.par.genre <- split(tableau$Anévrisme, tableau$Genre)
+
+boxplot(split(tableau$Anévrisme, tableau$Genre), main="Anévrisme en fonction du genre", xlab="Genre")
+
+```
+
+
+```{r}
+## Solution plus directe: utiliser une formule dans la fonction boxplot
+boxplot(formula= Anévrisme ~ Genre, data=tableau,
+        main="Anévrisme en fonction du genre", xlab="Genre", col= c("#BB66FF", "#FFFFBB"))
+
+```
+
+Plus élaboré: boxplot en séparant par genre + pays
+
+```{r}
+boxplot(formula= Anévrisme ~ Genre + Pays, data=tableau,
+        main="Anévrisme en fonction du genre", xlab="Genre + Pays", col="#00BBFF")
+
+```
+
+
+## 12. Est-ce que les moyennes de la taille des anévrismes des hommes et des femmes diffèrent de façon significative ? On effectuera un test de Student, dont on extraira en particulier la p value.
+
+Attention, ne pas oublier de préciser les paramètres du test de Student.
+
+```{r}
+## Séparer les valeurs d'anévrismes par genre
+anevrisme.par.genre <- split(tableau$Anévrisme, tableau$Genre)
+
+t.result <- t.test(x= anevrisme.par.genre$F , y = anevrisme.par.genre$M,
+       alternative = "two.sided", var.equal = TRUE)
+
+print(t.result)
+
+```
+
+Résultat: 
+
+- la p-valeur vaut 0.8153, ce qui est énorme, on peut donc accepter l'hypothèse nulle
+- Remarque: ici on a appliqué un test de Student pour suivre les instructions, mais on aurait pu préalablement évaluer s'il était plus approrpié de faire un test de Welch, en réalisant un test de comparaison de variances (pas vu au cours). 
+
+Approfondissement
+
+```{r}
+
+## Explorer les propriétés de la liste retournée par split()
+class(anevrisme.par.genre) ## L'objet retourné est une liste
+length(anevrisme.par.genre) ## La liste contient 2 éléments
+names(anevrisme.par.genre) ## Ces éléments sont respectivement nommés "F" (féminin) et "M" (masculin)
+lapply(anevrisme.par.genre, mean) ## Calculer la moyenne par genre
+lapply(anevrisme.par.genre, median) ## Médiane par genre
+lapply(anevrisme.par.genre, sd) ## Estimation de l'écart-type de population par genre
+lapply(anevrisme.par.genre, length) ## Effectif par genre
+
+## Récupérer des vecteur avec les paramètres du test de Student
+moyennes <- unlist(lapply(anevrisme.par.genre, mean))  ## Moyenne par genre
+effectifs<- unlist(lapply(anevrisme.par.genre, length))  ## Effectif par genre
+sum(1/effectifs)
+
+```
+
+Effectuer un test (de Fisher) d'égalité de variance 
+
+$H_0: \sigma_F = \sigma_H$
+
+```{r}
+var.test(x = anevrisme.par.genre$F, y = anevrisme.par.genre$M, alternative = "two.sided")
+```
+
+Ici, on constate que le test d'égalité de variance retourne une p-valeur assez faible: 0.0268. On peut donc rejeter l'hypothèse nulle d'égalité de variances. 
+
+Par conséquent il serait plus approprié d'appliquer un test de Welch. 
+
+
+```{r}
+## Séparer les valeurs d'anévrismes par genre
+w.result <- t.test(x= anevrisme.par.genre$F , 
+                   y = anevrisme.par.genre$M,
+                   alternative = "two.sided", 
+                   var.equal = FALSE)
+
+print(w.result)
+
+```
+
+Dans tous les cas, on accepte l'hypothèse nulle d'égalité des moyennes. 
+
+## 13. De même on regardera s’il y a une différence entre les moyennes de la taille des anévrismes des franc ̧ais (hommes et femmes) et des vietnamiens(hommes et femmes).
+
+## 14. Tracer deux histogrammes de fréquence de la taille des anévrismes des femmes en vert, et de celle des hommes en bleu.
+
+```{r}
+par(mfrow=c(2,1))
+hist(anevrisme.par.genre$F, col="green",
+     main="Femmes", xlab="Anevrismes", ylab="Nombde d'individus", las=1)
+hist(anevrisme.par.genre$M, col="blue",
+     main="Hommes", xlab="Anevrismes", ylab="Nombde d'individus", las=1)
+par(mfrow=c(2,1))
+```
+
+
+## 15. Donner une représentation graphique permettant de comparer la variabilité de la variable ≪ taille des anévrismes ≫ chez les hommes et les femmes. Peut-on au vu de ce graphique considérer les variances égales ?
+
+## 16. Donner une représentation de la variable risque selon le pays d’origine.
+
+## 17. Y-a -t-il une différence significative entre l’IMC des individus franc ̧ais et vietnamiens ? On répondra par une méthode laissée au choix.
+
+# Partie 2 Simulations
+
+## 1. Générer n=50 vecteurs de taille 100 suivant une loi continue uniforme sur l’intervalle [0,1]. Ces valeurs seront placées par construction sous forme de matrice M à 50 lignes.
+
+
+$H_0: \mu = 0.5$
+
+```{r}
+n <- 50 ## Nombre de vecteurs
+L <- 100 ## Longueur des vecteurs
+
+M <- matrix(nrow = n, ncol = L, runif(n = n*L))
+```
+
+
+Avancé: on fait la même chose avec $n = 10000$ plutôt que $n=50$, afin de disposer d'un nombre suffisant de répliques pour voir sortir les tendances. 
+
+
+```{r}
+n <- 10000 ## Nombre de vecteurs
+L <- 100 ## Longueur des vecteurs
+
+M <- matrix(nrow = n, ncol = L, runif(n = n*L))
+```
+
+## 2. Effectuer à l’aide d’une boucle 50 tests de Student de comparaison de la moyenne observée pour chaque vecteur (ligne de M), à la moyenne théorique mu=0.5. On pourra utiliser la fonction t.test avec l’argument mu=0.5.
+
+```{r}
+t.test.results <- list()
+i <- 28
+for (i in 1:n) {
+  x <- M[i, ]
+  t.test.results[[i]] <- t.test(x = x, mu = 0.5)
+}
+
+```
+
+
+Avancé: on applique le test de student à chaque ligne du tableau avec la fonction `apply()`. Ceci évite les boucles, qui sont coûteuses en temps avec le langage R. 
+
+```{r}
+t.test.result2 <- apply(M, 1, t.test, mu=0.5)
+class(t.test.result2)
+length(t.test.result2)
+```
+
+
+## 3. On conservera uniquement la p-value de ces tests, dans un vecteur numérique ValeurP.
+
+```{r}
+pvalues <- vector()
+
+for (i in 1:n) {
+  x <- M[i, ]
+  t.test.result <- t.test(x = x, mu = 0.5)
+  pvalues <- append(pvalues, t.test.result$p.value)
+}
+```
+
+
+Avancé: dessiner l'histogramme des p-valeurs. 
+
+```{r}
+pval.breaks <- seq(from=0, to=1, by=0.05) ## intervalles pour l'histogramme
+hist(pvalues, breaks=pval.breaks, 
+     col="gray", main="Histogram of p-values", xlab="P-value", ylab="Number of tests (under H0)")
+
+## Nombre attendu de résultats par groupe de p-valeurs
+abline(h=n/(length(pval.breaks)-1), col="#00BB00", lwd=2)
+```
+
+
+
+## 4. Compter le nombre de tests pour lesquels on peut conclure que la moyenne observée est significativement différente de mu=0.5.
+
+```{r}
+alpha <- 0.05
+sum(pvalues  < alpha)
+```
+
+```{r}
+table(pvalues < alpha)
+```
+
+
+## 5. Refaire le même travail (à l’aide d’une fonction si possible), mais en prenant pour chaque vecteur seulement la moyenne de ses 10 premières valeurs. On placera les résultats obtenus dans la variable MO10. De même pour MO50 (moyenne des 50 premières valeurs de chaque vecteur).
+
+```{r}
+## This function takes as input a vector of values (x) and a Natural number (n), 
+## and runs a Student test for the conformity of the mean (mu) on tbe n first numbers of the list .
+t.test.subset <- function(x, n, mu, ...) {
+  subset.result <- t.test(x = x[1:n], mu = mu, ...)
+  return(subset.result$p.value)
+}
+
+pvalues.10 <- apply(M, 1, t.test.subset, n = 10, mu = 0.5, alternative = "two.sided")
+hist(pvalues.10, breaks=pval.breaks)
+
+## With the mean of 3 values we observe a non-flat p-value histogram
+pvalues.3 <- apply(M, 1, t.test.subset, n = 3, mu = 0.5, alternative = "two.sided")
+hist(pvalues.3, breaks=pval.breaks)
+
+## With the mean of 3 values we observe a concave p-value histogram
+## This probably reflects the facteffect of non-normal distribution. 
+pvalues.2 <- apply(M, 1, t.test.subset, n = 2, mu = 0.5, alternative = "two.sided")
+hist(pvalues.2, breaks=pval.breaks)
+
+
+
+```
+
+
+
+## 6. Tracer sur le mˆeme graphique les histogramme de fréquences de M, M010, M050. Superposer la courbe de la loi normale de moyenne 0.5 et variance 1/12.
+
+
+
+

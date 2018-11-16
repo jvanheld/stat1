@@ -3,18 +3,17 @@ title: "Eléments d'analyse combinatoire"
 author: "Jacques van Helden, revised by Lucie Khamvongsa-Charbonnier and Yvon Mbouamboua"
 date: '`r Sys.Date()`'
 output:
-  beamer_presentation:
-    colortheme: dolphin
+  slidy_presentation:
     fig_caption: yes
     fig_height: 6
     fig_width: 7
-    fonttheme: structurebold
     highlight: tango
     incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
     toc: yes
+    widescreen: yes
   html_document:
     fig_caption: yes
     highlight: zenburn
@@ -37,17 +36,18 @@ output:
     highlight: zenburn
     toc: yes
     toc_depth: 3
-  slidy_presentation:
+  beamer_presentation:
+    colortheme: dolphin
     fig_caption: yes
     fig_height: 6
     fig_width: 7
+    fonttheme: structurebold
     highlight: tango
     incremental: no
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
     toc: yes
-    widescreen: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
 subtitle: Probabilités et statistique pour la biologie (STAT1)
 font-family: Garamond

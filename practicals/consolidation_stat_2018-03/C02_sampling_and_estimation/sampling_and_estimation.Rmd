@@ -1,0 +1,325 @@
+---
+title: "Consolidation - Echatillonnage et estimation"
+author: "Jacques van Helden"
+date: '`r Sys.Date()`'
+output:
+  html_document:
+    fig_caption: yes
+    highlight: zenburn
+    theme: cerulean
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  ioslides_presentation:
+    css: slides.css
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    smaller: yes
+    toc: yes
+    widescreen: yes
+  beamer_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
+  slidy_presentation:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
+  word_document:
+    toc: yes
+    toc_depth: 3
+font-import: http://fonts.googleapis.com/css?family=Risque
+#subtitle: "Rapport d'activités 2017"
+font-family: Garamond
+transition: linear
+---
+
+```{r include=FALSE, echo=FALSE, eval=TRUE}
+required.libraries <- c("knitr")
+for (library in required.libraries) {
+  if (!require(library, character.only = TRUE, quietly = TRUE, warn.conflicts = FALSE)) {
+    install.packages(library, dependencies = TRUE)
+  }
+  require(library, character.only = TRUE)
+}
+
+
+
+options(width=300)
+knitr::opts_chunk$set(
+  fig.width = 7, fig.height = 5, 
+  fig.align = "center", 
+  fig.path = "figures/sampling-estimation_",
+  size = "tiny", 
+  echo = FALSE, eval=TRUE, 
+  warning = FALSE, message = FALSE, 
+  results = TRUE, comment = "")
+# knitr::asis_output("\\footnotesize")
+
+dir.main <- "~/stat1"
+setwd(dir.main)
+message("Main directory\t", dir.main)
+
+
+```
+
+```{r setup, include=FALSE}
+library(knitr)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Calcul et interprétation d'estimateurs
+
+Un chercheur mesure l'activité d'une enzyme particulière chez des souris soumises ou non à un traitement, et obtient les valeurs suivantes.
+
+- Souris traitées: $x_1 = \{5, 8, 6, 2, 250, 7\}$
+- Souris non-traitées: $x_2 = \{7, 3, 2, 5, 8, 4\}$
+
+
+a. Calculez pour chaque tous les estimateurs de tendence centrale et de dispersion discutés au cours. 
+
+b. Sur base des propriétés générales de ces estimateurs, discutez des différences entre valeurs, interprétez les différences observées entre estimateurs alternatifs pour un même jeu de données. 
+
+c. Fournissez une interprétation préliminaire des différences observées entre groupes. 
+
+
+```{r echo=TRUE}
+x1 <- c(5, 8, 6, 2, 250, 7)
+x2 <- c(7, 3, 2, 5, 8, 4)
+n <- length(x1)
+
+x <- data.frame("treated" = x1, "control" = x2)
+
+desc <- data.frame(
+  "n" = c(length(x1), length(x2)),
+  "sum" =  apply(x, 2, sum),
+  "sum of squared values" =  apply(x^2, 2, sum),
+  "mean" = apply(x, 2, mean),
+  "Q1" = apply(x, 2, quantile, prob=0.25),
+  "median" = apply(x, 2, median),
+  "Q3" = apply(x, 2, quantile, prob=0.75),
+  "sample.var" = apply(x, 2, var) * (n -1) / n,
+  "sample.sd" = apply(x, 2, sd) * sqrt((n -1) / n)
+  )
+desc["IQR"] <- desc["Q3"] - desc["Q1"]
+
+kable(t(desc), digits=2)
+
+
+```
+
+# Devoir-maison
+
+## Partie 1: échantillonnage et estimation
+
+Poursuivez l'analyse ci-dessus 
+
+d. Calculez l'espace inter-quartile standardisé.
+
+e. Calculez les statistiques descriptives du premier échantillon après avoir supprimé la valeur aberrante. On appellera cet échantillon "non-traité filtré". 
+
+f. A partir des 3 jeux de paramètres d'échantillons (non-traité, traité, non-traité flitré), inférez les paramètres des populations dont ils sont extraites. 
+
+g. Résumez les résultats dans un tableau, et founissez-en une interprétation générale. 
+
+
+
+## Partie 2: test de comparaison de moyennes
+
+Sur base des données de l'exercice précédent, effectuez un test de comparaison de moyennes. Dans différentes conditions:
+
+a. Traité versus non traité, sans filtrage, en estimant les paramètres sur base des moments.
+
+b. Traité versus non traité, sans filtrage, en estimant les paramètres sur base des quartiles.
+
+c. Traité versus filtré, en estimant les paramètres sur base des moments..
+
+
+Dans chaque cas répondez aux questions suviantes. 
+
+1. Formulez l'hypothèse nulle et l'hypothèse alternative. 
+
+2. Choisissez un test de comparaison de moyenne, en justifiant votre choix. 
+
+3. Calculez la statistique du test et sa probabilité critique (p-value), avec les différents estimateurs ci-dessus (a, b, c). 
+
+4. Interprétez les résultats.  
+
+
+# Simulations : tirages aléatoires
+
+1. Générez une population de $N = 10000$ nombres aléatoires, tirés selon une loi normale de moyenne 10 et d'écart-type 2.
+
+```{r}
+N <- 10000 ## Population size
+normal.mean <- 10 ## Moyenne de la loi normale
+normal.sd <- 2 ## Ecart-type de la loi normale
+
+## Generate the population
+pop <- rnorm(n = N, mean = normal.mean, sd = normal.sd)
+
+## Compute the population parameters
+pop.mean <- mean(pop)
+pop.sd <- sd(pop) * sqrt((N-1)/N) ## Beware: R sd() does not compute the sd of the given numbers, but infers sd of a population for whihc this would be a sample
+
+hist(pop, breaks=100, col="palegreen", main="Population")
+legend("topleft", 
+       legend=c(
+         paste("Pop mean= ", round(digits=2, pop.mean)),
+         paste("Pop sd= ", round(digits=2, pop.sd))
+       ))
+
+```
+
+
+2. Effectuez un tirage aléatoire de $n = 10$ nombres dans cette population, et calculez les paramètres de tendance centrale et dispersion pour cet échantillons. 
+
+
+```{r}
+n <- 10  ## Sample size
+
+## Generate a population
+x <- sample(x = pop, size = n, replace = FALSE)
+# abline(v=x, col="blue")
+
+x.mean <- mean(x)
+
+sample.stat <- c(
+  mean = x.mean,
+  sum = sum(x),
+  ss = sum(x^2)
+)
+
+sample.stat["var"] <- sample.stat["ss"] / n - x.mean^2
+# message("Sample variance: ", sample.stat["var"], " == ", var(x) * (n-1) / n, "; pop var est: ", var(x))
+
+```
+
+3. Sur base de ces paramètres d'échantillons, estimez les paramètres de population correspondants. 
+
+4. Répétez cette opération $R = 10000$ fois en stockant les statistiques d'échantillon dans un tableau.
+
+```{r}
+## The trick: we create a big data frame with one column per individual
+## and one row per samplpe (replicate), and fill it up with numbers. 
+## We then use the apply funciton to compute the sample stats on each row. 
+
+R <- 1000
+
+## Create an empty matrix
+sampling.matrix <- matrix(
+  nrow = R, 
+  ncol = n)
+
+for (i in 1:R) {
+  sampling.matrix[i, ] <- sample(x = pop, size = n, replace = FALSE)
+}
+
+sample.stat <- data.frame(
+  r = 1:R,
+  sum = apply(sampling.matrix,1, sum),
+  sum.of.squares = apply(sampling.matrix^2,1, sum),
+  mean = apply(sampling.matrix,1, mean)
+  )
+sample.stat$var <- sample.stat$sum.of.squares / n - sample.stat$mean^2 # Sample variance
+sample.stat$sd <- sqrt(sample.stat$var) # Sample standard déviation
+sample.stat$Q1 <- apply(sampling.matrix, 1, quantile, prob=0.25) # FIrst quartile
+sample.stat$median <- apply(sampling.matrix, 1, median) # Median
+sample.stat$Q3 <- apply(sampling.matrix, 1, quantile, prob=0.75) ## Third quartile
+sample.stat$IQR <- sample.stat$Q3 - sample.stat$Q1 ## Inter-quartile range
+
+
+# Standardised inter-quartile range
+norm.iqr <- 2*qnorm(p=0.25, lower.tail = FALSE)
+sample.stat$IQRs <- sample.stat$IQR / norm.iqr
+mean(sample.stat$IQRs)
+mean(sample.stat$sd)
+
+kable(head(sample.stat))
+# View(sample.stat)
+
+```
+
+```{r sample_stat_plot, fig.width=10, fig.height=5, fig.cap="**Figure.** Comparaison des paramètres d'échantillons basés sur les moments (moyenne, écart-type) et sur les quartiles (médiane, espace inter-quartile). "}
+
+## Compare sample mean and median
+par(mfrow=c(1,2))
+lim <- c(ceiling(min(append(sample.stat$mean, sample.stat$median))),
+         ceiling(max(append(sample.stat$mean, sample.stat$median))))
+plot(sample.stat$mean, sample.stat$median, col="grey", panel.first=grid(),
+     main = "Central tendency",
+     xlim = lim, ylim = lim,
+     xlab = "Sample mean",
+     ylab = "Sample median"
+)
+abline(a=0, b=1)
+abline(h=pop.mean, col="blue")
+abline(v=pop.mean, col="blue")
+abline(h=mean(sample.stat$mean), col="darkgreen")
+abline(v=mean(sample.stat$median), col="darkgreen")
+
+
+## Compare sample standard deviation and standardized inter-quartile range
+lim <- c(0, ceiling(max(append(sample.stat$sd, sample.stat$IQRs))))
+plot(sample.stat$sd, sample.stat$IQRs, col="grey", panel.first=grid(),
+     main = "Dispersion",
+     xlim = lim, ylim = lim,
+     xlab = "Sample standard dev",
+     ylab = "Sample IQRs"
+     )
+abline(a=0, b=1)
+abline(h=pop.sd, col="blue")
+abline(v=pop.sd, col="blue")
+abline(h=mean(sample.stat$sd), col="darkgreen")
+abline(v=mean(sample.stat$IQRs), col="darkgreen")
+
+par(mfrow=c(1,1))
+
+```
+
+
+5. Dessinez les histogrammes des distributions d'échantillonnage des paramètres mesurés sur l'échantillon: moyenne, médiane, écart-type. 
+
+
+6. Faites la même expérience avec différentes tailles d'échantillon: $n= 2$, $n=4$, $n=16$, $n=64$ et comparez les histogrammes obtenus. 
+
+7. Interprétez les résultats (et on en discute en début de séance prochaine). 
+
+## Devoir-maison
+
+
+Effectuez des échantillonnages répétésau sein de différentes distributions: 
+
+a. Normale de moyenne 10 et d'écarts-types divers (1, 2, 4, 8). 
+b. Uniforme (entre 0 et 1)
+c. De Poisson, de paramètre $\lambda = 2.5$ (espérance). 
+
+Dans chaque cas, dessinez les histogrammes d'échantillonnage de la moyenne, la médiane et l'écart-type, et interprétez les résultats. 
+
+
+
+

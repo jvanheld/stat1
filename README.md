@@ -26,16 +26,36 @@
 
 
 - [Table de la distribution *t* de Student](supports/t-table.pdf)
-- Formules de probabilités et statistique [[pdf](supports/formules.pdf)] [[html](supports/formules.html)]
+- Formules de probabilités et statistique 
+[[pdf](supports/formules.pdf)] 
+[[html](supports/formules.html)]
+[[docx](supports/formules.docx)] 
+[[Rmd](supports/formules.Rmd)] 
+
+### Annales d'examens
+
+
+- Examen 2018-01-08: [[Questions](exam/exam_stat1_2018-01-08/exam_STAT1_SBAU16L_2018-01-08_questions.pdf)] 
+[[Solutions](exam/exam_stat1_2018-01-08/exam_STAT1_SBAU16L_2018-01-08_solutions.pdf)]
+[[Code R](exam/exam_stat1_2018-01-08/exam_STAT1_SBAU16L_2018-01-08_solutions.R)]
+
+- Examen 2018-01-22: 
+[[Questions](exam/exam_stat1_2018-01-22/exam_STAT1_SBAU16L_2018-01-22_questions.pdf)]
+[[Solutions](exam/exam_stat1_2018-01-22/exam_STAT1_SBAU16L_2018-01-22_solutions.pdf)]
+[[Code R](exam/exam_stat1_2018-01-22/exam_STAT1_SBAU16L_2018-01-22_solutions.R)]
+
+- Examen 2018-05-11: 
+Quesitons [[pdf](exam/exam_stat1_2018-05-11/exam_STAT1_SBAU16L_2018-05-11_questions.pdf)]
+Solutions: 
+[[pdf](exam/exam_stat1_2018-05-11/exam_STAT1_SBAU16L_2018-05-11_solutions.pdf)]
+[[html](exam/exam_stat1_2018-05-11/exam_STAT1_SBAU16L_2018-05-11_solutions.html)]
+[[Rmd](exam/exam_stat1_2018-05-11/exam_STAT1_SBAU16L_2018-05-11_solutions.Rmd)]
 
 ### Consolidation 2018
 
-- Examen 2018-01-08: [Questions](practicals/consolidation_stat_2018-03/exam_stat1_2018-01-08/exam_STAT1_SBAU16L_2018-01-08_questions.pdf)
+- Analyse combinatoire: [html](practicals/consolidation_stat_2018-03/C01_analyse_combinatoire/analyse_combinatoire.html) [Rmd](practicals/consolidation_stat_2018-03/C01_analyse_combinatoire/analyse_combinatoire.Rmd)
 
-- Examen 2018-01-22: [Questions](practicals/consolidation_stat_2018-03/exam_stat1_2018-01-22/exam_STAT1_SBAU16L_2018-01-22_questions.pdf)
-
-- Consolidation en analyse combinatoire: [html](practicals/consolidation_stat_2018-03/C01_analyse_combinatoire/analyse_combinatoire.html) [Rmd](practicals/consolidation_stat_2018-03/C01_analyse_combinatoire/analyse_combinatoire.Rmd)
-
+- Echantillonnage et estimation [html](practicals/consolidation_stat_2018-03/C02_sampling_and_estimation/sampling_and_estimation.html) [Rmd](practicals/consolidation_stat_2018-03/C02_sampling_and_estimation/sampling_and_estimation.Rmd)
 
 ### Travaux pratiques avec R
 

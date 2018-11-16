@@ -3,17 +3,18 @@ title: "Eléments d'analyse combinatoire"
 author: "Jacques van Helden, revised by Lucie Khamvongsa-Charbonnier and Yvon Mbouamboua"
 date: '`r Sys.Date()`'
 output:
-  slidy_presentation:
+  beamer_presentation:
+    colortheme: dolphin
     fig_caption: yes
     fig_height: 6
     fig_width: 7
+    fonttheme: structurebold
     highlight: tango
     incremental: no
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
     toc: yes
-    widescreen: yes
   html_document:
     fig_caption: yes
     highlight: zenburn
@@ -36,18 +37,17 @@ output:
     highlight: zenburn
     toc: yes
     toc_depth: 3
-  beamer_presentation:
-    colortheme: dolphin
+  slidy_presentation:
     fig_caption: yes
     fig_height: 6
     fig_width: 7
-    fonttheme: structurebold
     highlight: tango
     incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
     toc: yes
+    widescreen: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
 subtitle: Probabilités et statistique pour la biologie (STAT1)
 font-family: Garamond
@@ -71,9 +71,68 @@ knitr::opts_chunk$set(
 
 ```
 
+# Théorie
+
+## Arrangements
+
+On appelle **arrangements** les tirages *ordonnés* effectués *sans remise* au sein d'un ensemble. 
+
+Nombre d'arrangements de $x$ éléments tirés parmi $n$. 
+
+$$A^x_n = \frac{n!}{(n - x)!} = \frac{n(n-1) \ldots (n-x +1) (n - x) (n-x-1) \ldots 2 \cdot 1}{(n - x) (n-x-1) \ldots 2 \cdot 1} = n \cdot (n-1) \cdot \ldots \cdot (n-x+1)$$
+
+**Application typique:** **[tiercé](https://fr.wikipedia.org/wiki/Tierc%C3%A9_(jeu))** dans l'ordre. Les joueurs parient sur les trois chevaux gagnants d'une course ($x=3$). Pour $n=15$ chevaux partants, il existe $n \cdot (n-1) \cdot (n-2) = 15 \cdot 14 \cdot 13 = `r 15*14*13`$ possibilités. 
+
+## Combinaisons
+
+On appelle **combinaisons** le nombre de sous-ensembles qu'on peut  tirer *sans remise* dans un ensemble, sans tenir compte de l'ordre des éléments tirés. 
+
+Ce nombre est fourni par le **coefficient binomial**.
+
+$$\binom{n}{x} = C^x_n = \frac{n!}{x! (n-x)!}$$
+
+**Attention: ** les paramètres sont placés différemment dans la première  ($binom{n}{x}$, "x parmi n") et la seconde notation ($C^x_n$, "choose").
+
+**Applications typiques: ** 
+
+- **[tiercé](https://fr.wikipedia.org/wiki/Tierc%C3%A9_(jeu))** dans le désordre.
+
+    $$\binom{n}{x} = \binom{15}{3} = C^3_{15} = \frac{15!}{3! 12!} = `r choose(n=15, k=3)`$$
+
+- jeu de **[loto](https://fr.wikipedia.org/wiki/Loto)** (ou lotto): chaque joueur dispose d'une grille avec 90 numéros, et doit en cocher 6. Nombre de possibilités: 
+    $$\binom{n}{x} = \binom{90}{6} = C^6_{90} = \frac{90!}{6! 84!} = `r choose(n=90, k=6)`$$
+
+
+
+
+# Résumé des concepts et formules
+
+## Tirages avec / sans remise
+
+Il existe deux types classiques de tirage d'éléments au sein d'un ensemble: avec ou sans remise. 
+
+1. **Tirage sans remise**: chaque élément peut être tiré au plus une fois. Exemples: 
+
+    - Jeu de [loto](https://fr.wikipedia.org/wiki/Loto) (ou lotto). 
+    - Sélection aléatoire d'un ensemble de gènes dans un génome. 
+
+2. Tirage **avec remise**: chaque élément peut être tiré zéro, une ou plusieurs fois. Exemples: 
+
+    - Jeu de dés. A chaque lancer on dispose des mêmes possibilités (6 faces).
+    - Génération d'une séquence aléatoire, par sélection itérative d'un élément dans l'ensemble des résidus (4 nucléotides pour l'ADN, 20 acides aminés pour les protéines). 
+    
+## Formules
+
+| Remise | Ordre | Formule | Description |
+|--------|-------|------------|---------------------------------|
+| Oui | Oui | $n^x$ | **Exponentielle**: séquences de $x$ éléments tirés dans un ensemble de taille $n$, avec remise. |
+| Non | Oui | $n!$ | **Factorielle**: toutes les permutations d'un ensemble de taille $n$ |
+| Non | Oui | $A^x_n = \frac{n!}{x!}$ | **Arrangements** : listes (ordonnée) de $x$ éléments tirés dans un ensemble de taille $n$ |
+| Non | Non | $C^x_n = \binom{n}{x} = \frac{n!}{x! (n - x) !}$ | **Combinaisons** : ensembles (non ordonnés) de $x$ éléments tirés dans un ensemble de taille $n$ |
+
 ## Problème: dénombrement d'oligomères
 
-L'ADN est composée de 4 nucléotides distincts dénotés par les lettres A, C, G, T, et les protéines de 20 acides aminés. 
+L'ADN est composé de 4 nucléotides distincts dénotés par les lettres A, C, G, T, et les protéines de 20 acides aminés. 
 
 Pour chacun de ces deux types de polymères, combien d'oligomères distincts peut-on former en polymérisant 20 résidus ("20-mères") ?
 
@@ -157,7 +216,7 @@ par(par.ori) ## restaurer les paramètres par défaut
 ```
 
 
-## Problème: oligomères sans résidus répétés
+## Exercice: oligomères sans résidus répétés
 
 Combien d'oligomères peut-on former (ADN ou peptides) en utilisant chaque résidu une et une seule fois ?
 
@@ -176,6 +235,7 @@ Combien d'oligomères peut-on former (ADN ou peptides) en utilisant chaque rési
 - Pour la troisième position, en fonction des deux premiers résidus déjà tirés, il ne reste que $n-2$ résidus. On a donc $n \cdot (n-1) \cdot (n-2)$ possibilités pour les 3 premières positions de la séquence.
 - Par extension, le nombre total de possibilités est donc (en supposant $n$ suffisamment grand) $$n! = n \cdot (n-1) \cdot \ldots \cdot 2 \cdot 1$$.
 - Dans notre cas:
+
     - $n! = 4! = `r signif(digits=3, factorial(4))`$ oligonucléotides comportant exactement 1 fois chaque nucléotide (taille 4)
     - $n! = 20! = `r signif(digits=3, factorial(20))`$ oligopeptides comportant exactement 1 fois chaque acide aminé (taille 20)
     
@@ -271,7 +331,7 @@ $$\binom{n}{x} = C^x_n = \frac{n!}{x! (n-x)!}$$
 
 
 
-## Problème: listes (ordonnées) de gènes
+## Exercice: listes (ordonnées) de gènes
 
 Lors d’en expérience de transcriptome indiquant le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**en tenant compte** de l'ordre relatif de ces 15 gènes) ?
 
@@ -292,8 +352,7 @@ Il s'agit d'une sélection **sans remise** (chaque gène apparaît à une et une
 - En généralisant à la liste des $x$ premiers gènes dans un ensemble de $n$, on obtient $N = n \cdot (n-1)  \cdot (n-2) \cdot ... \cdot (n-x+1)$. 
 
 
-
-## Problème: ensembles (non-ordonnés) de gènes
+## Exercice: ensembles (non-ordonnés) de gènes
 
 Lors d'une expérience de transcriptome indiquant le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**sans tenir compte** de l'ordre relatif de ces 15 gènes) ?
 
@@ -312,7 +371,6 @@ Lors d'une expérience de transcriptome indiquant le niveau d'expression de tous
 - Pour 2 gènes, il existe $n \cdot (n-1) = 6000 \cdot 5999$ arrangements, mais ceci inclut deux fois chaque paire de gènes ($(a, b)$ et $(b, a)$). Le nombre d'ensembles non ordonnés est donc $N = n \dot (n-1)/2$.
 - De même, pour 3 gènes, il faut diviser le nombre d'arrangements ($A^x_n = \frac{n!}{(n-x)!} = 6000 \cdot 5999 \cdot 5998$) par le nombre de permutations parmi tous les triplets de gènes ($(a, b, c), (a, c, b), (b, a, c) \ldots$), ce qui donne $\frac{6000!}{(6000-3)! 3!} = \frac{6000 \cdot 5999 \cdot 5888}{6} = `r signif(digits=3, choose(6000,3))`$.
 - Pour 15 gènes, on obtient $\frac{n!}{(n-x)!x!} = \frac{6000!}{5985! \cdot 3!} = `r signif(digits=3, choose(6000, 15))`$ *combinaisons* possibles.
-
 
 
 # Résumé des concepts et formules
@@ -340,21 +398,10 @@ Il existe deux types classiques de tirage d'éléments au sein d'un ensemble: av
 | Non | Oui | $A^x_n = \frac{n!}{x!}$ | **Arrangements** : listes (ordonnée) de $x$ éléments tirés dans un ensemble de taille $n$ |
 | Non | Non | $C^x_n = \binom{n}{x} = \frac{n!}{x! (n - x) !}$ | **Combinaisons** : ensembles (non ordonnés) de $x$ éléments tirés dans un ensemble de taille $n$ |
 
-# Exercices
 
 ## Exercice : mutagénèse
 
 *On soumet un fragment d'ADN de 1 kilobase à un traitement mutagène qui provoque des mutations ponctuelles (substitutions) à 5 positions distinctes indépendantes. Combien de séquences possibles existe-t-il pour le fragment muté ?*
-
-
-
-## Exercice : oligopeptides $3 \times 20$
-
-*Combien d'oligopeptides de taille 60 peut-on former en utilisant exactement 3 fois chaque acide aminé ?*
-
-
-
-# Solutions des exercices
 
 ## Solution exercice 1: mutagenèse
 
@@ -363,6 +410,12 @@ Il existe deux types classiques de tirage d'éléments au sein d'un ensemble: av
 Il s'agit de choisir  au hasard 5 positions mutantes parmi les 1000 nucléotides du fragment d'ADN. Il s'agit d'un choix sans remise (chaque position ne peut être tirée qu'une fois), on choisit donc le coefficient binomial.
 
 $$\binom{n}{x} = \binom{1000}{5} = C^5_{1000} = \frac{1000!}{5! 995!} = `r choose(n=1000, k=5)`$$
+
+
+## Exercice : oligopeptides $3 \times 20$
+
+*Combien d'oligopeptides de taille 60 peut-on former en utilisant exactement 3 fois chaque acide aminé ?*
+
 
 ## Solution de l'exercice : oligopeptides $3 \times 20$
 

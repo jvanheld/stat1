@@ -3,6 +3,11 @@ title: "Formules de probabilités et statistique"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: no
+    toc_depth: 3
   html_document:
     code_folding: hide
     fig_caption: yes
@@ -11,11 +16,6 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: no
-    toc_depth: 3
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes

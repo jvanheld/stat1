@@ -2,25 +2,40 @@
 
 - Code AMU: SBBAU16L
 - Volume horaire: 15 de CM - 7 de TD - 8 de TP
-- Site Web: <https://jvanheld.github.io/stat1/>
 - Enseignants
 
+    - 2016-2017: Jacques van Helden & Pascal Rihet
     - 2017-2018: Jacques van Helden
-    - Années précédentes: Jacques van Helden & Pascal Rihet
+    - 2018-2019: Pascal Rihet, Jacques van Helden, Florian Rosier, Lucie Khamvongsa-Charbonnier, Yvon Mbouamboua, Coralie Grattepanche. 
+
+- Liens utiles
+
+    - Site Web: <https://jvanheld.github.io/stat1/>
+    - Dépôt github: <https://github.com/jvanheld/stat1>
+    - Ametice: <https://ametice.univ-amu.fr/course/view.php?id=42602>
+
+### Cours 2018
+
+Pour les cours de 2018, les interventions de Jacques van Helden seront limitées à l'analyse combinatoire, distributions discrètes et tests multiples. 
+
+Les autres chapitres sont traités par Pascal Rihet, dont les supports sont disponibles sur [Ametice](https://ametice.univ-amu.fr/course/view.php?id=42602). 
+
 
 ****************************************************************
 ### Cours et exercices
 
-| Séance | Contenu | Liens | 
-|------|---------------------------------|--------------------------|
-| CM1 | Introduction au cours |  [[html](slides/01_introduction.html)] [[pdf](slides/01_introduction.pdf)] [[Rmd](slides/01_introduction.Rmd)] |
-| CM1-2 | Eléments d'analyse combinatoire |  [[html](slides/02_combinatorix.html)] [[pdf](slides/02_combinatorix.pdf)] [[Rmd](slides/02_combinatorix.Rmd)] |
-| | Solutions des exercices de combinatoire |  [[html](slides/02_combinatorix_solutions.html)] [[pdf](slides/02_combinatorix_solutions.pdf)] [[Rmd](slides/02_combinatorix_solutions.Rmd)] |
-| CM3 | Concepts de probabilités | [[html](slides/03_concepts_proba.html)] [[pdf](slides/03_concepts_proba.pdf)] [[Rmd](slides/03_concepts_proba.Rmd)] |
-| CM4 | Distributions discrètes | [[html](slides/04_distributions_discretes.html)] [[pdf](slides/04_distributions_discretes.pdf)] [[Rmd](slides/04_distributions_discretes.Rmd)] |
-| CM5 | Echantillonnage et estimation |  [[html](slides/05_echantillonnage_estimation.html)] [[pdf](slides/05_echantillonnage_estimation.pdf)] [[Rmd](slides/05_echantillonnage_estimation.Rmd)] [[R demo](R_demos/05_echantillonnage_estimation_demo.R)] |
-| CM6 | Test de comparaison de moyenne | [[html](slides/06_tests_comparaison_moyenne.html)] [[pdf](slides/06_tests_comparaison_moyenne.pdf)] [[Rmd](slides/06_tests_comparaison_moyenne.Rmd)] |
-| Exercices | Enoncés<br>Solutions | [[html](exercices/exercices_proba-stat.html)] [[pdf](exercices/exercices_proba-stat.pdf)] [[Rmd](exercices/exercices_proba-stat.Rmd)]<br>[[html](exercices/exercices_proba-stat_solutions.html)] [[pdf](exercices/exercices_proba-stat_solutions.pdf)] [[Rmd](exercices/exercices_proba-stat_solutions.Rmd)] |
+La dernière colonne indique les parties données par Jacques van Helden en 2018. 
+
+| Séance | Contenu | Liens | Cours AMU 2018 |
+|------|---------------------------------|--------------------------|--------------|
+| CM1 | Introduction au cours |  [[html](slides/01_introduction.html)]  [[pdf](slides/01_introduction.pdf)] [[Rmd](slides/01_introduction.Rmd)] | non |
+| CM1-2 | Eléments d'analyse combinatoire |  [[html](slides/02_combinatorix.html)] [[pdf](slides/02_combinatorix.pdf)] [[Rmd](slides/02_combinatorix.Rmd)] | <font color="violet">oui</font> |
+| | Solutions des exercices de combinatoire |  [[html](slides/02_combinatorix_solutions.html)] [[pdf](slides/02_combinatorix_solutions.pdf)] [[Rmd](slides/02_combinatorix_solutions.Rmd)] | <font color="violet">oui</font> |
+| CM3 | Concepts de probabilités | [[html](slides/03_concepts_proba.html)] [[pdf](slides/03_concepts_proba.pdf)] [[Rmd](slides/03_concepts_proba.Rmd)] | non |
+| CM4 | Distributions discrètes | [[html](slides/04_distributions_discretes.html)] [[pdf](slides/04_distributions_discretes.pdf)] [[Rmd](slides/04_distributions_discretes.Rmd)] | <font color="violet">oui</font> |
+| CM5 | Echantillonnage et estimation |  [[html](slides/05_echantillonnage_estimation.html)] [[pdf](slides/05_echantillonnage_estimation.pdf)] [[Rmd](slides/05_echantillonnage_estimation.Rmd)] [[R demo](R_demos/05_echantillonnage_estimation_demo.R)] | non |
+| CM6 | Test de comparaison de moyenne | [[html](slides/06_tests_comparaison_moyenne.html)] [[pdf](slides/06_tests_comparaison_moyenne.pdf)] [[Rmd](slides/06_tests_comparaison_moyenne.Rmd)] | non |
+| Exercices | Enoncés<br>Solutions | [[html](exercices/exercices_proba-stat.html)] [[pdf](exercices/exercices_proba-stat.pdf)] [[Rmd](exercices/exercices_proba-stat.Rmd)]<br>[[html](exercices/exercices_proba-stat_solutions.html)] [[pdf](exercices/exercices_proba-stat_solutions.pdf)] [[Rmd](exercices/exercices_proba-stat_solutions.Rmd)] | <font color="violet">à trier</font> |
 
 ### Supports pour les TD et l'examen
 

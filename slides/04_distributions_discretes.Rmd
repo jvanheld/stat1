@@ -3,11 +3,17 @@ title: "Distributions discrètes"
 author: "Jacques van Helden"
 date: "`r Sys.Date()`"
 output:
-  pdf_document:
+  slidy_presentation:
     fig_caption: yes
-    highlight: zenburn
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
     toc: yes
-    toc_depth: 3
+    widescreen: yes
   html_document:
     fig_caption: yes
     fig_height: 6
@@ -21,26 +27,6 @@ output:
     toc_depth: 3
     toc_float: yes
     widescreen: yes
-  slidy_presentation:
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    incremental: no
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
-    toc: yes
-    widescreen: yes
-  ioslides_presentation:
-    css: slides.css
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    smaller: yes
-    toc: yes
-    widescreen: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -53,6 +39,20 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
+  ioslides_presentation:
+    css: slides.css
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    smaller: yes
+    toc: yes
+    widescreen: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
 subtitle: Probabilités et statistique pour la biologie (STAT1)
 font-family: Garamond
@@ -626,8 +626,36 @@ par(mfrow=c(1,1))
 
 **Note: ** le recours à la binomiale présuppose un modèle de Bernoulli. Pour les exemples 2 et 3 ceci revient à considérer que les nucléotides se succèdent de façon indépendante, ce qui est assez peu réaliste. 
 
-## Distribution de Poisson
+## Loi de Poisson
 
+La loi de Poisson décrit la probabilité du nombre d'occurrences d'un événement pendant un intervalle de temps fixé, en supposant que le nombre moyen d'événements par unité de temps est constant, et que les événements sont indépendants (les réalisations précédentes n'affectement pas la probabilité des occurrences suivantes).
+
+### Fonction de masse
+
+$$P(X = x) = \frac{\lambda^x}{x!}e^{-\lambda}$$
+
+- $x$ est le nombre d'événements observés;
+- $\lambda$ (lettre grècque "lambda") représente l'espérance, autrement dit la moyenne attendue pour le nombre d'événements;
+- $e$ est la base de l'exponentielle ($e = `r round(digits=3, exp(1))`$).
+
+
+## Application : mutagenèse
+
+- On soumet une population à un mutagène (agent chimique, irratiations). Chaque individu subit un certain nombre  de mutations. 
+
+- En tenant compte de la dose de mutagène (temps d'exposition, intensité/concentration), on peut estimer empiriquement le nombre moyen de mutations par individu (*espérance*, $\lambda$).
+
+- La loi de Poisson peut être utilisée pour décrire la probabilité d'observer un nombre donné de mutations ($x=0, 1, 2, ...$).
+
+## Expérience historique de Luria-Delbruck (1943)
+
+En 1943, Salvador Luria et Max Delbruck démontrent que les mutations ne sont pas induites par l'agent mutagène,  ([Luria & Delbruck, 1943, Genetics 28:491–511](https://www.ncbi.nlm.nih.gov/pubmed/17247100)).
+
+
+
+## Convergence de la loi binomiale vers la Poisson
+
+<font color="red">A FAIRE</font>
 
 
 # Exercices

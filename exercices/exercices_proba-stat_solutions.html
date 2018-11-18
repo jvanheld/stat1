@@ -11,7 +11,7 @@
 
 <meta name="author" content="Jacques van Helden" />
 
-<meta name="date" content="2018-01-05" />
+<meta name="date" content="2018-11-17" />
 
 <title>Solutions des exercices: probabilités et statistiques pour la biologie</title>
 
@@ -1374,6 +1374,9 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
 }
@@ -1515,63 +1518,63 @@ div.tocify {
 <h1 class="title toc-ignore">Solutions des exercices: probabilités et statistiques pour la biologie</h1>
 <h3 class="subtitle"><em>Probabilités et statistique pour la biologie (STAT1)</em></h3>
 <h4 class="author"><em>Jacques van Helden</em></h4>
-<h4 class="date"><em>2018-01-05</em></h4>
+<h4 class="date"><em>2018-11-17</em></h4>
 
 </div>
 
 
 <hr />
-<section id="probabilite-des-longueurs-dorf" class="level2">
+<div id="probabilite-des-longueurs-dorf" class="section level2">
 <h2>Probabilité des longueurs d’ORF</h2>
-<section id="enonce" class="level3">
+<div id="enonce" class="section level3">
 <h3>Enoncé</h3>
 <p>On détecte les cadres ouverts de lecture (<em>open reading frames</em>, <em>ORF</em>) d’un génome en identifiant toutes les séquences de taille multiple de 3 comprises entre un start (ATG) et un stop (TAA, TAG ou TGA).</p>
-<ol type="a">
+<ol style="list-style-type: lower-alpha">
 <li>Sur base des fréquences génomiques de trinucléotides, calculer la probabilité de trouver à une position donnée du génome un ORF d’au moins 100 codons (plus précisément, la probabilité qu’à cette position précise commence un cadre ouvert de lecture d’au moins 100 codons).</li>
 <li>Sachant que le génome fait 12 Mb, quel est le nombre attendu d’ORF d’au moins 100 codons ?</li>
 </ol>
 <table>
 <thead>
 <tr class="header">
-<th style="text-align: left;">sequence</th>
-<th style="text-align: right;">frequency</th>
-<th style="text-align: right;">occurrences</th>
+<th align="left">sequence</th>
+<th align="right">frequency</th>
+<th align="right">occurrences</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">AAA</td>
-<td style="text-align: right;">0.039</td>
-<td style="text-align: right;">478708</td>
+<td align="left">AAA</td>
+<td align="right">0.039</td>
+<td align="right">478708</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">ATG</td>
-<td style="text-align: right;">0.018</td>
-<td style="text-align: right;">221902</td>
+<td align="left">ATG</td>
+<td align="right">0.018</td>
+<td align="right">221902</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">TAA</td>
-<td style="text-align: right;">0.022</td>
-<td style="text-align: right;">272041</td>
+<td align="left">TAA</td>
+<td align="right">0.022</td>
+<td align="right">272041</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">TAG</td>
-<td style="text-align: right;">0.013</td>
-<td style="text-align: right;">156668</td>
+<td align="left">TAG</td>
+<td align="right">0.013</td>
+<td align="right">156668</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">TGA</td>
-<td style="text-align: right;">0.020</td>
-<td style="text-align: right;">244627</td>
+<td align="left">TGA</td>
+<td align="right">0.020</td>
+<td align="right">244627</td>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="approche" class="level3">
+</div>
+<div id="approche" class="section level3">
 <h3>Approche</h3>
 <p>Cet exercice repose sur les concepts de probabilités combinées entre événements.</p>
 <p>En particulier, nous mobiliserons les règles suivantes:</p>
-<ol type="1">
+<ol style="list-style-type: decimal">
 <li><p>Des événements (<span class="math inline">\(A_1, A_2\)</span>)sont mutuellement exclusifs si leur probabilité jointe est nulle (<span class="math inline">\(P(A_1 \land A_2)=0\)</span>).</p></li>
 <li><p>La probabilité de l’union d’événements mutuellement exclusifs est la somme de leurs probabilités;</p></li>
 </ol>
@@ -1580,17 +1583,17 @@ div.tocify {
 <p>La <strong>probabilité jointe</strong> d’une série d’événements indépendants est le produit de leurs probabilités.</p>
 <p><span class="math display">\[A_1, A_2, \ldots A_m \text{ indépendants }  \nonumber\\
   \Rightarrow \operatorname{P}(A_1 \land A_2 \land \ldots \land A_m) = \operatorname{P}(A_1) \operatorname{P}(A_2) \ldots \operatorname{P}(A_m)\]</span></p>
-</section>
-<section id="solution-probabilite-des-longueurs-dorf" class="level3">
+</div>
+<div id="solution-probabilite-des-longueurs-dorf" class="section level3">
 <h3>Solution: probabilité des longueurs d’ORF</h3>
 <p>On sélectionne aléatoirement une position du génome (<span class="math inline">\(i\)</span>). Nous allons raisonner en terme de codons (triplets de nucléotides): pour chaque position <span class="math inline">\(i\)</span> on observe le triplet couvrant les nucléotides de <span class="math inline">\(i\)</span> à <span class="math inline">\(i+1\)</span>, et on avance par pas de 3 (<span class="math inline">\(i, i+3, +6, \ldots\)</span>).</p>
 <p>Pour y trouver le début d’un cadre ouvert de lecture d’au moins 100 codons,il faut remplir les conditions suivantes.</p>
-<ol type="1">
+<ol style="list-style-type: decimal">
 <li><p>Présence d’un codon start (trinucléotide ATG) à la position <span class="math inline">\(i\)</span>. La probabilité associée est directement fournie dans le tableau: <span class="math inline">\(P(\text{ATG}) = 0.018\)</span>.</p></li>
 <li><p>Absence de codon stop (trinucléotides TAA, TAG ou TGA) pour les 99 triplets suivants (positions).</p></li>
 </ol>
-</section>
-<section id="probabilite-dabsence-du-codon-stop-a-une-position-donnee" class="level3">
+</div>
+<div id="probabilite-dabsence-du-codon-stop-a-une-position-donnee" class="section level3">
 <h3>Probabilité d’absence du codon stop à une position donnée</h3>
 <p>L’absence d’un codon stop est l’événement <em>complémentaire</em> de la présence d’un condon stop (on observe exclusivement l’un ou l’autre). On en déduit que la somme des probabilités (absence ou présence) vaut 1.</p>
 <p><span class="math inline">\(P(\lnot \text{STOP}) = 1 - P(\text{STOP})\)</span></p>
@@ -1622,45 +1625,45 @@ P(\text{ORF}_{100}) &amp;= P(\text{START}) \cdot  \overbrace{P(\lnot \text{STOP}
 \end{aligned}
 \]</span></p>
 <p>A priori cette probabilité n’a pas l’air énorme. Cependant, il faut tenir compte du fait qu’en annotant un génome on considère successivement toutes les positions possibles pour évaluer si on y trouve un cadre ouvert de lecture.</p>
-</section>
-<section id="nombre-attendu-dorf-dau-moins-100-codons" class="level3">
+</div>
+<div id="nombre-attendu-dorf-dau-moins-100-codons" class="section level3">
 <h3>Nombre attendu d’ORF d’au moins 100 codons</h3>
 <p>Pour calculer le nombre d’ORF attendus au hasard, il faut multiplier la probabilité d’observer un ORF à une position donnée par le nombre de positions considérées.</p>
 <p>Pour un génome de 12 Mb (<span class="math inline">\(G = 1.2\times 10^{7}\)</span>), on va considérer toutes les positions sur chacun des deux brins (on multiple donc par deux la taille du génome).</p>
 <p><span class="math display">\[E(\text{ORF}_{100}) = P(\text{ORF}_{100}) \cdot 2 \cdot G = 6.653\times 10^{-5} \cdot 2 \cdot 1.2\times 10^{7} = 1596.7\]</span></p>
-</section>
-<section id="interpretation-du-resultat" class="level3">
+</div>
+<div id="interpretation-du-resultat" class="section level3">
 <h3>Interprétation du résultat</h3>
 <p>En 1996, lors de la première vague d’annotation du génome de la levure du boulanger, la stratégie d’annotation consistait à predire un gène codant chaque fois qu’on détectait un cadre ouvert de lecture d’au moins 100 codons. Les chercheurs étaient conscients du fait que cette stratégie était susceptible de produire un nombre important de fausses prédictions, mais il s’agissait du tout premier génome eucaryote séquencé, et il fallait bien commencr par quelque chose pour se donner une chance d’y découvrir de nouveaux gènes.</p>
 <p>Nous venons de calculer le nombre attendu de faux-positifs dans ce processus: si on avait généré une séquence aléatoire de la même taille selon un modèle de Markov respectant les mêmes fréquences de trinucléotides, on s’attendrait à y trouver 1596.7 cadres ouverts de lecture d’au moins 100 codons. Ceci indique que les gènes de taille relativement courte (300 nucléotides) devaient être considérés avec circonspection, et soumis à analyse ultérieure avant d’être annotés comme des gènes fiables.</p>
 <p>En 2003, une stratégie complémentaire a été mise à contribution pour évaluer la fiabilité des ORF prédits dans le génome de <em>Saccharomyces cerevisiae</em>, en s’appuyant sur la génomique comparative: après avoir séquençé les génomes de quelques autres espèces du même genre (<em>Saccharomyces</em>), on a testé la conservation des ORF initialement prédits, en supposant que si on trouvait des ORF similaires dans les 4 espèces, cela suggérait une pression sélective positive pour l’absence de codon stop dans ces régions, et renforçait la prédiction d’un gène codant correspondant à ce cadre ouvert de lecture.</p>
 <hr />
-</section>
-</section>
-<section id="probabilite-dun-motif-avec-erreurs" class="level2">
+</div>
+</div>
+<div id="probabilite-dun-motif-avec-erreurs" class="section level2">
 <h2>Probabilité d’un motif avec erreurs</h2>
 <p>On recherche dans un génome les occurrences du motif GATAAG en admettant un certain nombre de substitutions. En supposant que les nucléotides sont indépendants et équiprobables, quelle est la probabilité de trouver à une position du génome.</p>
-<ol type="a">
+<ol style="list-style-type: lower-alpha">
 <li>Une instance exacte du motif (aucune substitution) ?</li>
 <li>Une séquence ne présentant aucune correspondance avec le motif (6 substitutions) ?</li>
 <li>Une instance avec exactement 1 substitution ?</li>
 <li>Une instance avec au plus 2 substitutions ?</li>
 </ol>
-<section id="cadre-theorique" class="level3">
+<div id="cadre-theorique" class="section level3">
 <h3>Cadre théorique</h3>
 <p>On modélise le problème comme un <strong>schéma de Bernoulli</strong>: chaque position de la séquence correspond à un essai, qui peut donner soit un <em>succès</em> (correspondance avec motif) soit un <em>échec</em> (différence avec le motif), et on suppose que la probabilité de succès est constante (nucléotides indépendants et équiprobables).</p>
 <p>Le motif GATAAG fait 6 nucléotides, on aura donc 6 essais successifs, qui viseront à tester successivement l’identité entre le premier, second, … sixième nucléotide de la séquence et le nucléotide à la position correspondante du motif. Pour chaque position, on a une probabilité de succès <span class="math inline">\(p=1/4\)</span> et d’échec <span class="math inline">\(q = 1-p = 3/4\)</span>.</p>
-</section>
-<section id="probabilite-dnstance-exacte-du-motif-aucune-substitution" class="level3">
+</div>
+<div id="probabilite-dnstance-exacte-du-motif-aucune-substitution" class="section level3">
 <h3>Probabilité d’nstance exacte du motif (aucune substitution)</h3>
 <p>Pour avoir une instance exacte du motif, il faut une succession de 6 correspondances entre nucléotides.</p>
 <p><span class="math display">\[P(\text{perfect match})  = p^6 = 0.25^6 = 2.4\times 10^{-4}\]</span></p>
-</section>
-<section id="probabilite-dune-sequence-ne-presentant-aucune-correspondance-avec-le-motif-6-substitutions" class="level3">
+</div>
+<div id="probabilite-dune-sequence-ne-presentant-aucune-correspondance-avec-le-motif-6-substitutions" class="section level3">
 <h3>Probabilité d’une séquence ne présentant aucune correspondance avec le motif (6 substitutions)</h3>
 <p><span class="math display">\[P(\text{full mismatch}) = (1-p)^6 = 0.75^6 = 0.178\]</span></p>
-</section>
-<section id="probabilite-dune-instance-avec-exactement-1-substitution" class="level3">
+</div>
+<div id="probabilite-dune-instance-avec-exactement-1-substitution" class="section level3">
 <h3>Probabilité d’une instance avec exactement 1 substitution</h3>
 <p>On peut trouver la réponse par un raisonnement assez simple. Les instances avec 1 substitutions combinent - 5 “succès”&quot; (correspondances) ayant une probabilité <span class="math inline">\(p=0.25\)</span>, - 1 “échec” (substitition) <span class="math inline">\(q = 1-p = 0.75\)</span>.</p>
 <p>La substitution peut se trouver à n’importe quelle position du motif. Si l’on représente respectivement par <span class="math inline">\(1\)</span> et <span class="math inline">\(0\)</span> les succès et échecs, on acceptera les disposition suivantes de succès et d’échecs.</p>
@@ -1708,8 +1711,8 @@ P(x=5 | n=6, p=0.25) &amp;= \binom{n}{x}p^x(1-p)^{n-x} \\
  &amp;= \frac{6}{5! \cdot 1!} 0.25^5 \cdot 0.75 = 0.0044
 \end{aligned}
 \]</span></p>
-</section>
-<section id="probabilite-dune-instance-avec-au-plus-2-substitutions" class="level3">
+</div>
+<div id="probabilite-dune-instance-avec-au-plus-2-substitutions" class="section level3">
 <h3>Probabilité d’une instance avec au plus 2 substitutions</h3>
 <p>Pour avoir au plus deux substitutions, il faut avoir soit 0, soir 1, soit 2 subsitution. Ces possibilités sont mutuellement exclusives (on ne peut avoir à la fois 1 et 2 substitutions), la probabilité de leur union est donc la somme de leurs probabilités.</p>
 <p>Nous avons calculé ci-dessus la probabilité d’avoir 0 et 1 substitution. Par le même raisonnement, on peut calculer la prbabilité de 2 substitutions avec le distribution binomiale.</p>
@@ -1731,81 +1734,81 @@ P(i \ge 4 | n=6, p=0.25) &amp;= \sum_{i=4}^{n} C_n^i p^i (1-p)^{n-i}  \\
 \end{aligned}
 \]</span></p>
 <hr />
-</section>
-</section>
-<section id="alignement-de-lectures-ngs-sans-erreur" class="level2">
+</div>
+</div>
+<div id="alignement-de-lectures-ngs-sans-erreur" class="section level2">
 <h2>Alignement de lectures NGS sans erreur</h2>
 <p>Au terme d’un séquençage de type “Next Generation Sequencing” (NGS), on dispose d’une librairie de <span class="math inline">\(N=10^6\)</span> lectures courtes. On aligne la librairie sur le génome de référence, dont la somme des chromosomes fait 1 gigabase (<span class="math inline">\(G=10^9\)</span> paires de bases), en utilisant un algorithme d’alignement sans gap.</p>
 <p>Calculez la distribution de probabilité d’obtenir un alignement sans erreur en fonction de la longueur des lectures (<span class="math inline">\(k\)</span>).</p>
-<section id="cadre-theorique-1" class="level3">
+<div id="cadre-theorique-1" class="section level3">
 <h3>Cadre théorique</h3>
 <p>Schéma de Bernoulli: on suppose que les nucléotides se succèdent de façon indépendante et ont une probabilité constante <span class="math inline">\(p=1/4\)</span> (équiprobabilité).</p>
-</section>
-<section id="probabilite-dalignement-sans-erreur" class="level3">
+</div>
+<div id="probabilite-dalignement-sans-erreur" class="section level3">
 <h3>Probabilité d’alignement sans erreur</h3>
 <p>La probabilité de n’obtenir aucune erreur sur <span class="math inline">\(k\)</span> nucléotides vaut.</p>
 <p><span class="math inline">\(P(X = k) = p^k\)</span></p>
 <table>
 <thead>
 <tr class="header">
-<th style="text-align: left;">k</th>
-<th style="text-align: left;">Proba.match</th>
+<th align="left">k</th>
+<th align="left">Proba.match</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">2.50e-01</td>
+<td align="left">1</td>
+<td align="left">2.50e-01</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">6.25e-02</td>
+<td align="left">2</td>
+<td align="left">6.25e-02</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">3</td>
-<td style="text-align: left;">1.56e-02</td>
+<td align="left">3</td>
+<td align="left">1.56e-02</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">4</td>
-<td style="text-align: left;">3.91e-03</td>
+<td align="left">4</td>
+<td align="left">3.91e-03</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">5</td>
-<td style="text-align: left;">9.77e-04</td>
+<td align="left">5</td>
+<td align="left">9.77e-04</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">6</td>
-<td style="text-align: left;">2.44e-04</td>
+<td align="left">6</td>
+<td align="left">2.44e-04</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">7</td>
-<td style="text-align: left;">6.10e-05</td>
+<td align="left">7</td>
+<td align="left">6.10e-05</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">8</td>
-<td style="text-align: left;">1.53e-05</td>
+<td align="left">8</td>
+<td align="left">1.53e-05</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">9</td>
-<td style="text-align: left;">3.81e-06</td>
+<td align="left">9</td>
+<td align="left">3.81e-06</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">10</td>
-<td style="text-align: left;">9.54e-07</td>
+<td align="left">10</td>
+<td align="left">9.54e-07</td>
 </tr>
 </tbody>
 </table>
 <hr />
-</section>
-</section>
-<section id="alignement-de-lecture-ngs-avec-erreurs" class="level2">
+</div>
+</div>
+<div id="alignement-de-lecture-ngs-avec-erreurs" class="section level2">
 <h2>Alignement de lecture NGS avec erreurs</h2>
 <p>Un biologiste a fait séquencer un échantillon et a obtenu un fichier comportant 50 millions de lectures (« short reads ») de 35 paires de base, qu’il aligne sur le génome humain (3 gigabases répartis sur 23 chromosomes). Durant l’alignement, il choisit d’accepter au maximum 3 substitutions par lecture.</p>
-<ol type="a">
+<ol style="list-style-type: lower-alpha">
 <li><p>En supposant un modèle de fond basé sur des nucléotides équiprobables et distribués de façon indépendante, comment calculeriez-vous la probabilité pour qu’un read s’aligne complètement à une position arbitraire du génome, avec au plus 3 substitutions (sans indel). Indiquez la formule et justifiez votre choix.</p></li>
 <li><p>Sous ces mêmes conditions, quel serait le nombre de faux-positifs attendus si l’on aligne l’ensemble de la librairie de séquences sur l’ensemble du génome ?</p></li>
 </ol>
-<section id="a.-probabilite-dalignement-avec-au-plus-3-substitutions" class="level3">
+<div id="a.-probabilite-dalignement-avec-au-plus-3-substitutions" class="section level3">
 <h3>a. Probabilité d’alignement avec au plus 3 substitutions</h3>
 <p>On modélise l’alignement(sans gap) d’un read à une position donnée du génome comme un schéma de Bernoulli, où chaque position alignée (nucléotide) correspond à un essai, avec une probabilité de succès <span class="math inline">\(p=0.25\)</span> (identité entre le nucléotide du read et celui du génome) et d’échec <span class="math inline">\(q=1-p = 0.75\)</span> (différence entre les deux nucléotides alignés), et où le nombre d’essais correspond à la longueur des reads (<span class="math inline">\(k=35\)</span>).</p>
 <p>La probabilité d’observer au plus 3 substitutions est la somme des probabilités d’observer exactement 0, 1, 2 ou 3 substitutions.</p>
@@ -1820,34 +1823,34 @@ P = P(M \le 3) = P(X \ge k - 3) &amp;= \sum_{i=k-3}^{k} C_k^i \cdot p^i \cdot  (
  &amp;= 1.54\times 10^{-16}
 \end{aligned}
 \]</span></p>
-</section>
-<section id="b.-nombre-de-faux-positifs-attendus-en-alignant-lensemble-de-la-librairie-sur-le-genome-complet" class="level3">
+</div>
+<div id="b.-nombre-de-faux-positifs-attendus-en-alignant-lensemble-de-la-librairie-sur-le-genome-complet" class="section level3">
 <h3>b. Nombre de faux-positifs attendus en alignant l’ensemble de la librairie sur le génome complet</h3>
 <p>Le nombre de faux positifs attendus (<span class="math inline">\(E\)</span>) est la p-valeur (<span class="math inline">\(P\)</span>) calculée ci-dessus multiplée par le nombre de tests. En effet, on tente d’aligner chacun des <span class="math inline">\(5\times 10^{7}\)</span> fragments de lecture (“read”) sur les 2 brins de chacune des <span class="math inline">\(3\times 10^{9}\)</span> positions du génome.</p>
 <p>Cependant, il faut tenir compte du fait qu’un read de longueur <span class="math inline">\(k = 35\)</span> ne peut pas être aligné sur les <span class="math inline">\(k - 1\)</span> positions d’un chromosome, puisque l’alignement serait incomplet (rappelons qu’on effectue ici des alignements globaux, qui doivent donc couvrir l’ensemble de la longueur du read). Il faut donc soustraire <span class="math inline">\(k - 1 = 34\)</span> positions sur chaque brin de chaque chromosome, donc au total <span class="math inline">\(2 \cdot C \cdot (k-1)\)</span> positions.</p>
 <hr />
-</section>
-</section>
-<section id="sites-de-restriction" class="level2">
+</div>
+</div>
+<div id="sites-de-restriction" class="section level2">
 <h2>Sites de restriction</h2>
 <p>Dans un génome bactérien de 4 Mb avec une composition de 50% de G+C, on observe 130 occurrences de l’hexanucléotide GGCGCC. On suppose un schéma de Bernoulli et une composition équiprobable de nucléotides.</p>
-<ol type="a">
+<ol style="list-style-type: lower-alpha">
 <li><p>Quelle est la probabilité d’observer une occurrence de GGCGCC à une position donnée du génome ?</p></li>
 <li><p>Combien d’occurrences s’attend-on à trouver dans l’ensemble du génome ?</p></li>
 <li><p>Quelle serait la probabilité d’observer un nombre aussi faible d’occurrences (130 ou moins) si l’on générait une séquence aléatoire selon le modèle de Bernoulli avec nucléotides équiprobables ?</p></li>
 <li><p>Comment peut-on interpréter cette sous-représentation de l’hexanucléotide GGCGCC du point de vue biologique ?</p></li>
 </ol>
-<section id="probabilite-doccurrence" class="level3">
+<div id="probabilite-doccurrence" class="section level3">
 <h3>Probabilité d’occurrence</h3>
 <p><span class="math display">\[P(\text{GGCGCC}) = p^k = 0.25^{6} = 2.44\times 10^{-4}\]</span></p>
-</section>
-<section id="occurrences-attendues-sur-lensemble-du-genome" class="level3">
+</div>
+<div id="occurrences-attendues-sur-lensemble-du-genome" class="section level3">
 <h3>Occurrences attendues sur l’ensemble du génome</h3>
 <p>On multiplie la probabilité d’occurrence à une position donnée par le nombre de positions génomiques.</p>
 <p>Comme le site de restriction est réverse complémentaire palindromique, chaque occurrence sur un brin est nécessairement associée à une occurrence sur l’autre brin. Pour connaître le nombre de positions génomiques susceptibles d’être reconnues par l’enzyme de restriction, il suffit donc de compter les occurrences sur un brin du génome.</p>
 <p><span class="math display">\[E(\text{GGCGCC}) = P(\text{GGCGCC}) \cdot G = 2.44\times 10^{-4} \cdot G = 976.6\]</span></p>
-</section>
-<section id="probabilite-dobserver-au-plus-130-occurrences" class="level3">
+</div>
+<div id="probabilite-dobserver-au-plus-130-occurrences" class="section level3">
 <h3>Probabilité d’observer au plus 130 occurrences</h3>
 <p>Le nombre d’occurrences observées (<span class="math inline">\(x = 130\)</span>) semble nettement inférieur à l’espérance (<span class="math inline">\(E(\text{GGCGCC}) = 976.6\)</span>), c’est-à-dire le nombre attendu étant donné le modèle de background. Nous allons maintenant évaluer la significativité statistique de cette observation en calculant la probabilité d’observer une telle différence par hasard. Si cette probabilité est très faible, on considérera le résultat comme significatif et on tentera d’en fournir une interprétation biologique.</p>
 <p>Selon le modèle null (séquences générées au hasard avec des nucléotides équiprobables) on peut modéliser les occurrences d’un site de restriction comme un schéma de Bernoulli: à chaque position génomique, on observe un site (<em>succès</em>) ou non (<em>échec</em>), avec une probabilité constante <span class="math inline">\(P(\text{GGCGCC}) = 2.44\times 10^{-4}\)</span>.</p>
@@ -1862,14 +1865,14 @@ P(X \le x) &amp;= \sum_{i=0}^{x} C_G^i P(\text{GGCGCC})^i \cdot \left( 1 - P(\te
 \end{aligned}
  \]</span></p>
 <p>Cette probabilité est extrêmement faible, il serait donc extrêmement improbable d’obtenir un aussi petit nombre d’instances du motif <span class="math inline">\(\text{GGCGCC}\)</span> dans un génome de même taille généré aléatoirement.</p>
-</section>
-<section id="interpretation-biologique" class="level3">
+</div>
+<div id="interpretation-biologique" class="section level3">
 <h3>Interprétation biologique</h3>
 <p>Le très faible nombre d’occurrences du site <span class="math inline">\(\text{GGCGCC}\)</span> se comprend parfaitement dès qu’on sait que ce site est reconnu par une enzyme de restriction, dont l’activité moléculaire est de cliver l’ADN. Ces enzymes jouent un rôle de protection en fragmentant les molécules d’ADN étrangères au génome de <em>Escherichia coli</em>, mais elle pourrait également endommager le génome propre de la bactérie. Le très faible nombre de sites pour sa propre enzyme de restriction résulte d’un effet de contre-sélection de ces sites dans le génome d’<em>Escherichia coli</em>.</p>
 <hr />
-</section>
-</section>
-<section id="detection-de-genes-differentiellement-exprimes" class="level2">
+</div>
+</div>
+<div id="detection-de-genes-differentiellement-exprimes" class="section level2">
 <h2>Détection de gènes différentiellement exprimés</h2>
 <p>Un chercheur a analysé, à l’aide de biopuces, le niveau d’expression de l’ensemble des gènes à partir d’échantillons sanguins prélevés chez 50 patients (<span class="math inline">\(n_p=50\)</span>) et chez 50 sujets témoins (<span class="math inline">\(n_t=50\)</span>). Il s’intéresse particulièrement à un gène qui semble montrer une différence entre les 2 groupes. Ainsi, il ré-analyse l’expression du même gène dans les mêmes échantillons en utilisant une autre technique, la qPCR. Il obtient</p>
 <ul>
@@ -1878,7 +1881,7 @@ P(X \le x) &amp;= \sum_{i=0}^{x} C_G^i P(\text{GGCGCC})^i \cdot \left( 1 - P(\te
 <li>des écarts-types identiques pour les 2 groupes <span class="math inline">\(s_p= s_t= s = 15\)</span></li>
 </ul>
 <p>Afin de tester si la différence observée entre les moyennes est significative, le chercheur décide d’effectuer un test de Student.</p>
-<ol type="a">
+<ol style="list-style-type: lower-alpha">
 <li><p>Le choix du test de Student vous semble-t-il approprié ? Justifiez le choix du chercheur. Quelles auraient été les alternatives envisageables ?</p></li>
 <li><p>Sachant qu’a priori on ne sait pas dans quel sens la maladie pourrait affecter le niveau d’expression du gène, préconisez-vous un test uni- ou bilatéral ?</p></li>
 <li><p>Formulez l’hypothèse nulle et expliquez-la en une phrase.</p></li>
@@ -1886,43 +1889,43 @@ P(X \le x) &amp;= \sum_{i=0}^{x} C_G^i P(\text{GGCGCC})^i \cdot \left( 1 - P(\te
 <li><p>Indiquez, en vous basant sur les tables fournies, la p-valeur correspondante.</p></li>
 <li><p>Interprétez la p-valeur, et aidez le chercheur à tirer les conclusions de son étude.</p></li>
 </ol>
-<section id="choix-du-test" class="level3">
+<div id="choix-du-test" class="section level3">
 <h3>Choix du test</h3>
 <p>Le test de Student repose sur deux hypothèses de travail: normalité des données et homoscédasticité.</p>
 <p>La première hypothèse de travail du test de Student est la normalité dans chacune des deux populations dont l’échantillon est extrait. A priori on ne peut pas garantir que les données d’expression suivent une distribution normale. Le choix d’un test paramétrique pourrait donc être mis en question. On pourrait envisager d’effectuer, préalablement au test de comparaison de moyenne, un test de normalité (séparément pour chaque gène et dans chaque groupe). Si le test s’avère positif (rejet de l’hypothèse de normalité), on optera pour un test non-paramétrique (Mann-Whitney-Wilcoxon).</p>
 <p>Toutefois, le test de normalité ne serait sans doute pas très informatif, car avec un effectif de 50 par test on aurait une trop faible puissance pour pouvoir détecter de écarts à la normalité. Cependant, nous savons que les tests paramétriques de Student et de Welch sont relativement robustes à la non-normalité quand la taille de l’échantillon est suffisamment grande (typiquement <span class="math inline">\(n &gt; 30\)</span>).</p>
 <p>La seconde hypothèse de travail est que les populations d’où proviennent les échantillons ont la même variance (homoscédasticité). En cas d’homoscédasticité on peut appliquer le test de Student, et dans le cas contraire on recourt au test de Welch. Comme nous observons des écarts-types identiques pour les deux échantillons, nous pouvons considérer que cette hypothèse de travail est valide.</p>
 <p>Dans le cas présent, nous pouvons donc appliquer un test de Student.</p>
-</section>
-<section id="orientation-du-test" class="level3">
+</div>
+<div id="orientation-du-test" class="section level3">
 <h3>Orientation du test</h3>
 <p>On appliquera un test bilatéral, afin de détecter un impact sur l’expression, qu’il s’agisse d’une augmentation ou d’une diminution.</p>
-</section>
-<section id="formulez-lhypothese-nulle-et-expliquez-la-en-une-phrase" class="level3">
+</div>
+<div id="formulez-lhypothese-nulle-et-expliquez-la-en-une-phrase" class="section level3">
 <h3>Formulez l’hypothèse nulle et expliquez-la en une phrase</h3>
 <p><span class="math display">\[H_0: \mu_p = \mu_t\]</span></p>
 <p>Nous testons l’égalité des moyennes d’expression de ce gène entre les populations de patients (<span class="math inline">\(\mu_p\)</span>) et de témoins (<span class="math inline">\(\mu_t\)</span>).</p>
 <p>Il faut noter qu’on représente ici les moyennes de populations par le symbole grec <span class="math inline">\(\mu\)</span> (“mu”), alors que les moyennes d’échantillons sont représentées par la lettre latine <span class="math inline">\(m\)</span>. Les hypothèses à tester portent toujours sur les paramètres de la population, et non sur ceux des échantillons (les moyennes d’échantillons sont différentes, puisque <span class="math inline">\(21 \ne 10\)</span>).</p>
-</section>
-<section id="calcul-de-la-statistique-t-de-student" class="level3">
+</div>
+<div id="calcul-de-la-statistique-t-de-student" class="section level3">
 <h3>Calcul de la statistique <span class="math inline">\(t\)</span> de Student</h3>
 <p><span class="math display">\[t= \frac{m_p-m_t}{s \cdot \sqrt{\frac{1}{n_p} +\frac{1}{n_t}}} = \frac{21-10}{15 \cdot \sqrt{\frac{1}{50} + \frac{1}{50}}} = \frac{11}{\frac{15}{5}}=\frac{11}{3}=3.667\]</span></p>
-</section>
-<section id="extraction-de-la-p-valeur-a-partir-de-la-table-de-student" class="level3">
+</div>
+<div id="extraction-de-la-p-valeur-a-partir-de-la-table-de-student" class="section level3">
 <h3>Extraction de la p-valeur à partir de la table de Student</h3>
 <p>Nous nous basons sur la table de <span class="math inline">\(t\)</span>, avec <span class="math inline">\(\nu = n_1 + n_2 – 2 = 98\)</span> degrés de liberté (dans la table fournie, nous utiliserons la ligne correspondant à 100 degrés de libertés). La valeur <span class="math inline">\(t\)</span> la plus élevée dans la table est <span class="math inline">\(t=3.390\)</span>, qui pour le test bilatéral correspond à une p-valeur de 0.001. Nous pouvons donc conclure que la p-valeur correspondant à une statistique t de 3.667 est inférieure à 0.001.</p>
 <p>Note: avec <strong>R</strong> nous pouvons calculer précisément la p-valeur associée à cette valeur de la statistique de Student: <span class="math inline">\(P(t \ge 3.667) = 3.86\times 10^{-4}\)</span>.</p>
-</section>
-<section id="interpretation-de-la-p-valeur-et-decision" class="level3">
+</div>
+<div id="interpretation-de-la-p-valeur-et-decision" class="section level3">
 <h3>Interprétation de la p-valeur et décision</h3>
 <p>La P-valeur d’un test d’hypothèse indique la probabilité d’obtenir un résultat au moins aussi extrême que celui observé, si l’on était sous hypothèse nulle (autrement dit si les échantillons avaient été tirés de populations ayant la même moyenne). Comme il s’agit d’un test bilatéral, on considérera comme extrêmes les deux queues de la distribution de Student.</p>
 <p><span class="math display">\[P=P((T \ge 3.667) \lor (T \ge -3.667))= 2 \cdot P(T \ge 3.667)\]</span></p>
 <p>Une P-valeur très faible indique qu’il est très peu probable que des échantillons tirés de deux populations de même moyenne diffèrent autant.</p>
 <p>Comme le test ne s’applique qu’à un seul gène (celui pour lequel on aeffectué l’expérience de PCR), une valeur <span class="math inline">\(P &lt; 0.001\)</span> peut être considérée comme très significative, et l’on peut rejeter l’hypothèse nulle. On peut donc considérer que ce gène est différentiellement exprimé entre les deux populations.</p>
 <hr />
-</section>
-</section>
-<section id="taux-danticorps" class="level2">
+</div>
+</div>
+<div id="taux-danticorps" class="section level2">
 <h2>Taux d’anticorps</h2>
 <p>Un groupe de chercheurs a détecté l’association, avec la résistance à la bilharziose, de taux élevés d’IgE spécifiques, une classe particulière d’anticorps. D’autres chercheurs ont cherché à répliquer ce résultat dans une population indépendante exposée à la bilharziose. Les résultats obtenus sont indiqués ci-dessous.</p>
 <ul>
@@ -1930,26 +1933,26 @@ P(X \le x) &amp;= \sum_{i=0}^{x} C_G^i P(\text{GGCGCC})^i \cdot \left( 1 - P(\te
 <li>Pour les sujets susceptibles (<span class="math inline">\(n_s=32\)</span>), la moyenne <span class="math inline">\(m_s=7\)</span>.</li>
 <li>Les écarts-types des deux groupes sont égaux : <span class="math inline">\(s_r = s_s = s = 2.8\)</span>.</li>
 </ul>
-<ol type="a">
+<ol style="list-style-type: lower-alpha">
 <li><p>Quelle méthode préconisez-vous pour tester l’égalité des moyennes (justifiez) ? Quelles sont les hypothèses de travail de ce test ?</p></li>
 <li><p>En partant du principe que ces conditions sont remplies dans le cas présent, formulez l’hypothèse nulle et calculez le score <span class="math inline">\(t\)</span> de Student (formule ci-dessous). Enfin, estimez P valeur à partir de la table fournie.</p></li>
 <li><p>A l’issue du test, quelle décision prenez-vous ? Justifiez votre réponse.</p></li>
 </ol>
-<section id="methode-preconisee-pour-tester-legalite-des-moyennes" class="level3">
+<div id="methode-preconisee-pour-tester-legalite-des-moyennes" class="section level3">
 <h3>Méthode préconisée pour tester l’égalité des moyennes</h3>
 <p>Pour choisir un test d’égalité des moyennes, la première question est de savoir si l’on peut ou non appliquer un test paramétrique.</p>
 <p>A priori nnous ne disposons pas d’information concernant la distribution des taux d’IgE dans les populations résistantes et susceptibles. Nous ne pouvons donc pas présupposer que les données suivent une distribution normale.</p>
 <p>Cependant, les deux échantillons sont de taille suffisante (<span class="math inline">\(n_1 = n_2 = 32\)</span>) pour qu’on puisse s’affranchir de cette condition. En effet, même si les données ne suivent pas une distribution normale, la moyenne d’échantillons tend vers la normalité quand l’effectif augmente, et, de façon pragmatique, on considère généralement qu’au-delà de 30 éléments par échantillon on peut appliquer un test paramétrique.</p>
 <p>Parmi les tests paramétriques, on choisira soit un test <span class="math inline">\(t\)</span> de Student si les deux populations sont de même variance (<em>homoscédasticité</em>), soit un test <span class="math inline">\(t\)</span> de Welch si leurs variances diffèrent (<em>hétéroscédasticité</em>). Comme dans notre cas les écarts-types des deux échantillons sont identiques, on peut présupposer que les populations dont ils sont extraits ont la même variance (en tout état de cause, si l’on réalisait un test d’égalité des variances, on serait amené à accepter l’hypothèse nulle).</p>
-</section>
-<section id="hypothese-nulle" class="level3">
+</div>
+<div id="hypothese-nulle" class="section level3">
 <h3>Hypothèse nulle</h3>
 <p>On effectue un <strong>test unilatéral</strong> puisqu’on teste specifiquement l’association de la résistance à un taux élevé d’anticorps.</p>
 <p><span class="math display">\[H_0: \mu_R \le \mu_S \\
 H_1: \mu_R &gt; \mu_S \\\]</span></p>
 <p>où <span class="math inline">\(\mu_R\)</span> et <span class="math inline">\(\mu_S\)</span> sont respectivement les taux moyens d’anticorps chez les individus résistants et sensibles.</p>
-</section>
-<section id="calcul-du-score-t-de-student" class="level3">
+</div>
+<div id="calcul-du-score-t-de-student" class="section level3">
 <h3>Calcul du score <span class="math inline">\(t\)</span> de Student</h3>
 <p><span class="math display">\[
 \begin{aligned}
@@ -1958,44 +1961,44 @@ t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} &amp;= \frac{\bar{x}_{2} - \bar
 &amp;=\frac{10 - 7}{2.8 \cdot \sqrt{\frac{64}{62}} \sqrt{\frac{1}{32} + \frac{1}{32}}} \\
  &amp;= \frac{3}{2.8 \cdot 1.016 \cdot \frac{1}{4}} = 4.22
 \end{aligned}\]</span></p>
-</section>
-<section id="estimation-de-la-probabilite-critique-p-valeur" class="level3">
+</div>
+<div id="estimation-de-la-probabilite-critique-p-valeur" class="section level3">
 <h3>Estimation de la probabilité critique (p valeur)</h3>
 <p>On se base sur le <a href="../supports/t-table.pdf">tableau de la distribution <span class="math inline">\(t\)</span> de Student</a> (disponible pour l’examen), en considérant le test unilatéral (<em>one-tail</em>).</p>
 <p>On sélectionne la ligne correspondant aux degrés de liberté <span class="math inline">\(\text{df} = n_1 + n_2 -2 = 62\)</span>). Comme le tableau ne mentionne pas cette valeur, on choisit la ligne la plus proche (<span class="math inline">\(\text{df} = 60\)</span>).</p>
 <p>La valeur <span class="math inline">\(t\)</span> observée (<span class="math inline">\(t_{obs} = 4.22\)</span>) est supérieure à la plus grande valeur indiquée dans la table (<span class="math inline">\(t=3.460\)</span>, pour <span class="math inline">\(p=0.0005\)</span>). On peut donc conclure que la probabilité critique est inférieure à <span class="math inline">\(0.0005\)</span>.</p>
-</section>
-<section id="decision-et-jusification" class="level3">
+</div>
+<div id="decision-et-jusification" class="section level3">
 <h3>Décision et jusification</h3>
 <p>Pour un test isolé, une probabilité critique de <span class="math inline">\(p=0.0005\)</span> signifie que sous hypothèse nulle – c’est-à-dire si la résistance n’était pas associée à un taux élevé d’anticorps – la probabilité d’obsrver une différence de moyennes aussi grande serait de <span class="math inline">\(0.0005\)</span>. Cette probabilité est très faible, on peut donc rejeter l’hypothèse nulle, et conclure que la différence observée est significative.</p>
 <hr />
-</section>
-</section>
-<section id="enrichissement-fonctionnel" class="level2">
+</div>
+</div>
+<div id="enrichissement-fonctionnel" class="section level2">
 <h2>Enrichissement fonctionnel</h2>
 <p>Dans le génome de la levure, 40 gènes ont été assignés à la classe fonctionnelle “Biological Process: Methionin Biosynthesis”. Une expérience de transcriptome rapporte 80 gènes différentiellement exprimés, dont 10 appartiennent à cette classe fonctionnelle. Sachant que le génome comporte 6000 gènes, peut-on consiérer ce résultat comme significatif ?</p>
 <p><strong><em>Pas vu en 2016-2017.</em></strong></p>
 <hr />
-</section>
-<section id="jeu-de-roulette" class="level2">
+</div>
+<div id="jeu-de-roulette" class="section level2">
 <h2>Jeu de roulette</h2>
 <p>La roulette comporte 37 nombres allant du 0 au 36. Un joueur a décidé de miser systématiquement 1 euro sur le nombre 17 jusqu’à ce que ce nombre sorte, et de s’arrêter ensuite. Sachant que quand on mise sur un seul nombre, le gain vaut 36 fois la mise, quelle est la probabilité pour que le joueur sorte du casino en ayant gagné de l’argent ? Il n’est pas nécessaire de fournir une réponse numérique, vous pouvez vous contenter d’indiquer la formule, en indiquant les nombres correspondant aux différents symboles mathématiques. Justifiez votre réponse en expliquant votre raisonnement.</p>
-<section id="cadre-theorique-2" class="level3">
+<div id="cadre-theorique-2" class="section level3">
 <h3>Cadre théorique</h3>
 <p>Il s’agit de calculer le temps d’attente du premier succès dans un schéma de Bernoulli. Chaque pari que le joueur place sur le nombre 17 peut être considéré comme un essai qui peut résulter soit en un succès (le nombre 17 sort) soit en un échec (un autre nombre sort).</p>
 <p>La (petite) difficulté est de coupler la réflexion sur ce temps d’attente avec un calcul des coûts et bénéfices.</p>
-</section>
-<section id="temps-dattente-du-premier-succes" class="level3">
+</div>
+<div id="temps-dattente-du-premier-succes" class="section level3">
 <h3>Temps d’attente du premier succès</h3>
 <p>A chaque essai, la probabilité de succès vaut <span class="math inline">\(p = 1/37 = 0.027\)</span>. La probabilité d’obtenir le premier succès au <span class="math inline">\(x^{\text{ième}}\)</span> essai se calcule selon la <strong>loi géométrique</strong>.</p>
 <p><span class="math display">\[P(X = x) = (1-p)^{x-1} p\]</span> En effet pour que le premier succès se produise au <span class="math inline">\(x^{\text{ième}}\)</span> essai, il faut commencer par <span class="math inline">\(x-1\)</span> essais infructuex (avec une probabilité <span class="math inline">\(q = 1-p\)</span>) et terminer par un essai fructueux (de probabilité <span class="math inline">\(p\)</span>).</p>
-</section>
-<section id="fonction-cumulative-de-distribution" class="level3">
+</div>
+<div id="fonction-cumulative-de-distribution" class="section level3">
 <h3>Fonction cumulative de distribution</h3>
 <p>La fonction cumulative de distribution (<strong><em>CDF</em></strong>) indique la probabilité pour que le pemier succès ait lieu au <span class="math inline">\(x^\text{ième}\)</span> essai ou avant. Pour la loi géométrique, elle s’obtient aisément en raisonnant sur le complément: la probabilité de n’obtenir aucun succès durant les <span class="math inline">\(x\)</span> premiers essais vaut <span class="math inline">\((1-p)^x\)</span>. La probabilité pour que le premier succès sorte au plus tard au <span class="math inline">\(x^\text{ième}\)</span> essai vaut donc.</p>
 <p><span class="math display">\[P(X \le x) = 1 - (1-p)^x\]</span></p>
-</section>
-<section id="calcul-des-couts-benefices" class="level3">
+</div>
+<div id="calcul-des-couts-benefices" class="section level3">
 <h3>Calcul des coûts / bénéfices</h3>
 <p>A chaque essai, le joueur mise un euro. Durant les <span class="math inline">\(x-1\)</span> premiers essais (ceux où il échoue), ses pertes cumulées s’élèvent donc à <span class="math inline">\((x-1) \cdot 1\)</span>€. Au <span class="math inline">\(x^\text{ième}\)</span> essai, il remporte 36€ et arrête le jeu.</p>
 <p>Si le numéro 17 sort avant le 36ème essai, le joueur sortira gagnant. S’il sort au 36ème essai, il ne sera ni gagnant ni perdant, et après le 36ème essai il sera perdant.</p>
@@ -2007,18 +2010,18 @@ t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} &amp;= \frac{\bar{x}_{2} - \bar
 <p>Certes, s’ils suivent la procédure indiquée (miser systématiquement 1€ jusqu’au premier succès), la majorité des joueurs sortent gagnants (<span class="math inline">\(61.7\%\)</span> voient leur nombre sortir avant la 36ème tentative), mais <strong><em>le gain moyen est négatif</em></strong>, car les sommes perçues auprès des perdants (les <span class="math inline">\(38.3\%\)</span> de joueurs dont le nombre ne sort pas avant le <span class="math inline">\(36^\text{ème}\)</span> essai) dépassent les bénéfices des gagnants.</p>
 <p>On peut démontrer que le bénéfice attendu est de -1 (perte de 1€). Autrement dit, si un grand nombre de joueurs adoptent cette stratégie (miser 1 euro sur un nombre particulier et s’arrêter dès le premier succès) le casino gagne en moyenne un euro par joueur. Comme pour tous les jeux de hasard, le gagnant systématique est le casino.</p>
 <hr />
-</section>
-</section>
-<section id="concepts-de-probabilite" class="level2">
+</div>
+</div>
+<div id="concepts-de-probabilite" class="section level2">
 <h2>Concepts de probabilité</h2>
 <p>En quoi consiste le modèle de Bernoulli ? Ce modèle est-il généralement adapté à l’analyse des séquences biologiques ? Justifiez en quelques phrases.</p>
-<section id="definiton-du-modele-de-bernoulli" class="level3">
+<div id="definiton-du-modele-de-bernoulli" class="section level3">
 <h3>Définiton du modèle de Bernoulli</h3>
 <p>La définition générale du schéma de Bernoulli repose sur une série d’essais (expériences) indpendants, pouvant chacun déboucher sur deux résultats mutuellement exclusifs, respectivement qualifiés de “succès” et “échec”, avec une probabilité de succès (<span class="math inline">\(p\)</span>) identique pour chaque essai.</p>
 <p>En analyse de séquences, on se base souvent sur un extension du modèle, appelée modèle de Bernoulli généralisé, où chaque essai résulte en un résultat parmi un nombre fini de possibilités. Pour le séquences nucléiques on considère 4 possibilités correspondant aux nucléotides, et pour les séquences peptidiques 20 possibilités correspondant aux acides aminés. Le modèle de Bernoulli généralisé postule que les résidus (nucléotides ou acidés aminés selon le type de séquence) se succèdent de façon indépendante, et que la probabilité d’un résidu donné est la même à chaque position de la séquence.</p>
 <p>Attention, ceci ne signifie pas forcément que tous les résidus ont la même probabilité. On peut définir un modèle de Bernoulli où chaque résidu a une probabilité spécifique (par exemple une séquence d’ADN avec <span class="math inline">\(P_A = 0.31, P_T=0.29, P_C=0.18, P_G=0.22\)</span>). Si ces probabilités sont considérées comme identiques à chaque position de la séquence, on pourra parler de modèle de Bernoulli.</p>
-</section>
-<section id="adequation-pour-lanalyse-des-sequences-biologiques" class="level3">
+</div>
+<div id="adequation-pour-lanalyse-des-sequences-biologiques" class="section level3">
 <h3>Adéquation pour l’analyse des séquences biologiques</h3>
 <p>Les modèles de Beroulli présentent des qualités pratiques mais il est important de connaître leurs limitations. En effet, l’hypothèse d’indépendance entre résidus successifs n’est pas réaliste pour des séquences macromoléculaires. A titre d’exemples:</p>
 <ul>
@@ -2048,8 +2051,8 @@ c.  Interprétez la p-valeur (calculée en a) et la e-valeur (calculée en b). P
 
 -->
 <hr />
-</section>
-</section>
+</div>
+</div>
 
 
 

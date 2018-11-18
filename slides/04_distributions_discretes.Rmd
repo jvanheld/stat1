@@ -3,6 +3,11 @@ title: "Distributions discrètes"
 author: "Jacques van Helden"
 date: "`r Sys.Date()`"
 output:
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
   html_document:
     fig_caption: yes
     fig_height: 6
@@ -16,11 +21,6 @@ output:
     toc_depth: 3
     toc_float: yes
     widescreen: yes
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: yes
-    toc_depth: 3
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -67,7 +67,7 @@ knitr::opts_chunk$set(
   fig.width = 7, fig.height = 5, 
   out.width = "80%",
   fig.align = "center", 
-  fig.path = "figures/04_",
+  fig.path = "figures/04_discrete-distrib_",
   size = "tiny", 
   echo = TRUE, eval = TRUE, 
   warning = FALSE, message = FALSE, 

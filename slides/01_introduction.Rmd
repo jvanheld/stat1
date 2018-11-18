@@ -57,13 +57,13 @@ transition: linear
 ---
 
 ```{r include=FALSE, echo=FALSE, eval=TRUE}
-options(width=300)
+options(width = 300)
 knitr::opts_chunk$set(
   fig.width = 7, fig.height = 5, 
-  fig.path='figures',
+  fig.path = 'figures/01_intro_',
   fig.align = "center", 
   size = "tiny", 
-  echo = TRUE, eval=TRUE, 
+  echo = TRUE, eval = TRUE, 
   warning = FALSE, message = FALSE, 
   results = TRUE, comment = "")
 ```

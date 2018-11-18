@@ -3,18 +3,6 @@ title: "Distributions discrètes"
 author: "Jacques van Helden"
 date: "`r Sys.Date()`"
 output:
-  beamer_presentation:
-    colortheme: dolphin
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
-    toc: yes
   html_document:
     fig_caption: yes
     fig_height: 6
@@ -28,6 +16,11 @@ output:
     toc_depth: 3
     toc_float: yes
     widescreen: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -48,11 +41,18 @@ output:
     smaller: yes
     toc: yes
     widescreen: yes
-  pdf_document:
+  beamer_presentation:
+    colortheme: dolphin
     fig_caption: yes
-    highlight: zenburn
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
     toc: yes
-    toc_depth: 3
 font-import: http://fonts.googleapis.com/css?family=Risque
 subtitle: Probabilités et statistique pour la biologie (STAT1)
 font-family: Garamond
@@ -102,9 +102,9 @@ On parle de ***distribution discrète*** pour désigner la distribution de proba
 
 ## Fonction de masse de probabilité géométrique
 
-La ***fonction de masse de probabilité*** (***Probability Mass Function***, ***PMF***) indique la probabilité d'observer une valeur particulière pour une distribution discrète. 
+La ***fonction de masse de probabilité*** (***Probability Mass Function***, ***PMF***) indique la probabilité d'observer un résultat élémentaire particulier. 
 
-Pour la distribution discrète, elle indique la probabilité d'observer exactement $x$ échecs avant le premier succès, au cours d'une série d'essais indépendants avec une probabilité de succès $p$. 
+Pour la distribution géométrique, elle indique la probabilité d'observer exactement $x$ échecs avant le premier succès, au cours d'une série d'essais indépendants à probabilité de succès $p$. 
 
 $$\operatorname{P}(X = x) = (1-p)^x \cdot p$$
 
@@ -120,7 +120,7 @@ Justification:
 ## Fonction de masse de probabilité géométrique
 
 
-```{r geometric_PMF, fig.width=9, fig.height=4, echo=FALSE, fig.cap="**Probabilité de masse de la loi géométrique**. Gauche: ordonnée en échelle logarithmique. "}
+```{r geometric_PMF, fig.width=9, fig.height=4, echo=FALSE, fig.cap="**Fonction de masse de la loi géométrique**. Gauche: ordonnée en échelle logarithmique. "}
 ################################################################
 ##
 ## Illustrations of the geometric distribution
@@ -231,34 +231,40 @@ Les queues de la distribution sont les aires comprises sous la courbe de densit�
 
 - La **queue gauche** d'une distribution indique la probabilité d'observer un résultat **supérieur ou égal** à une certaine valeur: $\operatorname{P}(X \ge x$). 
 
-    - ***Note: nous verrons ultérieurement l'utilisation de la queue droite de différentes distributions en tant que probabilité critique (***P value***), dans le cadre de tests d'enrichissement fonctionnel, sur-représentation de motifs, de détection de pics, $\ldots$  
+    - Note: nous verrons ultérieurement l'utilisation de la queue droite de différentes distributions en tant que probabilité critique (***P value***), dans le cadre de tests d'enrichissement fonctionnel, sur-représentation de motifs, de détection de pics, $\ldots$  
 
 ## Queues de distribution et fonction de répartition
 
-```{r goemetric_CDF, fig.width=7, fig.height=5.5, echo=FALSE, fig.cap="**Queues et fonction de répartition de probabilité géométrique**. "}
+```{r goemetric_CDF, fig.width=7, fig.height=5.5, out.width="90%", echo=FALSE, fig.cap="**Queues et fonction de répartition de probabilité géométrique**. "}
 
-par(mfrow=c(2,2))
+par(mfrow = c(2,2))
 
 ################################################################
 ## Plot the probability mass function and highlight the left tail
 left.tail.range <- 0:test.x
 plot(x - 0.5,
      dgeom(x,p),
-     ylim=c(0,1),
-     main=paste('Left tail, X<=', test.x),
-     xlab='Waiting time',
-     ylab='Probability: P(X=x)',
-     panel.first=c(abline(v=x.grid,col=grid.color),
-       abline(h=y.grid,col=grid.color),
-       rect(left.tail.range-0.5, 0, left.tail.range+0.5, dgeom(left.tail.range,p), density = NULL, angle = 45,
+     ylim = c(0,1),
+     main = paste('Left tail, X<=', test.x),
+     xlab = 'Waiting time',
+     ylab = 'Probability: P(X=x)',
+     panel.first = c(abline(v = x.grid,
+                            col = grid.color),
+                     abline(h = y.grid,col = grid.color),
+       rect(left.tail.range - 0.5, 0, left.tail.range + 0.5, dgeom(left.tail.range,p), density = NULL, angle = 45,
             col = '#BBBBBB', border = '#BBBBBB')
        ),
-     col=plot.colors['density'],
-     lwd=2, las=1,
-     type='s'
+     col = plot.colors['density'],
+     lwd = 2, las = 1,
+     type = 's'
      )
-legend('topright',legend=paste('P(X<=',test.x,') = ',round(pgeom(test.x,p),digits=3),sep=''),bty='o', bg='#FFFFFF')
-axis(1, at=test.x, labels=test.x,las=1,col.ticks='#888888')
+legend('topright',
+       legend = paste(
+         'P(X<=', test.x, ') = ', 
+         round(pgeom(test.x, p), digits = 3), sep = ''), 
+       bty = 'o', bg  = '#FFFFFF')
+axis(1, at = test.x, labels = test.x, 
+     las = 1, col.ticks = '#888888')
 
 
 ################################################################
@@ -266,73 +272,94 @@ axis(1, at=test.x, labels=test.x,las=1,col.ticks='#888888')
 right.tail.range <- test.x:n
 plot(x - 0.5,
      dgeom(x,p),
-     ylim=c(0,1),
-     main=paste('Right tail, X>=', test.x),
-     xlab='Waiting time',
-     ylab='Probability: P(X=x)',
-     panel.first=c(abline(v=x.grid,col=grid.color),
-       abline(h=y.grid,col=grid.color),
-       rect(right.tail.range-0.5, 0, right.tail.range+0.5, dgeom(right.tail.range,p), density = NULL, angle = 45,
+     ylim = c(0,1),
+     main = paste('Right tail, X>=', test.x),
+     xlab = 'Waiting time',
+     ylab = 'Probability: P(X=x)',
+     panel.first = c(abline(v = x.grid, col = grid.color),
+       abline(h = y.grid, col = grid.color),
+       rect(right.tail.range - 0.5, 0, right.tail.range + 0.5,
+            dgeom(right.tail.range,p), density = NULL, angle = 45,
             col = '#BBBBBB', border = '#BBBBBB')
        ),
-     col=plot.colors['density'],
-     lwd=2, las=1,
-     type='s'
+     col = plot.colors['density'],
+     lwd = 2, las = 1,
+     type = 's'
      )
-legend('topright',legend=paste('P(X>=',test.x,') = ',round(pgeom(test.x-1,p,lower.tail=F),digits=3),sep=''),bty='o', bg='#FFFFFF')
-axis(1, at=test.x, labels=test.x,las=1,col.ticks='#888888')
+legend('topright',
+       legend = paste('P(X>=',test.x,') = ', 
+                      round(pgeom(test.x - 1, p, lower.tail = F), 
+                            digits = 3), sep = ''), 
+       bty = 'o', 
+       bg = '#FFFFFF')
+axis(1, at = test.x, labels = test.x, las = 1, 
+     col.ticks = '#888888')
 
 ################################################################
 ## Plot the CDF function
 plot(x - 0.5,
      pgeom(x,p),
-     ylim=c(0,1),
-     main=paste('Cumulative distribution function (CDF)'),
-     xlab='Waiting time',
-     ylab='CDF = P(X<=x)',
-     panel.first=c(abline(v=x.grid,col=grid.color),
-       abline(h=y.grid,col=grid.color)),
-     col=plot.colors['CDF'],
-     lwd=2, las=1,
-     type='s'
+     ylim = c(0,1),
+     main = paste('Cumulative distribution function (CDF)'),
+     xlab = 'Waiting time',
+     ylab = 'CDF = P(X<=x)',
+     panel.first = c(abline(v = x.grid, col = grid.color),
+       abline(h = y.grid,col = grid.color)),
+     col = plot.colors['CDF'],
+     lwd = 2, las = 1,
+     type = 's'
      )
-legend('bottomright',legend=paste('P(X<=',test.x,') = ',round(pgeom(test.x,p),digits=3),sep=''),bty='o', bg='#FFFFFF')
+legend('bottomright', 
+       legend = paste('P(X<=',test.x,') = ', 
+                    round(pgeom(test.x, p), digits = 3),  
+                    sep = ''), bty = 'o', bg = '#FFFFFF')
 
 ## Draw arrows to illustrate the relationship between CDF and left tail probability
-left.tail.p <- pgeom(test.x,p)
-arrows(test.x, 0,test.x,left.tail.p,col='#888888',length=0.1,angle=25,code=2,lwd=2)
-arrows(test.x, left.tail.p,0,left.tail.p,col='#888888',length=0.1,angle=25,code=2,lwd=2)
-text(x = test.x, y= 0, labels = test.x, pos=4, , cex=0.7)
-text(0, left.tail.p, round(left.tail.p, digits=3), pos=3, , cex=0.7)
+left.tail.p <- pgeom(test.x, p)
+arrows(test.x, 0, test.x, left.tail.p, 
+       col = '#888888', length = 0.1, 
+       angle = 25, code = 2, lwd = 2)
+arrows(test.x, left.tail.p, 0, left.tail.p, 
+       col = '#888888', length = 0.1, angle = 25, code = 2, lwd = 2)
+text(x = test.x, y = 0, labels = test.x, pos = 4, cex = 0.7)
+text(0, left.tail.p, round(left.tail.p, digits = 3), pos = 3, cex = 0.7)
 
 
 ################################################################
 ## Plot the dCDF function
 plot(x - 0.5,
-     pgeom(x-1,p,lower.tail = F), ## We use x-1 to obtain the inclusive dCDF rather than the default exclusive one
-     ylim=c(0,1),
-     main=paste('Decreasing CDF (dCDF)'),
-     xlab='Waiting time',
-     ylab='dCDF = P(X>=x)',
-     panel.first=c(abline(v=x.grid,col=grid.color),
-       abline(h=y.grid,col=grid.color)),
-     col=plot.colors['dCDF'],
-     lwd=2, las=1,
-     type='s'
-     )
-legend('topright',legend=paste('P(X>=',test.x,') = ',round(pgeom(test.x-1,p,lower.tail=F),digits=3),sep=''),bty='o', bg='#FFFFFF')
+     pgeom(x - 1, p, lower.tail = F), ## We use x-1 to obtain the inclusive dCDF rather than the default exclusive one
+     ylim = c(0,1),
+     main = paste('Decreasing CDF (dCDF)'),
+     xlab = 'Waiting time',
+     ylab = 'dCDF = P(X>=x)',
+     panel.first = c(abline(v = x.grid, col = grid.color),
+       abline(h = y.grid, col = grid.color)),
+     col = plot.colors['dCDF'],
+     lwd = 2, las = 1,
+     type = 's')
+legend('topright', 
+       legend = paste(
+         'P(X>=', test.x,') = ', 
+         round(pgeom(test.x - 1, p, lower.tail = F), digits = 3), 
+         sep = ''), bty = 'o', 
+       bg = '#FFFFFF')
 
 ## Draw arrows to illustrate the relationship between dCDF and right tail probability
-right.tail.p <- pgeom(test.x-1,p,lower.tail=F)
-arrows(test.x, 0,test.x,right.tail.p,col='#888888',length=0.1,angle=25,code=2,lwd=2)
-arrows(test.x, right.tail.p,0,right.tail.p,col='#888888',length=0.1,angle=25,code=2,lwd=2)
-text(test.x,0, test.x,pos=4, cex=0.7)
-text(0,right.tail.p, round(right.tail.p, digits=3),pos=3, cex=0.7)
+right.tail.p <- pgeom(test.x - 1, p, lower.tail = F)
+arrows(test.x, 0, test.x, right.tail.p, col = '#888888', 
+       length = 0.1, angle = 25, code = 2, lwd = 2)
+arrows(test.x, right.tail.p, 0, right.tail.p, col = '#888888',
+       length = 0.1, angle = 25, code = 2, lwd = 2)
+text(test.x, 0, test.x,pos = 4, cex = 0.7)
+text(0, right.tail.p, round(right.tail.p, digits = 3), 
+     pos = 3, cex = 0.7)
 
 ## Show that the sum of CDF and dCDF differ from 1
 ## print(c(dgeom(test.x, p), left.tail.p, right.tail.p, right.tail.p + left.tail.p),digits=3)
 par(par.ori)
-par(mfrow=c(1,1))
+par(mfrow = c(1,1))
+
 ```
 
 ## Distribution binomiale
@@ -350,7 +377,10 @@ $$\operatorname{P}(X \ge x)  =   \sum_{i=x}^{n}{P(X=i)} =  \sum_{i=x}^{n}{C_n^i 
 **Propriétés**
 
 - **Espérance** (nombre de succès attendus au hasard): $<X> = n \cdot p$
-- **variance**: $\sigma^2 = n \cdot p \cdot (1 - p)$. Note: la variance de la binomiale est inférieure à sa moyenne. 
+- **variance**: $\sigma^2 = n \cdot p \cdot (1 - p)$. 
+
+    - Note: la variance de la binomiale est inférieure à sa moyenne. 
+    
 - **Ecart-type**: $\sigma = \sqrt{n \cdot p \cdot (1 - p)}$
 
 
@@ -596,10 +626,48 @@ par(mfrow=c(1,1))
 
 **Note: ** le recours à la binomiale présuppose un modèle de Bernoulli. Pour les exemples 2 et 3 ceci revient à considérer que les nucléotides se succèdent de façon indépendante, ce qui est assez peu réaliste. 
 
+## Distribution de Poisson
+
+
 
 # Exercices
 
-## Exercice: probabilité des longueurs d'ORF
+
+## Exercice : probabilité d'un motif avec erreurs
+
+On recherche dans un génome les occurrences du motif GATAAG (où $W$ signifie "$A$ ou $T$") en admettant un certain nombre de substitutions. En supposant que les nucléotides sont indépendants et équiprobables, quelle est la probabilité de trouver à une position du génome: 
+
+a. Une instance exacte du motif (aucune substitution) ?
+b. Une séquence ne présentant aucune correspondance avec le motif (6 substitutions) ?
+c. Une instance avec exactement 1 substitution ?
+d. Une instance avec au plus 2 substitutions ?
+
+## Exercice : alignement de lectures NGS
+
+Au terme d'un séquençage de type "Next Generation Sequencing" (NGS), on dispose d'une librairie de $N=10^6$ lectures courtes. On aligne la librairie sur le génome de référence, dont la somme des chromosomes fait $G=10^9$ paires de bases, en utilisant un algorithme d'alignement sans gap et sans admettre aucune substitition.
+
+On voudrait calculer de probabilité d'un alignement parfait (sans erreur) entre une séquence de lecture particulière à une position particulière du génome, en fonction de la longueur de lecture ($k$).
+
+- Quelle distribution théorique utiliseriez-vous pour modéliser ce problème ? Justifiez ce choix. 
+- Ecrivez la formule de la probabilité.
+
+Note: durant les travaux pratiques, nous dessinerons cette distribution avec le logiciel *R*.
+
+
+## Exercice : sites de restriction
+
+Dans un génome bactérien de 4 Mb avec une composition de 50% de G+C, on observe 130 occurrences de l'hexanucléotide GGCGCC. On suppose un schéma de Bernoulli et une composition équiprobable de nucléotides.
+
+(a) Quelle est la probabilité d’observer une occurrence de GGCGCC à une position donnée du génome ?
+(b) Combien d'occurrences s'attend-on à trouver dans l'ensemble du génome ?
+(c) Quelle serait la probabilité d'observer un nombre aussi faible d'occurrences (130 ou moins) si l'on générait une séquence aléatoire selon le modèle de Bernoulli avec nucléotides équiprobables ?
+(d) Comment peut-on interpréter cette sous-représentation de l'hexanucléotide GGCGCC du point de vue biologique ?
+
+## Exercice : Jeu de roulette
+
+La roulette comporte 37 nombres allant du 0 au 36. Un joueur a décidé de miser systématiquement 1 euro sur le nombre 17 jusqu’à ce que ce nombre sorte, et de s’arrêter ensuite. Sachant que quand on mise sur un seul nombre, le gain vaut 36 fois la mise, quelle est la probabilité pour que le joueur sorte du casino en ayant gagné de l’argent ? Il n’est pas nécessaire de fournir une réponse numérique, vous pouvez vous contenter d’indiquer la formule, en indiquant les nombres correspondant aux différents symboles mathématiques. Justifiez votre réponse en expliquant votre raisonnement. 
+
+## Exercice : probabilité des longueurs d'ORF
 
 On détecte les cadres ouverts de lecture (*open reading frames*, *ORF*) d'un génome en identifiant toutes les séquences de taille multiple de 3 comprises entre un start (ATG) et un stop (TAA, TAG ou TGA). 
 
@@ -608,9 +676,10 @@ b. Sachant que le génome fait 12 Mb, quel est le nombre attendu d'ORF d'au moin
 
 
 ```{r echo=FALSE}
-oligo.freq <- read.table("../data/Saccharomyces_cerevisiae/oligo_freq/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab", sep="\t", row.names = NULL)
+oligo.freq <- read.table("../data/Saccharomyces_cerevisiae/oligo_freq/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab", 
+                         sep = "\t", row.names = NULL)
 colnames(oligo.freq) <- c("sequence", "frequency", "occurrences")
-oligo.freq$frequency <- signif(digits=3, oligo.freq$frequency)
+oligo.freq$frequency <- signif(digits = 3, oligo.freq$frequency)
 
 row.names(oligo.freq) <- oligo.freq$sequence
 
@@ -622,28 +691,4 @@ kable(data.frame(oligo.freq[selected.oligos, ]), row.names = FALSE)
 #print(data.frame(oligo.freq[selected.oligos, ]))
 ```
 
-
-## Exercice: probabilité d'un motif avec erreurs
-
-On recherche dans un génome les occurrences du motif GATAAG (où $W$ signifie "$A$ ou $T$") en admettant un certain nombre de substitutions. En supposant que les nucléotides sont indépendants et équiprobables, quelle est la probabilité de trouver à une position du génome: 
-
-a. Une instance exacte du motif (aucune substitution) ?
-b. Une séquence ne présentant aucune correspondance avec le motif (6 substitutions) ?
-c. Une instance avec exactement 1 substitution ?
-d. Une instance avec au plus 2 substitutions ?
-
-## Exercice: alignement de lectures NGS
-
-Au terme d'un séquençage de type "Next Generation Sequencing" (NGS), on dispose d'une librairie de $N=10^6$ lectures courtes. On aligne la librairie sur le génome de référence, dont la somme des chromosomes fait $G=10^9$ paires de bases, en utilisant un algorithme d'alignement sans gap.
-
-Calculez la distribution de probabilité du nombre de correspondances en fonction de la longueur des lectures ($k$). 
-
-## Exercice: sites de restriction
-
-Dans un génome bactérien de 4 Mb avec une composition de 50% de G+C, on observe 130 occurrences de l'hexanucléotide GGCGCC. On suppose un schéma de Bernoulli et une composition équiprobable de nucléotides.
-
-(a) Quelle est la probabilité d’observer une occurrence de GGCGCC à une position donnée du génome ?
-(b) Combien d'occurrences s'attend-on à trouver dans l'ensemble du génome ?
-(c) Quelle serait la probabilité d'observer un nombre aussi faible d'occurrences (130 ou moins) si l'on générait une séquence aléatoire selon le modèle de Bernoulli avec nucléotides équiprobables ?
-(d) Comment peut-on interpréter cette sous-représentation de l'hexanucléotide GGCGCC du point de vue biologique ?
 

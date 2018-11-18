@@ -92,7 +92,7 @@ Il existe deux types classiques de tirage d'éléments au sein d'un ensemble: av
 -->
 </div>
 <div id="probleme-denombrement-doligomeres" class="slide section level2">
-<h1>Problème: dénombrement d’oligomères</h1>
+<h2>Problème: dénombrement d’oligomères</h2>
 <p>L’ADN est composé de 4 nucléotides distincts dénotés par les lettres A, C, G, T, et les protéines de 20 acides aminés.</p>
 <p>Pour chacun de ces deux types de polymères, combien d’oligomères distincts peut-on former en polymérisant 20 résidus (“20-mères”) ?</p>
 <p><strong>Approche suggérée</strong>: simplifiez le problème au maximum, en commençant par des polymères beaucoup plus courts (1 résidu, 2 résidus).</p>
@@ -104,7 +104,7 @@ Il existe deux types classiques de tirage d'éléments au sein d'un ensemble: av
 </ul>
 </div>
 <div id="solution-denombrement-doligomeres" class="slide section level2">
-<h1>Solution: dénombrement d’oligomères</h1>
+<h2>Solution: dénombrement d’oligomères</h2>
 <ul>
 <li><p>Il s’agit d’un tirage avec remise: à chaque position de la séquence on a le choix entre <span class="math inline">\(n\)</span> résidus (4 pour les acides nucléiques, 20 pour les protéines).</p></li>
 <li><p>Approche progressive de la solution</p>
@@ -123,7 +123,7 @@ Il existe deux types classiques de tirage d'éléments au sein d'un ensemble: av
 </ul>
 </div>
 <div id="la-suite-geometrique" class="slide section level2">
-<h1>La suite géométrique</h1>
+<h2>La suite géométrique</h2>
 <p>Une suite géométrique est une succession de nombres dont chaque terme est obtenu par la multiplication du terme précédent par un facteur constant.</p>
 <p><span class="math display">\[x_i = x_{i-1} \cdot a\]</span></p>
 <p>Pour <span class="math inline">\(n\)</span> suffisamment grand on peut développer la formule. <span class="math display">\[\begin{array}{cl} \\
@@ -135,12 +135,12 @@ x_n &amp;=&amp; x_{n-1} \cdot a \\
 <p>Dans notre cas, la valeur initiale <span class="math inline">\(x_0=1\)</span>; <span class="math inline">\(n\)</span> est la taille de l’oligomère; et <span class="math inline">\(a\)</span> est le nombre de résidus possibles à chaque position de la séquence (<span class="math inline">\(a=4\)</span> pour les acides nucléiques, <span class="math inline">\(a=20\)</span> pour les séquences peptidiques).</p>
 </div>
 <div id="nonmbre-doligomeres" class="slide section level2">
-<h1>Nonmbre d’oligomères</h1>
+<h2>Nonmbre d’oligomères</h2>
 <p><font color="red">A FAIRE: quelques explications + les formules + graphique</font></p>
 <p><img src="figuresunnamed-chunk-2-1.png" width="80%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="exercice-oligomeres-sans-residus-repetes" class="slide section level2">
-<h1>Exercice: oligomères sans résidus répétés</h1>
+<h2>Exercice: oligomères sans résidus répétés</h2>
 <p>Combien d’oligomères peut-on former (ADN ou peptides) en utilisant chaque résidu une et une seule fois ?</p>
 <p><strong>Approche suggérée</strong>: agrégez progressivement les résidus, en vous demandant à chaque étape combien d’entre eux n’ont pas encore été incorporés.</p>
 <p><strong>Questions subsidiaires</strong>:</p>
@@ -151,7 +151,7 @@ x_n &amp;=&amp; x_{n-1} \cdot a \\
 </ul>
 </div>
 <div id="solution-oligomeres-sans-residus-repetes" class="slide section level2">
-<h1>Solution: oligomères sans résidus répétés</h1>
+<h2>Solution: oligomères sans résidus répétés</h2>
 <ul>
 <li>Premier résidu: <span class="math inline">\(n\)</span> possibilités.</li>
 <li>Dès le moment où on a choisi ce premier résidu, il ne reste plus que <span class="math inline">\(n-1\)</span> possibilités pour le second. On a donc <span class="math inline">\(n \cdot (n-1)\)</span> possibilités pour les deux premiers résidus.</li>
@@ -165,7 +165,7 @@ x_n &amp;=&amp; x_{n-1} \cdot a \\
 </ul>
 </div>
 <div id="la-factorielle" class="slide section level2">
-<h1>La factorielle</h1>
+<h2>La factorielle</h2>
 <ul>
 <li>S’applique pour dénombrer les permutations d’un ensemble.</li>
 <li>Il s’agit de tirages sans remise.</li>
@@ -181,11 +181,11 @@ x_n &amp;=&amp; x_{n-1} \cdot a \\
 <p><span class="math display">\[N = n \cdot (n-1) \cdot (n-2) \ldots 2 \cdot 1\]</span></p>
 </div>
 <div id="factorielle" class="slide section level2">
-<h1>Factorielle</h1>
+<h2>Factorielle</h2>
 <p><img src="figuresunnamed-chunk-3-1.png" width="95%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="elements-de-combinatoire" class="slide section level2">
-<h1>Eléments de combinatoire</h1>
+<h2>Eléments de combinatoire</h2>
 <p>Nous résumons ici les formules les plus utilisées en analyse combinatoire.</p>
 <ul>
 <li>Arrangements (tirages ordonnés sans remise)</li>
@@ -193,7 +193,7 @@ x_n &amp;=&amp; x_{n-1} \cdot a \\
 </ul>
 </div>
 <div id="arrangements" class="slide section level2">
-<h1>Arrangements</h1>
+<h2>Arrangements</h2>
 <p>On appelle <strong>arrangements</strong> les tirages <em>ordonnés</em> effectués <em>sans remise</em> au sein d’un ensemble.</p>
 <p>Nombre d’arrangements de <span class="math inline">\(x\)</span> éléments tirés parmi <span class="math inline">\(n\)</span>.</p>
 <p><span class="math display">\[\begin{array}{ccl}
@@ -209,7 +209,7 @@ A^x_n &amp; = &amp; \frac{n!}{(n - x)!} \\
 </ul>
 </div>
 <div id="combinaisons" class="slide section level2">
-<h1>Combinaisons</h1>
+<h2>Combinaisons</h2>
 <p>On appelle <strong>combinaisons</strong> le nombre de sous-ensembles qu’on peut tirer <em>sans remise</em> dans un ensemble, sans tenir compte de l’ordre des éléments tirés.</p>
 <p>Ce nombre est fourni par le <strong>coefficient binomial</strong>.</p>
 <p><span class="math display">\[\binom{n}{x} = C^x_n = \frac{n!}{x! (n-x)!}\]</span></p>
@@ -222,7 +222,7 @@ A^x_n &amp; = &amp; \frac{n!}{(n - x)!} \\
 </ul>
 </div>
 <div id="exercice-listes-ordonnees-de-genes" class="slide section level2">
-<h1>Exercice: listes (ordonnées) de gènes</h1>
+<h2>Exercice: listes (ordonnées) de gènes</h2>
 <p>On a mené une expérience de transcriptome pour mesurer le niveau d’expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (<strong>en tenant compte</strong> de l’ordre relatif de ces 15 gènes) ?</p>
 <p><strong>Approche suggérée</strong>: comme précédemment, simplifiez le problème en partant de la sélection minimale, et augmentez progressivement le nombre de gènes (1 gène, 2 gènes, …).</p>
 <p><strong>Questions subsidiaires</strong>:</p>
@@ -232,7 +232,7 @@ A^x_n &amp; = &amp; \frac{n!}{(n - x)!} \\
 </ul>
 </div>
 <div id="solution-listes-ordonnees-de-genes" class="slide section level2">
-<h1>Solution: listes (ordonnées) de gènes</h1>
+<h2>Solution: listes (ordonnées) de gènes</h2>
 <p>Il s’agit d’une sélection <strong>sans remise</strong> (chaque gène apparaît à une et une seule position dans la liste de tous les gènes), et <strong>ordonnée</strong> (les mêmes gènes pris dans un ordre différent sont considérés comme un résultat différent).</p>
 <ul>
 <li>Pour le premier gène, il y a <span class="math inline">\(n=6000\)</span> possibiité.</li>
@@ -242,7 +242,7 @@ A^x_n &amp; = &amp; \frac{n!}{(n - x)!} \\
 </ul>
 </div>
 <div id="exercice-ensembles-non-ordonnes-de-genes" class="slide section level2">
-<h1>Exercice: ensembles (non-ordonnés) de gènes</h1>
+<h2>Exercice: ensembles (non-ordonnés) de gènes</h2>
 <p>Lors d’une expérience de transcriptome indiquant le niveau d’expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (<strong>sans tenir compte</strong> de l’ordre relatif de ces 15 gènes) ?</p>
 <p><strong>Approche suggérée</strong>: comme précédemment, simplifiez le problème en partant de sélections minimales (1 gène, 2 gènes, …) et généralisez la formule.</p>
 <p><strong>Questions subsidiaires</strong>:</p>
@@ -253,16 +253,16 @@ A^x_n &amp; = &amp; \frac{n!}{(n - x)!} \\
 </ul>
 </div>
 <div id="solution-ensembles-non-ordonnes-de-genes" class="slide section level2">
-<h1>Solution: ensembles (non-ordonnés) de gènes</h1>
+<h2>Solution: ensembles (non-ordonnés) de gènes</h2>
 <ul>
 <li>Pour une sélection d’un seul gène, il existe <span class="math inline">\(n=6000\)</span> possibilité.</li>
 <li>Pour 2 gènes, il existe <span class="math inline">\(n \cdot (n-1) = 6000 \cdot 5999\)</span> arrangements, mais ceci inclut deux fois chaque paire de gènes (<span class="math inline">\((a, b)\)</span> et <span class="math inline">\((b, a)\)</span>). Le nombre d’ensembles non ordonnés est donc <span class="math inline">\(N = n \dot (n-1)/2\)</span>.</li>
 <li>De même, pour 3 gènes, il faut diviser le nombre d’arrangements (<span class="math inline">\(A^x_n = \frac{n!}{(n-x)!} = 6000 \cdot 5999 \cdot 5998\)</span>) par le nombre de permutations parmi tous les triplets de gènes (<span class="math inline">\((a, b, c), (a, c, b), (b, a, c) \ldots\)</span>), ce qui donne <span class="math inline">\(\frac{6000!}{(6000-3)! 3!} = \frac{6000 \cdot 5999 \cdot 5888}{6} = 3.6\times 10^{10}\)</span>.</li>
-<li>Pour 15 gènes, on obtient <span class="math inline">\(\frac{n!}{(n-x)!x!} = \frac{6000!}{5985! \cdot 3!} = 3.53\times 10^{44}\)</span> <em>combinaisons</em> possibles.</li>
+<li>Pour 15 gènes, on obtient <span class="math inline">\(\frac{n!}{(n-x)!x!} = \frac{6000!}{5985! \cdot 15!} = 3.53\times 10^{44}\)</span> <em>combinaisons</em> possibles.</li>
 </ul>
 </div>
-<div id="resume-des-concepts-et-formules" class="title-slide slide section level1"><h1>Résumé des concepts et formules</h1></div><div id="tirages-avec-sans-remise" class="slide section level2">
-<h1>Tirages avec / sans remise</h1>
+<div id="resume-des-concepts-et-formules" class="titleslide slide section level1"><h1>Résumé des concepts et formules</h1></div><div id="tirages-avec-sans-remise" class="slide section level2">
+<h2>Tirages avec / sans remise</h2>
 <p>Il existe deux types classiques de tirage d’éléments au sein d’un ensemble: avec ou sans remise.</p>
 <ol style="list-style-type: decimal">
 <li><p><strong>Tirage sans remise</strong>: chaque élément peut être tiré au plus une fois. Exemples:</p>
@@ -277,13 +277,13 @@ A^x_n &amp; = &amp; \frac{n!}{(n - x)!} \\
 </ul></li>
 </ol>
 </div><div id="formules" class="slide section level2">
-<h1>Formules</h1>
-<table>
+<h2>Formules</h2>
+<table style="width:89%;">
 <colgroup>
-<col width="13%" />
+<col width="12%" />
 <col width="11%" />
-<col width="20%" />
-<col width="55%" />
+<col width="18%" />
+<col width="47%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -321,25 +321,25 @@ A^x_n &amp; = &amp; \frac{n!}{(n - x)!} \\
 </tbody>
 </table>
 </div><div id="exercice-mutagenese" class="slide section level2">
-<h1>Exercice : mutagénèse</h1>
+<h2>Exercice : mutagénèse</h2>
 <p><em>On soumet un fragment d’ADN de 1 kilobase à un traitement mutagène qui provoque des mutations ponctuelles (substitutions) à 5 positions distinctes indépendantes. Combien de séquences possibles existe-t-il pour le fragment muté ?</em></p>
 </div><div id="solution-exercice-1-mutagenese" class="slide section level2">
-<h1>Solution exercice 1: mutagenèse</h1>
+<h2>Solution exercice 1: mutagenèse</h2>
 <p><em>On soumet un fragment d’ADN de 1 kilobase à un traitement mutagène qui provoque des mutations ponctuelles (substitutions) à 5 positions distinctes indépendantes. Combien de séquences possibles existe-t-il pour le fragment muté ?</em></p>
 <p>Il s’agit de choisir au hasard 5 positions mutantes parmi les 1000 nucléotides du fragment d’ADN. Il s’agit d’un choix sans remise (chaque position ne peut être tirée qu’une fois), on choisit donc le coefficient binomial.</p>
 <p><span class="math display">\[\binom{n}{x} = \binom{1000}{5} = C^5_{1000} = \frac{1000!}{5! 995!} = 8.2502913\times 10^{12}\]</span></p>
 </div><div id="exercice-oligopeptides-3-times-20" class="slide section level2">
-<h1>Exercice : oligopeptides <span class="math inline">\(3 \times 20\)</span></h1>
+<h2>Exercice : oligopeptides <span class="math inline">\(3 \times 20\)</span></h2>
 <p><em>Combien d’oligopeptides de taille 60 peut-on former en utilisant exactement 3 fois chaque acide aminé ?</em></p>
 </div><div id="solution-de-lexercice-oligopeptides-3-times-20" class="slide section level2">
-<h1>Solution de l’exercice : oligopeptides <span class="math inline">\(3 \times 20\)</span></h1>
+<h2>Solution de l’exercice : oligopeptides <span class="math inline">\(3 \times 20\)</span></h2>
 <p><em>Combien d’oligopeptides de taille 60 peut-on former en utilisant exactement 3 fois chaque acide aminé ?</em></p>
 <p>Commençons par générer une séquence particulière qui remplit ces conditions, en concaténant 3 copies de chaque acide aminé, dans l’ordre alphabétique.</p>
 <pre><code>AAACCCDDDEEEFFFGGGHHHIIIKKKLLLMMMNNNPPPQQQRRRSSSTTTVVVWWWYYY</code></pre>
 <p>Toutes les permutations de ces 60 lettres sont des solutions valides. En voici trois exemples.</p>
-<pre><code>AEKHVTDILNAQNIMENKSTRHYHLGPFYGVRCSCYCQPMPFSMDGLEWKTQDWIWRAFV</code></pre>
-<pre><code>NTRIHLVFHCEKCPDWVQITFASWYHPWGRREFDKVQACTLMGMYNLESKAMDSPGQINY</code></pre>
-<pre><code>MQGMCFVTPHALQWYWINNQFEDADSEKHYFNSWVGKYMTICPCRVLDSALKRPETGHIR</code></pre>
+<pre><code>LCHWCIGRLYNADYEVSQIRMNAVYQHIFPNFGRKLCSWQGDSWEAMKPKMFDTVTEPHT</code></pre>
+<pre><code>HFWGNFLQMICEDVLMYTRPQENSRDQMWFTIHTKVGIGCHPAAVWSKRYYKDELCNAPS</code></pre>
+<pre><code>SAPQEKQKCFINYVRHCATGDFVFDRTIKYNWGEQSHRLWPDVSCHWAEPGLYMIMLMNT</code></pre>
 <p>Cependant, il faut prendre en compte le fait que certaines permutations sont identiques (toutes celles où l’on permute deux acides aminés identiques). La difficulté de l’exercice sera donc de dénombrer le nombre de permutations <em>distinctes</em>.</p>
 </div>
 

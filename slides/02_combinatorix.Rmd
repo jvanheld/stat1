@@ -3,37 +3,6 @@ title: "Eléments d'analyse combinatoire"
 author: "Jacques van Helden, revised by Lucie Khamvongsa-Charbonnier and Yvon Mbouamboua"
 date: '`r Sys.Date()`'
 output:
-  slidy_presentation:
-    self_contained: no
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    incremental: no
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
-    toc: yes
-    widescreen: yes
-  html_document:
-    self_contained: no
-    fig_caption: yes
-    highlight: zenburn
-    theme: cerulean
-    toc: yes
-    toc_depth: 3
-    toc_float: yes
-  ioslides_presentation:
-    self_contained: no
-    colortheme: dolphin
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    smaller: yes
-    toc: yes
-    widescreen: yes
   pdf_document:
     fig_caption: yes
     highlight: zenburn
@@ -51,6 +20,37 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
+  ioslides_presentation:
+    self_contained: no
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    smaller: yes
+    toc: yes
+    widescreen: yes
+  html_document:
+    self_contained: no
+    fig_caption: yes
+    highlight: zenburn
+    theme: cerulean
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  slidy_presentation:
+    self_contained: no
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
 subtitle: Probabilités et statistique pour la biologie (STAT1)
 font-family: Garamond
@@ -391,7 +391,7 @@ Lors d'une expérience de transcriptome indiquant le niveau d'expression de tous
 - Pour une sélection d'un seul gène, il existe $n=6000$ possibilité. 
 - Pour 2 gènes, il existe $n \cdot (n-1) = 6000 \cdot 5999$ arrangements, mais ceci inclut deux fois chaque paire de gènes ($(a, b)$ et $(b, a)$). Le nombre d'ensembles non ordonnés est donc $N = n \dot (n-1)/2$.
 - De même, pour 3 gènes, il faut diviser le nombre d'arrangements ($A^x_n = \frac{n!}{(n-x)!} = 6000 \cdot 5999 \cdot 5998$) par le nombre de permutations parmi tous les triplets de gènes ($(a, b, c), (a, c, b), (b, a, c) \ldots$), ce qui donne $\frac{6000!}{(6000-3)! 3!} = \frac{6000 \cdot 5999 \cdot 5888}{6} = `r signif(digits=3, choose(6000,3))`$.
-- Pour 15 gènes, on obtient $\frac{n!}{(n-x)!x!} = \frac{6000!}{5985! \cdot 3!} = `r signif(digits=3, choose(6000, 15))`$ *combinaisons* possibles.
+- Pour 15 gènes, on obtient $\frac{n!}{(n-x)!x!} = \frac{6000!}{5985! \cdot 15!} = `r signif(digits=3, choose(6000, 15))`$ *combinaisons* possibles.
 
 
 # Résumé des concepts et formules

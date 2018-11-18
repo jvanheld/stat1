@@ -4,6 +4,7 @@ author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
   html_document:
+    self_contained: no
     code_folding: hide
     fig_caption: yes
     highlight: zenburn
@@ -11,6 +12,16 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
+  ioslides_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    smaller: yes
+    toc: yes
+    widescreen: yes
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -20,16 +31,6 @@ output:
     keep_md: yes
     smaller: yes
     theme: cerulean
-    toc: yes
-    widescreen: yes
-  ioslides_presentation:
-    colortheme: dolphin
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    smaller: yes
     toc: yes
     widescreen: yes
   pdf_document:
@@ -92,7 +93,7 @@ Il existe deux types classiques de tirage d'éléments au sein d'un ensemble: av
 |--------|-------|------------|---------------------------------|
 | Oui | Oui | $n^x$ | **Exponentielle**: séquences de $x$ éléments tirés dans un ensemble de taille $n$, avec remise. |
 | Non | Oui | $n!$ | **Factorielle**: toutes les permutations d'un ensemble de taille $n$ |
-| Non | Oui | $A^x_n = \frac{n!}{x!}$ | **Arrangements** : listes (ordonnée) de $x$ éléments tirés dans un ensemble de taille $n$ |
+| Non | Oui | $A^x_n = \frac{n!}{(n - x)!}$ | **Arrangements** : listes (ordonnée) de $x$ éléments tirés dans un ensemble de taille $n$ |
 | Non | Non | $C^x_n = \binom{n}{x} = \frac{n!}{x! (n - x) !}$ | **Combinaisons** : ensembles (non ordonnés) de $x$ éléments tirés dans un ensemble de taille $n$ |
 
 

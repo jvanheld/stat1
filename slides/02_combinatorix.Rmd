@@ -3,18 +3,6 @@ title: "Eléments d'analyse combinatoire"
 author: "Jacques van Helden, revised by Lucie Khamvongsa-Charbonnier and Yvon Mbouamboua"
 date: '`r Sys.Date()`'
 output:
-  slidy_presentation:
-    self_contained: no
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    incremental: no
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
-    toc: yes
-    widescreen: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -27,6 +15,18 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
+  slidy_presentation:
+    self_contained: no
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
   pdf_document:
     fig_caption: yes
     highlight: zenburn
@@ -61,79 +61,19 @@ editor_options:
 
 ```{r include=FALSE, echo=FALSE, eval=TRUE}
 library(knitr)
-options(width=300)
+options(width = 300)
 knitr::opts_chunk$set(
   fig.width = 7, fig.height = 5, 
-  fig.path='figures/',
+  fig.path = 'figures/02_combinatorix_',
   fig.align = "center", 
   size = "tiny", 
-  echo = FALSE, eval=TRUE, 
+  echo = FALSE, eval = TRUE, 
   warning = FALSE, message = FALSE, 
   results = TRUE, comment = "")
 # knitr::asis_output("\\footnotesize")
 
 ```
 
-<!--
-# Théorie
-
-## Arrangements
-
-On appelle **arrangements** les tirages *ordonnés* effectués *sans remise* au sein d'un ensemble. 
-
-Nombre d'arrangements de $x$ éléments tirés parmi $n$. 
-
-$$A^x_n = \frac{n!}{(n - x)!} = \frac{n(n-1) \ldots (n-x +1) (n - x) (n-x-1) \ldots 2 \cdot 1}{(n - x) (n-x-1) \ldots 2 \cdot 1} = n \cdot (n-1) \cdot \ldots \cdot (n-x+1)$$
-
-**Application typique:** **[tiercé](https://fr.wikipedia.org/wiki/Tierc%C3%A9_(jeu))** dans l'ordre. Les joueurs parient sur les trois chevaux gagnants d'une course ($x=3$). Pour $n=15$ chevaux partants, il existe $n \cdot (n-1) \cdot (n-2) = 15 \cdot 14 \cdot 13 = `r 15*14*13`$ possibilités. 
-
-## Combinaisons
-
-On appelle **combinaisons** le nombre de sous-ensembles qu'on peut  tirer *sans remise* dans un ensemble, sans tenir compte de l'ordre des éléments tirés. 
-
-Ce nombre est fourni par le **coefficient binomial**.
-
-$$\binom{n}{x} = C^x_n = \frac{n!}{x! (n-x)!}$$
-
-**Attention: ** les paramètres sont placés différemment dans la première  ($binom{n}{x}$, "x parmi n") et la seconde notation ($C^x_n$, "choose").
-
-**Applications typiques: ** 
-
-- **[tiercé](https://fr.wikipedia.org/wiki/Tierc%C3%A9_(jeu))** dans le désordre.
-
-    $$\binom{n}{x} = \binom{15}{3} = C^3_{15} = \frac{15!}{3! 12!} = `r choose(n=15, k=3)`$$
-
-- jeu de **[loto](https://fr.wikipedia.org/wiki/Loto)** (ou lotto): chaque joueur dispose d'une grille avec 90 numéros, et doit en cocher 6. Nombre de possibilités: 
-    $$\binom{n}{x} = \binom{90}{6} = C^6_{90} = \frac{90!}{6! 84!} = `r choose(n=90, k=6)`$$
-
-
-
-
-# Résumé des concepts et formules
-
-## Tirages avec / sans remise
-
-Il existe deux types classiques de tirage d'éléments au sein d'un ensemble: avec ou sans remise. 
-
-1. **Tirage sans remise**: chaque élément peut être tiré au plus une fois. Exemples: 
-
-    - Jeu de [loto](https://fr.wikipedia.org/wiki/Loto) (ou lotto). 
-    - Sélection aléatoire d'un ensemble de gènes dans un génome. 
-
-2. Tirage **avec remise**: chaque élément peut être tiré zéro, une ou plusieurs fois. Exemples: 
-
-    - Jeu de dés. A chaque lancer on dispose des mêmes possibilités (6 faces).
-    - Génération d'une séquence aléatoire, par sélection itérative d'un élément dans l'ensemble des résidus (4 nucléotides pour l'ADN, 20 acides aminés pour les protéines). 
-    
-## Formules
-
-| Remise | Ordre | Formule | Description |
-|--------|-------|------------|---------------------------------|
-| Oui | Oui | $n^x$ | **Exponentielle**: séquences de $x$ éléments tirés dans un ensemble de taille $n$, avec remise. |
-| Non | Oui | $n!$ | **Factorielle**: toutes les permutations d'un ensemble de taille $n$ |
-| Non | Oui | $A^x_n = \frac{n!}{x!}$ | **Arrangements** : listes (ordonnée) de $x$ éléments tirés dans un ensemble de taille $n$ |
-| Non | Non | $C^x_n = \binom{n}{x} = \frac{n!}{x! (n - x) !}$ | **Combinaisons** : ensembles (non ordonnés) de $x$ éléments tirés dans un ensemble de taille $n$ |
--->
 
 ## Problème: dénombrement d'oligomères
 
@@ -171,47 +111,47 @@ Pour chacun de ces deux types de polymères, combien d'oligomères distincts peu
 
 ## La suite géométrique
 
-Une suite géométrique est une succession de nombres dont chaque terme est obtenu par la multiplication du terme précédent par un facteur constant. 
+Une **suite géométrique** est une succession de nombres dont chaque terme est obtenu en multipliant le terme précédent par un facteur constant. 
 
 $$x_i = x_{i-1} \cdot a$$
 
 Pour $n$ suffisamment grand on peut développer la formule.
-$$\begin{array}{cl} \\
-x_n &=& x_{n-1} \cdot a \\
-&=& (x_{n-2} \cdot a) \cdot a = x_{n-2} \cdot a^2 \\
-& = & x_{n-3} \cdot a^3 = \ldots \\
-& = & x_0 \cdot a^n &
-\end{array}$$
+
+$$\begin{aligned}
+x_n &=  x_{n-1} \cdot a \\
+&=  (x_{n-2} \cdot a) \cdot a = x_{n-2} \cdot a^2 \\
+&=  x_{n-3} \cdot a^3 = \ldots = x_0 \cdot a^n 
+\end{aligned}$$
 
 Dans notre cas, la valeur initiale $x_0=1$;  $n$ est la taille de l'oligomère;  et $a$ est le nombre de résidus possibles à chaque position de la séquence ($a=4$ pour les acides nucléiques,  $a=20$ pour les séquences peptidiques).
 
 
 ## Nonmbre d'oligomères
 
-<font color="red">A FAIRE: quelques explications + les formules + graphique</font>
+<font color = "red">A FAIRE: quelques explications + les formules + graphique</font>
 
 
-```{r number_distinct_oligos, out.width="80%", echo=FALSE}
+```{r number_distinct_oligos, out.width = "80%", echo=FALSE}
 x <- 1:20 ## Oligomer size
 
 par.ori <- par(no.readonly = TRUE)
-par(mfrow=c(2,2))
+par(mfrow = c(2,2))
 n <- 4 ## Number of distinct residues
 N <- n^x
 plot(x, N, 
      main = "Number of distinct oligonucleotides",
-     xlab="Oligomer size",
-     ylab="N",
-     las=2, cex.axis=0.8,
-     type="h", lwd=3, col="blue"
+     xlab = "Oligomer size",
+     ylab = "N",
+     las = 2, cex.axis = 0.8,
+     type = "h", lwd = 3, col = "blue"
 )
 plot(x, N, 
      main = "Number of distinct oligonucleotides",
-     xlab="Oligomer size",
-     ylab="N (log scale)",
-     las=2, cex.axis=0.8,
-     log="y",
-     type="p", pch = 19, col="blue"
+     xlab = "Oligomer size",
+     ylab = "N (log scale)",
+     las = 2, cex.axis = 0.8,
+     log = "y",
+     type = "p", pch = 19, col = "blue"
      )
 
 ## Oliopeptides
@@ -219,18 +159,18 @@ n <- 20 ## Number of distinct residues
 N <- n^x
 plot(x, N, 
      main = "Number of distinct oligopeptides",
-     xlab="Oligomer size",
-     ylab="N",
-     las=2, cex.axis=0.8,
-     type="h", lwd=3, col="blue"
+     xlab = "Oligomer size",
+     ylab = "N",
+     las = 2, cex.axis = 0.8,
+     type = "h", lwd = 3, col = "blue"
 )
 plot(x, N, 
      main = "Number of distinct oligopeptides",
-     xlab="Oligomer size",
-     ylab="N (log scale)",
-     las=2, cex.axis=0.8,
-     log="y",
-     type="p", pch = 19, col="blue"
+     xlab = "Oligomer size",
+     ylab = "N (log scale)",
+     las = 2, cex.axis = 0.8,
+     log = "y",
+     type = "p", pch = 19, col = "blue"
 )
 
 par(par.ori) ## restaurer les paramètres par défaut
@@ -279,27 +219,27 @@ $$N = n \cdot (n-1) \cdot (n-2) \ldots 2 \cdot 1$$
 
 ## Factorielle
 
-```{r factorielle, out.width="95%", echo=FALSE, fig.width=10, fig.height=4}
+```{r factorielle, out.width = "95%", echo=FALSE, fig.width=10, fig.height=4}
 n <- 1:20
 N <- factorial(n)
-# plot(n,N, log="y")
+# plot(n,N, log = "y")
 
 par.ori <- par(no.readonly = TRUE)
-par(mfrow=c(1,2))
+par(mfrow = c(1,2))
 plot(n, N, 
      main = "Factorielle",
-     xlab="n",
-     ylab="N",
-     las=2, cex.axis=0.8,
-     type="h", lwd=3, col="blue"
+     xlab = "n",
+     ylab = "N",
+     las = 2, cex.axis = 0.8,
+     type = "h", lwd = 3, col = "blue"
 )
 plot(n, N, 
      main = "Factorielle\n(échelle logarithmique)",
-     xlab="n",
-     ylab="N (log scale)",
-     las=2, cex.axis=0.8,
-     log="y",
-     type="p", pch = 19, col="blue"
+     xlab = "n",
+     ylab = "N (log scale)",
+     las = 2, cex.axis = 0.8,
+     log = "y",
+     type = "p", pch = 19, col = "blue"
      )
 par(par.ori)
 ```
@@ -445,21 +385,21 @@ $$\binom{n}{x} = \binom{1000}{5} = C^5_{1000} = \frac{1000!}{5! 995!} = `r choos
 Commençons par générer une séquence particulière qui remplit ces conditions, en concaténant 3 copies de chaque acide aminé, dans l'ordre alphabétique. 
 
 ```{r echo=FALSE}
-aa.table <- read.delim("amino_acid_table.tsv", sep="\t")
+aa.table <- read.delim("amino_acid_table.tsv", sep = "\t")
 # kable(aa.table, caption = "Symboles des acides aminés et codons")
 
 aa <- sort(as.vector(aa.table$Symbol))
 aa <- aa[aa %in% LETTERS]
 
-cat(sort(rep(aa, times=3)), sep="")
+cat(sort(rep(aa, times=3)), sep = "")
 ```
 
 Toutes les permutations de ces 60 lettres sont des solutions valides. En voici trois exemples. 
 
 ```{r echo=FALSE}
-cat(sample(rep(aa, times=3)), sep="")
-cat(sample(rep(aa, times=3)), sep="")
-cat(sample(rep(aa, times=3)), sep="")
+cat(sample(rep(aa, times = 3)), sep = "")
+cat(sample(rep(aa, times = 3)), sep = "")
+cat(sample(rep(aa, times = 3)), sep = "")
 ```
 
 

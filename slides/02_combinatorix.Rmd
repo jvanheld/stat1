@@ -3,7 +3,19 @@ title: "Eléments d'analyse combinatoire"
 author: "Jacques van Helden, revised by Lucie Khamvongsa-Charbonnier and Yvon Mbouamboua"
 date: '`r Sys.Date()`'
 output:
-<<<<<<< HEAD
+  slidy_presentation:
+    self_contained: no
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -16,29 +28,6 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
-  slidy_presentation:
-    self_contained: no
-=======
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: yes
-    toc_depth: 3
-  beamer_presentation:
-    colortheme: dolphin
->>>>>>> 6212013a9b11448e051f699f4edf5c46f70875f2
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    incremental: no
-<<<<<<< HEAD
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
-    toc: yes
-    widescreen: yes
   pdf_document:
     fig_caption: yes
     highlight: zenburn
@@ -49,11 +38,6 @@ output:
     fig_caption: yes
     highlight: zenburn
     theme: cerulean
-=======
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
->>>>>>> 6212013a9b11448e051f699f4edf5c46f70875f2
     toc: yes
   ioslides_presentation:
     self_contained: no
@@ -66,29 +50,6 @@ output:
     smaller: yes
     toc: yes
     widescreen: yes
-<<<<<<< HEAD
-=======
-  html_document:
-    self_contained: no
-    fig_caption: yes
-    highlight: zenburn
-    theme: cerulean
-    toc: yes
-    toc_depth: 3
-    toc_float: yes
-  slidy_presentation:
-    self_contained: no
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    incremental: no
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
-    toc: yes
-    widescreen: yes
->>>>>>> 6212013a9b11448e051f699f4edf5c46f70875f2
 font-import: http://fonts.googleapis.com/css?family=Risque
 subtitle: Probabilités et statistique pour la biologie (STAT1)
 font-family: Garamond
@@ -109,6 +70,9 @@ knitr::opts_chunk$set(
   warning = FALSE, message = FALSE, 
   results = TRUE, comment = "")
 # knitr::asis_output("\\footnotesize")
+
+## Library used to draw flow charts
+library(DiagrammeR)
 
 ```
 
@@ -161,7 +125,7 @@ x_n &=  x_{n-1} \cdot a \\
 &=  x_{n-3} \cdot a^3 = \ldots = x_0 \cdot a^n 
 \end{aligned}$$
 
-Dans notre cas, la valeur initiale $x_0=1$;  $n$ est la taille de l'oligomère;  et $a$ est le nombre de résidus possibles à chaque position de la séquence ($a=4$ pour les acides nucléiques,  $a=20$ pour les séquences peptidiques).
+Dans notre cas, la valeur initiale $x_0=1$;  $n$ est la taille de l'oligomère;  et $a$ est le nombre de résidus ($a=4$ pour les acides nucléiques,  $a=20$ pour les séquences peptidiques).
 
 
 ## Nonmbre d'oligomères
@@ -231,12 +195,12 @@ Combien d'oligomères peut-on former (ADN ou peptides) en utilisant chaque rési
 
 - Premier résidu: $n$ possibilités. 
 - Dès le moment où on a choisi ce premier résidu, il ne reste plus que $n-1$ possibilités pour le second. On a donc $n \cdot (n-1)$ possibilités pour les deux premiers résidus. 
-- Pour la troisième position, en fonction des deux premiers résidus déjà tirés, il ne reste que $n-2$ résidus. On a donc $n \cdot (n-1) \cdot (n-2)$ possibilités pour les 3 premières positions de la séquence.
+- Pour la troisième position, il ne reste que $n-2$ résidus. On a donc $n \cdot (n-1) \cdot (n-2)$ possibilités pour les 3 premières positions de la séquence.
 - Par extension, le nombre total de possibilités est donc (en supposant $n$ suffisamment grand) $$n! = n \cdot (n-1) \cdot \ldots \cdot 2 \cdot 1$$.
 - Dans notre cas:
 
-    - $n! = 4! = `r signif(digits=3, factorial(4))`$ oligonucléotides comportant exactement 1 fois chaque nucléotide (taille 4)
-    - $n! = 20! = `r signif(digits=3, factorial(20))`$ oligopeptides comportant exactement 1 fois chaque acide aminé (taille 20)
+    - $n! = 4! = `r signif(digits=3, factorial(4))`$ oligonucléotides comportant exactement 1 fois chaque nucléotide (taille 4).
+    - $n! = 20! = `r signif(digits=3, factorial(20))`$ oligopeptides (taille 20).
     
 ## La factorielle
 
@@ -310,15 +274,16 @@ $$
 
 ## Combinaisons
 
-On appelle **combinaisons** le nombre de sous-ensembles qu'on peut  tirer *sans remise* dans un ensemble, sans tenir compte de l'ordre des éléments tirés. 
+On appelle **combinaisons** le nombre de sous-ensembles de $x$ qu'on peut  tirer *sans remise* dans un ensemble de taille $n$,  si l'on ne tient pas de l'ordre des éléments tirés. 
 
 Ce nombre est fourni par le **coefficient binomial**.
 
 $$\binom{n}{x} = C^x_n = \frac{n!}{x! (n-x)!}$$
 
+
 **Attention: ** les paramètres sont placés différemment dans la première  ($binom{n}{x}$, "x parmi n") et la seconde notation ($C^x_n$, "choose").
 
-**Applications typiques: ** 
+## Combinaisons -- Applications typiques
 
 - **[tiercé](https://fr.wikipedia.org/wiki/Tierc%C3%A9_(jeu))** dans le désordre.
 
@@ -388,14 +353,50 @@ Il existe deux types classiques de tirage d'éléments au sein d'un ensemble: av
     - Jeu de dés. A chaque lancer on dispose des mêmes possibilités (6 faces).
     - Génération d'une séquence aléatoire, par sélection itérative d'un élément dans l'ensemble des résidus (4 nucléotides pour l'ADN, 20 acides aminés pour les protéines). 
     
+## Choix de la formule
+
+```{r combinatorix_flowchart, out.width = "90%", fig.width = 8, fig.height = 5}
+
+grViz("
+digraph combinatorix_flowchart {
+  node [shape = diamond, fontname = Helvetica ]
+  node [fontcolor = 'orange']
+  A [label = 'remise ?']; 
+  B [label = 'ordonné ?'];
+  D [label = 'ordonné ?']  
+  G [label = 'sélection\nexhaustive ?']
+
+  node [shape = 'rectangle', fontcolor = 'black']
+  C [label = 'suite\ngéométrique'];
+  E [label = 'arrangement']
+  F [label = 'combinaison']
+  H [label = 'factorielle']
+
+  edge [arrowhead  = 'normal', color = '#00BB00', fontcolor = '#00BB00', label = 'oui']
+  A -> B
+  B -> C
+  D -> G
+  G -> H
+
+  edge [arrowhead  = 'normal', color = '#BB0000', fontcolor = '#BB0000', label = 'non']
+  A -> D
+  D -> F
+  G -> E
+
+}
+")
+
+```
+
+
 ## Formules
 
 | Remise | Ordre | Formule | Description |
 |--------|-------|------------|---------------------------------|
-| Oui | Oui | $n^x$ | **Exponentielle**: séquences de $x$ éléments tirés dans un ensemble de taille $n$, avec remise. |
-| Non | Oui | $n!$ | **Factorielle**: toutes les permutations d'un ensemble de taille $n$ |
-| Non | Oui | $A^x_n = \frac{n!}{(n-x)!}$ | **Arrangements** : listes (ordonnée) de $x$ éléments tirés dans un ensemble de taille $n$ |
-| Non | Non | $C^x_n = \binom{n}{x} = \frac{n!}{x! (n - x) !}$ | **Combinaisons** : ensembles (non ordonnés) de $x$ éléments tirés dans un ensemble de taille $n$ |
+| Oui | Oui | $n^x$ | **Suite géométrique**: tirages ordonnés (séquences), avec remise, de $x$ éléments dans un ensemble de taille $n$. |
+| Non | Oui | $n!$ | **Factorielle**: permutations d'un ensemble de taille $n$ |
+| Non | Oui | $A^x_n = \frac{n!}{(n-x)!}$ | **Arrangements** : tirages ordonnés, sans remise, de $x$ éléments dans un ensemble de taille $n$ |
+| Non | Non | $C^x_n = \binom{n}{x} = \frac{n!}{x! (n - x) !}$ | **Combinaisons** : tirages non ordonnés, sans remise, de $x$ éléments dans un ensemble de taille $n$ |
 
 
 ## Exercice : mutagénèse

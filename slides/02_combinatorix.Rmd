@@ -64,7 +64,7 @@ library(knitr)
 options(width=300)
 knitr::opts_chunk$set(
   fig.width = 7, fig.height = 5, 
-  fig.path='figures',
+  fig.path='figures/',
   fig.align = "center", 
   size = "tiny", 
   echo = FALSE, eval=TRUE, 
@@ -191,7 +191,7 @@ Dans notre cas, la valeur initiale $x_0=1$;  $n$ est la taille de l'oligomère; 
 <font color="red">A FAIRE: quelques explications + les formules + graphique</font>
 
 
-```{r out.width="80%", echo=FALSE}
+```{r number_distinct_oligos, out.width="80%", echo=FALSE}
 x <- 1:20 ## Oligomer size
 
 par.ori <- par(no.readonly = TRUE)
@@ -279,7 +279,7 @@ $$N = n \cdot (n-1) \cdot (n-2) \ldots 2 \cdot 1$$
 
 ## Factorielle
 
-```{r out.width="95%", echo=FALSE, fig.width=10, fig.height=4}
+```{r factorielle, out.width="95%", echo=FALSE, fig.width=10, fig.height=4}
 n <- 1:20
 N <- factorial(n)
 # plot(n,N, log="y")

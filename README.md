@@ -1,6 +1,6 @@
 ## Probabilités et statistiques pour la biologie (STAT1)
 
-- Code AMU: SBBAU16L
+- Code AMU: SBI403AL
 - Volume horaire: 15 de CM - 7 de TD - 8 de TP
 - Enseignants
 

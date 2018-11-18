@@ -3,6 +3,7 @@ title: "Eléments d'analyse combinatoire"
 author: "Jacques van Helden, revised by Lucie Khamvongsa-Charbonnier and Yvon Mbouamboua"
 date: '`r Sys.Date()`'
 output:
+<<<<<<< HEAD
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -17,11 +18,22 @@ output:
     toc: yes
   slidy_presentation:
     self_contained: no
+=======
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
+  beamer_presentation:
+    colortheme: dolphin
+>>>>>>> 6212013a9b11448e051f699f4edf5c46f70875f2
     fig_caption: yes
     fig_height: 6
     fig_width: 7
+    fonttheme: structurebold
     highlight: tango
     incremental: no
+<<<<<<< HEAD
     keep_md: yes
     smaller: yes
     theme: cerulean
@@ -37,9 +49,12 @@ output:
     fig_caption: yes
     highlight: zenburn
     theme: cerulean
+=======
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+>>>>>>> 6212013a9b11448e051f699f4edf5c46f70875f2
     toc: yes
-    toc_depth: 3
-    toc_float: yes
   ioslides_presentation:
     self_contained: no
     colortheme: dolphin
@@ -51,6 +66,29 @@ output:
     smaller: yes
     toc: yes
     widescreen: yes
+<<<<<<< HEAD
+=======
+  html_document:
+    self_contained: no
+    fig_caption: yes
+    highlight: zenburn
+    theme: cerulean
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  slidy_presentation:
+    self_contained: no
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
+>>>>>>> 6212013a9b11448e051f699f4edf5c46f70875f2
 font-import: http://fonts.googleapis.com/css?family=Risque
 subtitle: Probabilités et statistique pour la biologie (STAT1)
 font-family: Garamond

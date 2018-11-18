@@ -20,6 +20,13 @@ Pour les cours de 2018, les interventions de Jacques van Helden seront limitées
 
 Les autres chapitres sont traités par Pascal Rihet, dont les supports sont disponibles sur [Ametice](https://ametice.univ-amu.fr/course/view.php?id=42602). 
 
+| Jour | Horaire | Type | Contenu | Supports | 
+|-----------|-------------|----------|------------------------------|----------------|
+| 19/11 | 8h - 10h | Cours-TD | Eléments d'analyse combinatoire |  [[html](slides/02_combinatorix.html)] [[pdf](slides/02_combinatorix.pdf)] [[Rmd](slides/02_combinatorix.Rmd)] |
+| 19/11 | | | Concepts de probabilités | [[html](slides/03_concepts_proba.html)] [[pdf](slides/03_concepts_proba.pdf)] [[Rmd](slides/03_concepts_proba.Rmd)] |
+| 19/11 | 10h - 12h | Cours-TD | Distributions discrètes | [[html](slides/04_distributions_discretes.html)] [[pdf](slides/04_distributions_discretes.pdf)] [[Rmd](slides/04_distributions_discretes.Rmd)] |
+| 19/11 | 14h - 18h | TP  (2h par groupe) | Premiers pas avec R | [html](practicals/01_intro_R/01_intro_R.html) [pdf](practicals/01_intro_R/01_intro_R.pdf) [Rmd](practicals/01_intro_R/01_intro_R.Rmd) |
+| 22/11 | ... | ... | A compléter | |
 
 ****************************************************************
 ### Cours et exercices
@@ -31,7 +38,7 @@ La dernière colonne indique les parties données par Jacques van Helden en 2018
 | CM1 | Introduction au cours |  [[html](slides/01_introduction.html)]  [[pdf](slides/01_introduction.pdf)] [[Rmd](slides/01_introduction.Rmd)] | non |
 | CM1-2 | Eléments d'analyse combinatoire |  [[html](slides/02_combinatorix.html)] [[pdf](slides/02_combinatorix.pdf)] [[Rmd](slides/02_combinatorix.Rmd)] | <font color="violet">oui</font> |
 | | Solutions des exercices de combinatoire |  [[html](slides/02_combinatorix_solutions.html)] [[pdf](slides/02_combinatorix_solutions.pdf)] [[Rmd](slides/02_combinatorix_solutions.Rmd)] | <font color="violet">oui</font> |
-| CM3 | Concepts de probabilités | [[html](slides/03_concepts_proba.html)] [[pdf](slides/03_concepts_proba.pdf)] [[Rmd](slides/03_concepts_proba.Rmd)] | non |
+| CM3 | Concepts de probabilités | [[html](slides/03_concepts_proba.html)] [[pdf](slides/03_concepts_proba.pdf)] [[Rmd](slides/03_concepts_proba.Rmd)] | <font color="violet">à trier</font> |
 | CM4 | Distributions discrètes | [[html](slides/04_distributions_discretes.html)] [[pdf](slides/04_distributions_discretes.pdf)] [[Rmd](slides/04_distributions_discretes.Rmd)] | <font color="violet">oui</font> |
 | CM5 | Echantillonnage et estimation |  [[html](slides/05_echantillonnage_estimation.html)] [[pdf](slides/05_echantillonnage_estimation.pdf)] [[Rmd](slides/05_echantillonnage_estimation.Rmd)] [[R demo](R_demos/05_echantillonnage_estimation_demo.R)] | non |
 | CM6 | Test de comparaison de moyenne | [[html](slides/06_tests_comparaison_moyenne.html)] [[pdf](slides/06_tests_comparaison_moyenne.pdf)] [[Rmd](slides/06_tests_comparaison_moyenne.Rmd)] | non |

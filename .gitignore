@@ -5,3 +5,6 @@
 README.html
 TODO.html
 .DS_Store
+*.aux
+*.out
+*.log

@@ -27,6 +27,7 @@ Les autres chapitres sont traités par Pascal Rihet, dont les supports sont disp
 |  | | | Concepts de probabilités | [[html](slides/03_concepts_proba.html)] [[pdf](slides/03_concepts_proba.pdf)] [[Rmd](slides/03_concepts_proba.Rmd)] |
 |  | | | Exercices: concepts de probabilités | [[html](slides/03_concepts_proba_exercices.html)] [[pdf](slides/03_concepts_proba_exercices.pdf)] [[Rmd](slides/03_concepts_proba_exercices.Rmd)] |
 | 19/11 | 10h - 12h | Cours-TD | Distributions discrètes | [[html](slides/04_distributions_discretes.html)] [[pdf](slides/04_distributions_discretes.pdf)] [[Rmd](slides/04_distributions_discretes.Rmd)] |
+|  |  | | Exercices: distributions discrètes | [[html](slides/04_distributions_discretes_exercices.html)] [[pdf](slides/04_distributions_discretes_exercices.pdf)] [[Rmd](slides/04_distributions_discretes_exercices.Rmd)] |
 | 19/11 | 14h - 18h | TP  (2h par groupe) | Premiers pas avec R | [html](practicals/01_intro_R/01_intro_R.html) [pdf](practicals/01_intro_R/01_intro_R.pdf) [Rmd](practicals/01_intro_R/01_intro_R.Rmd) |
 | 22/11 | ... | ... | A compléter | |
 

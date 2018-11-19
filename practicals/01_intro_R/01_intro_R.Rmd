@@ -4,6 +4,7 @@ author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
   slidy_presentation:
+    self_contained: no
     fig_caption: yes
     fig_height: 6
     fig_width: 7
@@ -16,6 +17,7 @@ output:
     toc_float: yes
     widescreen: yes
   html_document:
+    self_contained: no
     fig_caption: yes
     highlight: zenburn
     theme: cerulean
@@ -60,6 +62,8 @@ font-family: Garamond
 subtitle: Probabilités et statistique pour la biologie (STAT1)
 address: TAGC lab, Aix-Marseille Université, France
 transition: linear
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE, size="huge"}
@@ -124,6 +128,16 @@ En ***R***, **`<-`** signifie "crée une variable et assigne-lui une valeur".
 a <- 2
 print(a)
 ```
+
+**Remarque : ** R permet également d'utiliser le symbole `=` pour effectuer une assignation. Cependant, nous préférons utiliser l'opérateur explicite `<-`, qui est également préconisé sur les guides de style
+
+## Conventions de notation en R
+
+Il existe plusieurs conventions possibles pour les noms de variables, de fonction, les opérateurs, etc. Chaque langage de programmation a ses propres standards et recommandations. Pour ce cours nous suivons les recommandations de **Google R style guide :**
+
+<https://google.github.io/styleguide/Rguide.xml>
+
+Cependant, pour les [identifiants de variables](https://google.github.io/styleguide/Rguide.xml#identifiers), la notation `variable.name` est traditionnelle mais pose problème aux personnes familières avec les langages orientés objet, et nous admettons donc la notation alternative en "dos de chameau" de type `variableName`. Attention, par convention les noms de variables commencent toujours par une minuscule. 
 
 ## Calculer avec des variables
 
@@ -205,6 +219,14 @@ x <- 0:30
 print(x)
 ```
 
+**Note: ** si l'impression des valeurs du vecteur dépasse la largeur de la page, R passe à la ligne et indique en début de ligne l'indice du premier élément. Un ature exemple: 
+
+
+```{r}
+print(0:100)
+```
+
+
 ## Calculer avec des vecteurs
 
 
@@ -263,7 +285,7 @@ R comporte un grand nombre de fonctions permettant de dessiner des graphiques si
 ## Nuage de points (scatter plot)
 
 ```{r scatter_plot, fig.width=7, fig.height=5, fig.align="center"}
-x <- -10:10
+x <- seq(from = -10, to = 10, by = 0.1)
 y <- x^2
 plot(x,y)
 ```
@@ -272,7 +294,7 @@ plot(x,y)
 
 
 ```{r line_plot, fig.width=7, fig.height=5, fig.align="center"}
-x <- -10:10
+x <- seq(from = -10, to = 10, by = 0.1)
 y <- x^2
 plot(x,y, type="l")
 ```
@@ -290,8 +312,33 @@ Vous pouvez par exemple ajouter les éléments suivants:
 - coloration de la courbe
 - épaisseur de la courbe
 - grille
-- tracer l'axe $X=$
+- tracer une droite horizontale sur l'axe $X=0$
+- tracer une droite verticale sur l'axe $Y=0$
 - tout autre paramètre qui améliorera la lisibilité du résultat
+
+La solution se trouve sur la diapo suivante (ne regardez pas !). 
+
+## Solution
+
+Faites tourner le code-ci-dessous pour afficher le résultat. 
+
+```{r line_plot_improved, fig.width=7, fig.height=5, fig.align="center", echo = TRUE, eval = FALSE}
+x <- seq(from = -10, to = 10, by = 0.1)
+y <- x^2
+plot(x,y, 
+     type="l", # Plot type
+     main = "Parabole", # Main title
+     xlab = "x", #X label
+     ylab = "y = x^2", # Y label
+     col = "blue", # Curve color
+     lwd = 3, # Line width
+     las = 1 # display axis labels horizontally 
+     )
+grid(lty = "dashed", col="gray") # Grid
+abline(h = 0) # Horizontal line
+abline(v = 0) # Vertical line
+
+```
 
 
 ## Distributions de probabilités
@@ -307,14 +354,18 @@ help("Binomial")
 
 **Questions:** 
 
-1. Quelle est la fonction R qui permet de calculer la fonction de masse de probabilité ?
-2. Quelle fonction R correspond à la fonction de répartition ?
+1. Quelle est la fonction R qui permet de calculer la fonction de masse de probabilité (également appelée "densité") ?
+2. Quelle fonction R correspond à la fonction de répartition (également appelée "fonction de distribution") ?
 2. A quoi sert la fonction *rbinom()* ?
 
 ## Graphe de la binomiale
 
-**Exercice:** en supposant des nucléotides équiprobables et indépendants, dessiner la probazbilité du nombre d'adénines pour un oligonucléotide de taille 30. 
+**Exercice:** en supposant des nucléotides équiprobables et indépendants, dessiner la distribution de probabilité du nombre d'adénines pour un oligonucléotide de taille 30. 
 
+- fonction de masse de la probabilité
+- fonction de répartition
+
+Dans les diapos suivantes, nous vous guidons pas à pas pour débuter l'exercice, et vous pourrez ensuite améliorer le résultat à vote guise. 
 
 ## Formule de la solution
 
@@ -375,19 +426,68 @@ y <- dbinom(x = x, size = n, prob = 0.25) # Poisson density
 plot(x,y) # Check the result
 ```
 
-Ce premier dessin n'est pas très convaincant. 
+Ce premier dessin n'est pas très élégant. Les points ne se détachent pas très bien du fond. Nous allons améliorer ce dessin.  
+
+## Exercice 1 : améliorer le dessin de la binomiale
+
+Utilisez les différentes option de la fonction `plot()` pour mieux mettre en évidence la forme de la distribution (résultat attendu sur la diapo suivante). 
+
+- Commencez par choisir un type de points  (option `type`) qui donne l'impression de la hauteur de la probabilité (valeur $Y$) correspondant à chaque point de l'axe $X$.
+
+- Ajoutez un titre (option `main`) et adaptez les légendes aux axes (options `xlab`et `ylab`)
+
+- Colorez le dessin (option `col`)
+
+- Epaississez les traits (option `lwd`)
+
+- Ajoutez une grille horizontale (fonction `grid()`)
+
+- Assurez-vous que les étiquettes des axes soient toutes horizontales (option `las`).
+
+
+## Résultat attendu
+
+```{r dbinom_plot_improved, fig.width=7, fig.height=4, out.width="80%", fig.align="center", echo = FALSE}
+n <- 30; x <- 0:n   # Define the X values from 0 to 14
+y <- dbinom(x = x, size = n, prob = 0.25) # Poisson density
+plot(x, y,
+     main = "Binomial distribution",
+     xlab = "X (Number of successes)",
+     ylab = "P(X)",
+     col = 'blue',
+     lwd = 6,
+     las = 1,
+     type = "h")
+grid(lty = "solid", col="gray")
+
+
+```
 
 
 ## Exercice: série de courbes binomiales
 
 Dessinez une série de courbes binomiales avec $n=30$ essais, et des valeurs de $p$ allant de $0.1$ à $0.9$ par pas de $0.1$. 
 
+```{r binomial_series, fig.width = 12, fig.height = 8, out.width = "70%", echo = FALSE}
+par(mfrow = c(3,3))
+n <- 30  # Number of trials
+x <- 0:n # Number of successes
+for (p in seq(from = 0.1, to = 0.9, by = 0.1)) {
+  plot(x, dbinom(x, prob = p, size = n),
+       main = paste("p =", p),
+       ylab = "P(X)",
+       type = "h", lwd = 2, col = "blue"
+       )
+}
 
-## Exercice: améliorez le graphique d'une distribution de probabilité
+par(mfrow = c(1,1))
 
-A vous de jouer: utilisez tous les paramètres que vous pouvez pour améliorer la lisibilité du graphique de la distribution binomiale. 
+```
 
-**Astuce: ** consultez l'aide de la fonction `par()`, et testez le type "histogram". 
+
+## Exercice: convergence de la binomiale vers une normale
+
+A ECRIRE
 
 ## Avant de terminer : conservez la trace de votre session
 

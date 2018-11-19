@@ -179,13 +179,13 @@ c <span class="op">==</span><span class="st"> </span>a <span class="op">+</span>
 <pre><code> [1]  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22
 [24] 23 24 25 26 27 28 29 30</code></pre>
 <p><strong>Note: </strong> si l’impression des valeurs du vecteur dépasse la largeur de la page, R passe à la ligne et indique en début de ligne l’indice du premier élément. Un ature exemple:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">100</span>)</code></pre></div>
-<pre><code>  [1]   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16
- [18]  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33
- [35]  34  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50
- [52]  51  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67
- [69]  68  69  70  71  72  73  74  75  76  77  78  79  80  81  82  83  84
- [86]  85  86  87  88  89  90  91  92  93  94  95  96  97  98  99 100</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="dv">58</span><span class="op">:</span><span class="dv">157</span>)</code></pre></div>
+<pre><code>  [1]  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72  73  74
+ [18]  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90  91
+ [35]  92  93  94  95  96  97  98  99 100 101 102 103 104 105 106 107 108
+ [52] 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125
+ [69] 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142
+ [86] 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157</code></pre>
 </div>
 <div id="calculer-avec-des-vecteurs" class="slide section level2">
 <h2>Calculer avec des vecteurs</h2>
@@ -207,6 +207,7 @@ c <span class="op">==</span><span class="st"> </span>a <span class="op">+</span>
 <div id="les-variables-peuvent-contenir-du-texte" class="slide section level2">
 <h2>Les variables peuvent contenir du texte</h2>
 <p>Les variables ne se limitent pas aux nombres: elles peuvent contenir du texte (“chaînes de caractères”, “strings” en anglais).</p>
+<p>Ici également, nous utilisons la fonction <code>c()</code> pour combiner plusieurs chaînes de caractères dans un vecteur.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># The # symbol allows to insert comments in R code</span>
 
 <span class="co"># Define  a vector named &quot;whoami&quot;, and </span>
@@ -218,14 +219,19 @@ whoami &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">
 <div id="concatenation-de-chaines-de-caracters" class="slide section level2">
 <h2>Concaténation de chaînes de caractèrs</h2>
 <p>La fonction <code>paste()</code> permet de concaténer les variables contenant du texte.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Define  a vector named &quot;names&quot;, and </span>
-<span class="co"># containing two names</span>
-prenom &lt;-<span class="st"> &quot;Denis Siméon&quot;</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># To concatenate the elements of a vector in a single chain, use &quot;collapse&quot;</span>
+prenom.complet &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="dt">collapse =</span> <span class="st">&quot; &quot;</span>, whoami)
+<span class="kw">print</span>(prenom.complet)</code></pre></div>
+<pre><code>[1] &quot;Denis Siméon&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># TO concatenate two vectors, use &quot;sep&quot;</span>
 nom &lt;-<span class="st"> &quot;Poisson&quot;</span>
-
-<span class="co"># Paste the values of a vector of string </span>
-<span class="kw">print</span>(<span class="kw">paste</span>(<span class="dt">sep=</span><span class="st">&quot; &quot;</span>, prenom, nom))</code></pre></div>
+<span class="kw">print</span>(<span class="kw">paste</span>(<span class="dt">sep =</span> <span class="st">&quot; &quot;</span>, prenom.complet, nom))</code></pre></div>
 <pre><code>[1] &quot;Denis Siméon Poisson&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Concatenate 2 vectors with 3 values each
+prenoms &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;George&quot;</span>, <span class="st">&quot;Alfred&quot;</span>, <span class="st">&quot;Frédéric&quot;</span>)
+noms &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Sand&quot;</span>,  <span class="st">&quot;Musset&quot;</span>, <span class="st">&quot;Chopin&quot;</span>)
+<span class="kw">paste</span>(<span class="dt">sep =</span> <span class="st">&quot; &quot;</span>, prenoms, noms)</code></pre></div>
+<pre><code>[1] &quot;George Sand&quot;     &quot;Alfred Musset&quot;   &quot;Frédéric Chopin&quot;</code></pre>
 </div>
 <div id="fonctions-graphiques" class="slide section level2">
 <h2>Fonctions graphiques</h2>
@@ -371,19 +377,55 @@ y &lt;-<span class="st"> </span><span class="kw">dbinom</span>(<span class="dt">
 </div>
 <div id="exercice-convergence-de-la-binomiale-vers-une-normale" class="slide section level2">
 <h2>Exercice: convergence de la binomiale vers une normale</h2>
-<p>A ECRIRE</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">n &lt;-<span class="st"> </span><span class="dv">10</span>
+p &lt;-<span class="st"> </span><span class="fl">0.4</span>
+
+<span class="co">#&#39; @title PLot a binomial disrtribution</span>
+<span class="co">#&#39; @param size number of trials</span>
+<span class="co">#&#39; @param prob probability of success at each trial</span>
+BinomPlot &lt;-<span class="st"> </span><span class="cf">function</span>(size, prob, ...) {
+  x &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span>size
+  
+  mean  &lt;-<span class="st"> </span>prob <span class="op">*</span><span class="st"> </span>size
+  binomVar &lt;-<span class="st"> </span>size <span class="op">*</span><span class="st"> </span>prob <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>prob)
+  binomSD &lt;-<span class="st"> </span><span class="kw">sqrt</span>(binomVar)
+  plotXLim &lt;-<span class="st"> </span><span class="kw">c</span>(mean <span class="op">-</span><span class="st"> </span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span>binomSD, 
+            mean <span class="op">+</span><span class="st"> </span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span>binomSD)
+
+  y &lt;-<span class="st"> </span><span class="kw">dbinom</span>(<span class="dt">x =</span> x, <span class="dt">size =</span> size, <span class="dt">prob =</span> prob)
+  <span class="kw">plot</span>(x, y, <span class="dt">type=</span><span class="st">&quot;h&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;gray&quot;</span>, <span class="dt">xlim =</span> plotXLim, ...)
+
+  
+  <span class="kw">abline</span>(<span class="dt">v=</span>mean)
+  
+  <span class="kw">abline</span>(<span class="dt">v =</span> mean <span class="op">-</span><span class="st"> </span>binomSD, <span class="dt">lty =</span> <span class="st">&quot;dashed&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)
+  <span class="kw">abline</span>(<span class="dt">v =</span> mean <span class="op">+</span><span class="st"> </span>binomSD, <span class="dt">lty =</span> <span class="st">&quot;dashed&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)
+  
+}
+
+
+
+<span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))
+<span class="cf">for</span> (n <span class="cf">in</span> <span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">1000</span>, <span class="dv">10000</span>, <span class="dv">10000</span>)) {
+  <span class="kw">BinomPlot</span>(<span class="dt">prob =</span> <span class="fl">0.4</span>, <span class="dt">size =</span> n)
+
+  ## Draw a normal curve above the binomial
+  <span class="kw">lines</span>(x, <span class="kw">dnorm</span>(x, <span class="dt">mean =</span> p <span class="op">*</span><span class="st"> </span>n, <span class="dt">sd =</span> <span class="kw">sqrt</span>(p <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p ) <span class="op">*</span><span class="st"> </span>n)), <span class="dt">type=</span><span class="st">&quot;l&quot;</span>)
+}</code></pre></div>
+<p><img src="figures/unnamed-chunk-17-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</code></pre></div>
 </div>
 <div id="avant-de-terminer-conservez-la-trace-de-votre-session" class="slide section level2">
 <h2>Avant de terminer : conservez la trace de votre session</h2>
 <p>La traçabilité constitue un enjeu essentiel en sciences. La fonction <strong><em>R</em></strong> <code>sessionInfo()</code> fournit un résumé des conditions d’une session de travail: version de R, système opérateur, bibliothèques de fonctions utilisées.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
-<pre><code>R version 3.4.2 (2017-09-28)
+<pre><code>R version 3.5.1 (2018-07-02)
 Platform: x86_64-apple-darwin15.6.0 (64-bit)
-Running under: macOS High Sierra 10.13.6
+Running under: macOS  10.14.1
 
 Matrix products: default
-BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
 
 locale:
 [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -395,8 +437,8 @@ other attached packages:
 [1] knitr_1.20
 
 loaded via a namespace (and not attached):
- [1] compiler_3.4.2  backports_1.1.2 magrittr_1.5    rprojroot_1.3-2
- [5] tools_3.4.2     htmltools_0.3.6 yaml_2.2.0      Rcpp_0.12.19   
+ [1] compiler_3.5.1  backports_1.1.2 magrittr_1.5    rprojroot_1.3-2
+ [5] tools_3.5.1     htmltools_0.3.6 yaml_2.2.0      Rcpp_1.0.0     
  [9] stringi_1.2.4   rmarkdown_1.10  stringr_1.3.1   digest_0.6.18  
 [13] evaluate_0.12  </code></pre>
 </div>

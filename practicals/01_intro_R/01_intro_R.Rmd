@@ -223,7 +223,7 @@ print(x)
 
 
 ```{r}
-print(0:100)
+print(58:157)
 ```
 
 
@@ -254,6 +254,8 @@ seq(from=-1, to=1, by=0.1)
 
 Les variables ne se limitent pas aux nombres: elles peuvent contenir du texte ("chaînes de caractères", "strings" en anglais).
 
+Ici également, nous utilisons la fonction `c()` pour combiner plusieurs chaînes de caractères dans un vecteur. 
+
 ```{r}
 # The # symbol allows to insert comments in R code
 
@@ -268,13 +270,19 @@ print(whoami) # Comment at the end of a line
 La fonction `paste()` permet de concaténer les variables contenant du texte. 
 
 ```{r}
-# Define  a vector named "names", and 
-# containing two names
-prenom <- "Denis Siméon"
-nom <- "Poisson"
+# To concatenate the elements of a vector in a single chain, use "collapse"
+prenom.complet <- paste(collapse = " ", whoami)
+print(prenom.complet)
 
-# Paste the values of a vector of string 
-print(paste(sep=" ", prenom, nom))
+# TO concatenate two vectors, use "sep"
+nom <- "Poisson"
+print(paste(sep = " ", prenom.complet, nom))
+
+## Concatenate 2 vectors with 3 values each
+prenoms <- c("George", "Alfred", "Frédéric")
+noms <- c("Sand",  "Musset", "Chopin")
+paste(sep = " ", prenoms, noms)
+
 ```
 
 
@@ -487,7 +495,47 @@ par(mfrow = c(1,1))
 
 ## Exercice: convergence de la binomiale vers une normale
 
-A ECRIRE
+```{r fig.width = 10, fig.height = 8, out.width="80%"}
+n <- 10
+p <- 0.4
+
+#' @title PLot a binomial disrtribution
+#' @param size number of trials
+#' @param prob probability of success at each trial
+BinomPlot <- function(size, prob, ...) {
+  x <- 0:size
+  
+  mean  <- prob * size
+  binomVar <- size * prob * (1 - prob)
+  binomSD <- sqrt(binomVar)
+  plotXLim <- c(mean - 4 * binomSD, 
+            mean + 4 * binomSD)
+
+  y <- dbinom(x = x, size = size, prob = prob)
+  plot(x, y, type="h", col = "gray", xlim = plotXLim, ...)
+
+  
+  abline(v=mean)
+  
+  abline(v = mean - binomSD, lty = "dashed", col = "blue")
+  abline(v = mean + binomSD, lty = "dashed", col = "blue")
+  
+}
+
+
+
+par(mfrow=c(2,3))
+for (n in c(10, 100, 1000, 1000, 10000, 10000)) {
+  BinomPlot(prob = 0.4, size = n)
+
+  ## Draw a normal curve above the binomial
+  lines(x, dnorm(x, mean = p * n, sd = sqrt(p * (1 - p ) * n)), type="l")
+}
+par(mfrow=c(1,1))
+
+```
+
+
 
 ## Avant de terminer : conservez la trace de votre session
 

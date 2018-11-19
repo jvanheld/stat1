@@ -3,11 +3,6 @@ title: "Concepts de probabilités"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: yes
-    toc_depth: 3
   slidy_presentation:
     slide_level: 2
     self_contained: no
@@ -33,6 +28,11 @@ output:
     smaller: yes
     toc: yes
     widescreen: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
   html_document:
     self_contained: no
     fig_caption: yes
@@ -147,12 +147,13 @@ par(mfrow=c(1,1)) ## Restore default plot parameters
 
 ```
 
-## Probabilités pour des ensemble finins
+## Probabilités pour des ensemble finis
 
 Supposons qu'on tire des éléments dans un ensemble fini, en considérant certains tirages comme des succès ($A$). Dans cette situation, la probabilté est définie comme le rapport entre le nombre de tirages pouvant être considérés comme des succès ($n_A$) et le nombre total de tirages possibles ($n$).
 
 $$\operatorname{P}(A) = \frac{n_A}{n}$$
 
+## Probabilités pour des ensemble finis -- exemple
 
 **Exemple: ** sélection aléatoire de 4 cartes dans un jeu de 52 cartes. Quelle est la probabilité d'avoir un carré (4 cartes identiques) ?
 
@@ -163,15 +164,6 @@ Le nombre total de tirages de 4 cartes parmi 52 est fourni par le coefficient bi
 
 $$\operatorname{P}(A) = \frac{n_A}{n} = \frac{13}{\binom{52}{4}} = \frac{13}{`r prettyNum(choose(n=52, k=4))`} = `r signif(digits=3, 13/choose(n=52, k=4))`$$
 
-## Exercice: tirage de tétranucléotides dans un génome
-
-On tire aléatoirement une position génomique. Quelle est la probabilité pour que le  tétranucléotide commençant à cette position corresponde aux critères suivants ?
-
-a. Etre composé uniquement de $A$. 
-b. Etre composé de 4 résidus distincts. 
-c. Ne comporter aucun $A$.
-
-Formulez explicitement le raisonnement qui vous amène à la formule de calcul. Indiquez ensuite la formule générale (avec des symboles), puis la formule particulière avec les valeurs numériques. Il n'est pas nécessaire de calculer le résultat final. 
 
 # Probabilités d'événements combinés
 
@@ -202,8 +194,10 @@ Deux événements sont **stochastiquement indépendants** si la réalisation de 
 
 La **probabilité jointe** d'une série d'événements indépendants est le produit de leurs probabilités. 
 
-$$A_1, A_2, \ldots A_m \text{ independent }  \nonumber\\
-  \Rightarrow \operatorname{P}(A_1 \land A_2 \land \ldots \land A_m) = \operatorname{P}(A_1) \operatorname{P}(A_2) \ldots \operatorname{P}(A_m)$$
+$$\begin{aligned}
+A_1, A_2, \ldots A_m \text{ independent }  \nonumber\\
+\Rightarrow \operatorname{P}(A_1 \land A_2 \land \ldots \land A_m) = \operatorname{P}(A_1) \operatorname{P}(A_2) \ldots \operatorname{P}(A_m)
+\end{aligned}$$
 
 
 
@@ -226,6 +220,8 @@ Un ***schéma de Bernoulli*** est une série d'essais qui satisfont les conditio
 
 On peut généraliser la définition précédente en considérant une série d'essais pouvant résulter en un nombre finis de résultats possibles, associés chacun à une probabilité. Si les essais successifs sont indépendants et les probabilités des événements constantes au fil des essais, on parle de ***schéma de Bernoulli généralisé***. 
 
+## Schéma de Bernoulli généralisé : exemple génomique
+
 **Exemple: ** modèle de probabilité des nuclétides dans le génome de la levure, basé sur les fréquences nucléotidiques. 
 
 | Résidu | Occurrences génomiques | Fréquence génomique |
@@ -236,6 +232,7 @@ On peut généraliser la définition précédente en considérant une série d'e
 | T | 3752889 | 0.3087122354100 | 
 
 Dans le cadre d'un tirage aléatoire, on va considèrer que chaque résidu a une probabilité particulière: 
+
 $\operatorname{P}(A) = 0.31$, 
 $\operatorname{P}(C) = 0.19$, 
 $\operatorname{P}(G) = 0.19$, 
@@ -252,16 +249,8 @@ Le schéma de Bernoulli présente un intérêt évident: sa facilité d'utilisat
 
 Les ***modèles de Markov*** permettent une modélisation plus fine des séquences biologiques, en exprimant la dépendance entre résidus voisins. 
 
-## Exercices
+## Exercices : concepts de probabilité
 
-1. On tire un nucléotide au hasard dans le génome de la levure (probabilités a priori définies ci-dessus). Quelle est la probabilité de tirer une purine ($A$ ou $G$) ?
-
-2. En supposant qu'une séquence est composée de résidus équiprobables, quelle est la probabilité du motif $GATWNA$ ($W$ signifie "$T$ ou $A$", et $N$ correspond à n'importe quel nucléotide) ? 
-
-3. Même question en supposant les probabilités distinctes pour les nucléotides: $\operatorname{P}(A) = \operatorname{P}(T) = 0.3$, $\operatorname{P}(C) = \operatorname{P}(G)$ (à vous de calculer ces dernières). 
-
-4. En supposant des nucléotides équiprobables, quelle est la probabilités de n'observer aucun $A$ dans un oligonucléotide de taille 12 ?
-
-
-
-
+- [html](03_concepts_proba_exercices.html)
+- [pdf](03_concepts_proba_exercices.pdf)
+- [Rmd](03_concepts_proba_exercices.Rmd)

@@ -3,15 +3,11 @@ title: "Tests de comparaison de moyenne"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  ioslides_presentation:
-    css: slides.css
+  pdf_document:
     fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    smaller: yes
+    highlight: zenburn
     toc: yes
-    widescreen: yes
+    toc_depth: 3
   html_document:
     fig_caption: yes
     highlight: zenburn
@@ -19,6 +15,17 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
+  slidy_presentation:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -31,20 +38,13 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: yes
-    toc_depth: 3
-  slidy_presentation:
+  ioslides_presentation:
+    css: slides.css
     fig_caption: yes
     fig_height: 6
     fig_width: 7
     highlight: tango
-    incremental: no
-    keep_md: yes
     smaller: yes
-    theme: cerulean
     toc: yes
     widescreen: yes
   word_document:

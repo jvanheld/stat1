@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Jacques van Helden" />
+  <meta name="date" content="2018-11-19" />
+  <title>Exercices : concepts de probabilités</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="03_concepts_proba_exercices_files/jquery-1.11.3/jquery.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="03_concepts_proba_exercices_files/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+  <script src="03_concepts_proba_exercices_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+  <script src="03_concepts_proba_exercices_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+  <script src="03_concepts_proba_exercices_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+  <link href="03_concepts_proba_exercices_files/slidy-2/styles/slidy.css" rel="stylesheet" />
+  <script src="03_concepts_proba_exercices_files/slidy-2/scripts/slidy.js"></script>
+</head>
+<body>
+<div class="slide titlepage">
+  <h1 class="title">Exercices : concepts de probabilités</h1>
+  <h1 class="subtitle">Probabilités et statistique pour la biologie : éléments (STAT1)</h1>
+  <p class="author">
+Jacques van Helden
+  </p>
+  <p class="date">2018-11-19</p>
+</div>
+<div id="exercice03.1-tirage-de-tetranucleotides-dans-un-genome" class="slide section level2">
+<h2>Exercice 03.1: tirage de tétranucléotides dans un génome</h2>
+<p>On tire aléatoirement une position génomique et on analyse le tétranucléotide qui y démarre. Quelles sont les probabilités respéctives d’observer chacun aux critères suivants ?</p>
+<ol style="list-style-type: lower-alpha">
+<li>Etre composé uniquement de <span class="math inline">\(A\)</span>.</li>
+<li>Ne comporter aucun <span class="math inline">\(A\)</span>.</li>
+<li>Etre composé de 4 résidus distincts.</li>
+</ol>
+<p>Formulez explicitement le raisonnement qui vous amène à la formule de calcul. Indiquez ensuite la formule générale (avec des symboles), puis la formule particulière avec les valeurs numériques. Il n’est pas nécessaire de calculer le résultat final.</p>
+</div>
+<div id="exercice-03.2-absence-dun-residu" class="slide section level2">
+<h2>Exercice 03.2 : absence d’un résidu</h2>
+<p>Quelle est la probabilités de n’observer aucun <span class="math inline">\(A\)</span> dans un oligonucléotide de taille 12 ?</p>
+<ol style="list-style-type: lower-alpha">
+<li>En supposant des nucléotides équiprobables.</li>
+<li>Selon un modèle de Bernoulli généralisé dont les paramètres sont estimés à partir des fréquences génomiques suivantes.</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th>Résidu</th>
+<th>Occurrences génomiques</th>
+<th>Fréquence génomique</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>3766191</td>
+<td>0.3098064564636</td>
+</tr>
+<tr class="even">
+<td>C</td>
+<td>2320522</td>
+<td>0.1908858838986</td>
+</tr>
+<tr class="odd">
+<td>G</td>
+<td>2316991</td>
+<td>0.1905954242278</td>
+</tr>
+<tr class="even">
+<td>T</td>
+<td>3752889</td>
+<td>0.3087122354100</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="exercice-03.3-probabilite-dune-purine" class="slide section level2">
+<h2>Exercice 03.3 : probabilité d’une purine</h2>
+<p>On tire un nucléotide au hasard dans le génome de la levure. En se basant sur base des fréquences génomiques ci-dessous, quelle est la probabilité de tirer une purine (<span class="math inline">\(A\)</span> ou <span class="math inline">\(G\)</span>) ? Justifiez vos choix.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Résidu</th>
+<th>Occurrences génomiques</th>
+<th>Fréquence génomique</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>3766191</td>
+<td>0.3098064564636</td>
+</tr>
+<tr class="even">
+<td>C</td>
+<td>2320522</td>
+<td>0.1908858838986</td>
+</tr>
+<tr class="odd">
+<td>G</td>
+<td>2316991</td>
+<td>0.1905954242278</td>
+</tr>
+<tr class="even">
+<td>T</td>
+<td>3752889</td>
+<td>0.3087122354100</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="exercice-03.4-motif-degenere-nucleotides-equiprobables" class="slide section level2">
+<h2>Exercice 03.4 : motif dégénéré, nucléotides équiprobables</h2>
+<p>En supposant qu’une séquence est composée de résidus équiprobables, quelle est la probabilité du motif <span class="math inline">\(GATWNA\)</span> (<span class="math inline">\(W\)</span> signifie “<span class="math inline">\(T\)</span> ou <span class="math inline">\(A\)</span>”, et <span class="math inline">\(N\)</span> correspond à n’importe quel nucléotide) ?</p>
+</div>
+<div id="exercice-03.5-motif-degenere-nucleotides-non-equiprobables" class="slide section level2">
+<h2>Exercice 03.5 : motif dégénéré, nucléotides non-équiprobables</h2>
+<p>Même question en supposant les probabilités distinctes pour les nucléotides: <span class="math inline">\(\operatorname{P}(A) = \operatorname{P}(T) = 0.3\)</span>, <span class="math inline">\(\operatorname{P}(C) = \operatorname{P}(G)\)</span> (à vous de calculer ces dernières).</p>
+</div>
+
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+</body>
+</html>

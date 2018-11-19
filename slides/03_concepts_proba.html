@@ -7,7 +7,7 @@
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
   <meta name="author" content="Jacques van Helden" />
-  <meta name="date" content="2018-11-18" />
+  <meta name="date" content="2018-11-19" />
   <title>Concepts de probabilités</title>
   <style type="text/css">code{white-space: pre;}</style>
   <script src="03_concepts_proba_files/jquery-1.11.3/jquery.min.js"></script>
@@ -26,10 +26,10 @@
   <p class="author">
 Jacques van Helden
   </p>
-  <p class="date">2018-11-18</p>
+  <p class="date">2018-11-19</p>
 </div>
-<div id="definitions-de-la-probabilite" class="title-slide slide section level1"><h1>Définitions de la probabilité</h1></div><div id="definition-frequentielle-de-la-probabilite" class="slide section level2">
-<h1>Définition fréquentielle de la probabilité</h1>
+<div id="definitions-de-la-probabilite" class="titleslide slide section level1"><h1>Définitions de la probabilité</h1></div><div id="definition-frequentielle-de-la-probabilite" class="slide section level2">
+<h2>Définition fréquentielle de la probabilité</h2>
 <p>Lors d’une expérience aléatoire, la <strong><em>probabilité</em></strong> d’un événement <span class="math inline">\(A\)</span> est la limite de sa fréqunce de réalisation quand le nombre d’essais tend vers l’infini.</p>
 <p><span class="math display">\[\operatorname{P}(A) = \lim_{n \to \infty}\frac{n_{A}}{n}\]</span></p>
 <div class="figure" style="text-align: center">
@@ -38,47 +38,42 @@ Jacques van Helden
 Fréquences de A lors du tirage (avec remise) de positions aléatoires dans le génome de <em>Mycoplasma genitalium</em>.
 </p>
 </div>
-</div><div id="probabilites-pour-des-ensemble-finins" class="slide section level2">
-<h1>Probabilités pour des ensemble finins</h1>
+</div><div id="probabilites-pour-des-ensemble-finis" class="slide section level2">
+<h2>Probabilités pour des ensemble finis</h2>
 <p>Supposons qu’on tire des éléments dans un ensemble fini, en considérant certains tirages comme des succès (<span class="math inline">\(A\)</span>). Dans cette situation, la probabilté est définie comme le rapport entre le nombre de tirages pouvant être considérés comme des succès (<span class="math inline">\(n_A\)</span>) et le nombre total de tirages possibles (<span class="math inline">\(n\)</span>).</p>
 <p><span class="math display">\[\operatorname{P}(A) = \frac{n_A}{n}\]</span></p>
+</div><div id="probabilites-pour-des-ensemble-finis-exemple" class="slide section level2">
+<h2>Probabilités pour des ensemble finis – exemple</h2>
 <p><strong>Exemple: </strong> sélection aléatoire de 4 cartes dans un jeu de 52 cartes. Quelle est la probabilité d’avoir un carré (4 cartes identiques) ?</p>
 <p>Le jeu de carte comporte 13 valeurs (As, 2, 3, …, Dame, Roi), il y a donc 13 possibilités d’obtenir un carré: <span class="math inline">\(n_A = 13\)</span>.</p>
 <p>Le nombre total de tirages de 4 cartes parmi 52 est fourni par le coefficient binomial: <span class="math display">\[n = \binom{52}{4} = 270725\]</span></p>
 <p><span class="math display">\[\operatorname{P}(A) = \frac{n_A}{n} = \frac{13}{\binom{52}{4}} = \frac{13}{270725} = 4.8\times 10^{-5}\]</span></p>
-</div><div id="exercice-tirage-de-tetranucleotides-dans-un-genome" class="slide section level2">
-<h1>Exercice: tirage de tétranucléotides dans un génome</h1>
-<p>On tire aléatoirement une position génomique. Quelle est la probabilité pour que le tétranucléotide commençant à cette position corresponde aux critères suivants ?</p>
-<ol style="list-style-type: lower-alpha">
-<li>Etre composé uniquement de <span class="math inline">\(A\)</span>.</li>
-<li>Etre composé de 4 résidus distincts.</li>
-<li>Ne comporter aucun <span class="math inline">\(A\)</span>.</li>
-</ol>
-<p>Formulez explicitement le raisonnement qui vous amène à la formule de calcul. Indiquez ensuite la formule générale (avec des symboles), puis la formule particulière avec les valeurs numériques. Il n’est pas nécessaire de calculer le résultat final.</p>
 </div>
-<div id="probabilites-devenements-combines" class="title-slide slide section level1"><h1>Probabilités d’événements combinés</h1></div><div id="exclusion-mutuelle" class="slide section level2">
-<h1>Exclusion mutuelle</h1>
+<div id="probabilites-devenements-combines" class="titleslide slide section level1"><h1>Probabilités d’événements combinés</h1></div><div id="exclusion-mutuelle" class="slide section level2">
+<h2>Exclusion mutuelle</h2>
 <p>On désigne des événements de <strong>mutuellement exclusifs</strong> quand la réalisation de l’un rend impossible la réalisation des autres. Leur <strong>probabilité jointe</strong> (<span class="math inline">\(A_1\)</span> et <span class="math inline">\(A_2\)</span>) est donc nulle.</p>
 <p><span class="math display">\[A_1,A_2 \text{mutuellement exclusifs} \iff \operatorname{P}(A_1 \land A_2) = 0\]</span></p>
 <p>Le symbole <span class="math inline">\(\land\)</span> correspond au <strong><em>et</em></strong> logique.</p>
 <p>Si deux événements <span class="math inline">\(A_1\)</span> et <span class="math inline">\(A_2\)</span> sont mutuellement exclusifs, la probabilité de réalisation de l’un ou de l’autre est la somme de leurs probabilités.</p>
 <p><span class="math display">\[\operatorname{P}(A_1 \land A_2) = 0 \iff \operatorname{P}(A_1 \lor A_2) = \operatorname{P}(A_1) + \operatorname{P}(A_2)\]</span></p>
 </div><div id="complementarite" class="slide section level2">
-<h1>Complémentarité</h1>
+<h2>Complémentarité</h2>
 <p>Un ensemble d’événements <span class="math inline">\({A_1, A_2, \ldots, A_m}\)</span> sont dit <strong>complémentaires</strong> s’ils sont mutuellement exclusifs et exhaustifs (il n’existe pas d’événement possible en dehors de l’ensemble).</p>
 <p>La <strong>probabilité de l’union</strong> d’événements complémentaires vaut 1.</p>
 <p><span class="math display">\[A_1, A_2, \ldots A_m \text{complementary} \Rightarrow \operatorname{P}(A_1 \lor A_2 \lor \ldots \lor A_m)   = \operatorname{P}(A_1) + \operatorname{P}(A_1) + \ldots + \operatorname{P}(A_m) = 1\]</span></p>
 </div><div id="independance-stochastique" class="slide section level2">
-<h1>Indépendance stochastique</h1>
+<h2>Indépendance stochastique</h2>
 <p>Deux événements sont <strong>stochastiquement indépendants</strong> si la réalisation de l’un n’affecte pas la probabilité de réalisation de l’autre.</p>
 <p>La <strong>probabilité jointe</strong> d’une série d’événements indépendants est le produit de leurs probabilités.</p>
-<p><span class="math display">\[A_1, A_2, \ldots A_m \text{ independent }  \nonumber\\
-  \Rightarrow \operatorname{P}(A_1 \land A_2 \land \ldots \land A_m) = \operatorname{P}(A_1) \operatorname{P}(A_2) \ldots \operatorname{P}(A_m)\]</span></p>
+<p><span class="math display">\[\begin{aligned}
+A_1, A_2, \ldots A_m \text{ independent }  \nonumber\\
+\Rightarrow \operatorname{P}(A_1 \land A_2 \land \ldots \land A_m) = \operatorname{P}(A_1) \operatorname{P}(A_2) \ldots \operatorname{P}(A_m)
+\end{aligned}\]</span></p>
 </div><div id="formule-generale-de-probabilites-combinees" class="slide section level2">
-<h1>Formule générale de probabilités combinées</h1>
+<h2>Formule générale de probabilités combinées</h2>
 <p><span class="math display">\[\operatorname{P}(A \lor B) = \operatorname{P}(A) + \operatorname{P}(B) - \operatorname{P}(A \land B)\]</span></p>
 </div><div id="schema-de-bernoulli" class="slide section level2">
-<h1>Schéma de Bernoulli</h1>
+<h2>Schéma de Bernoulli</h2>
 <p>Un <strong><em>essai de Bernoulli</em></strong> est une expérience aléatoire qui peut résulter en deux événements possibles, dénommés <strong><em>succès</em></strong> et <strong><em>échec</em></strong>, chacun étant associé à une probabilité.</p>
 <p>Un <strong><em>schéma de Bernoulli</em></strong> est une série d’essais qui satisfont les conditions suivantes:</p>
 <ol style="list-style-type: decimal">
@@ -86,8 +81,10 @@ Fréquences de A lors du tirage (avec remise) de positions aléatoires dans le g
 <li><p>La probabilité de succès est identique pour chacun des essais.</p></li>
 </ol>
 </div><div id="schema-de-bernoulli-generalise" class="slide section level2">
-<h1>Schéma de Bernoulli généralisé</h1>
+<h2>Schéma de Bernoulli généralisé</h2>
 <p>On peut généraliser la définition précédente en considérant une série d’essais pouvant résulter en un nombre finis de résultats possibles, associés chacun à une probabilité. Si les essais successifs sont indépendants et les probabilités des événements constantes au fil des essais, on parle de <strong><em>schéma de Bernoulli généralisé</em></strong>.</p>
+</div><div id="schema-de-bernoulli-generalise-exemple-genomique" class="slide section level2">
+<h2>Schéma de Bernoulli généralisé : exemple génomique</h2>
 <p><strong>Exemple: </strong> modèle de probabilité des nuclétides dans le génome de la levure, basé sur les fréquences nucléotidiques.</p>
 <table>
 <thead>
@@ -120,9 +117,10 @@ Fréquences de A lors du tirage (avec remise) de positions aléatoires dans le g
 </tr>
 </tbody>
 </table>
-<p>Dans le cadre d’un tirage aléatoire, on va considèrer que chaque résidu a une probabilité particulière: <span class="math inline">\(\operatorname{P}(A) = 0.31\)</span>, <span class="math inline">\(\operatorname{P}(C) = 0.19\)</span>, <span class="math inline">\(\operatorname{P}(G) = 0.19\)</span>, <span class="math inline">\(\operatorname{P}(T) = 0.31\)</span>.</p>
+<p>Dans le cadre d’un tirage aléatoire, on va considèrer que chaque résidu a une probabilité particulière:</p>
+<p><span class="math inline">\(\operatorname{P}(A) = 0.31\)</span>, <span class="math inline">\(\operatorname{P}(C) = 0.19\)</span>, <span class="math inline">\(\operatorname{P}(G) = 0.19\)</span>, <span class="math inline">\(\operatorname{P}(T) = 0.31\)</span>.</p>
 </div><div id="les-modeles-de-bernoulli-conviennent-il-pour-les-sequences-biologiques" class="slide section level2">
-<h1>Les modèles de Bernoulli conviennent-il pour les séquences biologiques ?</h1>
+<h2>Les modèles de Bernoulli conviennent-il pour les séquences biologiques ?</h2>
 <p>Le schéma de Bernoulli présente un intérêt évident: sa facilité d’utilisation. Cependant il n’est pas très approprié pour modéliser les successions de résidus dans les séquences macromoléculaires, pour plusieurs raisons.</p>
 <ul>
 <li>Dans les génomes, les fréquences de nucléoides varient en fonction du contexte (codant, non-codant, …).</li>
@@ -131,14 +129,13 @@ Fréquences de A lors du tirage (avec remise) de positions aléatoires dans le g
 <li>Dans les séquences protéines, les contraintes structurelles ont favorisé (par sélection) certaines successions d’acides aminés et défavorisé d’autres.</li>
 </ul>
 <p>Les <strong><em>modèles de Markov</em></strong> permettent une modélisation plus fine des séquences biologiques, en exprimant la dépendance entre résidus voisins.</p>
-</div><div id="exercices" class="slide section level2">
-<h1>Exercices</h1>
-<ol style="list-style-type: decimal">
-<li><p>On tire un nucléotide au hasard dans le génome de la levure (probabilités a priori définies ci-dessus). Quelle est la probabilité de tirer une purine (<span class="math inline">\(A\)</span> ou <span class="math inline">\(G\)</span>) ?</p></li>
-<li><p>En supposant qu’une séquence est composée de résidus équiprobables, quelle est la probabilité du motif <span class="math inline">\(GATWNA\)</span> (<span class="math inline">\(W\)</span> signifie “<span class="math inline">\(T\)</span> ou <span class="math inline">\(A\)</span>”, et <span class="math inline">\(N\)</span> correspond à n’importe quel nucléotide) ?</p></li>
-<li><p>Même question en supposant les probabilités distinctes pour les nucléotides: <span class="math inline">\(\operatorname{P}(A) = \operatorname{P}(T) = 0.3\)</span>, <span class="math inline">\(\operatorname{P}(C) = \operatorname{P}(G)\)</span> (à vous de calculer ces dernières).</p></li>
-<li><p>En supposant des nucléotides équiprobables, quelle est la probabilités de n’observer aucun <span class="math inline">\(A\)</span> dans un oligonucléotide de taille 12 ?</p></li>
-</ol>
+</div><div id="exercices-concepts-de-probabilite" class="slide section level2">
+<h2>Exercices : concepts de probabilité</h2>
+<ul>
+<li><a href="03_concepts_proba_exercices.html">html</a></li>
+<li><a href="03_concepts_proba_exercices.pdf">pdf</a></li>
+<li><a href="03_concepts_proba_exercices.Rmd">Rmd</a></li>
+</ul>
 </div>
 
   <!-- dynamically load mathjax for compatibility with self-contained -->

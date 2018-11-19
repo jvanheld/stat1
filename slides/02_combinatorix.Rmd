@@ -76,6 +76,7 @@ library(DiagrammeR)
 
 ```
 
+# Dénombrements d'oligonucléotides et oligopeptides
 
 ## Problème: dénombrement d'oligomères
 
@@ -179,7 +180,7 @@ par(par.ori) ## restaurer les paramètres par défaut
 ```
 
 
-## Exercice: oligomères sans résidus répétés
+## Exercice 02.1: oligomères sans résidus répétés
 
 Combien d'oligomères peut-on former (ADN ou peptides) en utilisant chaque résidu une et une seule fois ?
 
@@ -295,7 +296,7 @@ $$\binom{n}{x} = C^x_n = \frac{n!}{x! (n-x)!}$$
 
 
 
-## Exercice: listes (ordonnées) de gènes
+## Exercice 02.2 : listes (ordonnées) de gènes
 
 On a mené une expérience de transcriptome pour mesurer le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**en tenant compte** de l'ordre relatif de ces 15 gènes) ?
 
@@ -306,7 +307,7 @@ On a mené une expérience de transcriptome pour mesurer le niveau d'expression 
 - Trouvez un exemple familier de jeu de pari apparenté à ce problème. 
 - Généralisez la formule pour la sélection d'une liste de $x$ gènes dans un génome qui en comporte $n$. 
 
-## Solution: listes (ordonnées) de gènes
+## Solution 02.2 : listes (ordonnées) de gènes
 
 Il s'agit d'une sélection **sans remise** (chaque gène apparaît à une et une seule position dans la liste de tous les gènes), et **ordonnée** (les  mêmes gènes pris dans un ordre différent sont considérés comme un résultat différent).
 
@@ -316,7 +317,7 @@ Il s'agit d'une sélection **sans remise** (chaque gène apparaît à une et une
 - En généralisant à la liste des $x$ premiers gènes dans un ensemble de $n$, on obtient $N = n \cdot (n-1)  \cdot (n-2) \cdot ... \cdot (n-x+1)$. 
 
 
-## Exercice: ensembles (non-ordonnés) de gènes
+## Exercice 02.3 : ensembles (non-ordonnés) de gènes
 
 Lors d'une expérience de transcriptome indiquant le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**sans tenir compte** de l'ordre relatif de ces 15 gènes) ?
 
@@ -329,7 +330,7 @@ Lors d'une expérience de transcriptome indiquant le niveau d'expression de tous
 - Connaissez-vous le nom de la formule ainsi trouvée ?
 
 
-## Solution: ensembles (non-ordonnés) de gènes
+## Solution 02.3 : ensembles (non-ordonnés) de gènes
 
 - Pour une sélection d'un seul gène, il existe $n=6000$ possibilité. 
 - Pour 2 gènes, il existe $n \cdot (n-1) = 6000 \cdot 5999$ arrangements, mais ceci inclut deux fois chaque paire de gènes ($(a, b)$ et $(b, a)$). Le nombre d'ensembles non ordonnés est donc $N = n \dot (n-1)/2$.
@@ -398,26 +399,16 @@ digraph combinatorix_flowchart {
 | Non | Oui | $A^x_n = \frac{n!}{(n-x)!}$ | **Arrangements** : tirages ordonnés, sans remise, de $x$ éléments dans un ensemble de taille $n$ |
 | Non | Non | $C^x_n = \binom{n}{x} = \frac{n!}{x! (n - x) !}$ | **Combinaisons** : tirages non ordonnés, sans remise, de $x$ éléments dans un ensemble de taille $n$ |
 
-
-## Exercice : mutagénèse
-
-*On soumet un fragment d'ADN de 1 kilobase à un traitement mutagène qui provoque des mutations ponctuelles (substitutions) à 5 positions distinctes indépendantes. Combien de séquences possibles existe-t-il pour le fragment muté ?*
-
-## Solution exercice 1: mutagenèse
-
-*On soumet un fragment d'ADN de 1 kilobase à un traitement mutagène qui provoque des mutations ponctuelles (substitutions) à 5 positions distinctes indépendantes. Combien de séquences possibles existe-t-il pour le fragment muté ?*
-
-Il s'agit de choisir  au hasard 5 positions mutantes parmi les 1000 nucléotides du fragment d'ADN. Il s'agit d'un choix sans remise (chaque position ne peut être tirée qu'une fois), on choisit donc le coefficient binomial.
-
-$$\binom{n}{x} = \binom{1000}{5} = C^5_{1000} = \frac{1000!}{5! 995!} = `r choose(n=1000, k=5)`$$
+# Exercices supplémentaires
 
 
-## Exercice : oligopeptides $3 \times 20$
+
+## Exercice 02.5: oligopeptides $3 \times 20$
 
 *Combien d'oligopeptides de taille 60 peut-on former en utilisant exactement 3 fois chaque acide aminé ?*
 
 
-## Solution de l'exercice : oligopeptides $3 \times 20$
+## Solution 02.5 : oligopeptides $3 \times 20$
 
 *Combien d'oligopeptides de taille 60 peut-on former en utilisant exactement 3 fois chaque acide aminé ?*
 

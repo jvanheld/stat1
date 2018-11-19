@@ -228,83 +228,89 @@ div.tocify {
 </div>
 
 
-<div id="resume-des-concepts-et-formules" class="section level1">
-<h1>Résumé des concepts et formules</h1>
-<div id="tirages-avec-sans-remise" class="section level2">
-<h2>Tirages avec / sans remise</h2>
-<p>Il existe deux types classiques de tirage d’éléments au sein d’un ensemble: avec ou sans remise.</p>
-<ol style="list-style-type: decimal">
-<li><p><strong>Tirage sans remise</strong>: chaque élément peut être tiré au plus une fois. Exemples:</p>
+<div id="exercice-02.1-oligomeres-sans-residus-repetes" class="section level2">
+<h2>Exercice 02.1: oligomères sans résidus répétés</h2>
+<p>Combien d’oligomères peut-on former (ADN ou peptides) en utilisant chaque résidu une et une seule fois ?</p>
+<p><strong>Approche suggérée</strong>: agrégez progressivement les résidus, en vous demandant à chaque étape combien d’entre eux n’ont pas encore été incorporés.</p>
+<p><strong>Questions subsidiaires</strong>:</p>
 <ul>
-<li>Jeu de <a href="https://fr.wikipedia.org/wiki/Loto">loto</a> (ou lotto).</li>
-<li>Sélection aléatoire d’un ensemble de gènes dans un génome.</li>
-</ul></li>
-<li><p>Tirage <strong>avec remise</strong>: chaque élément peut être tiré zéro, une ou plusieurs fois. Exemples:</p>
+<li>Généralisez la formule pour des séquences d’objets tirés dans un ensemble de taille arbitraire (<span class="math inline">\(n\)</span>).</li>
+<li>Quel est le nom de la fonction donnant le résultat ?</li>
+<li>Dans ce processus, quel est le mode de sélection des résidus: <strong>avec ou sans remise</strong> ?</li>
+</ul>
+</div>
+<div id="solution02.1-oligomeres-sans-residus-repetes" class="section level2">
+<h2>Solution 02.1: oligomères sans résidus répétés</h2>
 <ul>
-<li>Jeu de dés. A chaque lancer on dispose des mêmes possibilités (6 faces).</li>
-<li>Génération d’une séquence aléatoire, par sélection itérative d’un élément dans l’ensemble des résidus (4 nucléotides pour l’ADN, 20 acides aminés pour les protéines).</li>
+<li>Premier résidu: <span class="math inline">\(n\)</span> possibilités.</li>
+<li>Dès le moment où on a choisi ce premier résidu, il ne reste plus que <span class="math inline">\(n-1\)</span> possibilités pour le second. On a donc <span class="math inline">\(n \cdot (n-1)\)</span> possibilités pour les deux premiers résidus.</li>
+<li>Pour la troisième position, il ne reste que <span class="math inline">\(n-2\)</span> résidus. On a donc <span class="math inline">\(n \cdot (n-1) \cdot (n-2)\)</span> possibilités pour les 3 premières positions de la séquence.</li>
+<li>Par extension, le nombre total de possibilités est donc (en supposant <span class="math inline">\(n\)</span> suffisamment grand) <span class="math display">\[n! = n \cdot (n-1) \cdot \ldots \cdot 2 \cdot 1\]</span>.</li>
+<li><p>Dans notre cas:</p>
+<ul>
+<li><span class="math inline">\(n! = 4! = 24\)</span> oligonucléotides comportant exactement 1 fois chaque nucléotide (taille 4).</li>
+<li><span class="math inline">\(n! = 20! = 2.43\times 10^{18}\)</span> oligopeptides (taille 20).</li>
 </ul></li>
-</ol>
+</ul>
 </div>
-<div id="formules" class="section level2">
-<h2>Formules</h2>
-<table style="width:89%;">
-<colgroup>
-<col width="12%" />
-<col width="11%" />
-<col width="18%" />
-<col width="47%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Remise</th>
-<th>Ordre</th>
-<th>Formule</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Oui</td>
-<td>Oui</td>
-<td><span class="math inline">\(n^x\)</span></td>
-<td><strong>Exponentielle</strong>: séquences de <span class="math inline">\(x\)</span> éléments tirés dans un ensemble de taille <span class="math inline">\(n\)</span>, avec remise.</td>
-</tr>
-<tr class="even">
-<td>Non</td>
-<td>Oui</td>
-<td><span class="math inline">\(n!\)</span></td>
-<td><strong>Factorielle</strong>: toutes les permutations d’un ensemble de taille <span class="math inline">\(n\)</span></td>
-</tr>
-<tr class="odd">
-<td>Non</td>
-<td>Oui</td>
-<td><span class="math inline">\(A^x_n = \frac{n!}{(n - x)!}\)</span></td>
-<td><strong>Arrangements</strong> : listes (ordonnée) de <span class="math inline">\(x\)</span> éléments tirés dans un ensemble de taille <span class="math inline">\(n\)</span></td>
-</tr>
-<tr class="even">
-<td>Non</td>
-<td>Non</td>
-<td><span class="math inline">\(C^x_n = \binom{n}{x} = \frac{n!}{x! (n - x) !}\)</span></td>
-<td><strong>Combinaisons</strong> : ensembles (non ordonnés) de <span class="math inline">\(x\)</span> éléments tirés dans un ensemble de taille <span class="math inline">\(n\)</span></td>
-</tr>
-</tbody>
-</table>
+<div id="exercice-02.2-listes-ordonnees-de-genes" class="section level2">
+<h2>Exercice 02.2 : listes (ordonnées) de gènes</h2>
+<p>On a mené une expérience de transcriptome pour mesurer le niveau d’expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (<strong>en tenant compte</strong> de l’ordre relatif de ces 15 gènes) ?</p>
+<p><strong>Approche suggérée</strong>: comme précédemment, simplifiez le problème en partant de la sélection minimale, et augmentez progressivement le nombre de gènes (1 gène, 2 gènes, …).</p>
+<p><strong>Questions subsidiaires</strong>:</p>
+<ul>
+<li>Trouvez un exemple familier de jeu de pari apparenté à ce problème.</li>
+<li>Généralisez la formule pour la sélection d’une liste de <span class="math inline">\(x\)</span> gènes dans un génome qui en comporte <span class="math inline">\(n\)</span>.</li>
+</ul>
 </div>
+<div id="solution-02.2-listes-ordonnees-de-genes" class="section level2">
+<h2>Solution 02.2 : listes (ordonnées) de gènes</h2>
+<p>Il s’agit d’une sélection <strong>sans remise</strong> (chaque gène apparaît à une et une seule position dans la liste de tous les gènes), et <strong>ordonnée</strong> (les mêmes gènes pris dans un ordre différent sont considérés comme un résultat différent).</p>
+<ul>
+<li>Pour le premier gène, il y a <span class="math inline">\(n=6000\)</span> possibiité.</li>
+<li>Dès le moment où on connaît le premier gène, il n’existe plus que 5999 possibilités pour le second, et donc <span class="math inline">\(n \cdot (n-1) = 6000 \cdot 5999\)</span> possibilités pour la suite des deux premiers gènes;</li>
+<li>Par extension, il existe <span class="math inline">\(6000 \cdot 5999 \cdot 5998 \cdot \ldots \cdot 5986 = 4.62\times 10^{56}\)</span> possibilités pour les 15 premiers gènes.</li>
+<li>En généralisant à la liste des <span class="math inline">\(x\)</span> premiers gènes dans un ensemble de <span class="math inline">\(n\)</span>, on obtient <span class="math inline">\(N = n \cdot (n-1) \cdot (n-2) \cdot ... \cdot (n-x+1)\)</span>.</li>
+</ul>
 </div>
-<div id="solutions-des-exercices" class="section level1">
-<h1>Solutions des exercices</h1>
-<div id="solution-exercice-1-mutagenese" class="section level2">
-<h2>Solution exercice 1: mutagenèse</h2>
+<div id="exercice-02.3-ensembles-non-ordonnes-de-genes" class="section level2">
+<h2>Exercice 02.3 : ensembles (non-ordonnés) de gènes</h2>
+<p>Lors d’une expérience de transcriptome indiquant le niveau d’expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (<strong>sans tenir compte</strong> de l’ordre relatif de ces 15 gènes) ?</p>
+<p><strong>Approche suggérée</strong>: comme précédemment, simplifiez le problème en partant de sélections minimales (1 gène, 2 gènes, …) et généralisez la formule.</p>
+<p><strong>Questions subsidiaires</strong>:</p>
+<ul>
+<li>Trouvez un exemple familier de jeu de pari apparenté à ce problème.</li>
+<li>Généralisez la formule pour la sélection d’un ensemble de <span class="math inline">\(x\)</span> gènes dans un génome qui en comporte <span class="math inline">\(n\)</span>.</li>
+<li>Connaissez-vous le nom de la formule ainsi trouvée ?</li>
+</ul>
+</div>
+<div id="solution-02.3-ensembles-non-ordonnes-de-genes" class="section level2">
+<h2>Solution 02.3 : ensembles (non-ordonnés) de gènes</h2>
+<ul>
+<li>Pour une sélection d’un seul gène, il existe <span class="math inline">\(n=6000\)</span> possibilité.</li>
+<li>Pour 2 gènes, il existe <span class="math inline">\(n \cdot (n-1) = 6000 \cdot 5999\)</span> arrangements, mais ceci inclut deux fois chaque paire de gènes (<span class="math inline">\((a, b)\)</span> et <span class="math inline">\((b, a)\)</span>). Le nombre d’ensembles non ordonnés est donc <span class="math inline">\(N = n \dot (n-1)/2\)</span>.</li>
+<li>De même, pour 3 gènes, il faut diviser le nombre d’arrangements (<span class="math inline">\(A^x_n = \frac{n!}{(n-x)!} = 6000 \cdot 5999 \cdot 5998\)</span>) par le nombre de permutations parmi tous les triplets de gènes (<span class="math inline">\((a, b, c), (a, c, b), (b, a, c) \ldots\)</span>), ce qui donne <span class="math inline">\(\frac{6000!}{(6000-3)! 3!} = \frac{6000 \cdot 5999 \cdot 5888}{6} = 3.6\times 10^{10}\)</span>.</li>
+<li>Pour 15 gènes, on obtient <span class="math inline">\(\frac{n!}{(n-x)!x!} = \frac{6000!}{5985! \cdot 15!} = 3.53\times 10^{44}\)</span> <em>combinaisons</em> possibles.</li>
+</ul>
+</div>
+<div id="exercice02.4-mutagenese" class="section level2">
+<h2>Exercice 02.4 : mutagénèse</h2>
 <p><em>On soumet un fragment d’ADN de 1 kilobase à un traitement mutagène qui provoque des mutations ponctuelles (substitutions) à 5 positions distinctes indépendantes. Combien de séquences possibles existe-t-il pour le fragment muté ?</em></p>
-<p>Il s’agit de choisir au hasard 5 positions mutantes parmi les 1000 nucléotides du fragment d’ADN. Il s’agit d’un choix sans remise (chaque position ne peut être tirée qu’une fois), on choisit donc le coefficient binomial.</p>
+</div>
+<div id="solution-02.4-mutagenese" class="section level2">
+<h2>Solution 02.4 : mutagenèse</h2>
+<p>On commence par dénombrer toutes les possibilités pour lesw positions de l’ensemble des 5 mutations, et ensuite on dénombre, pour chacune de ces positions, les substitutions possibles;</p>
+<p>Le dénombrement des positions mutantes revient à choisir au hasard 5 positions parmi les 1000 nucléotides du fragment d’ADN. Il s’agit d’un choix sans remise (chaque position ne peut être tirée qu’une fois), on choisit donc le coefficient binomial.</p>
 <p><span class="math display">\[\binom{n}{x} = \binom{1000}{5} = C^5_{1000} = \frac{1000!}{5! 995!} = 8.2502913\times 10^{12}\]</span></p>
 <p>Pour chacune des 5 positions mutées, on a 3 substitutions possibles. Le nombre de mutations distinctes est donc <span class="math inline">\(3^5\)</span> fois le nombre de choix de 5 positions parmi 1000.</p>
 <p><span class="math display">\[N = 3^5 \cdot  \binom{1000}{5} =2.0048208\times 10^{15}\]</span></p>
 </div>
-<div id="solution-de-lexercice-2-oligopeptides-3-times-20" class="section level2">
-<h2>Solution de l’exercice 2 : oligopeptides <span class="math inline">\(3 \times 20\)</span></h2>
+<div id="exercice-02.5-oligopeptides-3-times-20" class="section level2">
+<h2>Exercice 02.5 : oligopeptides <span class="math inline">\(3 \times 20\)</span></h2>
 <p><em>Combien d’oligopeptides de taille 60 peut-on former en utilisant exactement 3 fois chaque acide aminé ?</em></p>
+</div>
+<div id="solution-02.5-oligopeptides-3-times-20" class="section level2">
+<h2>Solution 02.5 : oligopeptides <span class="math inline">\(3 \times 20\)</span></h2>
 <p>Commençons par générer une séquence particulière qui remplit ces conditions, en concaténant 3 copies de chaque acide aminé, dans l’ordre alphabétique.</p>
 <table>
 <caption>Symboles des acides aminés et codons</caption>
@@ -447,16 +453,15 @@ div.tocify {
 </table>
 <pre><code>AAACCCDDDEEEFFFGGGHHHIIIKKKLLLMMMNNNPPPQQQRRRSSSTTTVVVWWWYYY</code></pre>
 <p>Les permutations de ces 60 lettres sont des solutions valudes. En voici trois exemples.</p>
-<pre><code>AGTQVPWWMICLCDMAFPQSLNFGKGQTVENTNYPYKRKLVHYIDWIDRHECSMSERHAF</code></pre>
-<pre><code>ARNRKTYTPKMECRDEIGMWANAQEHISNHLPYSPQLCDFSYLDKFVWTMVIGWHQFCVG</code></pre>
-<pre><code>ERRVGMNGSNISNQTQTVCLFSFHLLKYAWDCTFEPWWYHDMRIVHIAGPEDKPYCKAQM</code></pre>
+<pre><code>NEITSRMEKAMQILYRICPNSGDLQWFECNTGSKARYGYKWVWHMDPLVAQCHFTHDFVP</code></pre>
+<pre><code>TFGDLYGVNAWLVHEMKVDAEYPSLCTQTRCWMNGPQIKAMWKSCRSYNDQIFHHIPREF</code></pre>
+<pre><code>TQVEYMCDDAKPPARIKRIKAHINYMLSWLWSFPGVCMGNCTGVQQNHYDSWTEFFEHLR</code></pre>
 <pre><code>...</code></pre>
-<pre><code>ILIKKQAGKVVLNCRFADPRIRTEAWYSNFLVTDEYPCFHCSHWGDMGHSWQETNQMPYM</code></pre>
+<pre><code>AFYTMLPISPGDHERQCKLREPDDNNVKYQSCVTCIYEALISVMWHWQFKTGAWGRHNFM</code></pre>
 <p>Le nombre total de permutations possibles parmi 60 éléments est <span class="math inline">\(60! = 8.3209871\times 10^{81}\)</span>. Cependant, cenombre dépasse de loin le nombre de séquences distinctes. En effet, dans chacune des séquences ci-dessus, chaque lettre apparaît 3 fois. Or, des permutations entre les trois positions occupées par des <span class="math inline">\(A\)</span> ne changeront pas la séquence. Il en va de même pour les permutations entre les positions occupées par chacun des acides aminées : <span class="math inline">\(A\)</span>, <span class="math inline">\(C\)</span>, <span class="math inline">\(D\)</span>, <span class="math inline">\(\ldots\)</span></p>
 <p>Il faut donc diviser le nombre total de permutations (<span class="math inline">\(60!\)</span>) par le nombre de permutations qui ne modifient pas la séquence: <span class="math inline">\(3!\)</span> pour <span class="math inline">\(A\)</span>, <span class="math inline">\(3!\)</span> pour <span class="math inline">\(D\)</span>, et ainsi de suite pour chacun des 20 acides aminés.</p>
 <p>La formule finale est donc:</p>
 <p><span class="math display">\[N = \frac{\overbrace{60!}^{\text{60 lettres}}}{\underbrace{3! \cdot 3! \cdot \ldots 3!}_{\text{20 acides aminés présents 3 fois}}} = \frac{60!}{(3!)^{20}} = 2.2758825\times 10^{66}\]</span></p>
-</div>
 </div>
 
 

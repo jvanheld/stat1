@@ -1,0 +1,127 @@
+---
+title: "Eléments d'analyse combinatoire -  exercices"
+subtitle: "Probabilités et statistique pour la biologie : éléments (STAT1)"
+author: "Jacques van Helden"
+date: "`r Sys.Date()`"
+output:
+  beamer_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
+  html_document:
+    code_folding: hide
+    fig_caption: yes
+    highlight: zenburn
+    self_contained: no
+    theme: cerulean
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  ioslides_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    smaller: yes
+    toc: yes
+    widescreen: yes
+  word_document:
+    toc: yes
+    toc_depth: '3'
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
+  slidy_presentation:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
+font-import: http://fonts.googleapis.com/css?family=Risque
+font-family: Garamond
+transition: linear
+---
+
+```{r include=FALSE, echo=FALSE, eval=TRUE}
+library(knitr)
+options(width = 300)
+knitr::opts_chunk$set(
+  fig.width = 7, fig.height = 5, 
+  fig.path = 'figures/02_combinatorix_',
+  fig.align = "center", 
+  size = "tiny", 
+  echo = TRUE, eval = TRUE, 
+  warning = FALSE, message = FALSE, 
+  results = TRUE, comment = "")
+# knitr::asis_output("\\footnotesize")
+
+```
+
+
+## Exercice 02.1: oligomères sans résidus répétés
+
+Combien d'oligomères peut-on former (ADN ou peptides) en utilisant chaque résidu une et une seule fois ?
+
+**Approche suggérée**: agrégez progressivement les résidus, en vous demandant à chaque étape combien d'entre eux n'ont pas encore été incorporés. 
+
+**Questions subsidiaires**:
+
+- Généralisez la formule pour des séquences d'objets tirés dans un ensemble de taille arbitraire ($n$). 
+- Quel est le nom de la fonction donnant le résultat ?
+- Dans ce processus, quel est le mode de sélection des résidus: **avec ou sans remise** ?
+
+
+## Exercice 02.2 : listes (ordonnées) de gènes
+
+On a mené une expérience de transcriptome pour mesurer le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**en tenant compte** de l'ordre relatif de ces 15 gènes) ?
+
+**Approche suggérée**: comme précédemment, simplifiez le problème en partant de la sélection minimale, et augmentez progressivement le nombre de gènes (1 gène, 2 gènes, ...). 
+
+**Questions subsidiaires**: 
+
+- Trouvez un exemple familier de jeu de pari apparenté à ce problème. 
+- Généralisez la formule pour la sélection d'une liste de $x$ gènes dans un génome qui en comporte $n$. 
+
+
+## Exercice 02.3 : ensembles (non-ordonnés) de gènes
+
+Lors d'une expérience de transcriptome indiquant le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**sans tenir compte** de l'ordre relatif de ces 15 gènes) ?
+
+**Approche suggérée**: comme précédemment, simplifiez le problème en partant de sélections minimales (1 gène, 2 gènes, ...) et généralisez la formule. 
+
+**Questions subsidiaires**: 
+
+- Trouvez un exemple familier de jeu de pari apparenté à ce problème. 
+- Généralisez la formule pour la sélection d'un ensemble de $x$ gènes dans un génome qui en comporte $n$. 
+- Connaissez-vous le nom de la formule ainsi trouvée ?
+
+
+## Exercice 02.4 : mutagénèse
+
+*On soumet un fragment d'ADN de 1 kilobase à un traitement mutagène qui provoque des mutations ponctuelles (substitutions) à 5 positions distinctes indépendantes. Combien de séquences possibles existe-t-il pour le fragment muté ?*
+
+
+## Exercice 02.5 : oligopeptides $3 \times 20$
+
+*Combien d'oligopeptides de taille 60 peut-on former en utilisant exactement 3 fois chaque acide aminé ?*
+
+
+
+

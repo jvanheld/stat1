@@ -1,43 +1,17 @@
 ---
 title: "Eléments d'analyse combinatoire - solutions des exercices"
 author: "Jacques van Helden"
-date: '`r Sys.Date()`'
+date: "`r Sys.Date()`"
 output:
   html_document:
-    self_contained: no
     code_folding: hide
     fig_caption: yes
     highlight: zenburn
+    self_contained: no
     theme: cerulean
     toc: yes
     toc_depth: 3
     toc_float: yes
-  ioslides_presentation:
-    colortheme: dolphin
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    smaller: yes
-    toc: yes
-    widescreen: yes
-  slidy_presentation:
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    incremental: yes
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
-    toc: yes
-    widescreen: yes
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: yes
-    toc_depth: 3
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -50,6 +24,35 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
+  ioslides_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    smaller: yes
+    toc: yes
+    widescreen: yes
+  word_document:
+    toc: yes
+    toc_depth: '3'
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
+  slidy_presentation:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
 subtitle: Probabilités et statistique pour la biologie (STAT1)
 font-family: Garamond
@@ -71,39 +74,79 @@ knitr::opts_chunk$set(
 
 ```
 
-# Résumé des concepts et formules
 
-## Tirages avec / sans remise
+## Exercice 02.1: oligomères sans résidus répétés
 
-Il existe deux types classiques de tirage d'éléments au sein d'un ensemble: avec ou sans remise. 
+Combien d'oligomères peut-on former (ADN ou peptides) en utilisant chaque résidu une et une seule fois ?
 
-1. **Tirage sans remise**: chaque élément peut être tiré au plus une fois. Exemples: 
+**Approche suggérée**: agrégez progressivement les résidus, en vous demandant à chaque étape combien d'entre eux n'ont pas encore été incorporés. 
 
-    - Jeu de [loto](https://fr.wikipedia.org/wiki/Loto) (ou lotto). 
-    - Sélection aléatoire d'un ensemble de gènes dans un génome. 
+**Questions subsidiaires**:
 
-2. Tirage **avec remise**: chaque élément peut être tiré zéro, une ou plusieurs fois. Exemples: 
+- Généralisez la formule pour des séquences d'objets tirés dans un ensemble de taille arbitraire ($n$). 
+- Quel est le nom de la fonction donnant le résultat ?
+- Dans ce processus, quel est le mode de sélection des résidus: **avec ou sans remise** ?
 
-    - Jeu de dés. A chaque lancer on dispose des mêmes possibilités (6 faces).
-    - Génération d'une séquence aléatoire, par sélection itérative d'un élément dans l'ensemble des résidus (4 nucléotides pour l'ADN, 20 acides aminés pour les protéines). 
+## Solution 02.1: oligomères sans résidus répétés
+
+- Premier résidu: $n$ possibilités. 
+- Dès le moment où on a choisi ce premier résidu, il ne reste plus que $n-1$ possibilités pour le second. On a donc $n \cdot (n-1)$ possibilités pour les deux premiers résidus. 
+- Pour la troisième position, il ne reste que $n-2$ résidus. On a donc $n \cdot (n-1) \cdot (n-2)$ possibilités pour les 3 premières positions de la séquence.
+- Par extension, le nombre total de possibilités est donc (en supposant $n$ suffisamment grand) $$n! = n \cdot (n-1) \cdot \ldots \cdot 2 \cdot 1$$.
+- Dans notre cas:
+
+    - $n! = 4! = `r signif(digits=3, factorial(4))`$ oligonucléotides comportant exactement 1 fois chaque nucléotide (taille 4).
+    - $n! = 20! = `r signif(digits=3, factorial(20))`$ oligopeptides (taille 20).
     
-## Formules
+## Exercice 02.2 : listes (ordonnées) de gènes
 
-| Remise | Ordre | Formule | Description |
-|--------|-------|------------|---------------------------------|
-| Oui | Oui | $n^x$ | **Exponentielle**: séquences de $x$ éléments tirés dans un ensemble de taille $n$, avec remise. |
-| Non | Oui | $n!$ | **Factorielle**: toutes les permutations d'un ensemble de taille $n$ |
-| Non | Oui | $A^x_n = \frac{n!}{(n - x)!}$ | **Arrangements** : listes (ordonnée) de $x$ éléments tirés dans un ensemble de taille $n$ |
-| Non | Non | $C^x_n = \binom{n}{x} = \frac{n!}{x! (n - x) !}$ | **Combinaisons** : ensembles (non ordonnés) de $x$ éléments tirés dans un ensemble de taille $n$ |
+On a mené une expérience de transcriptome pour mesurer le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**en tenant compte** de l'ordre relatif de ces 15 gènes) ?
+
+**Approche suggérée**: comme précédemment, simplifiez le problème en partant de la sélection minimale, et augmentez progressivement le nombre de gènes (1 gène, 2 gènes, ...). 
+
+**Questions subsidiaires**: 
+
+- Trouvez un exemple familier de jeu de pari apparenté à ce problème. 
+- Généralisez la formule pour la sélection d'une liste de $x$ gènes dans un génome qui en comporte $n$. 
+
+## Solution 02.2 : listes (ordonnées) de gènes
+
+Il s'agit d'une sélection **sans remise** (chaque gène apparaît à une et une seule position dans la liste de tous les gènes), et **ordonnée** (les  mêmes gènes pris dans un ordre différent sont considérés comme un résultat différent).
+
+- Pour le premier gène, il y a $n=6000$ possibiité.
+- Dès le moment où on connaît le premier gène, il n'existe plus que 5999 possibilités pour le second, et donc $n \cdot (n-1) = 6000 \cdot 5999$ possibilités pour la suite des deux premiers gènes; 
+- Par extension, il existe $6000 \cdot 5999 \cdot 5998 \cdot \ldots \cdot 5986 = `r signif(digits=3, prod(6000 - (0:14)))`$ possibilités pour les 15 premiers gènes. 
+- En généralisant à la liste des $x$ premiers gènes dans un ensemble de $n$, on obtient $N = n \cdot (n-1)  \cdot (n-2) \cdot ... \cdot (n-x+1)$. 
+
+## Exercice 02.3 : ensembles (non-ordonnés) de gènes
+
+Lors d'une expérience de transcriptome indiquant le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**sans tenir compte** de l'ordre relatif de ces 15 gènes) ?
+
+**Approche suggérée**: comme précédemment, simplifiez le problème en partant de sélections minimales (1 gène, 2 gènes, ...) et généralisez la formule. 
+
+**Questions subsidiaires**: 
+
+- Trouvez un exemple familier de jeu de pari apparenté à ce problème. 
+- Généralisez la formule pour la sélection d'un ensemble de $x$ gènes dans un génome qui en comporte $n$. 
+- Connaissez-vous le nom de la formule ainsi trouvée ?
 
 
-# Solutions des exercices
+## Solution 02.3 : ensembles (non-ordonnés) de gènes
 
-## Solution exercice 1: mutagenèse
+- Pour une sélection d'un seul gène, il existe $n=6000$ possibilité. 
+- Pour 2 gènes, il existe $n \cdot (n-1) = 6000 \cdot 5999$ arrangements, mais ceci inclut deux fois chaque paire de gènes ($(a, b)$ et $(b, a)$). Le nombre d'ensembles non ordonnés est donc $N = n \dot (n-1)/2$.
+- De même, pour 3 gènes, il faut diviser le nombre d'arrangements ($A^x_n = \frac{n!}{(n-x)!} = 6000 \cdot 5999 \cdot 5998$) par le nombre de permutations parmi tous les triplets de gènes ($(a, b, c), (a, c, b), (b, a, c) \ldots$), ce qui donne $\frac{6000!}{(6000-3)! 3!} = \frac{6000 \cdot 5999 \cdot 5888}{6} = `r signif(digits=3, choose(6000,3))`$.
+- Pour 15 gènes, on obtient $\frac{n!}{(n-x)!x!} = \frac{6000!}{5985! \cdot 15!} = `r signif(digits=3, choose(6000, 15))`$ *combinaisons* possibles.
+
+## Exercice 02.4 : mutagénèse
 
 *On soumet un fragment d'ADN de 1 kilobase à un traitement mutagène qui provoque des mutations ponctuelles (substitutions) à 5 positions distinctes indépendantes. Combien de séquences possibles existe-t-il pour le fragment muté ?*
 
-Il s'agit de choisir  au hasard 5 positions mutantes parmi les 1000 nucléotides du fragment d'ADN. Il s'agit d'un choix sans remise (chaque position ne peut être tirée qu'une fois), on choisit donc le coefficient binomial.
+## Solution 02.4 : mutagenèse
+
+On commence par dénombrer toutes les possibilités pour lesw positions de l'ensemble des 5 mutations, et ensuite on dénombre, pour chacune de ces positions, les substitutions possibles; 
+
+Le dénombrement des positions mutantes revient à choisir au hasard 5 positions parmi les 1000 nucléotides du fragment d'ADN. Il s'agit d'un choix sans remise (chaque position ne peut être tirée qu'une fois), on choisit donc le coefficient binomial.
 
 
 $$\binom{n}{x} = \binom{1000}{5} = C^5_{1000} = \frac{1000!}{5! 995!} = `r choose(n=1000, k=5)`$$
@@ -112,30 +155,32 @@ Pour chacune des 5 positions mutées, on a 3 substitutions possibles. Le nombre 
 
 $$N = 3^5 \cdot  \binom{1000}{5} =`r 3^5*choose(n=1000, k=5)`$$
 
-## Solution de l'exercice 2 : oligopeptides $3 \times 20$
+## Exercice 02.5 : oligopeptides $3 \times 20$
 
 *Combien d'oligopeptides de taille 60 peut-on former en utilisant exactement 3 fois chaque acide aminé ?*
+
+## Solution 02.5 : oligopeptides $3 \times 20$
 
 Commençons par générer une séquence particulière qui remplit ces conditions, en concaténant 3 copies de chaque acide aminé, dans l'ordre alphabétique. 
 
 ```{r echo=FALSE}
-aa.table <- read.delim("amino_acid_table.tsv", sep="\t")
+aa.table <- read.delim("amino_acid_table.tsv", sep = "\t")
 kable(aa.table, caption = "Symboles des acides aminés et codons")
 
 aa <- sort(as.vector(aa.table$Symbol))
 aa <- aa[aa %in% LETTERS]
 
-cat(sort(rep(aa, times=3)), sep="")
+cat(sort(rep(aa, times = 3)), sep = "")
 ```
 
 Les permutations de ces 60 lettres sont des solutions valudes. En voici trois exemples. 
 
 ```{r echo=FALSE}
-cat(sample(rep(aa, times=3)), sep="")
-cat(sample(rep(aa, times=3)), sep="")
-cat(sample(rep(aa, times=3)), sep="")
+cat(sample(rep(aa, times = 3)), sep = "")
+cat(sample(rep(aa, times = 3)), sep = "")
+cat(sample(rep(aa, times = 3)), sep = "")
 cat("...")
-cat(sample(rep(aa, times=3)), sep="")
+cat(sample(rep(aa, times = 3)), sep = "")
 ```
 
 Le nombre total de permutations possibles parmi 60 éléments est $60! = `r factorial(60)`$. Cependant, cenombre dépasse de loin le nombre de séquences distinctes. En effet, dans chacune des séquences ci-dessus, chaque lettre apparaît 3 fois. Or, des permutations entre les trois positions occupées par des $A$ ne changeront pas la séquence. Il en va de même pour les permutations entre  les positions occupées par chacun des acides aminées : $A$, $C$, $D$, $\ldots$

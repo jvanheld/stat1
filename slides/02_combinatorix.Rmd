@@ -82,15 +82,13 @@ library(DiagrammeR)
 
 L'ADN est composé de 4 nucléotides distincts dénotés par les lettres A, C, G, T, et les protéines de 20 acides aminés. 
 
-Pour chacun de ces deux types de polymères, combien d'oligomères distincts peut-on former en polymérisant 20 résidus ("20-mères") ?
+a. Pour chacun de ces deux types de polymères, combien d'oligomères distincts peut-on former en polymérisant 20 résidus ("20-mères") ?
 
-**Approche suggérée**: simplifiez le problème au maximum, en commençant par des polymères beaucoup plus courts (1 résidu, 2 résidus). 
+    **Approche suggérée**: simplifiez le problème au maximum, en commençant par des polymères beaucoup plus courts (1 résidu, 2 résidus). 
 
-**Questions subsidiaires**:
-
-- Généralisez la formule pour les oligomères d'une longueur arbitraire $k$ (**"k-mères"**). 
-- Quel est le nom de la fonction donnant le résultat ?
-- Dans ce processus, quel est le mode de sélection des résidus: **avec ou sans remise** ?
+b. Généralisez la formule pour les oligomères d'une longueur arbitraire $k$ (**"k-mères"**), en symbolisant par $n$ le nombre de résidus. 
+c. Quel est le nom de la fonction donnant le résultat ?
+d. Dans ce processus, quel est le mode de sélection des résidus: **avec ou sans remise** ?
 
 ## Solution: dénombrement d'oligomères
 
@@ -98,17 +96,16 @@ Pour chacun de ces deux types de polymères, combien d'oligomères distincts peu
 
 - Approche progressive de la solution
 
-
     - Cas trivial: séquence d'un seul résidu $\rightarrow$ le nombre de possibilités est $n$. 
     - Pour chacune des $n$ possibilités de premier résidu, il y a $n$ possibilités pour choisir le second résidu $\rightarrow$ il existe $n \cdot n = n^2$ séquences de taille 2. 
     - Pour chacune d'entre elles, $n$ résidus possibles en $3^{ème}$ position $\rightarrow$ il existe $n^2 \cdot n = n^3$ séquences distinctes de taille 3.
     
-- Généralisation: il existe $n^x$ séquences distinctes de taille $x$.
+- Généralisation: il existe $n^k$ séquences distinctes de taille $k$.
 
-- Dans notre cas, la taille des séquences $x=20$. On a donc 
+- Dans notre cas, la taille des séquences $k=20$. On a donc 
 
-    - $N = n^x = 4^{20} = `r signif(digits=3, 4^20)`$ oligonucléotides distincts 
-    - $N = n^x = 20^{20} = `r signif(digits=3, 20^20)`$ oligopeptides distincts 
+    - $N = n^k = 4^{20} = `r signif(digits=3, 4^20)`$ oligonucléotides distincts 
+    - $N = n^k = 20^{20} = `r signif(digits=3, 20^20)`$ oligopeptides distincts 
 
 - Il s'agit d'une **suite géométrique**.
 
@@ -116,17 +113,17 @@ Pour chacun de ces deux types de polymères, combien d'oligomères distincts peu
 
 Une **suite géométrique** est une succession de nombres dont chaque terme est obtenu en multipliant le terme précédent par un facteur constant. 
 
-$$x_i = x_{i-1} \cdot a$$
+$$x_i = x_{i-1} \cdot n$$
 
-Pour $n$ suffisamment grand on peut développer la formule.
+Pour $k$ suffisamment grand on peut développer la formule.
 
 $$\begin{aligned}
-x_n &=  x_{n-1} \cdot a \\
-&=  (x_{n-2} \cdot a) \cdot a = x_{n-2} \cdot a^2 \\
-&=  x_{n-3} \cdot a^3 = \ldots = x_0 \cdot a^n 
+x_k &=  x_{k-1} \cdot n \\
+&=  (x_{k-2} \cdot n) \cdot n = x_{k-2} \cdot n^2 \\
+&=  x_{k-3} \cdot n^3 = \ldots = x_0 \cdot n^k 
 \end{aligned}$$
 
-Dans notre cas, la valeur initiale $x_0=1$;  $n$ est la taille de l'oligomère;  et $a$ est le nombre de résidus ($a=4$ pour les acides nucléiques,  $a=20$ pour les séquences peptidiques).
+Dans notre cas, la valeur initiale $x_0=1$;  $k$ est la taille de l'oligomère;  et $n$ est le nombre de résidus ($n=4$ pour les acides nucléiques, $n=20$ pour les séquences peptidiques).
 
 
 ## Nonmbre d'oligomères

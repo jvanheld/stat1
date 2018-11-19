@@ -3,11 +3,18 @@ title: "Exercices: distributions discrètes"
 author: "Jacques van Helden"
 date: "`r Sys.Date()`"
 output:
-  pdf_document:
+  slidy_presentation:
+    self_contained: no
     fig_caption: yes
-    highlight: zenburn
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
     toc: yes
-    toc_depth: 3
+    widescreen: yes
   html_document:
     self_contained: no
     fig_caption: yes
@@ -22,18 +29,11 @@ output:
     toc_depth: 3
     toc_float: yes
     widescreen: yes
-  slidy_presentation:
-    self_contained: no
+  pdf_document:
     fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    incremental: no
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
-    toc: yes
-    widescreen: yes
+    highlight: zenburn
+    toc: no
+    toc_depth: 3
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -86,7 +86,7 @@ setwd(dir.slides)
 
 ## Exercice 04.1 : probabilité d'un motif avec erreurs
 
-On recherche dans un génome les occurrences du motif GATAAG (où $W$ signifie "$A$ ou $T$") en admettant un certain nombre de substitutions. En supposant que les nucléotides sont indépendants et équiprobables, quelle est la probabilité de trouver à une position du génome: 
+On recherche dans un génome les occurrences du motif GATAAG en admettant un certain nombre de substitutions. En supposant que les nucléotides sont indépendants et équiprobables, quelle est la probabilité de trouver à une position du génome: 
 
 a. Une instance exacte du motif (aucune substitution) ?
 b. Une séquence ne présentant aucune correspondance avec le motif (6 substitutions) ?
@@ -95,7 +95,7 @@ d. Une instance avec au plus 2 substitutions ?
 
 ## Exercice 04.2 : alignement de lectures NGS
 
-Au terme d'un séquençage de type "Next Generation Sequencing" (NGS), on dispose d'une librairie de $N=10^6$ lectures courtes. On aligne la librairie sur le génome de référence, dont la somme des chromosomes fait $G=10^9$ paires de bases, en utilisant un algorithme d'alignement sans gap et sans admettre aucune substitition.
+Au terme d'un séquençage de type *Next Generation Sequencing* (*NGS*), on dispose d'une librairie de $N=10^6$ lectures courtes. On l'aligne sur un génome de référence, dont la somme des chromosomes fait $G=10^9$ paires de bases, en utilisant un algorithme d'alignement sans gap et sans admettre aucune substitition.
 
 On voudrait calculer de probabilité d'un alignement parfait (sans erreur) entre une séquence de lecture particulière à une position particulière du génome, en fonction de la longueur de lecture ($k$).
 
@@ -114,6 +114,7 @@ Dans un génome bactérien de 4 Mb avec une composition de 50% de G+C, on observ
 (c) Quelle serait la probabilité d'observer un nombre aussi faible d'occurrences (130 ou moins) si l'on générait une séquence aléatoire selon le modèle de Bernoulli avec nucléotides équiprobables ?
 (d) Comment peut-on interpréter cette sous-représentation de l'hexanucléotide GGCGCC du point de vue biologique ?
 
+\newpage
 ## Exercice 04.4 : Jeu de roulette
 
 La roulette comporte 37 nombres allant du 0 au 36. Un joueur a décidé de miser systématiquement 1 euro sur le nombre 17 jusqu’à ce que ce nombre sorte, et de s’arrêter ensuite. 
@@ -145,5 +146,20 @@ selected.oligos <- c("AAA", "ATG", "TAA", "TAG", "TGA")
 kable(data.frame(oligo.freq[selected.oligos, ]), row.names = FALSE)
 #print(data.frame(oligo.freq[selected.oligos, ]))
 ```
+
+
+## Exercice 04.6 : mutagenèse
+
+On soumet une librairie de molécules d'ADN de 1 kilobase à un traitement mutagène qui provoque un nombre moyen de 5 mutations ponctuelles (substitutions) par molécule.
+
+a. Quelle est la probabilité d'avoir exactement 5 mutations pour une molécule donnée ?
+b. Quelle est la probabilité pour une molécule d'ADN de n'avoir subi aucune mutation au cours du traitement ?
+c. Quelle est la probabilité d'obtenir au moins 10 mutations ?
+
+Formulation attendue pour la réponse.
+
+- Expliquez le raisonnement qui vous permet de modéliser ce problème. 
+- Justifiez vos choix des hypothèses de travail. 
+- Ecrivez les formules avec les symboles, puis remplacez le symboles par les valeurs numériques correspondantes. Il n'est pas nécessaire de calculer la valeur finale (ceci nécessite un ordinateur, nous le ferons pendant les TP). 
 
 

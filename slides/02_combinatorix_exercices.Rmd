@@ -4,18 +4,11 @@ subtitle: "Probabilités et statistique pour la biologie : éléments (STAT1)"
 author: "Jacques van Helden"
 date: "`r Sys.Date()`"
 output:
-  beamer_presentation:
-    colortheme: dolphin
+  pdf_document:
     fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
-    toc: yes
+    highlight: zenburn
+    toc: no
+    toc_depth: 3
   html_document:
     code_folding: hide
     fig_caption: yes
@@ -38,11 +31,18 @@ output:
   word_document:
     toc: yes
     toc_depth: '3'
-  pdf_document:
+  beamer_presentation:
+    colortheme: dolphin
     fig_caption: yes
-    highlight: zenburn
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
     toc: yes
-    toc_depth: 3
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -77,15 +77,14 @@ knitr::opts_chunk$set(
 
 ## Exercice 02.1: oligomères sans résidus répétés
 
-Combien d'oligomères peut-on former (ADN ou peptides) en utilisant chaque résidu une et une seule fois ?
+a. Combien d'oligomères peut-on former (ADN ou peptides) en utilisant chaque résidu une et une seule fois ?
 
 **Approche suggérée**: agrégez progressivement les résidus, en vous demandant à chaque étape combien d'entre eux n'ont pas encore été incorporés. 
 
-**Questions subsidiaires**:
 
-- Généralisez la formule pour des séquences d'objets tirés dans un ensemble de taille arbitraire ($n$). 
-- Quel est le nom de la fonction donnant le résultat ?
-- Dans ce processus, quel est le mode de sélection des résidus: **avec ou sans remise** ?
+b. Généralisez la formule pour des séquences d'objets tirés dans un ensemble de taille arbitraire ($n$). 
+c. Quel est le nom de la fonction donnant le résultat ?
+d. Dans ce processus, quel est le mode de sélection des résidus: **avec ou sans remise** ?
 
 
 ## Exercice 02.2 : listes (ordonnées) de gènes
@@ -112,10 +111,13 @@ Lors d'une expérience de transcriptome indiquant le niveau d'expression de tous
 - Généralisez la formule pour la sélection d'un ensemble de $x$ gènes dans un génome qui en comporte $n$. 
 - Connaissez-vous le nom de la formule ainsi trouvée ?
 
+\newpage
 
-## Exercice 02.4 : mutagénèse
+## Exercice 02.4 : dénombrement des mutations possibles
 
-*On soumet un fragment d'ADN de 1 kilobase à un traitement mutagène qui provoque des mutations ponctuelles (substitutions) à 5 positions distinctes indépendantes. Combien de séquences possibles existe-t-il pour le fragment muté ?*
+On soumet une librairie de molécules d'ADN de 1 kilobase à un traitement mutagène qui provoque un nombre moyen de 5 mutations ponctuelles (substitutions) par molécule. Combien de séquences distinctes existe-t-il pour un fragment muté en 5 positions indépendantes ?
+
+Expliquez comment vous modélisez ce problème. Ecrivez les formules avec les symboles, puis remplacez le symboles par les valeurs numériques correspondantes. Il n'est pas nécessaire de calculer la valeur finale (ceci nécessite un ordinateur, nous le ferons pendant les TP). 
 
 
 ## Exercice 02.5 : oligopeptides $3 \times 20$

@@ -30,7 +30,7 @@ Jacques van Helden
 </div>
 <div id="exercice04.1-probabilite-dun-motif-avec-erreurs" class="slide section level2">
 <h2>Exercice 04.1 : probabilité d’un motif avec erreurs</h2>
-<p>On recherche dans un génome les occurrences du motif GATAAG (où <span class="math inline">\(W\)</span> signifie “<span class="math inline">\(A\)</span> ou <span class="math inline">\(T\)</span>”) en admettant un certain nombre de substitutions. En supposant que les nucléotides sont indépendants et équiprobables, quelle est la probabilité de trouver à une position du génome:</p>
+<p>On recherche dans un génome les occurrences du motif GATAAG en admettant un certain nombre de substitutions. En supposant que les nucléotides sont indépendants et équiprobables, quelle est la probabilité de trouver à une position du génome:</p>
 <ol style="list-style-type: lower-alpha">
 <li>Une instance exacte du motif (aucune substitution) ?</li>
 <li>Une séquence ne présentant aucune correspondance avec le motif (6 substitutions) ?</li>
@@ -40,7 +40,7 @@ Jacques van Helden
 </div>
 <div id="exercice04.2-alignement-de-lectures-ngs" class="slide section level2">
 <h2>Exercice 04.2 : alignement de lectures NGS</h2>
-<p>Au terme d’un séquençage de type “Next Generation Sequencing” (NGS), on dispose d’une librairie de <span class="math inline">\(N=10^6\)</span> lectures courtes. On aligne la librairie sur le génome de référence, dont la somme des chromosomes fait <span class="math inline">\(G=10^9\)</span> paires de bases, en utilisant un algorithme d’alignement sans gap et sans admettre aucune substitition.</p>
+<p>Au terme d’un séquençage de type <em>Next Generation Sequencing</em> (<em>NGS</em>), on dispose d’une librairie de <span class="math inline">\(N=10^6\)</span> lectures courtes. On l’aligne sur un génome de référence, dont la somme des chromosomes fait <span class="math inline">\(G=10^9\)</span> paires de bases, en utilisant un algorithme d’alignement sans gap et sans admettre aucune substitition.</p>
 <p>On voudrait calculer de probabilité d’un alignement parfait (sans erreur) entre une séquence de lecture particulière à une position particulière du génome, en fonction de la longueur de lecture (<span class="math inline">\(k\)</span>).</p>
 <ul>
 <li>Quelle distribution théorique utiliseriez-vous pour modéliser ce problème ? Justifiez ce choix.</li>
@@ -57,6 +57,7 @@ Jacques van Helden
 <li>Quelle serait la probabilité d’observer un nombre aussi faible d’occurrences (130 ou moins) si l’on générait une séquence aléatoire selon le modèle de Bernoulli avec nucléotides équiprobables ?</li>
 <li>Comment peut-on interpréter cette sous-représentation de l’hexanucléotide GGCGCC du point de vue biologique ?</li>
 </ol>
+
 </div>
 <div id="exercice04.4-jeu-de-roulette" class="slide section level2">
 <h2>Exercice 04.4 : Jeu de roulette</h2>
@@ -107,6 +108,21 @@ Jacques van Helden
 </tr>
 </tbody>
 </table>
+</div>
+<div id="exercice04.6-mutagenese" class="slide section level2">
+<h2>Exercice 04.6 : mutagenèse</h2>
+<p>On soumet une librairie de molécules d’ADN de 1 kilobase à un traitement mutagène qui provoque un nombre moyen de 5 mutations ponctuelles (substitutions) par molécule.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Quelle est la probabilité d’avoir exactement 5 mutations pour une molécule donnée ?</li>
+<li>Quelle est la probabilité pour une molécule d’ADN de n’avoir subi aucune mutation au cours du traitement ?</li>
+<li>Quelle est la probabilité d’obtenir au moins 10 mutations ?</li>
+</ol>
+<p>Formulation attendue pour la réponse.</p>
+<ul>
+<li>Expliquez le raisonnement qui vous permet de modéliser ce problème.</li>
+<li>Justifiez vos choix des hypothèses de travail.</li>
+<li>Ecrivez les formules avec les symboles, puis remplacez le symboles par les valeurs numériques correspondantes. Il n’est pas nécessaire de calculer la valeur finale (ceci nécessite un ordinateur, nous le ferons pendant les TP).</li>
+</ul>
 </div>
 
   <!-- dynamically load mathjax for compatibility with self-contained -->

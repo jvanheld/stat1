@@ -638,6 +638,15 @@ $$P(X = x) = \frac{\lambda^x}{x!}e^{-\lambda}$$
 - $\lambda$ (lettre grècque "lambda") représente l'espérance, autrement dit la moyenne attendue pour le nombre d'événements;
 - $e$ est la base de l'exponentielle ($e = `r round(digits=3, exp(1))`$).
 
+## Propriétés de la distribution de Poisson
+
+- **Espérance** (nombre de succès attendus au hasard): $<X> = \lambda$ (par construction)
+
+- **variance**: $\sigma^2 = lambda$ (***variance égale à la moyenne!***)
+    
+- **Ecart-type**: $\sigma = \sqrt{\lambda}$
+
+
 
 ## Application : mutagenèse
 
@@ -660,63 +669,6 @@ En 1943, Salvador Luria et Max Delbruck démontrent que les mutations ne sont pa
 
 # Exercices
 
-
-## Exercice : probabilité d'un motif avec erreurs
-
-On recherche dans un génome les occurrences du motif GATAAG (où $W$ signifie "$A$ ou $T$") en admettant un certain nombre de substitutions. En supposant que les nucléotides sont indépendants et équiprobables, quelle est la probabilité de trouver à une position du génome: 
-
-a. Une instance exacte du motif (aucune substitution) ?
-b. Une séquence ne présentant aucune correspondance avec le motif (6 substitutions) ?
-c. Une instance avec exactement 1 substitution ?
-d. Une instance avec au plus 2 substitutions ?
-
-## Exercice : alignement de lectures NGS
-
-Au terme d'un séquençage de type "Next Generation Sequencing" (NGS), on dispose d'une librairie de $N=10^6$ lectures courtes. On aligne la librairie sur le génome de référence, dont la somme des chromosomes fait $G=10^9$ paires de bases, en utilisant un algorithme d'alignement sans gap et sans admettre aucune substitition.
-
-On voudrait calculer de probabilité d'un alignement parfait (sans erreur) entre une séquence de lecture particulière à une position particulière du génome, en fonction de la longueur de lecture ($k$).
-
-- Quelle distribution théorique utiliseriez-vous pour modéliser ce problème ? Justifiez ce choix. 
-- Ecrivez la formule de la probabilité.
-
-Note: durant les travaux pratiques, nous dessinerons cette distribution avec le logiciel *R*.
-
-
-## Exercice : sites de restriction
-
-Dans un génome bactérien de 4 Mb avec une composition de 50% de G+C, on observe 130 occurrences de l'hexanucléotide GGCGCC. On suppose un schéma de Bernoulli et une composition équiprobable de nucléotides.
-
-(a) Quelle est la probabilité d’observer une occurrence de GGCGCC à une position donnée du génome ?
-(b) Combien d'occurrences s'attend-on à trouver dans l'ensemble du génome ?
-(c) Quelle serait la probabilité d'observer un nombre aussi faible d'occurrences (130 ou moins) si l'on générait une séquence aléatoire selon le modèle de Bernoulli avec nucléotides équiprobables ?
-(d) Comment peut-on interpréter cette sous-représentation de l'hexanucléotide GGCGCC du point de vue biologique ?
-
-## Exercice : Jeu de roulette
-
-La roulette comporte 37 nombres allant du 0 au 36. Un joueur a décidé de miser systématiquement 1 euro sur le nombre 17 jusqu’à ce que ce nombre sorte, et de s’arrêter ensuite. Sachant que quand on mise sur un seul nombre, le gain vaut 36 fois la mise, quelle est la probabilité pour que le joueur sorte du casino en ayant gagné de l’argent ? Il n’est pas nécessaire de fournir une réponse numérique, vous pouvez vous contenter d’indiquer la formule, en indiquant les nombres correspondant aux différents symboles mathématiques. Justifiez votre réponse en expliquant votre raisonnement. 
-
-## Exercice : probabilité des longueurs d'ORF
-
-On détecte les cadres ouverts de lecture (*open reading frames*, *ORF*) d'un génome en identifiant toutes les séquences de taille multiple de 3 comprises entre un start (ATG) et un stop (TAA, TAG ou TGA). 
-
-a. Sur base des fréquences génomiques de trinucléotides, calculer la probabilité de trouver à une position donnée du génome un ORF d'au moins 100 codons. 
-b. Sachant que le génome fait 12 Mb, quel est le nombre attendu d'ORF d'au moins 100 codons ?
-
-
-```{r echo=FALSE}
-oligo.freq <- read.table("../data/Saccharomyces_cerevisiae/oligo_freq/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab", 
-                         sep = "\t", row.names = NULL)
-colnames(oligo.freq) <- c("sequence", "frequency", "occurrences")
-oligo.freq$frequency <- signif(digits = 3, oligo.freq$frequency)
-
-row.names(oligo.freq) <- oligo.freq$sequence
-
-#oligo.freq["...",] <- c("...", "...", "...")
-
-selected.oligos <- c("AAA", "ATG", "TAA", "TAG", "TGA")
-
-kable(data.frame(oligo.freq[selected.oligos, ]), row.names = FALSE)
-#print(data.frame(oligo.freq[selected.oligos, ]))
-```
-
-
+- [html](04_distributions_discretes_exercices.html)
+- [pdf](04_distributions_discretes_exercices.pdf)
+- [Rmd](04_distributions_discretes_exercices.Rmd)

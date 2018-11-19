@@ -377,43 +377,7 @@ y &lt;-<span class="st"> </span><span class="kw">dbinom</span>(<span class="dt">
 </div>
 <div id="exercice-convergence-de-la-binomiale-vers-une-normale" class="slide section level2">
 <h2>Exercice: convergence de la binomiale vers une normale</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">n &lt;-<span class="st"> </span><span class="dv">10</span>
-p &lt;-<span class="st"> </span><span class="fl">0.4</span>
-
-<span class="co">#&#39; @title PLot a binomial disrtribution</span>
-<span class="co">#&#39; @param size number of trials</span>
-<span class="co">#&#39; @param prob probability of success at each trial</span>
-BinomPlot &lt;-<span class="st"> </span><span class="cf">function</span>(size, prob, ...) {
-  x &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span>size
-  
-  mean  &lt;-<span class="st"> </span>prob <span class="op">*</span><span class="st"> </span>size
-  binomVar &lt;-<span class="st"> </span>size <span class="op">*</span><span class="st"> </span>prob <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>prob)
-  binomSD &lt;-<span class="st"> </span><span class="kw">sqrt</span>(binomVar)
-  plotXLim &lt;-<span class="st"> </span><span class="kw">c</span>(mean <span class="op">-</span><span class="st"> </span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span>binomSD, 
-            mean <span class="op">+</span><span class="st"> </span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span>binomSD)
-
-  y &lt;-<span class="st"> </span><span class="kw">dbinom</span>(<span class="dt">x =</span> x, <span class="dt">size =</span> size, <span class="dt">prob =</span> prob)
-  <span class="kw">plot</span>(x, y, <span class="dt">type=</span><span class="st">&quot;h&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;gray&quot;</span>, <span class="dt">xlim =</span> plotXLim, ...)
-
-  
-  <span class="kw">abline</span>(<span class="dt">v=</span>mean)
-  
-  <span class="kw">abline</span>(<span class="dt">v =</span> mean <span class="op">-</span><span class="st"> </span>binomSD, <span class="dt">lty =</span> <span class="st">&quot;dashed&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)
-  <span class="kw">abline</span>(<span class="dt">v =</span> mean <span class="op">+</span><span class="st"> </span>binomSD, <span class="dt">lty =</span> <span class="st">&quot;dashed&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)
-  
-}
-
-
-
-<span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))
-<span class="cf">for</span> (n <span class="cf">in</span> <span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">1000</span>, <span class="dv">10000</span>, <span class="dv">10000</span>)) {
-  <span class="kw">BinomPlot</span>(<span class="dt">prob =</span> <span class="fl">0.4</span>, <span class="dt">size =</span> n)
-
-  ## Draw a normal curve above the binomial
-  <span class="kw">lines</span>(x, <span class="kw">dnorm</span>(x, <span class="dt">mean =</span> p <span class="op">*</span><span class="st"> </span>n, <span class="dt">sd =</span> <span class="kw">sqrt</span>(p <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p ) <span class="op">*</span><span class="st"> </span>n)), <span class="dt">type=</span><span class="st">&quot;l&quot;</span>)
-}</code></pre></div>
 <p><img src="figures/unnamed-chunk-17-1.png" width="80%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</code></pre></div>
 </div>
 <div id="avant-de-terminer-conservez-la-trace-de-votre-session" class="slide section level2">
 <h2>Avant de terminer : conservez la trace de votre session</h2>

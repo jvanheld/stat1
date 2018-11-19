@@ -16,14 +16,6 @@ output:
     toc: yes
     toc_float: yes
     widescreen: yes
-  html_document:
-    self_contained: no
-    fig_caption: yes
-    highlight: zenburn
-    theme: cerulean
-    toc: yes
-    toc_depth: 3
-    toc_float: yes
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -37,6 +29,14 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
+  html_document:
+    self_contained: no
+    fig_caption: yes
+    highlight: zenburn
+    theme: cerulean
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
   pdf_document:
     fig_caption: yes
     highlight: zenburn
@@ -476,7 +476,7 @@ grid(lty = "solid", col="gray")
 
 Dessinez une série de courbes binomiales avec $n=30$ essais, et des valeurs de $p$ allant de $0.1$ à $0.9$ par pas de $0.1$. 
 
-```{r binomial_series, fig.width = 12, fig.height = 8, out.width = "70%", echo = FALSE}
+```{r binomial_series, fig.width = 12, fig.height = 6, out.width = "70%", echo = FALSE}
 par(mfrow = c(3,3))
 n <- 30  # Number of trials
 x <- 0:n # Number of successes
@@ -495,7 +495,7 @@ par(mfrow = c(1,1))
 
 ## Exercice: convergence de la binomiale vers une normale
 
-```{r fig.width = 10, fig.height = 8, out.width="80%"}
+```{r fig.width = 10, fig.height = 8, out.width="80%", echo = FALSE}
 n <- 10
 p <- 0.4
 
@@ -527,9 +527,10 @@ BinomPlot <- function(size, prob, ...) {
 par(mfrow=c(2,3))
 for (n in c(10, 100, 1000, 1000, 10000, 10000)) {
   BinomPlot(prob = 0.4, size = n)
-
+  x <- 0:n
+  
   ## Draw a normal curve above the binomial
-  lines(x, dnorm(x, mean = p * n, sd = sqrt(p * (1 - p ) * n)), type="l")
+  lines(x, dnorm(x, mean = p * n, sd = sqrt(p * (1 - p ) * n)), type = "l", col = "red")
 }
 par(mfrow=c(1,1))
 

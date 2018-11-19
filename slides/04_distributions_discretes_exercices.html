@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Jacques van Helden" />
+  <meta name="date" content="2018-11-19" />
+  <title>Exercices: distributions discrètes</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="04_distributions_discretes_exercices_files/jquery-1.11.3/jquery.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="04_distributions_discretes_exercices_files/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+  <script src="04_distributions_discretes_exercices_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+  <script src="04_distributions_discretes_exercices_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+  <script src="04_distributions_discretes_exercices_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+  <link href="04_distributions_discretes_exercices_files/slidy-2/styles/slidy.css" rel="stylesheet" />
+  <script src="04_distributions_discretes_exercices_files/slidy-2/scripts/slidy.js"></script>
+</head>
+<body>
+<div class="slide titlepage">
+  <h1 class="title">Exercices: distributions discrètes</h1>
+  <h1 class="subtitle">Probabilités et statistique pour la biologie (STAT1)</h1>
+  <p class="author">
+Jacques van Helden
+  </p>
+  <p class="date">2018-11-19</p>
+</div>
+<div id="exercice04.1-probabilite-dun-motif-avec-erreurs" class="slide section level2">
+<h2>Exercice 04.1 : probabilité d’un motif avec erreurs</h2>
+<p>On recherche dans un génome les occurrences du motif GATAAG (où <span class="math inline">\(W\)</span> signifie “<span class="math inline">\(A\)</span> ou <span class="math inline">\(T\)</span>”) en admettant un certain nombre de substitutions. En supposant que les nucléotides sont indépendants et équiprobables, quelle est la probabilité de trouver à une position du génome:</p>
+<ol style="list-style-type: lower-alpha">
+<li>Une instance exacte du motif (aucune substitution) ?</li>
+<li>Une séquence ne présentant aucune correspondance avec le motif (6 substitutions) ?</li>
+<li>Une instance avec exactement 1 substitution ?</li>
+<li>Une instance avec au plus 2 substitutions ?</li>
+</ol>
+</div>
+<div id="exercice04.2-alignement-de-lectures-ngs" class="slide section level2">
+<h2>Exercice 04.2 : alignement de lectures NGS</h2>
+<p>Au terme d’un séquençage de type “Next Generation Sequencing” (NGS), on dispose d’une librairie de <span class="math inline">\(N=10^6\)</span> lectures courtes. On aligne la librairie sur le génome de référence, dont la somme des chromosomes fait <span class="math inline">\(G=10^9\)</span> paires de bases, en utilisant un algorithme d’alignement sans gap et sans admettre aucune substitition.</p>
+<p>On voudrait calculer de probabilité d’un alignement parfait (sans erreur) entre une séquence de lecture particulière à une position particulière du génome, en fonction de la longueur de lecture (<span class="math inline">\(k\)</span>).</p>
+<ul>
+<li>Quelle distribution théorique utiliseriez-vous pour modéliser ce problème ? Justifiez ce choix.</li>
+<li>Ecrivez la formule de la probabilité.</li>
+</ul>
+<p>Note: durant les travaux pratiques, nous dessinerons cette distribution avec le logiciel <em>R</em>.</p>
+</div>
+<div id="exercice04.3-sites-de-restriction" class="slide section level2">
+<h2>Exercice 04.3 : sites de restriction</h2>
+<p>Dans un génome bactérien de 4 Mb avec une composition de 50% de G+C, on observe 130 occurrences de l’hexanucléotide GGCGCC. On suppose un schéma de Bernoulli et une composition équiprobable de nucléotides.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Quelle est la probabilité d’observer une occurrence de GGCGCC à une position donnée du génome ?</li>
+<li>Combien d’occurrences s’attend-on à trouver dans l’ensemble du génome ?</li>
+<li>Quelle serait la probabilité d’observer un nombre aussi faible d’occurrences (130 ou moins) si l’on générait une séquence aléatoire selon le modèle de Bernoulli avec nucléotides équiprobables ?</li>
+<li>Comment peut-on interpréter cette sous-représentation de l’hexanucléotide GGCGCC du point de vue biologique ?</li>
+</ol>
+</div>
+<div id="exercice04.4-jeu-de-roulette" class="slide section level2">
+<h2>Exercice 04.4 : Jeu de roulette</h2>
+<p>La roulette comporte 37 nombres allant du 0 au 36. Un joueur a décidé de miser systématiquement 1 euro sur le nombre 17 jusqu’à ce que ce nombre sorte, et de s’arrêter ensuite.</p>
+<p>Sachant que quand on mise sur un seul nombre, le gain vaut 36 fois la mise, quelle est la probabilité pour que le joueur sorte du casino en ayant gagné de l’argent ?</p>
+<p>Il n’est pas nécessaire de fournir une réponse numérique, vous pouvez vous contenter de fournir la formule, en indiquant les nombres correspondant aux différents symboles mathématiques. Justifiez votre réponse en expliquant votre raisonnement.</p>
+</div>
+<div id="exercice04.5-probabilite-des-longueurs-dorf" class="slide section level2">
+<h2>Exercice 04.5 : probabilité des longueurs d’ORF</h2>
+<p>On détecte les cadres ouverts de lecture (<em>open reading frames</em>, <em>ORF</em>) d’un génome en identifiant toutes les séquences de taille multiple de 3 comprises entre un start (ATG) et un stop (TAA, TAG ou TGA).</p>
+<ol style="list-style-type: lower-alpha">
+<li>Sur base des fréquences génomiques de trinucléotides, calculer la probabilité de trouver à une position donnée du génome un ORF d’au moins 100 codons.</li>
+<li>Sachant que le génome fait 12 Mb, quel est le nombre attendu d’ORF d’au moins 100 codons ?</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th align="left">sequence</th>
+<th align="right">frequency</th>
+<th align="right">occurrences</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">AAA</td>
+<td align="right">0.0394</td>
+<td align="right">478708</td>
+</tr>
+<tr class="even">
+<td align="left">ATG</td>
+<td align="right">0.0183</td>
+<td align="right">221902</td>
+</tr>
+<tr class="odd">
+<td align="left">TAA</td>
+<td align="right">0.0224</td>
+<td align="right">272041</td>
+</tr>
+<tr class="even">
+<td align="left">TAG</td>
+<td align="right">0.0129</td>
+<td align="right">156668</td>
+</tr>
+<tr class="odd">
+<td align="left">TGA</td>
+<td align="right">0.0201</td>
+<td align="right">244627</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+</body>
+</html>

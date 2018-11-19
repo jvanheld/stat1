@@ -3,19 +3,18 @@ title: "Concepts de probabilités"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  slidy_presentation:
-    slide_level: 2
-    self_contained: no
+  beamer_presentation:
+    colortheme: dolphin
     fig_caption: yes
     fig_height: 6
     fig_width: 7
+    fonttheme: structurebold
     highlight: tango
     incremental: no
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
     toc: yes
-    widescreen: yes
   ioslides_presentation:
     slide_level: 2
     self_contained: no
@@ -41,18 +40,19 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
-  beamer_presentation:
-    colortheme: dolphin
+  slidy_presentation:
+    slide_level: 2
+    self_contained: no
     fig_caption: yes
     fig_height: 6
     fig_width: 7
-    fonttheme: structurebold
     highlight: tango
     incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
     toc: yes
+    widescreen: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
 subtitle: Probabilités et statistique pour la biologie (STAT1)
 font-family: Garamond
@@ -64,7 +64,7 @@ options(width = 300)
 # options(encoding = 'UTF-8')
 knitr::opts_chunk$set(
   fig.width = 7, fig.height = 5, 
-  fig.path = 'figures',
+  fig.path = 'figures/03_concepts_proba_',
   fig.align = "center", 
   size = "tiny", 
   echo = TRUE, eval = TRUE, 
@@ -82,7 +82,7 @@ Lors d'une expérience aléatoire, la ***probabilité*** d'un événement  $A$ e
 
 $$\operatorname{P}(A) = \lim_{n \to \infty}\frac{n_{A}}{n}$$
 
-```{r echo=FALSE, fig.width=10, fig.height=2.7, out.width="95%", fig.cap="Fréquences de A lors du tirage (avec remise) de positions aléatoires dans le génome de *Mycoplasma genitalium*. "}
+```{r proba_frequential_def, echo=FALSE, fig.width=10, fig.height=2.7, out.width="95%", fig.cap="Fréquences de A lors du tirage (avec remise) de positions aléatoires dans le génome de *Mycoplasma genitalium*. "}
 ################################################################
 ## Illustration of the frequential definition of probability.
 ##

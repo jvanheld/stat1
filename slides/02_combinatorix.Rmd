@@ -1,10 +1,9 @@
 ---
 title: "Eléments d'analyse combinatoire"
 author: "Jacques van Helden, revised by Lucie Khamvongsa-Charbonnier and Yvon Mbouamboua"
-date: '`r Sys.Date()`'
+date: "`r Sys.Date()`"
 output:
   slidy_presentation:
-    self_contained: no
     fig_caption: yes
     fig_height: 6
     fig_width: 7
@@ -12,11 +11,35 @@ output:
     highlight: tango
     incremental: no
     keep_md: yes
+    self_contained: no
     smaller: yes
     theme: cerulean
     toc: yes
     widescreen: yes
+  html_document:
+    fig_caption: yes
+    highlight: zenburn
+    self_contained: no
+    theme: cerulean
+    toc: yes
+  ioslides_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    self_contained: no
+    smaller: yes
+    toc: yes
+    widescreen: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
   beamer_presentation:
+#    always_allow_html: yes
     colortheme: dolphin
     fig_caption: yes
     fig_height: 6
@@ -28,34 +51,12 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: yes
-    toc_depth: 3
-  html_document:
-    self_contained: no
-    fig_caption: yes
-    highlight: zenburn
-    theme: cerulean
-    toc: yes
-  ioslides_presentation:
-    self_contained: no
-    colortheme: dolphin
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    smaller: yes
-    toc: yes
-    widescreen: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
-subtitle: Probabilités et statistique pour la biologie (STAT1)
 font-family: Garamond
-transition: linear
-editor_options: 
+subtitle: Probabilités et statistique pour la biologie (STAT1)
+editor_options:
   chunk_output_type: console
+transition: linear
 ---
 
 ```{r include=FALSE, echo=FALSE, eval=TRUE}
@@ -212,7 +213,9 @@ $$N = n! = \left\{
                   n \cdot (n-1)! &\text{otherwise}
                 \end{array}
               \right.$$
-              
+
+Notes: 0! vaut 1, par définition, ce qui permet de calculer 1! avec la formule récursive. 
+
 Pour $n$ suffisamment grand cela donne en clair.
 
 $$N = n \cdot (n-1) \cdot (n-2) \ldots 2 \cdot 1$$
@@ -395,6 +398,7 @@ digraph combinatorix_flowchart {
 | Non | Oui | $n!$ | **Factorielle**: permutations d'un ensemble de taille $n$ |
 | Non | Oui | $A^x_n = \frac{n!}{(n-x)!}$ | **Arrangements** : tirages ordonnés, sans remise, de $x$ éléments dans un ensemble de taille $n$ |
 | Non | Non | $C^x_n = \binom{n}{x} = \frac{n!}{x! (n - x) !}$ | **Combinaisons** : tirages non ordonnés, sans remise, de $x$ éléments dans un ensemble de taille $n$ |
+
 
 # Exercices supplémentaires
 

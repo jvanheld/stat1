@@ -1,0 +1,283 @@
+---
+title: "TP --Tests multiples : détection de k-mères exceptionnels"
+author: "Jacques van Helden & Lucie Khamvongsa-Charbonniner & Yvon Mbouamboua"
+date: '`r Sys.Date()`'
+output:
+  html_document:
+    code_folding: hide
+    self_contained: no
+    fig_caption: yes
+    highlight: zenburn
+    theme: cerulean
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  ioslides_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_md: no
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
+  slidy_presentation:
+    self_contained: no
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: no
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    toc_float: yes
+    widescreen: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
+  beamer_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
+  word_document:
+    toc: yes
+    toc_depth: 3
+font-import: http://fonts.googleapis.com/css ?family=Risque
+font-family: Garamond
+subtitle: Probabilités et statistique pour la biologie (STAT1)
+address: TAGC lab, Aix-Marseille Université, France
+transition: linear
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE, size="huge"}
+library(knitr)
+## Default parameters for displaying the slides
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  eval = TRUE, 
+  fig.width = 7, 
+  fig.height = 5, 
+  fig.align = "center", 
+  fig.path = "figures/",
+  size = "tiny", 
+  warning = FALSE, 
+  results = TRUE, 
+  message = FALSE, 
+  comment = "")
+
+dir.main <- "~/stat1"
+dir.current <- file.path(dir.main, "practicals", "tests_multiples_kmers")
+setwd(dir.current)
+
+```
+
+
+## But de ce tutoriel
+
+- Apprendre à manipuler des tableaux de données (objet R data.frame)
+- Travailler sur les colonnes de tableaux de données
+- Se familiariser par la pratique avec les différentes corrections de tests multples. 
+- Représentations graphiques associées aux tests multiples (histogramme des P-valeurs, MA plot, Volcano plot)
+
+## Jeu de données : contexte
+
+Nous avons utilisé le logiciel *oligo-analysis* de la suite Regulatory Sequence Analysis Tools (RSAT) pour compter les occurrences de chaque octanucléotide dans les pics de liaison du facteur transcriptionnel Sox2 détectés par une expérience de ChIP-seq.
+
+### Conditions d'analyse
+
+- Nombre de séquences: $S = 8014$
+- Taille totale des séquences: $L = 2776509$
+
+- On dénombre uniquement les occurrences renouvelantes (non-chevauchantes). 
+
+- Les octanucléotides ont été regroupés par paires réverse complémentaires (analyse insensible au brin). 
+
+- Le programme a également calculé la probabilité a priori de chaque octanucléotide sur base d'un modèle de Markov d'ordre 5. Autrement dit, la probabilité a priori d'un octanucléotide ($p$) est estimée sur bases des probabilités d'hexanucléotides observées dans l'ensemble des séquences. 
+
+
+## Questions à traiter
+
+Durant ce tutoriel, nous allons explorer ce jeu de données, et calculer une série de statistiques pour détecter les octanucléotides (abbréviation: **8nt**) significativement sur-représentés.
+
+
+## Téléchargement du tableau de données
+
+
+1. A la racine de votre compte, créez un dossier de travail nommé `TP_stat1_multiple_tests_kmers`.
+
+```{r workdir}
+
+## Create work directory
+work.dir <- '~/TP_stat1_multiple_tests_kmers'
+dir.create(work.dir, recursive = TRUE, showWarnings = FALSE)
+setwd(work.dir)
+
+```
+
+
+2. Téléchargez dans ce dossier le fichier de comptage des k-mères, qui se trouve sur le site Wbe du cours. 
+
+<https://jvanheld.github.io/stat1/data/Sox2_oligos/Sox2-peaks_8nt_mkv5.tsv.gz>
+
+
+```{r download_data}
+kmer.file <- 'Sox2-peaks_8nt_mkv5.tsv.gz'
+kmer.url <- file.path("https://jvanheld.github.io/stat1/data/Sox2_oligos/", kmer.file)
+
+
+## Download the kmer occurrence file in the work directory
+download.file(url = kmer.url, destfile = kmer.file)
+```
+
+## Chargement d'un fichier tabulaire de données
+
+Nous allons charger le tableau de comptage des k-mères dans une variable nomée `kmer.table`, de type `data.frame`.
+
+Les data frames sont des tableaux à deux dimensions (lignes/colonnes) qui permettent d'associer 
+- un nom à chaque ligne, 
+- un nom à chaque colonne
+- un type de données (nombres, chaînes de caractères, ...) est défini automatiquement pour chaque colonne sur base de son contenu
+
+```{r load_data}
+setwd(work.dir)
+
+## Check the files
+list.files()
+
+## Load the file
+kmer.table <- read.delim(
+  file = kmer.file, 
+  header = 1, 
+  row.names = 1)
+
+## Check the content of the original data table
+names(kmer.table) ## Column content
+head(kmer.table)  ## First rows
+tail(kmer.table) ## Last rows
+dim(kmer.table)   ## Dimensions of the data frame
+
+
+```
+
+## Sélection de lines et de colonnes
+
+Il existe plusieurs façons de sélectionner des lignes et colonnes d'un tableau. 
+
+
+```{r show_columns, echo=TRUE, eval=TRUE}
+# Afficher le contenu de la cellule en 10ème ligne, 2ème colonne
+kmer.table[10,2] 
+
+## Afficher la 10ème ligne
+kmer.table[10,] 
+
+## Afficher la 2ème colonne
+kmer.table[,2] 
+
+## Afficher les lignes 10 à 15
+kmer.table[10:15,] 
+
+## Afficher les colonnes 1 et 2 pour les lignes 10 à 20
+kmer.table[10:15, 1:2] 
+
+## Sélection d'une ligne par son nom
+kmer.table["gattacca|tggtaatc",]
+kmer.table[c("gattacca|tggtaatc", "aaaaaaaa|tttttttt"),]
+
+## Sélection d'une colonne par son nom
+## (ici, 50 premières lignes seulement )
+head(n = 50, kmer.table[, "occurrences"])
+
+## Notation rapide
+head(n = 50, kmer.table$occurrences)
+
+## Notation équivalente
+kmer.table$occurrences[1:50]
+
+```
+
+
+
+### Exercice
+
+1. Utilisez la fonction `plot()` pour dessiner un nuage de points indiquant le nombre d'occurrences ($Y$) en fonction de la probabilité a priori de chaque 8nt ($X$). Soignez le graphique comme au TP précédent. 
+
+```{r occ_prior_scatter, eval=FALSE, echo=FALSE}
+plot(kmer.table)
+```
+
+2. Dessinez un histogramme des occurrences au moyen de la fonction `hist()`.
+
+## Calcul de statistiques sules colonnes
+
+Nous allons calculer le nombre attendu d'occurrences pour chaque oligonucléotide, en tenant compte de sa probabilité a priori. 
+
+```{r}
+kmer.sum <- sum(kmer.table$occurrences)
+
+## Check the sum of prior probabilities 
+## (~1 but there are some rounding errors)
+sum(kmer.table$prior)
+
+kmer.table$exp.occ <- kmer.table$prior * kmer.sum
+
+plot(kmer.table$exp.occ, kmer.table$occurrences, las = 1)
+```
+
+
+## Exercice
+
+Calculez les statistiques suivantes pour l'ensemble des oligos
+
+1. Rapport entre occurrences observées et attendues (exp/occ)
+2. Le logarithme de ce rapport (log-ratio)
+3. $P(X= x)$: probabilité binomiale d'observer exactement $X$ occurrences 
+4. P-valeur de sur-représentation: $P(X \ge x)$ au moyen de la binomiale.
+5. P-valeur de sur-représentation: $P(X \ge x)$ au moyen de la Poisson. 
+
+6. Dessinez un nuage de points comparant les P-valeurs binomiale et Poisson. Utilisez des axes logarithmiques pour mettre en évidence les faibles p-valeurs. 
+
+7. Calculez la E-valeur binomiale.
+
+8. Calculez la significativité de cette E-valeur, définie ici comme $sig_{E} = -log_{10}(E)$. 
+
+9. Dessinez un graphique avec la significativité ($Y$) en fonction du log-ratio ($X$). 
+
+10. Dessinez un histogramme des p-valeurs. 
+
+
+## Contrôle négaitf
+
+1. Générez une colonne de nombre d'occurrences aléatoires tirés selon une loi de Poisson dont l'espérance est prise dans la colonne `prior`. 
+2. Refaites les calculs et dessins ci-dessus avec ces occurrences aléatoires. 
+
+
+
+## Avant de terminer : conservez la trace de votre session
+
+La traçabilité constitue un enjeu essentiel en sciences. 
+La fonction ***R***  `sessionInfo()` fournit un résumé des conditions d'une session de travail: version de R, système opérateur, bibliothèques de fonctions utilisées. 
+
+
+```{r}
+sessionInfo()
+```
+

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Jacques van Helden &amp; Lucie Khamvongsa-Charbonniner &amp; Yvon Mbouamboua" />
+
+<meta name="date" content="2018-11-22" />
+
+<title>TP –Tests multiples : détection de k-mères exceptionnels</title>
+
+<script src="test_multiples_TP_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="test_multiples_TP_files/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="test_multiples_TP_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="test_multiples_TP_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="test_multiples_TP_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="test_multiples_TP_files/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="test_multiples_TP_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="test_multiples_TP_files/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="test_multiples_TP_files/navigation-1.1/tabsets.js"></script>
+<script src="test_multiples_TP_files/navigation-1.1/codefolding.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #303030; color: #cccccc; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; }
+td.sourceCode { padding-left: 5px; }
+pre, code { color: #cccccc; background-color: #303030; }
+code > span.kw { color: #f0dfaf; } /* Keyword */
+code > span.dt { color: #dfdfbf; } /* DataType */
+code > span.dv { color: #dcdccc; } /* DecVal */
+code > span.bn { color: #dca3a3; } /* BaseN */
+code > span.fl { color: #c0bed1; } /* Float */
+code > span.ch { color: #dca3a3; } /* Char */
+code > span.st { color: #cc9393; } /* String */
+code > span.co { color: #7f9f7f; } /* Comment */
+code > span.ot { color: #efef8f; } /* Other */
+code > span.al { color: #ffcfaf; } /* Alert */
+code > span.fu { color: #efef8f; } /* Function */
+code > span.er { color: #c3bf9f; } /* Error */
+code > span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+code > span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code > span.sc { color: #dca3a3; } /* SpecialChar */
+code > span.vs { color: #cc9393; } /* VerbatimString */
+code > span.ss { color: #cc9393; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { } /* Variable */
+code > span.cf { color: #f0dfaf; } /* ControlFlow */
+code > span.op { color: #f0efd0; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code > span.at { } /* Attribute */
+code > span.do { color: #7f9f7f; } /* Documentation */
+code > span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code > span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code > span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+div.sourceCode {
+  overflow-x: visible;
+}
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">TP –Tests multiples : détection de k-mères exceptionnels</h1>
+<h3 class="subtitle"><em>Probabilités et statistique pour la biologie (STAT1)</em></h3>
+<h4 class="author"><em>Jacques van Helden &amp; Lucie Khamvongsa-Charbonniner &amp; Yvon Mbouamboua</em></h4>
+<h4 class="date"><em>2018-11-22</em></h4>
+
+</div>
+
+
+<div id="but-de-ce-tutoriel" class="section level2">
+<h2>But de ce tutoriel</h2>
+<ul>
+<li>Apprendre à manipuler des tableaux de données (objet R data.frame)</li>
+<li>Travailler sur les colonnes de tableaux de données</li>
+<li>Se familiariser par la pratique avec les différentes corrections de tests multples.</li>
+<li>Représentations graphiques associées aux tests multiples (histogramme des P-valeurs, MA plot, Volcano plot)</li>
+</ul>
+</div>
+<div id="jeu-de-donnees-contexte" class="section level2">
+<h2>Jeu de données : contexte</h2>
+<p>Nous avons utilisé le logiciel <em>oligo-analysis</em> de la suite Regulatory Sequence Analysis Tools (RSAT) pour compter les occurrences de chaque octanucléotide dans les pics de liaison du facteur transcriptionnel Sox2 détectés par une expérience de ChIP-seq.</p>
+<div id="conditions-danalyse" class="section level3">
+<h3>Conditions d’analyse</h3>
+<ul>
+<li>Nombre de séquences: <span class="math inline">\(S = 8014\)</span></li>
+<li><p>Taille totale des séquences: <span class="math inline">\(L = 2776509\)</span></p></li>
+<li><p>On dénombre uniquement les occurrences renouvelantes (non-chevauchantes).</p></li>
+<li><p>Les octanucléotides ont été regroupés par paires réverse complémentaires (analyse insensible au brin).</p></li>
+<li><p>Le programme a également calculé la probabilité a priori de chaque octanucléotide sur base d’un modèle de Markov d’ordre 5. Autrement dit, la probabilité a priori d’un octanucléotide (<span class="math inline">\(p\)</span>) est estimée sur bases des probabilités d’hexanucléotides observées dans l’ensemble des séquences.</p></li>
+</ul>
+</div>
+</div>
+<div id="questions-a-traiter" class="section level2">
+<h2>Questions à traiter</h2>
+<p>Durant ce tutoriel, nous allons explorer ce jeu de données, et calculer une série de statistiques pour détecter les octanucléotides (abbréviation: <strong>8nt</strong>) significativement sur-représentés.</p>
+</div>
+<div id="telechargement-du-tableau-de-donnees" class="section level2">
+<h2>Téléchargement du tableau de données</h2>
+<ol style="list-style-type: decimal">
+<li>A la racine de votre compte, créez un dossier de travail nommé <code>TP_stat1_multiple_tests_kmers</code>.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Create work directory
+work.dir &lt;-<span class="st"> &#39;~/TP_stat1_multiple_tests_kmers&#39;</span>
+<span class="kw">dir.create</span>(work.dir, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)
+<span class="kw">setwd</span>(work.dir)</code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Téléchargez dans ce dossier le fichier de comptage des k-mères, qui se trouve sur le site Wbe du cours.</li>
+</ol>
+<p><a href="https://jvanheld.github.io/stat1/data/Sox2_oligos/Sox2-peaks_8nt_mkv5.tsv.gz" class="uri">https://jvanheld.github.io/stat1/data/Sox2_oligos/Sox2-peaks_8nt_mkv5.tsv.gz</a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kmer.file &lt;-<span class="st"> &#39;Sox2-peaks_8nt_mkv5.tsv.gz&#39;</span>
+kmer.url &lt;-<span class="st"> </span><span class="kw">file.path</span>(<span class="st">&quot;https://jvanheld.github.io/stat1/data/Sox2_oligos/&quot;</span>, kmer.file)
+
+
+## Download the kmer occurrence file in the work directory
+<span class="kw">download.file</span>(<span class="dt">url =</span> kmer.url, <span class="dt">destfile =</span> kmer.file)</code></pre></div>
+</div>
+<div id="charger-un-fichier-tabulaire-dans-une-data.frame" class="section level2">
+<h2>Charger un fichier tabulaire dans une data.frame</h2>
+<p>Nous allons charger le tableau de comptage des k-mères dans une variable nomée <code>kmer.table</code>, de type <code>data.frame</code>.</p>
+<p>Les data frames sont des tableaux à deux dimensions (lignes/colonnes) qui permettent d’associer - un nom à chaque ligne, - un nom à chaque colonne - un type de données (nombres, chaînes de caractères, …) est défini automatiquement pour chaque colonne sur base de son contenu</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setwd</span>(work.dir)</code></pre></div>
+</div>
+<div id="avant-de-terminer-conservez-la-trace-de-votre-session" class="section level2">
+<h2>Avant de terminer : conservez la trace de votre session</h2>
+<p>La traçabilité constitue un enjeu essentiel en sciences. La fonction <strong><em>R</em></strong> <code>sessionInfo()</code> fournit un résumé des conditions d’une session de travail: version de R, système opérateur, bibliothèques de fonctions utilisées.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
+<pre><code>R version 3.5.1 (2018-07-02)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS  10.14.1
+
+Matrix products: default
+BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] knitr_1.20
+
+loaded via a namespace (and not attached):
+ [1] compiler_3.5.1  backports_1.1.2 magrittr_1.5    rprojroot_1.3-2
+ [5] tools_3.5.1     htmltools_0.3.6 yaml_2.2.0      Rcpp_1.0.0     
+ [9] stringi_1.2.4   rmarkdown_1.10  stringr_1.3.1   digest_0.6.18  
+[13] evaluate_0.12  </code></pre>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

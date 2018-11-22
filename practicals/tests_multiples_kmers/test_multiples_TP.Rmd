@@ -110,7 +110,7 @@ Nous avons utilisé le logiciel *oligo-analysis* de la suite Regulatory Sequence
 
 - Les octanucléotides ont été regroupés par paires réverse complémentaires (analyse insensible au brin). 
 
-- Le programme a également calculé la probabilité a priori de chaque octanucléotide sur base d'un modèle de Markov d'ordre 5. Autrement dit, la probabilité a priori d'un octanucléotide ($p$) est estimée sur bases des probabilités d'hexanucléotides observées dans l'ensemble des séquences. 
+- Le programme a également calculé la probabilité a priori (colonne `prior` du tableau) de chaque octanucléotide sur base d'un modèle de Markov d'ordre 5. Autrement dit, la probabilité a priori d'un octanucléotide ($p$) est estimée sur bases des probabilités d'hexanucléotides observées dans l'ensemble des séquences. 
 
 
 ## Questions à traiter

@@ -333,6 +333,7 @@ kmer.url &lt;-<span class="st"> </span><span class="kw">file.path</span>(<span c
 <pre><code>[1] &quot;Sox2-peaks_8nt_mkv5.tsv.gz&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Load the file
 kmer.table &lt;-<span class="st"> </span><span class="kw">read.delim</span>(
+  <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>,
   <span class="dt">file =</span> kmer.file, 
   <span class="dt">header =</span> <span class="dv">1</span>, 
   <span class="dt">row.names =</span> <span class="dv">1</span>)
@@ -7004,7 +7005,11 @@ kmer.table<span class="op">$</span>occurrences[<span class="dv">1</span><span cl
 <pre><code>[1] 1.009168</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kmer.table<span class="op">$</span>exp.occ &lt;-<span class="st"> </span>kmer.table<span class="op">$</span>prior <span class="op">*</span><span class="st"> </span>kmer.sum
 
-<span class="kw">plot</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>occurrences, <span class="dt">las =</span> <span class="dv">1</span>)</code></pre></div>
+<span class="kw">plot</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>occurrences, <span class="dt">las =</span> <span class="dv">1</span>,
+     <span class="dt">xlab =</span> <span class="st">&quot;expected occurrences&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;observed occurrences&quot;</span>,
+     <span class="dt">col =</span> <span class="st">&quot;gray&quot;</span>)
+<span class="kw">grid</span>(<span class="dt">lty =</span> <span class="st">&quot;solid&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>)
+<span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>)</code></pre></div>
 <p><img src="figures/multiple_tests_practical_unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="exercice-1" class="section level2">
@@ -7029,12 +7034,31 @@ kmer.table<span class="op">$</span>occurrences[<span class="dv">1</span><span cl
 <div id="rapport-entre-occurrences-observees-et-attendues-expocc" class="section level2">
 <h2>1. Rapport entre occurrences observées et attendues (exp/occ)</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Observed / expected ratio
-kmer.table<span class="op">$</span>ratio &lt;-<span class="st"> </span>kmer.table<span class="op">$</span>occurrences <span class="op">/</span><span class="st"> </span>kmer.table<span class="op">$</span>exp.occ</code></pre></div>
+kmer.table<span class="op">$</span>ratio &lt;-<span class="st"> </span>kmer.table<span class="op">$</span>occurrences <span class="op">/</span><span class="st"> </span>kmer.table<span class="op">$</span>exp.occ
+
+## Plot ratio as a function of the expected occurrences
+<span class="kw">plot</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>ratio, <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>,
+     <span class="dt">xlab =</span> <span class="st">&quot;expected occurrences&quot;</span>,
+     <span class="dt">ylab =</span> <span class="st">&quot;exp/occ ratio&quot;</span>
+     )
+<span class="kw">grid</span>(<span class="dt">lty =</span> <span class="st">&quot;solid&quot;</span>)
+<span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">1</span>)</code></pre></div>
+<p><img src="figures/multiple_tests_practical_exp-occ_ratio-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Méfiez-vous du rapport obs/exp.</p>
 </div>
 <div id="le-logarithme-en-base-2-de-ce-rapport-log-ratio" class="section level2">
 <h2>2. Le logarithme en base 2 de ce rapport (log-ratio)</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## log-ratio
-kmer.table<span class="op">$</span>log.ratio &lt;-<span class="st"> </span><span class="kw">log</span>(kmer.table<span class="op">$</span>ratio, <span class="dt">base =</span> <span class="dv">2</span>)</code></pre></div>
+kmer.table<span class="op">$</span>log.ratio &lt;-<span class="st"> </span><span class="kw">log</span>(kmer.table<span class="op">$</span>ratio, <span class="dt">base =</span> <span class="dv">2</span>)
+
+## Plot log-ratio as a function of the expected occurrences
+<span class="kw">plot</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>log.ratio, <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>,
+     <span class="dt">xlab =</span> <span class="st">&quot;expected occurrences&quot;</span>,
+     <span class="dt">ylab =</span> <span class="st">&quot;log2(exp/occ ratio)&quot;</span>
+     )
+<span class="kw">grid</span>(<span class="dt">lty =</span> <span class="st">&quot;solid&quot;</span>)
+<span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">0</span>)</code></pre></div>
+<p><img src="figures/multiple_tests_practical_log-ratio-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="px-x-probabilite-binomiale-dobserver-exactement-x-occurrences" class="section level2">
 <h2>3. <span class="math inline">\(P(X= x)\)</span>: probabilité binomiale d’observer exactement <span class="math inline">\(X\)</span> occurrences</h2>
@@ -7072,7 +7096,7 @@ kmer.table<span class="op">$</span>Ppois &lt;-<span class="st"> </span><span cla
 <span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>)
 <span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">1</span>)
 <span class="kw">abline</span>(<span class="dt">v =</span> <span class="dv">1</span>)</code></pre></div>
-<p><img src="figures/multiple_tests_practical_unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figures/multiple_tests_practical_unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="calculez-la-e-valeur-binomiale." class="section level2">
 <h2>7. Calculez la E-valeur binomiale.</h2>
@@ -7091,7 +7115,7 @@ kmer.table<span class="op">$</span>Ebinom &lt;-<span class="st"> </span>kmer.tab
 <span class="kw">abline</span>(<span class="dt">v=</span><span class="dv">0</span>)
 <span class="kw">abline</span>(<span class="dt">h=</span><span class="dv">0</span>, <span class="dt">col=</span><span class="st">&quot;brown&quot;</span>)
 <span class="kw">abline</span>(<span class="dt">h=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</code></pre></div>
-<p><img src="figures/multiple_tests_practical_unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figures/multiple_tests_practical_occ_sig-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="dessinez-un-histogramme-des-p-valeurs-avec-des-intervalles-de-5." class="section level2">
 <h2>10. Dessinez un histogramme des p-valeurs avec des intervalles de 5%.</h2>

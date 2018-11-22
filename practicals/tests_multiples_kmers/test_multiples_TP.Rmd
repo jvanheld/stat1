@@ -76,7 +76,7 @@ knitr::opts_chunk$set(
   fig.width = 7, 
   fig.height = 5, 
   fig.align = "center", 
-  fig.path = "figures/multiple_tests_practical_",
+  fig.path = "figures/",
   size = "tiny", 
   warning = FALSE, 
   results = TRUE, 
@@ -99,12 +99,12 @@ setwd(dir.current)
 
 ## Jeu de données : contexte
 
-Nous avons utilisé le logiciel *oligo-analysis* de la suite Regulatory Sequence Analysis Tools (RSAT) pour compter les occurrences de chaque octanucléotide dans les pics de liaison du facteur transcriptionnel Sox2 détectés par une expérience de ChIP-seq.
+Nous avons utilisé le logiciel *oligo-analysis* de la suite Regulatory Sequence Analysis Tools (RSAT; <http://rsat.eu/>) pour compter les occurrences de chaque octanucléotide dans les pics de liaison du facteur transcriptionnel Sox2 détectés par une expérience de ChIP-seq.
 
 ### Conditions d'analyse
 
 - Nombre de séquences: $S = 8014$
-- Taille totale des séquences: $L = 2776509$
+- Taille totale des séquences: $L = 2.776.509$
 
 - On dénombre uniquement les occurrences renouvelantes (non-chevauchantes). 
 
@@ -178,7 +178,7 @@ dim(kmer.table)   ## Dimensions of the data frame
 
 ```
 
-## Sélection de lines et de colonnes
+## Sélection de lignes et de colonnes
 
 Il existe plusieurs façons de sélectionner des lignes et colonnes d'un tableau. 
 
@@ -222,7 +222,12 @@ kmer.table$occurrences[1:50]
 1. Utilisez la fonction `plot()` pour dessiner un nuage de points indiquant le nombre d'occurrences ($Y$) en fonction de la probabilité a priori de chaque 8nt ($X$). Soignez le graphique comme au TP précédent. 
 
 ```{r occ_prior_scatter, eval=FALSE, echo=FALSE}
-plot(kmer.table$prior, kmer.table$occurrences)
+plot(kmer.table$prior, kmer.table$occurrences,
+     xlab = "Prior k-mer probability",
+     ylab = "Observed occurrences",
+     col = "darkgrey", 
+     las = 1)
+grid(lty = "solid")
 ```
 
 2. Dessinez un histogramme des occurrences au moyen de la fonction `hist()`.
@@ -231,7 +236,7 @@ plot(kmer.table$prior, kmer.table$occurrences)
 
 Nous allons calculer le nombre attendu d'occurrences pour chaque oligonucléotide, en tenant compte de sa probabilité a priori. 
 
-```{r}
+```{r exp_occ}
 kmer.sum <- sum(kmer.table$occurrences)
 
 ## Check the sum of prior probabilities 
@@ -242,16 +247,21 @@ sum(kmer.table$prior)
 kmer.table$exp.occ <- kmer.table$prior * kmer.sum
 
 plot(kmer.table$exp.occ, kmer.table$occurrences, las = 1,
-     xlab = "expected occurrences", ylab = "observed occurrences",
-     col = "gray")
-grid(lty = "solid", col = "darkgray")
+     xlab = "Expected occurrences", 
+     ylab = "Observed occurrences",
+     col = "darkgray")
+grid(lty = "solid", col = "gray")
 abline(a = 0, b = 1)
 ```
 
 
 ## Exercice
 
-Calculez les statistiques suivantes pour l'ensemble des oligos
+Calculez les statistiques suivantes pour l'ensemble des oligos. 
+
+A chaque étape, ajoutez à la table `kmer.table` une colonne avec la nouvelle statistique calculée. Ceci permettra d'exporter ensuite l'ensemble des résultats.  
+
+Dessinez pour chaque statistique calculée un graphique qui représente le mieux possible les résultats, en faisant ressortir les points pertinents. 
 
 1. Rapport entre occurrences observées et attendues (exp/occ)
 2. Le logarithme en base 2 de ce rapport (log-ratio)
@@ -269,6 +279,12 @@ Calculez les statistiques suivantes pour l'ensemble des oligos
 
 10. Dessinez un histogramme des p-valeurs avec des intervalles de 5%. 
 
+11. Générez une colonne de nombre d'occurrences aléatoires tirés selon une loi de Poisson dont l'espérance est prise dans la colonne `prior`. 
+
+12. Refaites les mêmes calculs et dessins (log-ratio, significativité, volcano plot, histogramme des p-valeurs) avec ces occurrences aléatoires. 
+
+13. Sauvegardez le tableau de résultat dans un fichier nommé `Sox2-peaks_8nt_mkv5_overstats.tsv`.
+
 ## Solutions
 
 
@@ -279,7 +295,8 @@ Calculez les statistiques suivantes pour l'ensemble des oligos
 kmer.table$ratio <- kmer.table$occurrences / kmer.table$exp.occ
 
 ## Plot ratio as a function of the expected occurrences
-plot(kmer.table$exp.occ, kmer.table$ratio, col = "darkgray",
+plot(kmer.table$exp.occ, kmer.table$ratio, 
+     col = "darkgray",
      xlab = "expected occurrences",
      ylab = "exp/occ ratio"
      )
@@ -309,18 +326,39 @@ abline(h = 0)
 
 ## 3. $P(X= x)$: probabilité binomiale d'observer exactement $X$ occurrences 
 
-```{r}
+```{r dbinom, fig.width=10, fig.height=4, out.width = "90%"}
 ## Number of trials is the sum of all k-mer occurrences
 N <- sum(kmer.table$occurrences)
 
 ## Binomial PMF
 kmer.table$dbinom <- dbinom(x = kmer.table$occurrences, size = N, prob = kmer.table$prior)
+
+par(mfrow = c(1,2))
+plot(kmer.table$exp.occ, kmer.table$dbinom, 
+     col = "darkgray",
+     xlab = "Expected occurrences",
+     ylab = "Binomial density"
+     )
+grid(lty = "solid")
+abline(h = c(0,1))
+
+## log Y axis
+plot(kmer.table$exp.occ, kmer.table$dbinom, 
+     log = "y",
+     col = "darkgray",
+     xlab = "Expected occurrences",
+     ylab = "Binomial density"
+     )
+grid(lty = "solid")
+abline(h = 1)
+
+
 ```
 
 
 ## 4. P-valeur de sur-représentation: $P(X \ge x)$ au moyen de la binomiale.
 
-```{r}
+```{r Pbinom}
 ## Binomial P-value
 kmer.table$Pbinom <- pbinom(
   q = kmer.table$occurrences - 1, 
@@ -328,22 +366,64 @@ kmer.table$Pbinom <- pbinom(
   prob = kmer.table$prior, 
   lower.tail = FALSE)
 
+par(mfrow = c(1,2))
+plot(kmer.table$exp.occ, kmer.table$Pbinom, 
+     col = "darkgray",
+     xlab = "Expected occurrences",
+     ylab = "Binomial P-value"
+     )
+grid(lty = "solid")
+abline(h = c(0,1))
+
+## log Y axis
+plot(kmer.table$exp.occ, kmer.table$Pbinom, 
+     log = "y",
+     col = "darkgray",
+     xlab = "Expected occurrences",
+     ylab = "Binomial P-value"
+     )
+grid(lty = "solid")
+abline(h = 1)
+
+par(mfrow = c(1,1))
+
 ```
 
 ## 5. P-valeur de sur-représentation: $P(X \ge x)$ au moyen de la Poisson. 
 
-```{r}
+```{r Ppois}
 ## Binomial P-value
 kmer.table$Ppois <- ppois(
   q = kmer.table$occurrences - 1, 
   lambda = kmer.table$exp.occ, 
   lower.tail = FALSE)
 
+
+par(mfrow = c(1,2))
+plot(kmer.table$exp.occ, kmer.table$Ppois, 
+     col = "darkgray",
+     xlab = "Expected occurrences",
+     ylab = "Poisson P-value"
+     )
+grid(lty = "solid")
+abline(h = c(0,1))
+
+## log Y axis
+plot(kmer.table$exp.occ, kmer.table$Pois, 
+     log = "y",
+     col = "darkgray",
+     xlab = "Expected occurrences",
+     ylab = "Poisson P-value"
+     )
+grid(lty = "solid")
+abline(h = 1)
+par(mfrow = c(1,1))
+
 ```
 
 ## 6. Dessinez un nuage de points comparant les P-valeurs binomiale et Poisson. Utilisez des axes logarithmiques pour mettre en évidence les faibles p-valeurs. 
 
-```{r}
+```{r Pbinom_vs_Ppois}
 plot(kmer.table$Ppois, kmer.table$Pbinom,
      xlab = "Poisson P-value", ylab = "Binomial P-value",
      col = "darkgray",
@@ -353,27 +433,64 @@ grid(lty = "solid")
 abline(a = 0, b = 1)
 abline(h = 1)
 abline(v = 1)
+
 ```
 
 
 ## 7. Calculez la E-valeur binomiale.
 
-```{r}
+```{r Ebinom}
 nb.tests <- nrow(kmer.table) # Number of tests
 kmer.table$Ebinom <- kmer.table$Pbinom * nb.tests
+
+
+par(mfrow = c(1,2))
+plot(kmer.table$exp.occ, kmer.table$Ebinom, 
+     las = 1,
+     col = "darkgray",
+     xlab = "Expected occurrences",
+     ylab = "Binomial E-value"
+     )
+grid(lty = "solid")
+abline(h = c(0, N))
+abline(h = 0, col = "brown")
+
+## log Y axis
+plot(kmer.table$exp.occ, kmer.table$Ebinom, 
+     las = 1,
+     log = "y",
+     col = "darkgray",
+     xlab = "Expected occurrences",
+     ylab = "Binomial E-value"
+     )
+grid(lty = "solid")
+abline(h = c(0, N))
+abline(h = 0, col = "brown")
+par(mfrow = c(1,1))
+
 ```
 
 
 ## 8. Calculez la significativité de cette E-valeur, définie ici comme $sig_{E} = -log_{10}(E)$. 
 
-```{r}
+```{r binom_sig}
 kmer.table$sig <- -log(kmer.table$Ebinom, base = 10)
+
+plot(kmer.table$exp.occ, kmer.table$sig, 
+     las = 1,
+     col = "darkgray",
+     xlab = "Expected occurrences",
+     ylab = "Binomial significance"
+     )
+grid(lty = "solid")
+abline(h = 0, col = "brown")
+
 ```
 
 
 ## 9. Dessinez un graphique avec la significativité ($Y$) en fonction du log-ratio ($X$). 
 
-```{r}
+```{r volcano_plot}
 plot(kmer.table$log.ratio, kmer.table$sig,
      col = "darkgray", las = 1,
      panel.first = grid(lty="solid"))
@@ -404,6 +521,7 @@ kmer.table$rand.occ <- rpois(n = nrow(kmer.table), lambda = kmer.table$exp.occ)
 
 ##  12. Refaites les calculs et dessins ci-dessus avec ces occurrences aléatoires. 
 
+
 ```{r pval_hist_rand-occ}
 kmer.table$rand.occ <- rpois(n = nrow(kmer.table), lambda = kmer.table$exp.occ)
 
@@ -419,6 +537,19 @@ hist(kmer.table$rand.Ppois,
      main = "P-value histogram - Random Poisson")
 
 ```
+
+## 13. Sauvegardez le tableau de résultat dans un fichier nommé `Sox2-peaks_8nt_mkv5_overstats.tsv`.
+
+```{r write_table}
+write.table(x = kmer.table, 
+            file = "Sox2-peaks_8nt_mkv5_overstats.tsv", 
+            sep = "\t", 
+            row.names = TRUE, 
+            col.names = NA, quote = FALSE
+            )
+
+```
+
 
 
 ## Avant de terminer : conservez la trace de votre session

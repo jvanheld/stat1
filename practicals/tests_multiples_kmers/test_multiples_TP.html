@@ -320,7 +320,7 @@ kmer.url &lt;-<span class="st"> </span><span class="kw">file.path</span>(<span c
 
 
 ## Download the kmer occurrence file in the work directory
-<span class="kw">download.file</span>(<span class="dt">url =</span> kmer.url, <span class="dt">destfile =</span> kmer.file)</code></pre></div>
+<span class="co"># download.file(url = kmer.url, destfile = kmer.file)</span></code></pre></div>
 </div>
 <div id="chargement-dun-fichier-tabulaire-de-donnees" class="section level2">
 <h2>Chargement d’un fichier tabulaire de données</h2>
@@ -475,9 +475,9 @@ kmer.table<span class="op">$</span>occurrences[<span class="dv">1</span><span cl
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kmer.table<span class="op">$</span>exp.occ &lt;-<span class="st"> </span>kmer.table<span class="op">$</span>prior <span class="op">*</span><span class="st"> </span>kmer.sum
 
 <span class="kw">plot</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>occurrences, <span class="dt">las =</span> <span class="dv">1</span>,
+     <span class="dt">col =</span> <span class="kw">densCols</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>occurrences),
      <span class="dt">xlab =</span> <span class="st">&quot;Expected occurrences&quot;</span>, 
-     <span class="dt">ylab =</span> <span class="st">&quot;Observed occurrences&quot;</span>,
-     <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>)
+     <span class="dt">ylab =</span> <span class="st">&quot;Observed occurrences&quot;</span>)
 <span class="kw">grid</span>(<span class="dt">lty =</span> <span class="st">&quot;solid&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;gray&quot;</span>)
 <span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>)</code></pre></div>
 <p><img src="figures/exp_occ-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -488,7 +488,7 @@ kmer.table<span class="op">$</span>occurrences[<span class="dv">1</span><span cl
 <p>A chaque étape, ajoutez à la table <code>kmer.table</code> une colonne avec la nouvelle statistique calculée. Ceci permettra d’exporter ensuite l’ensemble des résultats.</p>
 <p>Dessinez pour chaque statistique calculée un graphique qui représente le mieux possible les résultats, en faisant ressortir les points pertinents.</p>
 <ol style="list-style-type: decimal">
-<li>Rapport entre occurrences observées et attendues (exp/occ)</li>
+<li>Rapport entre occurrences observées et attendues (obs/exp)</li>
 <li>Le logarithme en base 2 de ce rapport (log-ratio)</li>
 <li><span class="math inline">\(P(X= x)\)</span>: probabilité binomiale d’observer exactement <span class="math inline">\(X\)</span> occurrences</li>
 <li>P-valeur de sur-représentation: <span class="math inline">\(P(X \ge x)\)</span> au moyen de la binomiale.</li>
@@ -506,16 +506,16 @@ kmer.table<span class="op">$</span>occurrences[<span class="dv">1</span><span cl
 <div id="solutions" class="section level2">
 <h2>Solutions</h2>
 </div>
-<div id="rapport-entre-occurrences-observees-et-attendues-expocc" class="section level2">
-<h2>1. Rapport entre occurrences observées et attendues (exp/occ)</h2>
+<div id="rapport-entre-occurrences-observees-et-attendues-obsexp" class="section level2">
+<h2>1. Rapport entre occurrences observées et attendues (obs/exp)</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Observed / expected ratio
 kmer.table<span class="op">$</span>ratio &lt;-<span class="st"> </span>kmer.table<span class="op">$</span>occurrences <span class="op">/</span><span class="st"> </span>kmer.table<span class="op">$</span>exp.occ
 
 ## Plot ratio as a function of the expected occurrences
 <span class="kw">plot</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>ratio, 
-     <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>,
+     <span class="dt">col =</span> <span class="kw">densCols</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>ratio),
      <span class="dt">xlab =</span> <span class="st">&quot;expected occurrences&quot;</span>,
-     <span class="dt">ylab =</span> <span class="st">&quot;exp/occ ratio&quot;</span>
+     <span class="dt">ylab =</span> <span class="st">&quot;obs/exp ratio&quot;</span>
      )
 <span class="kw">grid</span>(<span class="dt">lty =</span> <span class="st">&quot;solid&quot;</span>)
 <span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">1</span>)</code></pre></div>
@@ -528,9 +528,10 @@ kmer.table<span class="op">$</span>ratio &lt;-<span class="st"> </span>kmer.tabl
 kmer.table<span class="op">$</span>log.ratio &lt;-<span class="st"> </span><span class="kw">log</span>(kmer.table<span class="op">$</span>ratio, <span class="dt">base =</span> <span class="dv">2</span>)
 
 ## Plot log-ratio as a function of the expected occurrences
-<span class="kw">plot</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>log.ratio, <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>,
+<span class="kw">plot</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>log.ratio, 
+     <span class="dt">col =</span> <span class="kw">densCols</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>log.ratio),
      <span class="dt">xlab =</span> <span class="st">&quot;expected occurrences&quot;</span>,
-     <span class="dt">ylab =</span> <span class="st">&quot;log2(exp/occ ratio)&quot;</span>
+     <span class="dt">ylab =</span> <span class="st">&quot;log2(obs/exp ratio)&quot;</span>
      )
 <span class="kw">grid</span>(<span class="dt">lty =</span> <span class="st">&quot;solid&quot;</span>)
 <span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">0</span>)</code></pre></div>
@@ -546,7 +547,7 @@ kmer.table<span class="op">$</span>dbinom &lt;-<span class="st"> </span><span cl
 
 <span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
 <span class="kw">plot</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>dbinom, 
-     <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>,
+     <span class="dt">col =</span> <span class="kw">densCols</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>dbinom),
      <span class="dt">xlab =</span> <span class="st">&quot;Expected occurrences&quot;</span>,
      <span class="dt">ylab =</span> <span class="st">&quot;Binomial density&quot;</span>
      )
@@ -555,8 +556,8 @@ kmer.table<span class="op">$</span>dbinom &lt;-<span class="st"> </span><span cl
 
 ## log Y axis
 <span class="kw">plot</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>dbinom, 
+     <span class="dt">col =</span> <span class="kw">densCols</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>dbinom),
      <span class="dt">log =</span> <span class="st">&quot;y&quot;</span>,
-     <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>,
      <span class="dt">xlab =</span> <span class="st">&quot;Expected occurrences&quot;</span>,
      <span class="dt">ylab =</span> <span class="st">&quot;Binomial density&quot;</span>
      )
@@ -575,7 +576,7 @@ kmer.table<span class="op">$</span>Pbinom &lt;-<span class="st"> </span><span cl
 
 <span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
 <span class="kw">plot</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>Pbinom, 
-     <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>,
+     <span class="dt">col =</span> <span class="kw">densCols</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>Pbinom),
      <span class="dt">xlab =</span> <span class="st">&quot;Expected occurrences&quot;</span>,
      <span class="dt">ylab =</span> <span class="st">&quot;Binomial P-value&quot;</span>
      )
@@ -584,8 +585,8 @@ kmer.table<span class="op">$</span>Pbinom &lt;-<span class="st"> </span><span cl
 
 ## log Y axis
 <span class="kw">plot</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>Pbinom, 
+     <span class="dt">col =</span> <span class="kw">densCols</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>Pbinom),
      <span class="dt">log =</span> <span class="st">&quot;y&quot;</span>,
-     <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>,
      <span class="dt">xlab =</span> <span class="st">&quot;Expected occurrences&quot;</span>,
      <span class="dt">ylab =</span> <span class="st">&quot;Binomial P-value&quot;</span>
      )
@@ -605,7 +606,7 @@ kmer.table<span class="op">$</span>Ppois &lt;-<span class="st"> </span><span cla
 
 <span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
 <span class="kw">plot</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>Ppois, 
-     <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>,
+     <span class="dt">col =</span> <span class="kw">densCols</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>Pois),
      <span class="dt">xlab =</span> <span class="st">&quot;Expected occurrences&quot;</span>,
      <span class="dt">ylab =</span> <span class="st">&quot;Poisson P-value&quot;</span>
      )
@@ -613,9 +614,9 @@ kmer.table<span class="op">$</span>Ppois &lt;-<span class="st"> </span><span cla
 <span class="kw">abline</span>(<span class="dt">h =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))
 
 ## log Y axis
-<span class="kw">plot</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>Pois, 
+<span class="kw">plot</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>Ppois, 
+     <span class="dt">col =</span> <span class="kw">densCols</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>Pois),
      <span class="dt">log =</span> <span class="st">&quot;y&quot;</span>,
-     <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>,
      <span class="dt">xlab =</span> <span class="st">&quot;Expected occurrences&quot;</span>,
      <span class="dt">ylab =</span> <span class="st">&quot;Poisson P-value&quot;</span>
      )
@@ -627,8 +628,8 @@ kmer.table<span class="op">$</span>Ppois &lt;-<span class="st"> </span><span cla
 <div id="dessinez-un-nuage-de-points-comparant-les-p-valeurs-binomiale-et-poisson.-utilisez-des-axes-logarithmiques-pour-mettre-en-evidence-les-faibles-p-valeurs." class="section level2">
 <h2>6. Dessinez un nuage de points comparant les P-valeurs binomiale et Poisson. Utilisez des axes logarithmiques pour mettre en évidence les faibles p-valeurs.</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(kmer.table<span class="op">$</span>Ppois, kmer.table<span class="op">$</span>Pbinom,
+     <span class="dt">col =</span> <span class="kw">densCols</span>(kmer.table<span class="op">$</span>Ppois, kmer.table<span class="op">$</span>Pbinom),
      <span class="dt">xlab =</span> <span class="st">&quot;Poisson P-value&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Binomial P-value&quot;</span>,
-     <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>,
      <span class="dt">log =</span> <span class="st">&quot;xy&quot;</span>,
      <span class="dt">las =</span> <span class="dv">1</span>)
 <span class="kw">grid</span>(<span class="dt">lty =</span> <span class="st">&quot;solid&quot;</span>)
@@ -645,8 +646,8 @@ kmer.table<span class="op">$</span>Ebinom &lt;-<span class="st"> </span>kmer.tab
 
 <span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
 <span class="kw">plot</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>Ebinom, 
+     <span class="dt">col =</span> <span class="kw">densCols</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>Ebinom),
      <span class="dt">las =</span> <span class="dv">1</span>,
-     <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>,
      <span class="dt">xlab =</span> <span class="st">&quot;Expected occurrences&quot;</span>,
      <span class="dt">ylab =</span> <span class="st">&quot;Binomial E-value&quot;</span>
      )
@@ -656,9 +657,9 @@ kmer.table<span class="op">$</span>Ebinom &lt;-<span class="st"> </span>kmer.tab
 
 ## log Y axis
 <span class="kw">plot</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>Ebinom, 
+     <span class="dt">col =</span> <span class="kw">densCols</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>Ebinom),
      <span class="dt">las =</span> <span class="dv">1</span>,
      <span class="dt">log =</span> <span class="st">&quot;y&quot;</span>,
-     <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>,
      <span class="dt">xlab =</span> <span class="st">&quot;Expected occurrences&quot;</span>,
      <span class="dt">ylab =</span> <span class="st">&quot;Binomial E-value&quot;</span>
      )
@@ -673,8 +674,8 @@ kmer.table<span class="op">$</span>Ebinom &lt;-<span class="st"> </span>kmer.tab
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kmer.table<span class="op">$</span>sig &lt;-<span class="st"> </span><span class="op">-</span><span class="kw">log</span>(kmer.table<span class="op">$</span>Ebinom, <span class="dt">base =</span> <span class="dv">10</span>)
 
 <span class="kw">plot</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>sig, 
+     <span class="dt">col =</span> <span class="kw">densCols</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>sig),
      <span class="dt">las =</span> <span class="dv">1</span>,
-     <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>,
      <span class="dt">xlab =</span> <span class="st">&quot;Expected occurrences&quot;</span>,
      <span class="dt">ylab =</span> <span class="st">&quot;Binomial significance&quot;</span>
      )
@@ -685,7 +686,8 @@ kmer.table<span class="op">$</span>Ebinom &lt;-<span class="st"> </span>kmer.tab
 <div id="dessinez-un-graphique-avec-la-significativite-y-en-fonction-du-log-ratio-x." class="section level2">
 <h2>9. Dessinez un graphique avec la significativité (<span class="math inline">\(Y\)</span>) en fonction du log-ratio (<span class="math inline">\(X\)</span>).</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(kmer.table<span class="op">$</span>log.ratio, kmer.table<span class="op">$</span>sig,
-     <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>, <span class="dt">las =</span> <span class="dv">1</span>,
+     <span class="dt">col =</span> <span class="kw">densCols</span>(kmer.table<span class="op">$</span>log.ratio, kmer.table<span class="op">$</span>sig),
+     <span class="dt">las =</span> <span class="dv">1</span>,
      <span class="dt">panel.first =</span> <span class="kw">grid</span>(<span class="dt">lty=</span><span class="st">&quot;solid&quot;</span>))
 <span class="kw">abline</span>(<span class="dt">v=</span><span class="dv">0</span>)
 <span class="kw">abline</span>(<span class="dt">h=</span><span class="dv">0</span>, <span class="dt">col=</span><span class="st">&quot;brown&quot;</span>)
@@ -695,7 +697,7 @@ kmer.table<span class="op">$</span>Ebinom &lt;-<span class="st"> </span>kmer.tab
 <div id="dessinez-un-histogramme-des-p-valeurs-avec-des-intervalles-de-5." class="section level2">
 <h2>10. Dessinez un histogramme des p-valeurs avec des intervalles de 5%.</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(kmer.table<span class="op">$</span>Pbinom, 
-     <span class="dt">breaks=</span><span class="kw">seq</span>(<span class="dt">from=</span><span class="dv">0</span>, <span class="dt">to=</span><span class="dv">1</span>, <span class="dt">by=</span><span class="fl">0.05</span>), <span class="dt">las =</span> <span class="dv">1</span>,
+     <span class="dt">breaks=</span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">0</span>, <span class="dt">to =</span> <span class="dv">1</span>, <span class="dt">by =</span> <span class="fl">0.05</span>), <span class="dt">las =</span> <span class="dv">1</span>,
      <span class="dt">xlab =</span> <span class="st">&quot;Binomial P-value&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Number of k-mers&quot;</span>,
      <span class="dt">col =</span> <span class="st">&quot;lightgray&quot;</span>,
      <span class="dt">main =</span> <span class="st">&quot;P-value histogram&quot;</span>)</code></pre></div>
@@ -715,7 +717,7 @@ kmer.table<span class="op">$</span>rand.Ppois &lt;-<span class="st"> </span><spa
 
 
 <span class="kw">hist</span>(kmer.table<span class="op">$</span>rand.Ppois, 
-     <span class="dt">breaks=</span><span class="kw">seq</span>(<span class="dt">from=</span><span class="dv">0</span>, <span class="dt">to=</span><span class="dv">1</span>, <span class="dt">by=</span><span class="fl">0.05</span>), <span class="dt">las =</span> <span class="dv">1</span>,
+     <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">0</span>, <span class="dt">to =</span> <span class="dv">1</span>, <span class="dt">by =</span> <span class="fl">0.05</span>), <span class="dt">las =</span> <span class="dv">1</span>,
      <span class="dt">xlab =</span> <span class="st">&quot;Binomial P-value&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Number of k-mers&quot;</span>,
      <span class="dt">col =</span> <span class="st">&quot;lightgray&quot;</span>,
      <span class="dt">main =</span> <span class="st">&quot;P-value histogram - Random Poisson&quot;</span>)</code></pre></div>
@@ -752,10 +754,11 @@ other attached packages:
 [1] knitr_1.20
 
 loaded via a namespace (and not attached):
- [1] compiler_3.5.1  backports_1.1.2 magrittr_1.5    rprojroot_1.3-2
- [5] tools_3.5.1     htmltools_0.3.6 yaml_2.2.0      Rcpp_1.0.0     
- [9] stringi_1.2.4   rmarkdown_1.10  stringr_1.3.1   digest_0.6.18  
-[13] evaluate_0.12  </code></pre>
+ [1] compiler_3.5.1     backports_1.1.2    magrittr_1.5      
+ [4] rprojroot_1.3-2    tools_3.5.1        htmltools_0.3.6   
+ [7] yaml_2.2.0         Rcpp_1.0.0         KernSmooth_2.23-15
+[10] stringi_1.2.4      rmarkdown_1.10     stringr_1.3.1     
+[13] digest_0.6.18      evaluate_0.12     </code></pre>
 </div>
 
 

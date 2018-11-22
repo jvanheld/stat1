@@ -144,7 +144,7 @@ kmer.url <- file.path("https://jvanheld.github.io/stat1/data/Sox2_oligos/", kmer
 
 
 ## Download the kmer occurrence file in the work directory
-download.file(url = kmer.url, destfile = kmer.file)
+# download.file(url = kmer.url, destfile = kmer.file)
 ```
 
 ## Chargement d'un fichier tabulaire de données
@@ -248,9 +248,9 @@ sum(kmer.table$prior)
 kmer.table$exp.occ <- kmer.table$prior * kmer.sum
 
 plot(kmer.table$exp.occ, kmer.table$occurrences, las = 1,
+     col = densCols(kmer.table$exp.occ, kmer.table$occurrences),
      xlab = "Expected occurrences", 
-     ylab = "Observed occurrences",
-     col = "darkgray")
+     ylab = "Observed occurrences")
 grid(lty = "solid", col = "gray")
 abline(a = 0, b = 1)
 ```
@@ -264,7 +264,7 @@ A chaque étape, ajoutez à la table `kmer.table` une colonne avec la nouvelle s
 
 Dessinez pour chaque statistique calculée un graphique qui représente le mieux possible les résultats, en faisant ressortir les points pertinents. 
 
-1. Rapport entre occurrences observées et attendues (exp/occ)
+1. Rapport entre occurrences observées et attendues (obs/exp)
 2. Le logarithme en base 2 de ce rapport (log-ratio)
 3. $P(X= x)$: probabilité binomiale d'observer exactement $X$ occurrences 
 4. P-valeur de sur-représentation: $P(X \ge x)$ au moyen de la binomiale.
@@ -289,7 +289,7 @@ Dessinez pour chaque statistique calculée un graphique qui représente le mieux
 ## Solutions
 
 
-## 1. Rapport entre occurrences observées et attendues (exp/occ)
+## 1. Rapport entre occurrences observées et attendues (obs/exp)
 
 ```{r exp-occ_ratio, echo=TRUE}
 ## Observed / expected ratio
@@ -297,9 +297,9 @@ kmer.table$ratio <- kmer.table$occurrences / kmer.table$exp.occ
 
 ## Plot ratio as a function of the expected occurrences
 plot(kmer.table$exp.occ, kmer.table$ratio, 
-     col = "darkgray",
+     col = densCols(kmer.table$exp.occ, kmer.table$ratio),
      xlab = "expected occurrences",
-     ylab = "exp/occ ratio"
+     ylab = "obs/exp ratio"
      )
 grid(lty = "solid")
 abline(h = 1)
@@ -315,9 +315,10 @@ Méfiez-vous du rapport obs/exp.
 kmer.table$log.ratio <- log(kmer.table$ratio, base = 2)
 
 ## Plot log-ratio as a function of the expected occurrences
-plot(kmer.table$exp.occ, kmer.table$log.ratio, col = "darkgray",
+plot(kmer.table$exp.occ, kmer.table$log.ratio, 
+     col = densCols(kmer.table$exp.occ, kmer.table$log.ratio),
      xlab = "expected occurrences",
-     ylab = "log2(exp/occ ratio)"
+     ylab = "log2(obs/exp ratio)"
      )
 grid(lty = "solid")
 abline(h = 0)
@@ -336,7 +337,7 @@ kmer.table$dbinom <- dbinom(x = kmer.table$occurrences, size = N, prob = kmer.ta
 
 par(mfrow = c(1,2))
 plot(kmer.table$exp.occ, kmer.table$dbinom, 
-     col = "darkgray",
+     col = densCols(kmer.table$exp.occ, kmer.table$dbinom),
      xlab = "Expected occurrences",
      ylab = "Binomial density"
      )
@@ -345,8 +346,8 @@ abline(h = c(0,1))
 
 ## log Y axis
 plot(kmer.table$exp.occ, kmer.table$dbinom, 
+     col = densCols(kmer.table$exp.occ, kmer.table$dbinom),
      log = "y",
-     col = "darkgray",
      xlab = "Expected occurrences",
      ylab = "Binomial density"
      )
@@ -369,7 +370,7 @@ kmer.table$Pbinom <- pbinom(
 
 par(mfrow = c(1,2))
 plot(kmer.table$exp.occ, kmer.table$Pbinom, 
-     col = "darkgray",
+     col = densCols(kmer.table$exp.occ, kmer.table$Pbinom),
      xlab = "Expected occurrences",
      ylab = "Binomial P-value"
      )
@@ -378,8 +379,8 @@ abline(h = c(0,1))
 
 ## log Y axis
 plot(kmer.table$exp.occ, kmer.table$Pbinom, 
+     col = densCols(kmer.table$exp.occ, kmer.table$Pbinom),
      log = "y",
-     col = "darkgray",
      xlab = "Expected occurrences",
      ylab = "Binomial P-value"
      )
@@ -402,7 +403,7 @@ kmer.table$Ppois <- ppois(
 
 par(mfrow = c(1,2))
 plot(kmer.table$exp.occ, kmer.table$Ppois, 
-     col = "darkgray",
+     col = densCols(kmer.table$exp.occ, kmer.table$Pois),
      xlab = "Expected occurrences",
      ylab = "Poisson P-value"
      )
@@ -410,9 +411,9 @@ grid(lty = "solid")
 abline(h = c(0,1))
 
 ## log Y axis
-plot(kmer.table$exp.occ, kmer.table$Pois, 
+plot(kmer.table$exp.occ, kmer.table$Ppois, 
+     col = densCols(kmer.table$exp.occ, kmer.table$Pois),
      log = "y",
-     col = "darkgray",
      xlab = "Expected occurrences",
      ylab = "Poisson P-value"
      )
@@ -426,8 +427,8 @@ par(mfrow = c(1,1))
 
 ```{r Pbinom_vs_Ppois}
 plot(kmer.table$Ppois, kmer.table$Pbinom,
+     col = densCols(kmer.table$Ppois, kmer.table$Pbinom),
      xlab = "Poisson P-value", ylab = "Binomial P-value",
-     col = "darkgray",
      log = "xy",
      las = 1)
 grid(lty = "solid")
@@ -447,8 +448,8 @@ kmer.table$Ebinom <- kmer.table$Pbinom * nb.tests
 
 par(mfrow = c(1,2))
 plot(kmer.table$exp.occ, kmer.table$Ebinom, 
+     col = densCols(kmer.table$exp.occ, kmer.table$Ebinom),
      las = 1,
-     col = "darkgray",
      xlab = "Expected occurrences",
      ylab = "Binomial E-value"
      )
@@ -458,9 +459,9 @@ abline(h = 0, col = "brown")
 
 ## log Y axis
 plot(kmer.table$exp.occ, kmer.table$Ebinom, 
+     col = densCols(kmer.table$exp.occ, kmer.table$Ebinom),
      las = 1,
      log = "y",
-     col = "darkgray",
      xlab = "Expected occurrences",
      ylab = "Binomial E-value"
      )
@@ -478,8 +479,8 @@ par(mfrow = c(1,1))
 kmer.table$sig <- -log(kmer.table$Ebinom, base = 10)
 
 plot(kmer.table$exp.occ, kmer.table$sig, 
+     col = densCols(kmer.table$exp.occ, kmer.table$sig),
      las = 1,
-     col = "darkgray",
      xlab = "Expected occurrences",
      ylab = "Binomial significance"
      )
@@ -493,7 +494,8 @@ abline(h = 0, col = "brown")
 
 ```{r volcano_plot}
 plot(kmer.table$log.ratio, kmer.table$sig,
-     col = "darkgray", las = 1,
+     col = densCols(kmer.table$log.ratio, kmer.table$sig),
+     las = 1,
      panel.first = grid(lty="solid"))
 abline(v=0)
 abline(h=0, col="brown")
@@ -506,7 +508,7 @@ abline(h=2, col="red")
 
 ```{r pval_hist_kmers}
 hist(kmer.table$Pbinom, 
-     breaks=seq(from=0, to=1, by=0.05), las = 1,
+     breaks=seq(from = 0, to = 1, by = 0.05), las = 1,
      xlab = "Binomial P-value", ylab = "Number of k-mers",
      col = "lightgray",
      main = "P-value histogram")
@@ -532,7 +534,7 @@ kmer.table$rand.Ppois <- ppois(q = kmer.table$rand.occ -1, lambda = kmer.table$e
 
 
 hist(kmer.table$rand.Ppois, 
-     breaks=seq(from=0, to=1, by=0.05), las = 1,
+     breaks = seq(from = 0, to = 1, by = 0.05), las = 1,
      xlab = "Binomial P-value", ylab = "Number of k-mers",
      col = "lightgray",
      main = "P-value histogram - Random Poisson")

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Jacques van Helden" />
+  <meta name="date" content="2018-11-22" />
+  <title>Approvoiser la P-valeur – Corrections pour les tests multiples</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="07_tests_multiples_files/jquery-1.11.3/jquery.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="07_tests_multiples_files/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+  <script src="07_tests_multiples_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+  <script src="07_tests_multiples_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+  <script src="07_tests_multiples_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+  <link href="07_tests_multiples_files/slidy-2/styles/slidy.css" rel="stylesheet" />
+  <script src="07_tests_multiples_files/slidy-2/scripts/slidy.js"></script>
+</head>
+<body>
+<div class="slide titlepage">
+  <h1 class="title">Approvoiser la P-valeur – Corrections pour les tests multiples</h1>
+  <h1 class="subtitle">Probabilités et statistique pour la biologie (STAT1)</h1>
+  <p class="author">
+Jacques van Helden
+  </p>
+  <p class="date">2018-11-22</p>
+</div>
+<div id="what-is-a-p-value" class="slide section level2">
+<h2>What is a P value?</h2>
+<p>There are <a href="https://www.ncbi.nlm.nih.gov/pubmed?term=p-value%5BTitle%5D">hundreds of published articles</a> arguing about the correct use, misinterpretation and misuse of the P value.</p>
+<p>In 2016, the American Statistical Association published an article to address the question of good use and misuse of thresholds on the P value.</p>
+<p><em>“Informally, a p-value is the probability under a specified statistical model that a statistical summary of the data (e.g., the sample mean difference between two compared groups) would be equal to or more extreme than its observed value.”</em></p>
+<p>Source: <a href="https://amstat.tandfonline.com/doi/full/10.1080/00031305.2016.1154108#.W_T1Hv5Kh24">The ASA’s Statement on p-Values: Context, Process, and Purpose (2016)</a></p>
+<p><em>“De manière informelle, la probabilité critique (”P valeur“) est la probabilité, étant donné un modèle statistique, qu’une statistique qui décrit les données (par exemple la différence de moyenne entre deux groupes comparés) soit égale ou plus extrême que la valeur observée.”</em>&quot;</p>
+</div>
+<div id="what-is-the-right-threshold-on-p-value" class="slide section level2">
+<h2>What is the right threshold on P value?</h2>
+<ul>
+<li>Q: Why do so many colleges and grad schools teach <span class="math inline">\(p = 0.05\)</span>?</li>
+<li>A: Because that’s still what the scientific community and journal editors use.</li>
+<li>Q: Why do so many people still use <span class="math inline">\(p = 0.05\)</span>?</li>
+<li>A: Because that’s what they were taught in college or grad school</li>
+</ul>
+<p>Source: <a href="https://amstat.tandfonline.com/doi/full/10.1080/00031305.2016.1154108#.W_T1Hv5Kh24">The ASA’s Statement on p-Values: Context, Process, and Purpose (2016)</a></p>
+</div>
+<div id="comment-choisir-un-seuil-pour-la-p-valeur" class="slide section level2">
+<h2>Comment choisir un seuil pour la P-valeur ?</h2>
+<ul>
+<li>La P valeur est calculée sur une échelle continue allant de 0 à 1.</li>
+<li>Elle fournit une estimation du risque de faux positif (probabilité d’obtenir sous hypothèse nulle un résulat au moins aussi extrême que celui observé).</li>
+</ul>
+</div>
+<div id="probleme-occurrences-de-k-meres" class="slide section level2">
+<h2>Problème: occurrences de k-mères</h2>
+<p>We counted the occurrences of all octanucleotides (<span class="math inline">\(k = 8\)</span>) in a sequence of <span class="math inline">\(L = 99,993\)</span> base pairs (single strand counts). The sequence contains <span class="math inline">\(x = 6\)</span> occurrences of <code>GATTACCA</code>.</p>
+<p>Assuming equiprobable and independent nucleotides, is this k-mer over-represented in the sequence?</p>
+</div>
+<div id="modelling-the-problem" class="slide section level2">
+<h2>Modelling the problem</h2>
+<ul>
+<li><p>Prior probability of the k-mer: <span class="math inline">\(p = 0.25^8 = 0.0000153\)</span></p></li>
+<li><p>Number of possible positions: <span class="math inline">\(N &lt;- L - k + 1 = 100,000- 8+ 1 = 99,993\)</span></p></li>
+<li><p>Expected occurrences : <span class="math inline">\(&lt;X&gt; = N \cdot p = 99,993 \cdot 0.0000153= 1.53\)</span></p></li>
+</ul>
+</div>
+<div id="over-representation" class="slide section level2">
+<h2>Over-representation</h2>
+<p>We observe 6 occurrences of <code>GATTACCA</code>, whereas we expect 1.53.</p>
+<p>Is this level of over-representation significant or is it likely to result from chance?</p>
+<p><em>Under the null hypothesis (would the sequence have been generated according to our background model), what would be the probability to observe at least 6 occurrences?</em></p>
+</div>
+<div id="binomial-p-value" class="slide section level2">
+<h2>Binomial p-value</h2>
+<p>Probability distribution of k-mer occurrences in a sequence of length <span class="math inline">\(100,000\)</span> according to a background model of identically and independently distributed nucleotides.</p>
+<ul>
+<li><p>Left: <strong>probability mass function</strong> (<strong>PMF</strong>, <strong>density</strong>), i.e. the probability to observe <em>exactly</em> <span class="math inline">\(x\)</span> occurrences. Arrow: observed occurrences.</p></li>
+<li><p>Right panel: probability to observe <em>at least</em> X occurrences of the considered k-mer (note the logarithmic scale on Y). This is the <strong>P value</strong> of the occurrences.</p></li>
+</ul>
+<p><img src="figures/07_tests_multiplesfig_gattacca_binomial-1.png" width="80%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="p-value-of-k-mer-over-representation" class="slide section level2">
+<h2>P value of k-mer over-representation</h2>
+<p>In our example, the P-value is the probability under the background model (equiprobable and independent nucleotides) that the occurrences of a k-mer (<code>GATTACCA</code>) would be equal to or higher than its observed value (<span class="math inline">\(x = 6\)</span>).</p>
+<p>We obtain the following result:</p>
+<p><span class="math display">\[\begin{aligned}
+P(X \ge x) &amp;=  \sum_{i=x}^{n}{C_n^i p^i (1-p)^{n-i}} \\
+  &amp;=  \sum_{i=6}^{100,000}{C_{100,000}^i 0.25^i (1-0.25)^{100,000-i}} \\
+  &amp;= 0.00483
+\end{aligned}
+\]</span></p>
+</div>
+<div id="rna-seq-and-chip-seq" class="slide section level2">
+<h2>RNA-seq and ChIP-seq</h2>
+<div class="figure" style="text-align: center">
+<img src="images/Rioualen_2018_ChIP-seq_RNA-seq.png" alt="**Analyse NGS de la régulation par FNR chez *Escherichia coli***. *Haut : * Profil de couverture des reads alignés sur le génome de *E.coli* dans une expérience de ChIP-seq (pourpre), de RNA-seq chez une souche sauvage (gris) et mutante pour FNR (jade). *Bas :* gènes annotés, pics de  ChIP-seq, gènes différentiellement exprimés (RNA-seq). " width="40%" />
+<p class="caption">
+<strong>Analyse NGS de la régulation par FNR chez <em>Escherichia coli</em></strong>. <em>Haut : </em> Profil de couverture des reads alignés sur le génome de <em>E.coli</em> dans une expérience de ChIP-seq (pourpre), de RNA-seq chez une souche sauvage (gris) et mutante pour FNR (jade). <em>Bas :</em> gènes annotés, pics de ChIP-seq, gènes différentiellement exprimés (RNA-seq).
+</p>
+</div>
+</div>
+<div id="exercice-7.1-detection-de-pics-chip-seq" class="slide section level2">
+<h2>Exercice 7.1: détection de pics ChIP-seq</h2>
+<p>Lors d’une expérience de ChIP-seq on a aligné <span class="math inline">\(N = 1.000.000\)</span> lectures sur un génome de <span class="math inline">\(G = 4.000.000\)</span> paries de bases. Sur une région génomique donnée de <span class="math inline">\(w = 200\)</span> pb, on trouve <span class="math inline">\(x=70\)</span> fragments de lecture. Peut-on considérer que cette région est significativement enrichie ?</p>
+<ol style="list-style-type: lower-alpha">
+<li>Quel serait le nombre attendu de lectures attendu a priori sur une région de cette largeur ?</li>
+<li>Choisissez une distribution pour modéliser ce problème en justifiand votre choix.</li>
+<li>Indiquez la formule de la P-valeur, puis remplacez les symboles par les valeurs numériques (Le résultat du calcul sera fourni pendant le cours).</li>
+<li>Si l’on place un seuil <span class="math inline">\(\alpha = 0.05\)</span> et qu’on analyse de la même façon toutes les fenêtres génomiques non-chevauchantes de 200bp, combien de faux-positifs s’attend-on à trouver ?</li>
+</ol>
+</div>
+<div id="tests-multiples" class="titleslide slide section level1"><h1>Tests multiples</h1></div><div id="quelques-exemples-de-tests-multiples" class="slide section level2">
+<h2>Quelques exemples de tests multiples</h2>
+<table style="width:94%;">
+<colgroup>
+<col width="66%" />
+<col width="27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Application</th>
+<th align="center">Nombre typique de tests</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>RNA-seq: détection de gènes différentiellement exprimés</td>
+<td align="center">25.000 gènes</td>
+</tr>
+<tr class="even">
+<td>Détection de pics dans des données de ChIP-seq</td>
+<td align="center">10.000.000 régions</td>
+</tr>
+<tr class="odd">
+<td>Découverte de k-mères sur- ou sous-représentés dans les séquences régulatrices</td>
+<td align="center">4096 6-mères, 16384 7-mères, 65536 8-mères</td>
+</tr>
+<tr class="even">
+<td>Etude d’association à échelle génomique</td>
+<td align="center">1.000.000 SNPs</td>
+</tr>
+<tr class="odd">
+<td>recherche de similarité de séquences avec BLAST</td>
+<td align="center">1.000.000.000</td>
+</tr>
+</tbody>
+</table>
+<p><em><strong>Question:</strong> si on admet un seuil de <span class="math inline">\(5\%\)</span> de faux-positifs sur chaque tests, quel est le <strong>nombre de faux-positifs</strong> attendus ?</em></p>
+</div><div id="nombre-de-faux-positifs-attendus" class="slide section level2">
+<h2>Nombre de faux-positifs attendus</h2>
+<p>La <strong><em>E-valeur</em></strong> (<span class="math inline">\(E\)</span>, <strong><em>E-value</em></strong>, expectation) est le nombre attendu de faux-positifs lorsqu’on effectue une série de tests avec un seuil donné sur la probabilité critique (<span class="math inline">\(P\)</span>).</p>
+<p>Elle est obtenue en multipliant la probabilité critique (<span class="math inline">\(P\)</span>) par nombre de tests (<span class="math inline">\(T\)</span>).</p>
+<p><span class="math display">\[E = P \cdot T\]</span></p>
+</div><div id="nombre-de-faux-positifs-attendus-exemples" class="slide section level2">
+<h2>Nombre de faux-positifs attendus : exemples</h2>
+<p>Nombre de faux-positif attendus pour <span class="math inline">\(\alpha = 0.05\)</span>.</p>
+<table>
+<colgroup>
+<col width="60%" />
+<col width="25%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Application</th>
+<th align="center">Nombre typique de tests</th>
+<th align="right">E-valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>RNA-seq: détection de gènes différentiellement exprimés</td>
+<td align="center">25.000 gènes</td>
+<td align="right">1250</td>
+</tr>
+<tr class="even">
+<td>Détection de pics dans des données de ChIP-seq</td>
+<td align="center">10.000.000 régions</td>
+<td align="right">500.000</td>
+</tr>
+<tr class="odd">
+<td>Découverte de k-mères sur- ou sous-représentés dans les séquences régulatrices</td>
+<td align="center">4096 6-mères, 16384 7-mères, 65536 8-mères</td>
+<td align="right">3276.8</td>
+</tr>
+<tr class="even">
+<td>Etude d’association à échelle génomique</td>
+<td align="center">1.000.000 SNPs</td>
+<td align="right">50.000</td>
+</tr>
+<tr class="odd">
+<td>recherche de similarité de séquences avec BLAST</td>
+<td align="center">1.000.000.000</td>
+<td align="right">50.000.000</td>
+</tr>
+</tbody>
+</table>
+</div><div id="tableau-de-contingence" class="slide section level2">
+<h2>Tableau de contingence</h2>
+<p>Dans un problème de prédiction ou de classification, on peut dresser un tableau de contingence indiquant la correspondance entre le statut réel de chaque test (sous hypothèse nulle <span class="math inline">\(H_0\)</span> ou alternative <span class="math inline">\(H_1\)</span>) et le résultat du test (positif ou négatif).</p>
+<table>
+<thead>
+<tr class="header">
+<th>Statut réel</th>
+<th></th>
+<th align="center"><span class="math inline">\(H_0\)</span></th>
+<th align="center"><span class="math inline">\(H_1\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Test</td>
+<td>+</td>
+<td align="center"><span class="math inline">\(FP\)</span></td>
+<td align="center"><span class="math inline">\(TP\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>-</td>
+<td align="center"><span class="math inline">\(TN\)</span></td>
+<td align="center"><span class="math inline">\(FN\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><span class="math inline">\(FP\)</span>: False Positive; <span class="math inline">\(TP\)</span>: True Positive; <span class="math inline">\(TN\)</span>: True negative; <span class="math inline">\(FN\)</span>: False Negative.</p>
+</div>
+
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+</body>
+</html>

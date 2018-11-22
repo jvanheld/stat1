@@ -1,377 +1,351 @@
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-
-<head>
-
-<meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="pandoc" />
-
-
-<meta name="author" content="Jacques van Helden &amp; Lucie Khamvongsa-Charbonniner &amp; Yvon Mbouamboua" />
-
-<meta name="date" content="2018-11-22" />
-
-<title>TP –Tests multiples : détection de k-mères exceptionnels</title>
-
-<script src="test_multiples_TP_files/jquery-1.11.3/jquery.min.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="test_multiples_TP_files/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
-<script src="test_multiples_TP_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<script src="test_multiples_TP_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
-<script src="test_multiples_TP_files/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="test_multiples_TP_files/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="test_multiples_TP_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="test_multiples_TP_files/tocify-1.9.1/jquery.tocify.js"></script>
-<script src="test_multiples_TP_files/navigation-1.1/tabsets.js"></script>
-<script src="test_multiples_TP_files/navigation-1.1/codefolding.js"></script>
-
-
-<style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; background-color: #303030; color: #cccccc; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; }
-td.sourceCode { padding-left: 5px; }
-pre, code { color: #cccccc; background-color: #303030; }
-code > span.kw { color: #f0dfaf; } /* Keyword */
-code > span.dt { color: #dfdfbf; } /* DataType */
-code > span.dv { color: #dcdccc; } /* DecVal */
-code > span.bn { color: #dca3a3; } /* BaseN */
-code > span.fl { color: #c0bed1; } /* Float */
-code > span.ch { color: #dca3a3; } /* Char */
-code > span.st { color: #cc9393; } /* String */
-code > span.co { color: #7f9f7f; } /* Comment */
-code > span.ot { color: #efef8f; } /* Other */
-code > span.al { color: #ffcfaf; } /* Alert */
-code > span.fu { color: #efef8f; } /* Function */
-code > span.er { color: #c3bf9f; } /* Error */
-code > span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
-code > span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
-code > span.sc { color: #dca3a3; } /* SpecialChar */
-code > span.vs { color: #cc9393; } /* VerbatimString */
-code > span.ss { color: #cc9393; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { } /* Variable */
-code > span.cf { color: #f0dfaf; } /* ControlFlow */
-code > span.op { color: #f0efd0; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
-code > span.at { } /* Attribute */
-code > span.do { color: #7f9f7f; } /* Documentation */
-code > span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
-code > span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
-code > span.in { color: #7f9f7f; font-weight: bold; } /* Information */
-div.sourceCode {
-  overflow-x: visible;
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={TP --Tests multiples~: détection de k-mères exceptionnels},
+            pdfauthor={Jacques van Helden \& Lucie Khamvongsa-Charbonniner \& Yvon Mbouamboua},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{48,48,48}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.94,0.87,0.69}{#1}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.87,0.87,0.75}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.86,0.86,0.80}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.86,0.64,0.64}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.75,0.75,0.82}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.86,0.64,0.64}{\textbf{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.86,0.64,0.64}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.86,0.64,0.64}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.80,0.58,0.58}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.80,0.58,0.58}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.80,0.58,0.58}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.80,0.80,0.80}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.50,0.62,0.50}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.50,0.62,0.50}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.50,0.62,0.50}{\textbf{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.50,0.62,0.50}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.94,0.94,0.56}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.94,0.94,0.56}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.80,0.80,0.80}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.94,0.87,0.69}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.94,0.94,0.82}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.80,0.80,0.80}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.80,0.80,0.80}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{1.00,0.81,0.69}{\textbf{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.80,0.80,0.80}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.80,0.80,0.80}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.50,0.62,0.50}{\textbf{#1}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.50,0.62,0.50}{\textbf{#1}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.81,0.69}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.76,0.75,0.62}{#1}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.80,0.80,0.80}{#1}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
 }
-</style>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
 
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+%%% Change title format to be more compact
+\usepackage{titling}
 
-
-</head>
-
-<body>
-
-<style type = "text/css">
-.main-container {
-  max-width: 940px;
-  margin-left: auto;
-  margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
-}
-img {
-  max-width:100%;
-  height: auto;
-}
-.tabbed-pane {
-  padding-top: 12px;
-}
-.html-widget {
-  margin-bottom: 20px;
-}
-button.code-folding-btn:focus {
-  outline: none;
-}
-</style>
-
-
-
-<div class="container-fluid main-container">
-
-<!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
-
-<!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
-<script>
-$(document).ready(function () {
-  window.initializeCodeFolding("hide" === "show");
-});
-</script>
-
-
-
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
-
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
 }
 
+\setlength{\droptitle}{-2em}
 
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
+  \title{TP --Tests multiples~: détection de k-mères exceptionnels}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \subtitle{Probabilités et statistique pour la biologie (STAT1)}
+  \author{Jacques van Helden \& Lucie Khamvongsa-Charbonniner \& Yvon Mbouamboua}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{2018-11-22}
+
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
 }
+\subsection{But de ce tutoriel}\label{but-de-ce-tutoriel}
 
-div.main-container {
-  max-width: 1200px;
-}
+\begin{itemize}
+\tightlist
+\item
+  Apprendre à manipuler des tableaux de données (objet R data.frame)
+\item
+  Travailler sur les colonnes de tableaux de données
+\item
+  Se familiariser par la pratique avec les différentes corrections de
+  tests multples.
+\item
+  Représentations graphiques associées aux tests multiples (histogramme
+  des P-valeurs, MA plot, Volcano plot)
+\end{itemize}
 
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
+\subsection{Jeu de données~: contexte}\label{jeu-de-donnees-contexte}
 
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
+Nous avons utilisé le logiciel \emph{oligo-analysis} de la suite
+Regulatory Sequence Analysis Tools (RSAT) pour compter les occurrences
+de chaque octanucléotide dans les pics de liaison du facteur
+transcriptionnel Sox2 détectés par une expérience de ChIP-seq.
 
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
+\subsubsection{Conditions d'analyse}\label{conditions-danalyse}
 
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
+\begin{itemize}
+\item
+  Nombre de séquences: \(S = 8014\)
+\item
+  Taille totale des séquences: \(L = 2776509\)
+\item
+  On dénombre uniquement les occurrences renouvelantes
+  (non-chevauchantes).
+\item
+  Les octanucléotides ont été regroupés par paires réverse
+  complémentaires (analyse insensible au brin).
+\item
+  Le programme a également calculé la probabilité a priori de chaque
+  octanucléotide sur base d'un modèle de Markov d'ordre 5. Autrement
+  dit, la probabilité a priori d'un octanucléotide (\(p\)) est estimée
+  sur bases des probabilités d'hexanucléotides observées dans l'ensemble
+  des séquences.
+\end{itemize}
 
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
-}
+\subsection{Questions à traiter}\label{questions-a-traiter}
 
-.tocify .list-group-item {
-  border-radius: 0px;
-}
+Durant ce tutoriel, nous allons explorer ce jeu de données, et calculer
+une série de statistiques pour détecter les octanucléotides
+(abbréviation: \textbf{8nt}) significativement sur-représentés.
 
+\subsection{Téléchargement du tableau de
+données}\label{telechargement-du-tableau-de-donnees}
 
-</style>
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  A la racine de votre compte, créez un dossier de travail nommé
+  \texttt{TP\_stat1\_multiple\_tests\_kmers}.
+\end{enumerate}
 
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Create work directory}
+\NormalTok{work.dir <-}\StringTok{ '~/TP_stat1_multiple_tests_kmers'}
+\KeywordTok{dir.create}\NormalTok{(work.dir, }\DataTypeTok{recursive =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{showWarnings =} \OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{setwd}\NormalTok{(work.dir)}
+\end{Highlighting}
+\end{Shaded}
 
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Téléchargez dans ce dossier le fichier de comptage des k-mères, qui se
+  trouve sur le site Wbe du cours.
+\end{enumerate}
 
+\url{https://jvanheld.github.io/stat1/data/Sox2_oligos/Sox2-peaks_8nt_mkv5.tsv.gz}
 
-
-
-<div class="fluid-row" id="header">
-
-<div class="btn-group pull-right">
-<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu" style="min-width: 50px;">
-<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
-<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
-</ul>
-</div>
-
-
-
-<h1 class="title toc-ignore">TP –Tests multiples : détection de k-mères exceptionnels</h1>
-<h3 class="subtitle"><em>Probabilités et statistique pour la biologie (STAT1)</em></h3>
-<h4 class="author"><em>Jacques van Helden &amp; Lucie Khamvongsa-Charbonniner &amp; Yvon Mbouamboua</em></h4>
-<h4 class="date"><em>2018-11-22</em></h4>
-
-</div>
-
-
-<div id="but-de-ce-tutoriel" class="section level2">
-<h2>But de ce tutoriel</h2>
-<ul>
-<li>Apprendre à manipuler des tableaux de données (objet R data.frame)</li>
-<li>Travailler sur les colonnes de tableaux de données</li>
-<li>Se familiariser par la pratique avec les différentes corrections de tests multples.</li>
-<li>Représentations graphiques associées aux tests multiples (histogramme des P-valeurs, MA plot, Volcano plot)</li>
-</ul>
-</div>
-<div id="jeu-de-donnees-contexte" class="section level2">
-<h2>Jeu de données : contexte</h2>
-<p>Nous avons utilisé le logiciel <em>oligo-analysis</em> de la suite Regulatory Sequence Analysis Tools (RSAT) pour compter les occurrences de chaque octanucléotide dans les pics de liaison du facteur transcriptionnel Sox2 détectés par une expérience de ChIP-seq.</p>
-<div id="conditions-danalyse" class="section level3">
-<h3>Conditions d’analyse</h3>
-<ul>
-<li>Nombre de séquences: <span class="math inline">\(S = 8014\)</span></li>
-<li><p>Taille totale des séquences: <span class="math inline">\(L = 2776509\)</span></p></li>
-<li><p>On dénombre uniquement les occurrences renouvelantes (non-chevauchantes).</p></li>
-<li><p>Les octanucléotides ont été regroupés par paires réverse complémentaires (analyse insensible au brin).</p></li>
-<li><p>Le programme a également calculé la probabilité a priori de chaque octanucléotide sur base d’un modèle de Markov d’ordre 5. Autrement dit, la probabilité a priori d’un octanucléotide (<span class="math inline">\(p\)</span>) est estimée sur bases des probabilités d’hexanucléotides observées dans l’ensemble des séquences.</p></li>
-</ul>
-</div>
-</div>
-<div id="questions-a-traiter" class="section level2">
-<h2>Questions à traiter</h2>
-<p>Durant ce tutoriel, nous allons explorer ce jeu de données, et calculer une série de statistiques pour détecter les octanucléotides (abbréviation: <strong>8nt</strong>) significativement sur-représentés.</p>
-</div>
-<div id="telechargement-du-tableau-de-donnees" class="section level2">
-<h2>Téléchargement du tableau de données</h2>
-<ol style="list-style-type: decimal">
-<li>A la racine de votre compte, créez un dossier de travail nommé <code>TP_stat1_multiple_tests_kmers</code>.</li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Create work directory
-work.dir &lt;-<span class="st"> &#39;~/TP_stat1_multiple_tests_kmers&#39;</span>
-<span class="kw">dir.create</span>(work.dir, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)
-<span class="kw">setwd</span>(work.dir)</code></pre></div>
-<ol start="2" style="list-style-type: decimal">
-<li>Téléchargez dans ce dossier le fichier de comptage des k-mères, qui se trouve sur le site Wbe du cours.</li>
-</ol>
-<p><a href="https://jvanheld.github.io/stat1/data/Sox2_oligos/Sox2-peaks_8nt_mkv5.tsv.gz" class="uri">https://jvanheld.github.io/stat1/data/Sox2_oligos/Sox2-peaks_8nt_mkv5.tsv.gz</a></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kmer.file &lt;-<span class="st"> &#39;Sox2-peaks_8nt_mkv5.tsv.gz&#39;</span>
-kmer.url &lt;-<span class="st"> </span><span class="kw">file.path</span>(<span class="st">&quot;https://jvanheld.github.io/stat1/data/Sox2_oligos/&quot;</span>, kmer.file)
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{kmer.file <-}\StringTok{ 'Sox2-peaks_8nt_mkv5.tsv.gz'}
+\NormalTok{kmer.url <-}\StringTok{ }\KeywordTok{file.path}\NormalTok{(}\StringTok{"https://jvanheld.github.io/stat1/data/Sox2_oligos/"}\NormalTok{, kmer.file)}
 
 
-## Download the kmer occurrence file in the work directory
-<span class="kw">download.file</span>(<span class="dt">url =</span> kmer.url, <span class="dt">destfile =</span> kmer.file)</code></pre></div>
-</div>
-<div id="chargement-dun-fichier-tabulaire-de-donnees" class="section level2">
-<h2>Chargement d’un fichier tabulaire de données</h2>
-<p>Nous allons charger le tableau de comptage des k-mères dans une variable nomée <code>kmer.table</code>, de type <code>data.frame</code>.</p>
-<p>Les data frames sont des tableaux à deux dimensions (lignes/colonnes) qui permettent d’associer - un nom à chaque ligne, - un nom à chaque colonne - un type de données (nombres, chaînes de caractères, …) est défini automatiquement pour chaque colonne sur base de son contenu</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setwd</span>(work.dir)
+\NormalTok{## Download the kmer occurrence file in the work directory}
+\KeywordTok{download.file}\NormalTok{(}\DataTypeTok{url =}\NormalTok{ kmer.url, }\DataTypeTok{destfile =}\NormalTok{ kmer.file)}
+\end{Highlighting}
+\end{Shaded}
 
-## Check the files
-<span class="kw">list.files</span>()</code></pre></div>
-<pre><code>[1] &quot;Sox2-peaks_8nt_mkv5.tsv.gz&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Load the file
-kmer.table &lt;-<span class="st"> </span><span class="kw">read.delim</span>(
-  <span class="dt">file =</span> kmer.file, 
-  <span class="dt">header =</span> <span class="dv">1</span>, 
-  <span class="dt">row.names =</span> <span class="dv">1</span>)
+\subsection{Chargement d'un fichier tabulaire de
+données}\label{chargement-dun-fichier-tabulaire-de-donnees}
 
-## Check the content of the original data table
-<span class="kw">names</span>(kmer.table) ## Column content</code></pre></div>
-<pre><code>[1] &quot;occurrences&quot; &quot;prior&quot;      </code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(kmer.table)  ## First rows</code></pre></div>
-<pre><code>                  occurrences       prior
+Nous allons charger le tableau de comptage des k-mères dans une variable
+nomée \texttt{kmer.table}, de type \texttt{data.frame}.
+
+Les data frames sont des tableaux à deux dimensions (lignes/colonnes)
+qui permettent d'associer - un nom à chaque ligne, - un nom à chaque
+colonne - un type de données (nombres, chaînes de caractères, \ldots{})
+est défini automatiquement pour chaque colonne sur base de son contenu
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{setwd}\NormalTok{(work.dir)}
+
+\NormalTok{## Check the files}
+\KeywordTok{list.files}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "Sox2-peaks_8nt_mkv5.tsv.gz"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Load the file}
+\NormalTok{kmer.table <-}\StringTok{ }\KeywordTok{read.delim}\NormalTok{(}
+  \DataTypeTok{file =}\NormalTok{ kmer.file, }
+  \DataTypeTok{header =} \DecValTok{1}\NormalTok{, }
+  \DataTypeTok{row.names =} \DecValTok{1}\NormalTok{)}
+
+\NormalTok{## Check the content of the original data table}
+\KeywordTok{names}\NormalTok{(kmer.table) ## Column content}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "occurrences" "prior"      
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(kmer.table)  ## First rows}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+                  occurrences       prior
 aaaaaaaa|tttttttt         658 0.000409754
 aaaaaaac|gttttttt         285 0.000160186
 aaaaaaag|cttttttt         393 0.000194751
 aaaaaaat|attttttt         317 0.000143588
 aaaaaaca|tgtttttt         317 0.000177584
-aaaaaacc|ggtttttt         166 0.000088000</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tail</span>(kmer.table) ## Last rows</code></pre></div>
-<pre><code>                  occurrences       prior
+aaaaaacc|ggtttttt         166 0.000088000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tail}\NormalTok{(kmer.table) ## Last rows}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+                  occurrences       prior
 tttcaaaa|ttttgaaa         223 0.000087900
 tttccaaa|tttggaaa         212 0.000074400
 tttcgaaa|tttcgaaa          11 0.000003810
 tttgaaaa|ttttcaaa         250 0.000103607
 tttgcaaa|tttgcaaa         150 0.000065600
-ttttaaaa|ttttaaaa         231 0.000074100</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dim</span>(kmer.table)   ## Dimensions of the data frame</code></pre></div>
-<pre><code>[1] 32860     2</code></pre>
-</div>
-<div id="selection-de-lines-et-de-colonnes" class="section level2">
-<h2>Sélection de lines et de colonnes</h2>
-<p>Il existe plusieurs façons de sélectionner des lignes et colonnes d’un tableau.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Afficher le contenu de la cellule en 10ème ligne, 2ème colonne</span>
-kmer.table[<span class="dv">10</span>,<span class="dv">2</span>] </code></pre></div>
-<pre><code>[1] 9.95e-05</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Afficher la 10ème ligne
-kmer.table[<span class="dv">10</span>,] </code></pre></div>
-<pre><code>                  occurrences    prior
-aaaaaagc|gctttttt         148 9.95e-05</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Afficher la 2ème colonne
-kmer.table[,<span class="dv">2</span>] </code></pre></div>
-<pre><code>    [1] 0.000409754 0.000160186 0.000194751 0.000143588 0.000177584
+ttttaaaa|ttttaaaa         231 0.000074100
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dim}\NormalTok{(kmer.table)   ## Dimensions of the data frame}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 32860     2
+\end{verbatim}
+
+\subsection{Sélection de lines et de
+colonnes}\label{selection-de-lines-et-de-colonnes}
+
+Il existe plusieurs façons de sélectionner des lignes et colonnes d'un
+tableau.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Afficher le contenu de la cellule en 10ème ligne, 2ème colonne}
+\NormalTok{kmer.table[}\DecValTok{10}\NormalTok{,}\DecValTok{2}\NormalTok{] }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 9.95e-05
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Afficher la 10ème ligne}
+\NormalTok{kmer.table[}\DecValTok{10}\NormalTok{,] }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+                  occurrences    prior
+aaaaaagc|gctttttt         148 9.95e-05
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Afficher la 2ème colonne}
+\NormalTok{kmer.table[,}\DecValTok{2}\NormalTok{] }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    [1] 0.000409754 0.000160186 0.000194751 0.000143588 0.000177584
     [6] 0.000088000 0.000019200 0.000072100 0.000145540 0.000099500
    [11] 0.000121909 0.000066500 0.000093000 0.000061100 0.000102422
    [16] 0.000062400 0.000170144 0.000077600 0.000094100 0.000053800
@@ -6942,191 +6916,374 @@ kmer.table[,<span class="dv">2</span>] </code></pre></div>
 [32841] 0.000044700 0.000039900 0.000016900 0.000067700 0.000037400
 [32846] 0.000070000 0.000018700 0.000051800 0.000058000 0.000088500
 [32851] 0.000131653 0.000101473 0.000077700 0.000037400 0.000087900
-[32856] 0.000074400 0.000003810 0.000103607 0.000065600 0.000074100</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Afficher les lignes 10 à 15
-kmer.table[<span class="dv">10</span><span class="op">:</span><span class="dv">15</span>,] </code></pre></div>
-<pre><code>                  occurrences       prior
+[32856] 0.000074400 0.000003810 0.000103607 0.000065600 0.000074100
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Afficher les lignes 10 à 15}
+\NormalTok{kmer.table[}\DecValTok{10}\OperatorTok{:}\DecValTok{15}\NormalTok{,] }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+                  occurrences       prior
 aaaaaagc|gctttttt         148 0.000099500
 aaaaaagg|cctttttt         204 0.000121909
 aaaaaagt|actttttt         142 0.000066500
 aaaaaata|tatttttt         164 0.000093000
 aaaaaatc|gatttttt         136 0.000061100
-aaaaaatg|catttttt         156 0.000102422</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Afficher les colonnes 1 et 2 pour les lignes 10 à 20
-kmer.table[<span class="dv">10</span><span class="op">:</span><span class="dv">15</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>] </code></pre></div>
-<pre><code>                  occurrences       prior
+aaaaaatg|catttttt         156 0.000102422
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Afficher les colonnes 1 et 2 pour les lignes 10 à 20}
+\NormalTok{kmer.table[}\DecValTok{10}\OperatorTok{:}\DecValTok{15}\NormalTok{, }\DecValTok{1}\OperatorTok{:}\DecValTok{2}\NormalTok{] }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+                  occurrences       prior
 aaaaaagc|gctttttt         148 0.000099500
 aaaaaagg|cctttttt         204 0.000121909
 aaaaaagt|actttttt         142 0.000066500
 aaaaaata|tatttttt         164 0.000093000
 aaaaaatc|gatttttt         136 0.000061100
-aaaaaatg|catttttt         156 0.000102422</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Sélection d&#39;une ligne par son nom
-kmer.table[<span class="st">&quot;gattacca|tggtaatc&quot;</span>,]</code></pre></div>
-<pre><code>                  occurrences    prior
-gattacca|tggtaatc          53 2.07e-05</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kmer.table[<span class="kw">c</span>(<span class="st">&quot;gattacca|tggtaatc&quot;</span>, <span class="st">&quot;aaaaaaaa|tttttttt&quot;</span>),]</code></pre></div>
-<pre><code>                  occurrences       prior
+aaaaaatg|catttttt         156 0.000102422
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Sélection d'une ligne par son nom}
+\NormalTok{kmer.table[}\StringTok{"gattacca|tggtaatc"}\NormalTok{,]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+                  occurrences    prior
+gattacca|tggtaatc          53 2.07e-05
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{kmer.table[}\KeywordTok{c}\NormalTok{(}\StringTok{"gattacca|tggtaatc"}\NormalTok{, }\StringTok{"aaaaaaaa|tttttttt"}\NormalTok{),]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+                  occurrences       prior
 gattacca|tggtaatc          53 0.000020700
-aaaaaaaa|tttttttt         658 0.000409754</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Sélection d&#39;une colonne par son nom
-## (ici, 50 premières lignes seulement )
-<span class="kw">head</span>(<span class="dt">n =</span> <span class="dv">50</span>, kmer.table[, <span class="st">&quot;occurrences&quot;</span>])</code></pre></div>
-<pre><code> [1] 658 285 393 317 317 166  49  92 302 148 204 142 164 136 156  99 556
+aaaaaaaa|tttttttt         658 0.000409754
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Sélection d'une colonne par son nom}
+\NormalTok{## (ici, 50 premières lignes seulement )}
+\KeywordTok{head}\NormalTok{(}\DataTypeTok{n =} \DecValTok{50}\NormalTok{, kmer.table[, }\StringTok{"occurrences"}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ [1] 658 285 393 317 317 166  49  92 302 148 204 142 164 136 156  99 556
 [18] 182 182 141 183 133  31 149  32  21  21  25  96  75 126  86 481 151
-[35] 195 135 206 143  36 139 252 116 162 119  98 113 126  88 249 105</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Notation rapide
-<span class="kw">head</span>(<span class="dt">n =</span> <span class="dv">50</span>, kmer.table<span class="op">$</span>occurrences)</code></pre></div>
-<pre><code> [1] 658 285 393 317 317 166  49  92 302 148 204 142 164 136 156  99 556
+[35] 195 135 206 143  36 139 252 116 162 119  98 113 126  88 249 105
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Notation rapide}
+\KeywordTok{head}\NormalTok{(}\DataTypeTok{n =} \DecValTok{50}\NormalTok{, kmer.table}\OperatorTok{$}\NormalTok{occurrences)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ [1] 658 285 393 317 317 166  49  92 302 148 204 142 164 136 156  99 556
 [18] 182 182 141 183 133  31 149  32  21  21  25  96  75 126  86 481 151
-[35] 195 135 206 143  36 139 252 116 162 119  98 113 126  88 249 105</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Notation équivalente
-kmer.table<span class="op">$</span>occurrences[<span class="dv">1</span><span class="op">:</span><span class="dv">50</span>]</code></pre></div>
-<pre><code> [1] 658 285 393 317 317 166  49  92 302 148 204 142 164 136 156  99 556
+[35] 195 135 206 143  36 139 252 116 162 119  98 113 126  88 249 105
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Notation équivalente}
+\NormalTok{kmer.table}\OperatorTok{$}\NormalTok{occurrences[}\DecValTok{1}\OperatorTok{:}\DecValTok{50}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ [1] 658 285 393 317 317 166  49  92 302 148 204 142 164 136 156  99 556
 [18] 182 182 141 183 133  31 149  32  21  21  25  96  75 126  86 481 151
-[35] 195 135 206 143  36 139 252 116 162 119  98 113 126  88 249 105</code></pre>
-<div id="exercice" class="section level3">
-<h3>Exercice</h3>
-<ol style="list-style-type: decimal">
-<li><p>Utilisez la fonction <code>plot()</code> pour dessiner un nuage de points indiquant le nombre d’occurrences (<span class="math inline">\(Y\)</span>) en fonction de la probabilité a priori de chaque 8nt (<span class="math inline">\(X\)</span>). Soignez le graphique comme au TP précédent.</p></li>
-<li><p>Dessinez un histogramme des occurrences au moyen de la fonction <code>hist()</code>.</p></li>
-</ol>
-</div>
-</div>
-<div id="calcul-de-statistiques-sules-colonnes" class="section level2">
-<h2>Calcul de statistiques sules colonnes</h2>
-<p>Nous allons calculer le nombre attendu d’occurrences pour chaque oligonucléotide, en tenant compte de sa probabilité a priori.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kmer.sum &lt;-<span class="st"> </span><span class="kw">sum</span>(kmer.table<span class="op">$</span>occurrences)
+[35] 195 135 206 143  36 139 252 116 162 119  98 113 126  88 249 105
+\end{verbatim}
 
-## Check the sum of prior probabilities 
-## (~1 but there are some rounding errors)
-<span class="kw">sum</span>(kmer.table<span class="op">$</span>prior)</code></pre></div>
-<pre><code>[1] 1.009168</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kmer.table<span class="op">$</span>exp.occ &lt;-<span class="st"> </span>kmer.table<span class="op">$</span>prior <span class="op">*</span><span class="st"> </span>kmer.sum
+\subsubsection{Exercice}\label{exercice}
 
-<span class="kw">plot</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>occurrences, <span class="dt">las =</span> <span class="dv">1</span>)</code></pre></div>
-<p><img src="figures/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="exercice-1" class="section level2">
-<h2>Exercice</h2>
-<p>Calculez les statistiques suivantes pour l’ensemble des oligos</p>
-<ol style="list-style-type: decimal">
-<li>Rapport entre occurrences observées et attendues (exp/occ)</li>
-<li>Le logarithme en base 2 de ce rapport (log-ratio)</li>
-<li><span class="math inline">\(P(X= x)\)</span>: probabilité binomiale d’observer exactement <span class="math inline">\(X\)</span> occurrences</li>
-<li>P-valeur de sur-représentation: <span class="math inline">\(P(X \ge x)\)</span> au moyen de la binomiale.</li>
-<li><p>P-valeur de sur-représentation: <span class="math inline">\(P(X \ge x)\)</span> au moyen de la Poisson.</p></li>
-<li><p>Dessinez un nuage de points comparant les P-valeurs binomiale et Poisson. Utilisez des axes logarithmiques pour mettre en évidence les faibles p-valeurs.</p></li>
-<li><p>Calculez la E-valeur binomiale.</p></li>
-<li><p>Calculez la significativité de cette E-valeur, définie ici comme <span class="math inline">\(sig_{E} = -log_{10}(E)\)</span>.</p></li>
-<li><p>Dessinez un graphique avec la significativité (<span class="math inline">\(Y\)</span>) en fonction du log-ratio (<span class="math inline">\(X\)</span>).</p></li>
-<li><p>Dessinez un histogramme des p-valeurs avec des intervalles de 5%.</p></li>
-</ol>
-</div>
-<div id="solutions" class="section level2">
-<h2>Solutions</h2>
-</div>
-<div id="rapport-entre-occurrences-observees-et-attendues-expocc" class="section level2">
-<h2>1. Rapport entre occurrences observées et attendues (exp/occ)</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Observed / expected ratio
-kmer.table<span class="op">$</span>ratio &lt;-<span class="st"> </span>kmer.table<span class="op">$</span>occurrences <span class="op">/</span><span class="st"> </span>kmer.table<span class="op">$</span>exp.occ</code></pre></div>
-</div>
-<div id="le-logarithme-en-base-2-de-ce-rapport-log-ratio" class="section level2">
-<h2>2. Le logarithme en base 2 de ce rapport (log-ratio)</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## log-ratio
-kmer.table<span class="op">$</span>log.ratio &lt;-<span class="st"> </span><span class="kw">log</span>(kmer.table<span class="op">$</span>ratio, <span class="dt">base =</span> <span class="dv">2</span>)</code></pre></div>
-</div>
-<div id="px-x-probabilite-binomiale-dobserver-exactement-x-occurrences" class="section level2">
-<h2>3. <span class="math inline">\(P(X= x)\)</span>: probabilité binomiale d’observer exactement <span class="math inline">\(X\)</span> occurrences</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Number of trials is the sum of all k-mer occurrences
-N &lt;-<span class="st"> </span><span class="kw">sum</span>(kmer.table<span class="op">$</span>occurrences)
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Utilisez la fonction \texttt{plot()} pour dessiner un nuage de points
+  indiquant le nombre d'occurrences (\(Y\)) en fonction de la
+  probabilité a priori de chaque 8nt (\(X\)). Soignez le graphique comme
+  au TP précédent.
+\item
+  Dessinez un histogramme des occurrences au moyen de la fonction
+  \texttt{hist()}.
+\end{enumerate}
 
-## Binomial PMF
-kmer.table<span class="op">$</span>dbinom &lt;-<span class="st"> </span><span class="kw">dbinom</span>(<span class="dt">x =</span> kmer.table<span class="op">$</span>occurrences, <span class="dt">size =</span> N, <span class="dt">prob =</span> kmer.table<span class="op">$</span>prior)</code></pre></div>
-</div>
-<div id="p-valeur-de-sur-representation-px-ge-x-au-moyen-de-la-binomiale." class="section level2">
-<h2>4. P-valeur de sur-représentation: <span class="math inline">\(P(X \ge x)\)</span> au moyen de la binomiale.</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Binomial P-value
-kmer.table<span class="op">$</span>Pbinom &lt;-<span class="st"> </span><span class="kw">pbinom</span>(
-  <span class="dt">q =</span> kmer.table<span class="op">$</span>occurrences <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, 
-  <span class="dt">size =</span> N, 
-  <span class="dt">prob =</span> kmer.table<span class="op">$</span>prior, 
-  <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</code></pre></div>
-</div>
-<div id="p-valeur-de-sur-representation-px-ge-x-au-moyen-de-la-poisson." class="section level2">
-<h2>5. P-valeur de sur-représentation: <span class="math inline">\(P(X \ge x)\)</span> au moyen de la Poisson.</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Binomial P-value
-kmer.table<span class="op">$</span>Ppois &lt;-<span class="st"> </span><span class="kw">ppois</span>(
-  <span class="dt">q =</span> kmer.table<span class="op">$</span>occurrences <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, 
-  <span class="dt">lambda =</span> kmer.table<span class="op">$</span>exp.occ, 
-  <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</code></pre></div>
-</div>
-<div id="dessinez-un-nuage-de-points-comparant-les-p-valeurs-binomiale-et-poisson.-utilisez-des-axes-logarithmiques-pour-mettre-en-evidence-les-faibles-p-valeurs." class="section level2">
-<h2>6. Dessinez un nuage de points comparant les P-valeurs binomiale et Poisson. Utilisez des axes logarithmiques pour mettre en évidence les faibles p-valeurs.</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(kmer.table<span class="op">$</span>Ppois, kmer.table<span class="op">$</span>Pbinom,
-     <span class="dt">xlab =</span> <span class="st">&quot;Poisson P-value&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Binomial P-value&quot;</span>,
-     <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>,
-     <span class="dt">log =</span> <span class="st">&quot;xy&quot;</span>,
-     <span class="dt">las =</span> <span class="dv">1</span>)
-<span class="kw">grid</span>(<span class="dt">lty =</span> <span class="st">&quot;solid&quot;</span>)
-<span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>)
-<span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">1</span>)
-<span class="kw">abline</span>(<span class="dt">v =</span> <span class="dv">1</span>)</code></pre></div>
-<p><img src="figures/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="calculez-la-e-valeur-binomiale." class="section level2">
-<h2>7. Calculez la E-valeur binomiale.</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nb.tests &lt;-<span class="st"> </span><span class="kw">nrow</span>(kmer.table) <span class="co"># Number of tests</span>
-kmer.table<span class="op">$</span>Ebinom &lt;-<span class="st"> </span>kmer.table<span class="op">$</span>Pbinom <span class="op">*</span><span class="st"> </span>nb.tests</code></pre></div>
-</div>
-<div id="calculez-la-significativite-de-cette-e-valeur-definie-ici-comme-sig_e--log_10e." class="section level2">
-<h2>8. Calculez la significativité de cette E-valeur, définie ici comme <span class="math inline">\(sig_{E} = -log_{10}(E)\)</span>.</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kmer.table<span class="op">$</span>sig &lt;-<span class="st"> </span><span class="op">-</span><span class="kw">log</span>(kmer.table<span class="op">$</span>Ebinom, <span class="dt">base =</span> <span class="dv">10</span>)</code></pre></div>
-</div>
-<div id="dessinez-un-graphique-avec-la-significativite-y-en-fonction-du-log-ratio-x." class="section level2">
-<h2>9. Dessinez un graphique avec la significativité (<span class="math inline">\(Y\)</span>) en fonction du log-ratio (<span class="math inline">\(X\)</span>).</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(kmer.table<span class="op">$</span>log.ratio, kmer.table<span class="op">$</span>sig,
-     <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>, <span class="dt">las =</span> <span class="dv">1</span>,
-     <span class="dt">panel.first =</span> <span class="kw">grid</span>(<span class="dt">lty=</span><span class="st">&quot;solid&quot;</span>))
-<span class="kw">abline</span>(<span class="dt">v=</span><span class="dv">0</span>)
-<span class="kw">abline</span>(<span class="dt">h=</span><span class="dv">0</span>, <span class="dt">col=</span><span class="st">&quot;brown&quot;</span>)
-<span class="kw">abline</span>(<span class="dt">h=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</code></pre></div>
-<p><img src="figures/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="dessinez-un-histogramme-des-p-valeurs-avec-des-intervalles-de-5." class="section level2">
-<h2>10. Dessinez un histogramme des p-valeurs avec des intervalles de 5%.</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(kmer.table<span class="op">$</span>Pbinom, 
-     <span class="dt">breaks=</span><span class="kw">seq</span>(<span class="dt">from=</span><span class="dv">0</span>, <span class="dt">to=</span><span class="dv">1</span>, <span class="dt">by=</span><span class="fl">0.05</span>), <span class="dt">las =</span> <span class="dv">1</span>,
-     <span class="dt">xlab =</span> <span class="st">&quot;Binomial P-value&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Number of k-mers&quot;</span>,
-     <span class="dt">col =</span> <span class="st">&quot;lightgray&quot;</span>,
-     <span class="dt">main =</span> <span class="st">&quot;P-value histogram&quot;</span>)</code></pre></div>
-<p><img src="figures/pval_hist_kmers-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="generez-une-colonne-de-nombre-doccurrences-aleatoires-tires-selon-une-loi-de-poisson-dont-lesperance-est-prise-dans-la-colonne-prior." class="section level2">
-<h2>11. Générez une colonne de nombre d’occurrences aléatoires tirés selon une loi de Poisson dont l’espérance est prise dans la colonne <code>prior</code>.</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kmer.table<span class="op">$</span>rand.occ &lt;-<span class="st"> </span><span class="kw">rpois</span>(<span class="dt">n =</span> <span class="kw">nrow</span>(kmer.table), <span class="dt">lambda =</span> kmer.table<span class="op">$</span>exp.occ)</code></pre></div>
-</div>
-<div id="refaites-les-calculs-et-dessins-ci-dessus-avec-ces-occurrences-aleatoires." class="section level2">
-<h2>12. Refaites les calculs et dessins ci-dessus avec ces occurrences aléatoires.</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kmer.table<span class="op">$</span>rand.occ &lt;-<span class="st"> </span><span class="kw">rpois</span>(<span class="dt">n =</span> <span class="kw">nrow</span>(kmer.table), <span class="dt">lambda =</span> kmer.table<span class="op">$</span>exp.occ)
+\subsection{Calcul de statistiques sules
+colonnes}\label{calcul-de-statistiques-sules-colonnes}
 
-kmer.table<span class="op">$</span>rand.Pbinom &lt;-<span class="st"> </span><span class="kw">pbinom</span>(<span class="dt">q =</span> kmer.table<span class="op">$</span>rand.occ <span class="op">-</span><span class="dv">1</span>, <span class="dt">size =</span> N, <span class="dt">prob =</span> kmer.table<span class="op">$</span>prior, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)
+Nous allons calculer le nombre attendu d'occurrences pour chaque
+oligonucléotide, en tenant compte de sa probabilité a priori.
 
-kmer.table<span class="op">$</span>rand.Ppois &lt;-<span class="st"> </span><span class="kw">ppois</span>(<span class="dt">q =</span> kmer.table<span class="op">$</span>rand.occ <span class="op">-</span><span class="dv">1</span>, <span class="dt">lambda =</span> kmer.table<span class="op">$</span>exp.occ, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{kmer.sum <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(kmer.table}\OperatorTok{$}\NormalTok{occurrences)}
+
+\NormalTok{## Check the sum of prior probabilities }
+\NormalTok{## (~1 but there are some rounding errors)}
+\KeywordTok{sum}\NormalTok{(kmer.table}\OperatorTok{$}\NormalTok{prior)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 1.009168
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{kmer.table}\OperatorTok{$}\NormalTok{exp.occ <-}\StringTok{ }\NormalTok{kmer.table}\OperatorTok{$}\NormalTok{prior }\OperatorTok{*}\StringTok{ }\NormalTok{kmer.sum}
+
+\KeywordTok{plot}\NormalTok{(kmer.table}\OperatorTok{$}\NormalTok{exp.occ, kmer.table}\OperatorTok{$}\NormalTok{occurrences, }\DataTypeTok{las =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{figures/multiple_tests_practical_unnamed-chunk-1-1} \end{center}
+
+\subsection{Exercice}\label{exercice-1}
+
+Calculez les statistiques suivantes pour l'ensemble des oligos
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Rapport entre occurrences observées et attendues (exp/occ)
+\item
+  Le logarithme en base 2 de ce rapport (log-ratio)
+\item
+  \(P(X= x)\): probabilité binomiale d'observer exactement \(X\)
+  occurrences
+\item
+  P-valeur de sur-représentation: \(P(X \ge x)\) au moyen de la
+  binomiale.
+\item
+  P-valeur de sur-représentation: \(P(X \ge x)\) au moyen de la Poisson.
+\item
+  Dessinez un nuage de points comparant les P-valeurs binomiale et
+  Poisson. Utilisez des axes logarithmiques pour mettre en évidence les
+  faibles p-valeurs.
+\item
+  Calculez la E-valeur binomiale.
+\item
+  Calculez la significativité de cette E-valeur, définie ici comme
+  \(sig_{E} = -log_{10}(E)\).
+\item
+  Dessinez un graphique avec la significativité (\(Y\)) en fonction du
+  log-ratio (\(X\)).
+\item
+  Dessinez un histogramme des p-valeurs avec des intervalles de 5\%.
+\end{enumerate}
+
+\subsection{Solutions}\label{solutions}
+
+\subsection{1. Rapport entre occurrences observées et attendues
+(exp/occ)}\label{rapport-entre-occurrences-observees-et-attendues-expocc}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Observed / expected ratio}
+\NormalTok{kmer.table}\OperatorTok{$}\NormalTok{ratio <-}\StringTok{ }\NormalTok{kmer.table}\OperatorTok{$}\NormalTok{occurrences }\OperatorTok{/}\StringTok{ }\NormalTok{kmer.table}\OperatorTok{$}\NormalTok{exp.occ}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{2. Le logarithme en base 2 de ce rapport
+(log-ratio)}\label{le-logarithme-en-base-2-de-ce-rapport-log-ratio}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## log-ratio}
+\NormalTok{kmer.table}\OperatorTok{$}\NormalTok{log.ratio <-}\StringTok{ }\KeywordTok{log}\NormalTok{(kmer.table}\OperatorTok{$}\NormalTok{ratio, }\DataTypeTok{base =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{\texorpdfstring{3. \(P(X= x)\): probabilité binomiale
+d'observer exactement \(X\)
+occurrences}{3. P(X= x): probabilité binomiale d'observer exactement X occurrences}}\label{px-x-probabilite-binomiale-dobserver-exactement-x-occurrences}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Number of trials is the sum of all k-mer occurrences}
+\NormalTok{N <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(kmer.table}\OperatorTok{$}\NormalTok{occurrences)}
+
+\NormalTok{## Binomial PMF}
+\NormalTok{kmer.table}\OperatorTok{$}\NormalTok{dbinom <-}\StringTok{ }\KeywordTok{dbinom}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ kmer.table}\OperatorTok{$}\NormalTok{occurrences, }\DataTypeTok{size =}\NormalTok{ N, }\DataTypeTok{prob =}\NormalTok{ kmer.table}\OperatorTok{$}\NormalTok{prior)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{\texorpdfstring{4. P-valeur de sur-représentation:
+\(P(X \ge x)\) au moyen de la
+binomiale.}{4. P-valeur de sur-représentation: P(X \textbackslash{}ge x) au moyen de la binomiale.}}\label{p-valeur-de-sur-representation-px-ge-x-au-moyen-de-la-binomiale.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Binomial P-value}
+\NormalTok{kmer.table}\OperatorTok{$}\NormalTok{Pbinom <-}\StringTok{ }\KeywordTok{pbinom}\NormalTok{(}
+  \DataTypeTok{q =}\NormalTok{ kmer.table}\OperatorTok{$}\NormalTok{occurrences }\OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{, }
+  \DataTypeTok{size =}\NormalTok{ N, }
+  \DataTypeTok{prob =}\NormalTok{ kmer.table}\OperatorTok{$}\NormalTok{prior, }
+  \DataTypeTok{lower.tail =} \OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{\texorpdfstring{5. P-valeur de sur-représentation:
+\(P(X \ge x)\) au moyen de la
+Poisson.}{5. P-valeur de sur-représentation: P(X \textbackslash{}ge x) au moyen de la Poisson.}}\label{p-valeur-de-sur-representation-px-ge-x-au-moyen-de-la-poisson.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Binomial P-value}
+\NormalTok{kmer.table}\OperatorTok{$}\NormalTok{Ppois <-}\StringTok{ }\KeywordTok{ppois}\NormalTok{(}
+  \DataTypeTok{q =}\NormalTok{ kmer.table}\OperatorTok{$}\NormalTok{occurrences }\OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{, }
+  \DataTypeTok{lambda =}\NormalTok{ kmer.table}\OperatorTok{$}\NormalTok{exp.occ, }
+  \DataTypeTok{lower.tail =} \OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{6. Dessinez un nuage de points comparant les P-valeurs
+binomiale et Poisson. Utilisez des axes logarithmiques pour mettre en
+évidence les faibles
+p-valeurs.}\label{dessinez-un-nuage-de-points-comparant-les-p-valeurs-binomiale-et-poisson.-utilisez-des-axes-logarithmiques-pour-mettre-en-evidence-les-faibles-p-valeurs.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(kmer.table}\OperatorTok{$}\NormalTok{Ppois, kmer.table}\OperatorTok{$}\NormalTok{Pbinom,}
+     \DataTypeTok{xlab =} \StringTok{"Poisson P-value"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"Binomial P-value"}\NormalTok{,}
+     \DataTypeTok{col =} \StringTok{"darkgray"}\NormalTok{,}
+     \DataTypeTok{log =} \StringTok{"xy"}\NormalTok{,}
+     \DataTypeTok{las =} \DecValTok{1}\NormalTok{)}
+\KeywordTok{grid}\NormalTok{(}\DataTypeTok{lty =} \StringTok{"solid"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{a =} \DecValTok{0}\NormalTok{, }\DataTypeTok{b =} \DecValTok{1}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h =} \DecValTok{1}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{v =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{figures/multiple_tests_practical_unnamed-chunk-7-1} \end{center}
+
+\subsection{7. Calculez la E-valeur
+binomiale.}\label{calculez-la-e-valeur-binomiale.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nb.tests <-}\StringTok{ }\KeywordTok{nrow}\NormalTok{(kmer.table) }\CommentTok{# Number of tests}
+\NormalTok{kmer.table}\OperatorTok{$}\NormalTok{Ebinom <-}\StringTok{ }\NormalTok{kmer.table}\OperatorTok{$}\NormalTok{Pbinom }\OperatorTok{*}\StringTok{ }\NormalTok{nb.tests}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{\texorpdfstring{8. Calculez la significativité de cette
+E-valeur, définie ici comme
+\(sig_{E} = -log_{10}(E)\).}{8. Calculez la significativité de cette E-valeur, définie ici comme sig\_\{E\} = -log\_\{10\}(E).}}\label{calculez-la-significativite-de-cette-e-valeur-definie-ici-comme-sig_e--log_10e.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{kmer.table}\OperatorTok{$}\NormalTok{sig <-}\StringTok{ }\OperatorTok{-}\KeywordTok{log}\NormalTok{(kmer.table}\OperatorTok{$}\NormalTok{Ebinom, }\DataTypeTok{base =} \DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{\texorpdfstring{9. Dessinez un graphique avec la
+significativité (\(Y\)) en fonction du log-ratio
+(\(X\)).}{9. Dessinez un graphique avec la significativité (Y) en fonction du log-ratio (X).}}\label{dessinez-un-graphique-avec-la-significativite-y-en-fonction-du-log-ratio-x.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(kmer.table}\OperatorTok{$}\NormalTok{log.ratio, kmer.table}\OperatorTok{$}\NormalTok{sig,}
+     \DataTypeTok{col =} \StringTok{"darkgray"}\NormalTok{, }\DataTypeTok{las =} \DecValTok{1}\NormalTok{,}
+     \DataTypeTok{panel.first =} \KeywordTok{grid}\NormalTok{(}\DataTypeTok{lty=}\StringTok{"solid"}\NormalTok{))}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{v=}\DecValTok{0}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{0}\NormalTok{, }\DataTypeTok{col=}\StringTok{"brown"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{figures/multiple_tests_practical_unnamed-chunk-10-1} \end{center}
+
+\subsection{10. Dessinez un histogramme des p-valeurs avec des
+intervalles de
+5\%.}\label{dessinez-un-histogramme-des-p-valeurs-avec-des-intervalles-de-5.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{hist}\NormalTok{(kmer.table}\OperatorTok{$}\NormalTok{Pbinom, }
+     \DataTypeTok{breaks=}\KeywordTok{seq}\NormalTok{(}\DataTypeTok{from=}\DecValTok{0}\NormalTok{, }\DataTypeTok{to=}\DecValTok{1}\NormalTok{, }\DataTypeTok{by=}\FloatTok{0.05}\NormalTok{), }\DataTypeTok{las =} \DecValTok{1}\NormalTok{,}
+     \DataTypeTok{xlab =} \StringTok{"Binomial P-value"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"Number of k-mers"}\NormalTok{,}
+     \DataTypeTok{col =} \StringTok{"lightgray"}\NormalTok{,}
+     \DataTypeTok{main =} \StringTok{"P-value histogram"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{figures/multiple_tests_practical_pval_hist_kmers-1} \end{center}
+
+\subsection{\texorpdfstring{11. Générez une colonne de nombre
+d'occurrences aléatoires tirés selon une loi de Poisson dont l'espérance
+est prise dans la colonne
+\texttt{prior}.}{11. Générez une colonne de nombre d'occurrences aléatoires tirés selon une loi de Poisson dont l'espérance est prise dans la colonne prior.}}\label{generez-une-colonne-de-nombre-doccurrences-aleatoires-tires-selon-une-loi-de-poisson-dont-lesperance-est-prise-dans-la-colonne-prior.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{kmer.table}\OperatorTok{$}\NormalTok{rand.occ <-}\StringTok{ }\KeywordTok{rpois}\NormalTok{(}\DataTypeTok{n =} \KeywordTok{nrow}\NormalTok{(kmer.table), }\DataTypeTok{lambda =}\NormalTok{ kmer.table}\OperatorTok{$}\NormalTok{exp.occ)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{12. Refaites les calculs et dessins ci-dessus avec ces
+occurrences
+aléatoires.}\label{refaites-les-calculs-et-dessins-ci-dessus-avec-ces-occurrences-aleatoires.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{kmer.table}\OperatorTok{$}\NormalTok{rand.occ <-}\StringTok{ }\KeywordTok{rpois}\NormalTok{(}\DataTypeTok{n =} \KeywordTok{nrow}\NormalTok{(kmer.table), }\DataTypeTok{lambda =}\NormalTok{ kmer.table}\OperatorTok{$}\NormalTok{exp.occ)}
+
+\NormalTok{kmer.table}\OperatorTok{$}\NormalTok{rand.Pbinom <-}\StringTok{ }\KeywordTok{pbinom}\NormalTok{(}\DataTypeTok{q =}\NormalTok{ kmer.table}\OperatorTok{$}\NormalTok{rand.occ }\OperatorTok{-}\DecValTok{1}\NormalTok{, }\DataTypeTok{size =}\NormalTok{ N, }\DataTypeTok{prob =}\NormalTok{ kmer.table}\OperatorTok{$}\NormalTok{prior, }\DataTypeTok{lower.tail =} \OtherTok{FALSE}\NormalTok{)}
+
+\NormalTok{kmer.table}\OperatorTok{$}\NormalTok{rand.Ppois <-}\StringTok{ }\KeywordTok{ppois}\NormalTok{(}\DataTypeTok{q =}\NormalTok{ kmer.table}\OperatorTok{$}\NormalTok{rand.occ }\OperatorTok{-}\DecValTok{1}\NormalTok{, }\DataTypeTok{lambda =}\NormalTok{ kmer.table}\OperatorTok{$}\NormalTok{exp.occ, }\DataTypeTok{lower.tail =} \OtherTok{FALSE}\NormalTok{)}
 
 
-<span class="kw">hist</span>(kmer.table<span class="op">$</span>rand.Ppois, 
-     <span class="dt">breaks=</span><span class="kw">seq</span>(<span class="dt">from=</span><span class="dv">0</span>, <span class="dt">to=</span><span class="dv">1</span>, <span class="dt">by=</span><span class="fl">0.05</span>), <span class="dt">las =</span> <span class="dv">1</span>,
-     <span class="dt">xlab =</span> <span class="st">&quot;Binomial P-value&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Number of k-mers&quot;</span>,
-     <span class="dt">col =</span> <span class="st">&quot;lightgray&quot;</span>,
-     <span class="dt">main =</span> <span class="st">&quot;P-value histogram - Random Poisson&quot;</span>)</code></pre></div>
-<p><img src="figures/pval_hist_rand-occ-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="avant-de-terminer-conservez-la-trace-de-votre-session" class="section level2">
-<h2>Avant de terminer : conservez la trace de votre session</h2>
-<p>La traçabilité constitue un enjeu essentiel en sciences. La fonction <strong><em>R</em></strong> <code>sessionInfo()</code> fournit un résumé des conditions d’une session de travail: version de R, système opérateur, bibliothèques de fonctions utilisées.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
-<pre><code>R version 3.5.1 (2018-07-02)
+\KeywordTok{hist}\NormalTok{(kmer.table}\OperatorTok{$}\NormalTok{rand.Ppois, }
+     \DataTypeTok{breaks=}\KeywordTok{seq}\NormalTok{(}\DataTypeTok{from=}\DecValTok{0}\NormalTok{, }\DataTypeTok{to=}\DecValTok{1}\NormalTok{, }\DataTypeTok{by=}\FloatTok{0.05}\NormalTok{), }\DataTypeTok{las =} \DecValTok{1}\NormalTok{,}
+     \DataTypeTok{xlab =} \StringTok{"Binomial P-value"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"Number of k-mers"}\NormalTok{,}
+     \DataTypeTok{col =} \StringTok{"lightgray"}\NormalTok{,}
+     \DataTypeTok{main =} \StringTok{"P-value histogram - Random Poisson"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{figures/multiple_tests_practical_pval_hist_rand-occ-1} \end{center}
+
+\subsection{Avant de terminer~: conservez la trace de votre
+session}\label{avant-de-terminer-conservez-la-trace-de-votre-session}
+
+La traçabilité constitue un enjeu essentiel en sciences. La fonction
+\textbf{\emph{R}} \texttt{sessionInfo()} fournit un résumé des
+conditions d'une session de travail: version de R, système opérateur,
+bibliothèques de fonctions utilisées.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sessionInfo}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+R version 3.5.1 (2018-07-02)
 Platform: x86_64-apple-darwin15.6.0 (64-bit)
 Running under: macOS  10.14.1
 
@@ -7147,38 +7304,8 @@ loaded via a namespace (and not attached):
  [1] compiler_3.5.1  backports_1.1.2 magrittr_1.5    rprojroot_1.3-2
  [5] tools_3.5.1     htmltools_0.3.6 yaml_2.2.0      Rcpp_1.0.0     
  [9] stringi_1.2.4   rmarkdown_1.10  stringr_1.3.1   digest_0.6.18  
-[13] evaluate_0.12  </code></pre>
-</div>
+[13] evaluate_0.12  
+\end{verbatim}
 
 
-
-</div>
-</div>
-
-</div>
-
-<script>
-
-// add bootstrap table styles to pandoc tables
-function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
-}
-$(document).ready(function () {
-  bootstrapStylePandocTables();
-});
-
-
-</script>
-
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
-
-</body>
-</html>
+\end{document}

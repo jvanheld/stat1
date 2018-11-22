@@ -3,15 +3,11 @@ title: "TP --Tests multiples : détection de k-mères exceptionnels"
 author: "Jacques van Helden & Lucie Khamvongsa-Charbonniner & Yvon Mbouamboua"
 date: '`r Sys.Date()`'
 output:
-  html_document:
-    code_folding: hide
-    self_contained: no
+  pdf_document:
     fig_caption: yes
     highlight: zenburn
-    theme: cerulean
     toc: yes
     toc_depth: 3
-    toc_float: yes
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -38,11 +34,15 @@ output:
     toc: yes
     toc_float: yes
     widescreen: yes
-  pdf_document:
+  html_document:
+    code_folding: hide
+    self_contained: no
     fig_caption: yes
     highlight: zenburn
+    theme: cerulean
     toc: yes
     toc_depth: 3
+    toc_float: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -76,7 +76,7 @@ knitr::opts_chunk$set(
   fig.width = 7, 
   fig.height = 5, 
   fig.align = "center", 
-  fig.path = "figures/",
+  fig.path = "figures/multiple_tests_practical_",
   size = "tiny", 
   warning = FALSE, 
   results = TRUE, 
@@ -248,7 +248,7 @@ plot(kmer.table$exp.occ, kmer.table$occurrences, las = 1)
 Calculez les statistiques suivantes pour l'ensemble des oligos
 
 1. Rapport entre occurrences observées et attendues (exp/occ)
-2. Le logarithme de ce rapport (log-ratio)
+2. Le logarithme en base 2 de ce rapport (log-ratio)
 3. $P(X= x)$: probabilité binomiale d'observer exactement $X$ occurrences 
 4. P-valeur de sur-représentation: $P(X \ge x)$ au moyen de la binomiale.
 5. P-valeur de sur-représentation: $P(X \ge x)$ au moyen de la Poisson. 
@@ -261,14 +261,139 @@ Calculez les statistiques suivantes pour l'ensemble des oligos
 
 9. Dessinez un graphique avec la significativité ($Y$) en fonction du log-ratio ($X$). 
 
-10. Dessinez un histogramme des p-valeurs. 
+10. Dessinez un histogramme des p-valeurs avec des intervalles de 5%. 
+
+## Solutions
 
 
-## Contrôle négaitf
+## 1. Rapport entre occurrences observées et attendues (exp/occ)
 
-1. Générez une colonne de nombre d'occurrences aléatoires tirés selon une loi de Poisson dont l'espérance est prise dans la colonne `prior`. 
-2. Refaites les calculs et dessins ci-dessus avec ces occurrences aléatoires. 
+```{r echo=TRUE}
+## Observed / expected ratio
+kmer.table$ratio <- kmer.table$occurrences / kmer.table$exp.occ
+```
 
+
+## 2. Le logarithme en base 2 de ce rapport (log-ratio)
+
+```{r echo=TRUE}
+## log-ratio
+kmer.table$log.ratio <- log(kmer.table$ratio, base = 2)
+```
+
+
+## 3. $P(X= x)$: probabilité binomiale d'observer exactement $X$ occurrences 
+
+```{r}
+## Number of trials is the sum of all k-mer occurrences
+N <- sum(kmer.table$occurrences)
+
+## Binomial PMF
+kmer.table$dbinom <- dbinom(x = kmer.table$occurrences, size = N, prob = kmer.table$prior)
+```
+
+
+## 4. P-valeur de sur-représentation: $P(X \ge x)$ au moyen de la binomiale.
+
+```{r}
+## Binomial P-value
+kmer.table$Pbinom <- pbinom(
+  q = kmer.table$occurrences - 1, 
+  size = N, 
+  prob = kmer.table$prior, 
+  lower.tail = FALSE)
+
+```
+
+## 5. P-valeur de sur-représentation: $P(X \ge x)$ au moyen de la Poisson. 
+
+```{r}
+## Binomial P-value
+kmer.table$Ppois <- ppois(
+  q = kmer.table$occurrences - 1, 
+  lambda = kmer.table$exp.occ, 
+  lower.tail = FALSE)
+
+```
+
+## 6. Dessinez un nuage de points comparant les P-valeurs binomiale et Poisson. Utilisez des axes logarithmiques pour mettre en évidence les faibles p-valeurs. 
+
+```{r}
+plot(kmer.table$Ppois, kmer.table$Pbinom,
+     xlab = "Poisson P-value", ylab = "Binomial P-value",
+     col = "darkgray",
+     log = "xy",
+     las = 1)
+grid(lty = "solid")
+abline(a = 0, b = 1)
+abline(h = 1)
+abline(v = 1)
+```
+
+
+## 7. Calculez la E-valeur binomiale.
+
+```{r}
+nb.tests <- nrow(kmer.table) # Number of tests
+kmer.table$Ebinom <- kmer.table$Pbinom * nb.tests
+```
+
+
+## 8. Calculez la significativité de cette E-valeur, définie ici comme $sig_{E} = -log_{10}(E)$. 
+
+```{r}
+kmer.table$sig <- -log(kmer.table$Ebinom, base = 10)
+```
+
+
+## 9. Dessinez un graphique avec la significativité ($Y$) en fonction du log-ratio ($X$). 
+
+```{r}
+plot(kmer.table$log.ratio, kmer.table$sig,
+     col = "darkgray", las = 1,
+     panel.first = grid(lty="solid"))
+abline(v=0)
+abline(h=0, col="brown")
+abline(h=2, col="red")
+
+```
+
+
+## 10. Dessinez un histogramme des p-valeurs avec des intervalles de 5%. 
+
+```{r pval_hist_kmers}
+hist(kmer.table$Pbinom, 
+     breaks=seq(from=0, to=1, by=0.05), las = 1,
+     xlab = "Binomial P-value", ylab = "Number of k-mers",
+     col = "lightgray",
+     main = "P-value histogram")
+```
+
+
+## 11. Générez une colonne de nombre d'occurrences aléatoires tirés selon une loi de Poisson dont l'espérance est prise dans la colonne `prior`. 
+
+```{r}
+kmer.table$rand.occ <- rpois(n = nrow(kmer.table), lambda = kmer.table$exp.occ)
+```
+
+
+##  12. Refaites les calculs et dessins ci-dessus avec ces occurrences aléatoires. 
+
+```{r pval_hist_rand-occ}
+kmer.table$rand.occ <- rpois(n = nrow(kmer.table), lambda = kmer.table$exp.occ)
+
+kmer.table$rand.Pbinom <- pbinom(q = kmer.table$rand.occ -1, size = N, prob = kmer.table$prior, lower.tail = FALSE)
+
+kmer.table$rand.Ppois <- ppois(q = kmer.table$rand.occ -1, lambda = kmer.table$exp.occ, lower.tail = FALSE)
+
+
+hist(kmer.table$rand.Ppois, 
+     breaks=seq(from=0, to=1, by=0.05), las = 1,
+     xlab = "Binomial P-value", ylab = "Number of k-mers",
+     col = "lightgray",
+     main = "P-value histogram - Random Poisson")
+
+```
 
 
 ## Avant de terminer : conservez la trace de votre session

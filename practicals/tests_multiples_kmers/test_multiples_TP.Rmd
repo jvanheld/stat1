@@ -191,7 +191,8 @@ kmer.table[10,2]
 kmer.table[10,] 
 
 ## Afficher la 2ème colonne
-kmer.table[,2] 
+## Pour éviter d'afficher des dizaines de milliers de valeurs, nous affichonss eulement les 200 premières valeurs en englobant le résultat dans la fonction head()
+head(kmer.table[,2] , n = 200)
 
 ## Afficher les lignes 10 à 15
 kmer.table[10:15,] 
@@ -358,7 +359,7 @@ abline(h = 1)
 
 ## 4. P-valeur de sur-représentation: $P(X \ge x)$ au moyen de la binomiale.
 
-```{r Pbinom}
+```{r Pbinom, fig.width=10, fig.height=4, out.width = "90%"}
 ## Binomial P-value
 kmer.table$Pbinom <- pbinom(
   q = kmer.table$occurrences - 1, 
@@ -391,7 +392,7 @@ par(mfrow = c(1,1))
 
 ## 5. P-valeur de sur-représentation: $P(X \ge x)$ au moyen de la Poisson. 
 
-```{r Ppois}
+```{r Ppois, fig.width=10, fig.height=4, out.width = "90%"}
 ## Binomial P-value
 kmer.table$Ppois <- ppois(
   q = kmer.table$occurrences - 1, 
@@ -439,7 +440,7 @@ abline(v = 1)
 
 ## 7. Calculez la E-valeur binomiale.
 
-```{r Ebinom}
+```{r Ebinom, fig.width=10, fig.height=4, out.width = "90%"}
 nb.tests <- nrow(kmer.table) # Number of tests
 kmer.table$Ebinom <- kmer.table$Pbinom * nb.tests
 

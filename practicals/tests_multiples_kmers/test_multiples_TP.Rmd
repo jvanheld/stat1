@@ -3,11 +3,15 @@ title: "TP --Tests multiples : détection de k-mères exceptionnels"
 author: "Jacques van Helden & Lucie Khamvongsa-Charbonniner & Yvon Mbouamboua"
 date: '`r Sys.Date()`'
 output:
-  pdf_document:
+  html_document:
+    code_folding: hide
+    self_contained: no
     fig_caption: yes
     highlight: zenburn
+    theme: cerulean
     toc: yes
     toc_depth: 3
+    toc_float: yes
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -34,15 +38,11 @@ output:
     toc: yes
     toc_float: yes
     widescreen: yes
-  html_document:
-    code_folding: hide
-    self_contained: no
+  pdf_document:
     fig_caption: yes
     highlight: zenburn
-    theme: cerulean
     toc: yes
     toc_depth: 3
-    toc_float: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -164,6 +164,7 @@ list.files()
 
 ## Load the file
 kmer.table <- read.delim(
+  sep = "\t",
   file = kmer.file, 
   header = 1, 
   row.names = 1)
@@ -221,7 +222,7 @@ kmer.table$occurrences[1:50]
 1. Utilisez la fonction `plot()` pour dessiner un nuage de points indiquant le nombre d'occurrences ($Y$) en fonction de la probabilité a priori de chaque 8nt ($X$). Soignez le graphique comme au TP précédent. 
 
 ```{r occ_prior_scatter, eval=FALSE, echo=FALSE}
-plot(kmer.table)
+plot(kmer.table$prior, kmer.table$occurrences)
 ```
 
 2. Dessinez un histogramme des occurrences au moyen de la fonction `hist()`.
@@ -237,9 +238,14 @@ kmer.sum <- sum(kmer.table$occurrences)
 ## (~1 but there are some rounding errors)
 sum(kmer.table$prior)
 
+
 kmer.table$exp.occ <- kmer.table$prior * kmer.sum
 
-plot(kmer.table$exp.occ, kmer.table$occurrences, las = 1)
+plot(kmer.table$exp.occ, kmer.table$occurrences, las = 1,
+     xlab = "expected occurrences", ylab = "observed occurrences",
+     col = "gray")
+grid(lty = "solid", col = "darkgray")
+abline(a = 0, b = 1)
 ```
 
 
@@ -268,17 +274,36 @@ Calculez les statistiques suivantes pour l'ensemble des oligos
 
 ## 1. Rapport entre occurrences observées et attendues (exp/occ)
 
-```{r echo=TRUE}
+```{r exp-occ_ratio, echo=TRUE}
 ## Observed / expected ratio
 kmer.table$ratio <- kmer.table$occurrences / kmer.table$exp.occ
+
+## Plot ratio as a function of the expected occurrences
+plot(kmer.table$exp.occ, kmer.table$ratio, col = "darkgray",
+     xlab = "expected occurrences",
+     ylab = "exp/occ ratio"
+     )
+grid(lty = "solid")
+abline(h = 1)
+
 ```
 
+Méfiez-vous du rapport obs/exp. 
 
 ## 2. Le logarithme en base 2 de ce rapport (log-ratio)
 
-```{r echo=TRUE}
+```{r log-ratio, echo=TRUE}
 ## log-ratio
 kmer.table$log.ratio <- log(kmer.table$ratio, base = 2)
+
+## Plot log-ratio as a function of the expected occurrences
+plot(kmer.table$exp.occ, kmer.table$log.ratio, col = "darkgray",
+     xlab = "expected occurrences",
+     ylab = "log2(exp/occ ratio)"
+     )
+grid(lty = "solid")
+abline(h = 0)
+
 ```
 
 

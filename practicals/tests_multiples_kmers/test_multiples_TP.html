@@ -7005,7 +7005,7 @@ kmer.table<span class="op">$</span>occurrences[<span class="dv">1</span><span cl
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kmer.table<span class="op">$</span>exp.occ &lt;-<span class="st"> </span>kmer.table<span class="op">$</span>prior <span class="op">*</span><span class="st"> </span>kmer.sum
 
 <span class="kw">plot</span>(kmer.table<span class="op">$</span>exp.occ, kmer.table<span class="op">$</span>occurrences, <span class="dt">las =</span> <span class="dv">1</span>)</code></pre></div>
-<p><img src="figures/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figures/multiple_tests_practical_unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="exercice-1" class="section level2">
 <h2>Exercice</h2>
@@ -7072,7 +7072,7 @@ kmer.table<span class="op">$</span>Ppois &lt;-<span class="st"> </span><span cla
 <span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>)
 <span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">1</span>)
 <span class="kw">abline</span>(<span class="dt">v =</span> <span class="dv">1</span>)</code></pre></div>
-<p><img src="figures/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figures/multiple_tests_practical_unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="calculez-la-e-valeur-binomiale." class="section level2">
 <h2>7. Calculez la E-valeur binomiale.</h2>
@@ -7091,7 +7091,7 @@ kmer.table<span class="op">$</span>Ebinom &lt;-<span class="st"> </span>kmer.tab
 <span class="kw">abline</span>(<span class="dt">v=</span><span class="dv">0</span>)
 <span class="kw">abline</span>(<span class="dt">h=</span><span class="dv">0</span>, <span class="dt">col=</span><span class="st">&quot;brown&quot;</span>)
 <span class="kw">abline</span>(<span class="dt">h=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</code></pre></div>
-<p><img src="figures/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figures/multiple_tests_practical_unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="dessinez-un-histogramme-des-p-valeurs-avec-des-intervalles-de-5." class="section level2">
 <h2>10. Dessinez un histogramme des p-valeurs avec des intervalles de 5%.</h2>
@@ -7100,7 +7100,7 @@ kmer.table<span class="op">$</span>Ebinom &lt;-<span class="st"> </span>kmer.tab
      <span class="dt">xlab =</span> <span class="st">&quot;Binomial P-value&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Number of k-mers&quot;</span>,
      <span class="dt">col =</span> <span class="st">&quot;lightgray&quot;</span>,
      <span class="dt">main =</span> <span class="st">&quot;P-value histogram&quot;</span>)</code></pre></div>
-<p><img src="figures/pval_hist_kmers-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figures/multiple_tests_practical_pval_hist_kmers-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="generez-une-colonne-de-nombre-doccurrences-aleatoires-tires-selon-une-loi-de-poisson-dont-lesperance-est-prise-dans-la-colonne-prior." class="section level2">
 <h2>11. Générez une colonne de nombre d’occurrences aléatoires tirés selon une loi de Poisson dont l’espérance est prise dans la colonne <code>prior</code>.</h2>
@@ -7120,7 +7120,7 @@ kmer.table<span class="op">$</span>rand.Ppois &lt;-<span class="st"> </span><spa
      <span class="dt">xlab =</span> <span class="st">&quot;Binomial P-value&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Number of k-mers&quot;</span>,
      <span class="dt">col =</span> <span class="st">&quot;lightgray&quot;</span>,
      <span class="dt">main =</span> <span class="st">&quot;P-value histogram - Random Poisson&quot;</span>)</code></pre></div>
-<p><img src="figures/pval_hist_rand-occ-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figures/multiple_tests_practical_pval_hist_rand-occ-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="avant-de-terminer-conservez-la-trace-de-votre-session" class="section level2">
 <h2>Avant de terminer : conservez la trace de votre session</h2>

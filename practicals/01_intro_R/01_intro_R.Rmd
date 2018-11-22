@@ -3,19 +3,6 @@ title: "Premiers pas avec R"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  slidy_presentation:
-    self_contained: no
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    incremental: no
-    keep_md: no
-    smaller: yes
-    theme: cerulean
-    toc: yes
-    toc_float: yes
-    widescreen: yes
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -28,6 +15,19 @@ output:
     smaller: yes
     theme: cerulean
     toc: yes
+    widescreen: yes
+  slidy_presentation:
+    self_contained: no
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: no
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    toc_float: yes
     widescreen: yes
   html_document:
     self_contained: no

@@ -4,11 +4,19 @@ subtitle: "Probabilités et statistique pour la biologie : éléments (STAT1)"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  pdf_document:
+  slidy_presentation:
+    slide_level: 2
+    self_contained: no
     fig_caption: yes
-    highlight: zenburn
-    toc: no
-    toc_depth: 3
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
   ioslides_presentation:
     slide_level: 2
     self_contained: no
@@ -41,19 +49,11 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
-  slidy_presentation:
-    slide_level: 2
-    self_contained: no
+  pdf_document:
     fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    incremental: no
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
-    toc: yes
-    widescreen: yes
+    highlight: zenburn
+    toc: no
+    toc_depth: 3
 font-import: http://fonts.googleapis.com/css?family=Risque
 font-family: Garamond
 transition: linear

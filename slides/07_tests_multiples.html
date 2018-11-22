@@ -55,7 +55,7 @@ Jacques van Helden
 </div>
 <div id="probleme-occurrences-de-k-meres" class="slide section level2">
 <h2>Problème: occurrences de k-mères</h2>
-<p>We counted the occurrences of all octanucleotides (<span class="math inline">\(k = 8\)</span>) in a sequence of <span class="math inline">\(L = 99,993\)</span> base pairs (single strand counts). The sequence contains <span class="math inline">\(x = 6\)</span> occurrences of <code>GATTACCA</code>.</p>
+<p>We counted the occurrences of all octanucleotides (<span class="math inline">\(k = 8\)</span>) in a sequence of <span class="math inline">\(L = 100,000\)</span> base pairs (single strand counts). The sequence contains <span class="math inline">\(x = 6\)</span> occurrences of <code>GATTACCA</code>.</p>
 <p>Assuming equiprobable and independent nucleotides, is this k-mer over-represented in the sequence?</p>
 </div>
 <div id="modelling-the-problem" class="slide section level2">
@@ -101,14 +101,32 @@ P(X \ge x) &amp;=  \sum_{i=x}^{n}{C_n^i p^i (1-p)^{n-i}} \\
 </p>
 </div>
 </div>
-<div id="exercice-7.1-detection-de-pics-chip-seq" class="slide section level2">
-<h2>Exercice 7.1: détection de pics ChIP-seq</h2>
-<p>Lors d’une expérience de ChIP-seq on a aligné <span class="math inline">\(N = 1.000.000\)</span> lectures sur un génome de <span class="math inline">\(G = 4.000.000\)</span> paries de bases. Sur une région génomique donnée de <span class="math inline">\(w = 200\)</span> pb, on trouve <span class="math inline">\(x=70\)</span> fragments de lecture. Peut-on considérer que cette région est significativement enrichie ?</p>
+<div id="probleme-detection-de-pics-chip-seq" class="slide section level2">
+<h2>Problème : détection de pics ChIP-seq</h2>
+<p>Lors d’une expérience de ChIP-seq on a aligné <span class="math inline">\(N = 1.000.000\)</span> lectures sur un génome de <span class="math inline">\(G = 4.000.000\)</span> paires de bases. On découpe l’entièreté du génome en régions non-chevauchantes de <span class="math inline">\(w = 200\)</span> pb et on compte le nombre de fragments de lecture par région. Sur une région donnée, on trouve <span class="math inline">\(x=70\)</span> fragments de lecture. Peut-on considérer que cette région est significativement enrichie ?</p>
 <ol style="list-style-type: lower-alpha">
-<li>Quel serait le nombre attendu de lectures attendu a priori sur une région de cette largeur ?</li>
-<li>Choisissez une distribution pour modéliser ce problème en justifiand votre choix.</li>
-<li>Indiquez la formule de la P-valeur, puis remplacez les symboles par les valeurs numériques (Le résultat du calcul sera fourni pendant le cours).</li>
-<li>Si l’on place un seuil <span class="math inline">\(\alpha = 0.05\)</span> et qu’on analyse de la même façon toutes les fenêtres génomiques non-chevauchantes de 200bp, combien de faux-positifs s’attend-on à trouver ?</li>
+<li>Quel est le nombre de régions génomiques considérées ?</li>
+<li>Quel est le nombre moyen de lectures par région de <span class="math inline">\(w = 200\)</span> pb ?</li>
+<li>En supposant que les fragments de lecture snot répartis de façon aléatoire sur le génome, quelle serait la probabilité d’observer exactement 70 fragments de lecture sur une fenêtre donnée ?Choisissez une distribution pour modéliser ce problème en justifiant votre choix.</li>
+<li>Quelle est la P-valeur de cette observation ? Ecrivez la formule puis remplacez les symboles par les valeurs numériques (Le résultat du calcul sera fourni pendant le cours).</li>
+<li>Si l’on place un seuil <span class="math inline">\(\alpha = 0.05\)</span> et qu’on analyse de la même façon toutes les régions non-chevauchantes de 200bp, combien de faux-positifs s’attend-on à trouver ?</li>
+</ol>
+</div>
+<div id="reponse" class="slide section level2">
+<h2>Réponse</h2>
+<ol style="list-style-type: lower-alpha">
+<li>Nombre de régions: <span class="math inline">\(T = G / w = 4.000.000 / 200 = 20.000\)</span></li>
+<li>Nombre moyen de lectures par région: <span class="math inline">\(\lambda = N / T = 1.000.000 / 20.000 = 50\)</span></li>
+<li>Probabilité d’occurrences: <span class="math inline">\(P(X = x) = \frac{\lambda^x}{x!}e^{-\lambda} = \frac{50^{70}}{70!}e^{-50} = 0.00136\)</span></li>
+<li>P-valeur:</li>
+</ol>
+<p><span class="math display">\[\begin{align}
+P(X \ge x) &amp;= \sum_{i=x}^{\infty} \frac{\lambda^i}{i!}e^{-\lambda} = 1 -  \sum_{i=0}^{x-1} \frac{\lambda^i}{i!}e^{-\lambda} \\
+ &amp;= 1 -  \sum_{i=0}^{69} \frac{50^i}{i!}e^{-50} = 0.00433
+\end{align}
+\]</span></p>
+<ol start="5" style="list-style-type: lower-alpha">
+<li>E-valeur: <span class="math inline">\(E = P \cdot T = 0.00433 \cdot 20000 = 86.7\)</span></li>
 </ol>
 </div>
 <div id="tests-multiples" class="titleslide slide section level1"><h1>Tests multiples</h1></div><div id="quelques-exemples-de-tests-multiples" class="slide section level2">

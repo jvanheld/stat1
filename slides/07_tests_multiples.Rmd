@@ -3,18 +3,19 @@ title: "Approvoiser la P-valeur -- Corrections pour les tests multiples"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  beamer_presentation:
-    colortheme: dolphin
+  slidy_presentation:
+    slide_level: 2
+    self_contained: no
     fig_caption: yes
     fig_height: 6
     fig_width: 7
-    fonttheme: structurebold
     highlight: tango
     incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
     toc: yes
+    widescreen: yes
   ioslides_presentation:
     slide_level: 2
     self_contained: no
@@ -40,19 +41,18 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
-  slidy_presentation:
-    slide_level: 2
-    self_contained: no
+  beamer_presentation:
+    colortheme: dolphin
     fig_caption: yes
     fig_height: 6
     fig_width: 7
+    fonttheme: structurebold
     highlight: tango
     incremental: no
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
     toc: yes
-    widescreen: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
 subtitle: Probabilités et statistique pour la biologie (STAT1)
 font-family: Garamond
@@ -166,7 +166,7 @@ FWER <- pbinom(0, prob = P.val, size = T, lower.tail = F)
 ## from 1.
 ```
 
-We counted the occurrences of all octanucleotides ($k = 8$) in a sequence of $L = `r format(digits=12, big.mark = ",", N)`$ base pairs (single strand counts). The sequence contains $x = 6$ occurrences of `GATTACCA`.
+We counted the occurrences of all octanucleotides ($k = 8$) in a sequence of $L = `r format(digits=12, big.mark = ",", L)`$ base pairs (single strand counts). The sequence contains $x = 6$ occurrences of `GATTACCA`.
 
 Assuming equiprobable and independent nucleotides, is this k-mer over-represented in the sequence?
 
@@ -282,7 +282,7 @@ include_graphics("images/Rioualen_2018_ChIP-seq_RNA-seq.png")
 ```
 
 
-## Exercice 7.1: détection de pics ChIP-seq
+## Problème : détection de pics ChIP-seq
 
 ```{r chip_seq_peak}
 G <- 4e+6 ## Genome size
@@ -292,23 +292,37 @@ x <- 70 ## Reads over the considered genomic window
 
 
 T <- G / w ## Number of genomic windows  
-x.exp <- N / T ## Expected reads per window
+lambda<- N / T ## Expected reads per window
 
 
 ## P-value
-P <- ppois(q = x - 1, lambda = x.exp, lower.tail = FALSE)
+P.x <- dpois(x =  x, lambda = lambda)
+P <- ppois(q = x - 1, lambda = lambda, lower.tail = FALSE)
 E <- P * T ## E-value
-
-
 ```
 
+Lors d'une expérience de ChIP-seq on a aligné $N = `r format(digits=12, big.mark=".", N)`$  lectures sur un génome de $G =  `r format(digits=12, big.mark=".", G)`$ paires de bases. On découpe l'entièreté du génome en régions non-chevauchantes de $w = `r w`$ pb et on compte le nombre de fragments de lecture par région.  Sur une région donnée, on trouve $x=`r x`$ fragments de lecture. Peut-on considérer que cette région est significativement enrichie ? 
 
-Lors d'une expérience de ChIP-seq on a aligné $N = `r format(digits=12, big.mark=".", N)`$  lectures sur un génome de $G =  `r format(digits=12, big.mark=".", G)`$ paries de bases. Sur une région génomique donnée de $w = `r w`$ pb, on trouve $x=`r x`$ fragments de lecture. Peut-on considérer que cette région est significativement enrichie ? 
+a. Quel est le nombre de régions génomiques considérées ?
+b. Quel est le nombre moyen de lectures par région de $w = `r w`$ pb ?
+c. En supposant que les fragments de lecture snot répartis de façon aléatoire sur le génome, quelle serait la probabilité d'observer exactement `r x` fragments de lecture sur une fenêtre donnée ?Choisissez une distribution pour modéliser ce problème en justifiant votre choix.
+d. Quelle est la P-valeur de cette observation ? Ecrivez la formule puis remplacez les symboles par les valeurs numériques (Le résultat du calcul sera fourni pendant le cours). 
+e. Si l'on place un seuil $\alpha = 0.05$ et qu'on analyse de la même façon toutes les régions non-chevauchantes de `r w`bp, combien de faux-positifs s'attend-on à trouver ?
 
-a. Quel serait le nombre attendu de lectures attendu a priori sur une région de cette largeur ?
-b. Choisissez une distribution pour modéliser ce problème en justifiand votre choix.
-c. Indiquez la formule de la P-valeur, puis remplacez les symboles par les valeurs numériques (Le résultat du calcul sera fourni pendant le cours). 
-e. Si l'on place un seuil $\alpha = 0.05$ et qu'on analyse de la même façon toutes les fenêtres génomiques non-chevauchantes de 200bp, combien de faux-positifs s'attend-on à trouver ?
+## Réponse
+
+a. Nombre de régions: $T = G / w = `r format(digits=12, big.mark=".", G)` / `r w` = `r format(digits=12, big.mark=".", T)`$
+b. Nombre moyen de lectures par région: $\lambda = N / T = `r format(digits=12, big.mark=".", N)` / `r format(digits=12, big.mark=".", T)` = `r lambda`$
+c. Probabilité d'occurrences: $P(X = x) = \frac{\lambda^x}{x!}e^{-\lambda} =  \frac{`r lambda`^{`r x`}}{`r x`!}e^{-`r lambda`} = `r signif(digits=3, P.x)`$
+d. P-valeur: 
+
+$$\begin{align}
+P(X \ge x) &= \sum_{i=x}^{\infty} \frac{\lambda^i}{i!}e^{-\lambda} = 1 -  \sum_{i=0}^{x-1} \frac{\lambda^i}{i!}e^{-\lambda} \\
+ &= 1 -  \sum_{i=0}^{`r x-1`} \frac{`r lambda`^i}{i!}e^{-`r lambda`} = `r signif(digits=3, P)`
+\end{align}
+$$
+
+e. E-valeur: $E = P \cdot T = `r signif(digits=3, P)` \cdot `r T` = `r signif(digits=3, E)`$
 
 # Tests multiples
 

@@ -3,6 +3,18 @@ title: "Approvoiser la P-valeur -- Corrections pour les tests multiples"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
+  beamer_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
   slidy_presentation:
     slide_level: 2
     self_contained: no
@@ -14,18 +26,6 @@ output:
     keep_md: yes
     smaller: yes
     theme: cerulean
-    toc: yes
-    widescreen: yes
-  ioslides_presentation:
-    slide_level: 2
-    self_contained: no
-    colortheme: dolphin
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    smaller: yes
     toc: yes
     widescreen: yes
   pdf_document:
@@ -41,18 +41,18 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
-  beamer_presentation:
+  ioslides_presentation:
+    slide_level: 2
+    self_contained: no
     colortheme: dolphin
     fig_caption: yes
     fig_height: 6
     fig_width: 7
     fonttheme: structurebold
     highlight: tango
-    incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
+    smaller: yes
     toc: yes
+    widescreen: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
 subtitle: Probabilités et statistique pour la biologie (STAT1)
 font-family: Garamond
@@ -61,6 +61,8 @@ transition: linear
 
 ```{r include=FALSE, echo=FALSE, eval=TRUE}
 library(knitr)
+library(kableExtra)
+# library(formattable)
 
 options(width = 300)
 # options(encoding = 'UTF-8')
@@ -271,13 +273,12 @@ $$\begin{aligned}
 P(X \ge x) &=  \sum_{i=x}^{n}{C_n^i p^i (1-p)^{n-i}} \\
   &=  \sum_{i=6}^{100,000}{C_{100,000}^i 0.25^i (1-0.25)^{100,000-i}} \\
   &= `r signif(digits=3, P.val)`
-\end{aligned}
-$$
+\end{aligned}$$
 
 ## RNA-seq and ChIP-seq
 
 
-```{r fig-margin, fig.margin=TRUE, out.width="40%", fig.cap="**Analyse NGS de la régulation par FNR chez *Escherichia coli***. *Haut : * Profil de couverture des reads alignés sur le génome de *E.coli* dans une expérience de ChIP-seq (pourpre), de RNA-seq chez une souche sauvage (gris) et mutante pour FNR (jade). *Bas :* gènes annotés, pics de  ChIP-seq, gènes différentiellement exprimés (RNA-seq). "}
+```{r fig-margin, fig.margin=TRUE, out.width="40%", fig.cap="Analyse NGS de la régulation par FNR chez E. coli. Haut : Profil de couverture des reads alignés sur le génome de *E.coli* dans une expérience de ChIP-seq (pourpre), de RNA-seq chez une souche sauvage (gris) et mutante pour FNR (jade). Bas : gènes annotés, pics de  ChIP-seq, gènes différentiellement exprimés (RNA-seq). "}
 include_graphics("images/Rioualen_2018_ChIP-seq_RNA-seq.png")
 ```
 
@@ -316,11 +317,10 @@ b. Nombre moyen de lectures par région: $\lambda = N / T = `r format(digits=12,
 c. Probabilité d'occurrences: $P(X = x) = \frac{\lambda^x}{x!}e^{-\lambda} =  \frac{`r lambda`^{`r x`}}{`r x`!}e^{-`r lambda`} = `r signif(digits=3, P.x)`$
 d. P-valeur: 
 
-$$\begin{align}
+$$\begin{aligned}
 P(X \ge x) &= \sum_{i=x}^{\infty} \frac{\lambda^i}{i!}e^{-\lambda} = 1 -  \sum_{i=0}^{x-1} \frac{\lambda^i}{i!}e^{-\lambda} \\
  &= 1 -  \sum_{i=0}^{`r x-1`} \frac{`r lambda`^i}{i!}e^{-`r lambda`} = `r signif(digits=3, P)`
-\end{align}
-$$
+\end{aligned}$$
 
 e. E-valeur: $E = P \cdot T = `r signif(digits=3, P)` \cdot `r T` = `r signif(digits=3, E)`$
 
@@ -341,7 +341,7 @@ e. E-valeur: $E = P \cdot T = `r signif(digits=3, P)` \cdot `r T` = `r signif(di
 alpha <- 0.05
 ```
 
-***Question:** si on admet un seuil de $`r 100*alpha`\%$ de faux-positifs sur chaque tests, quel est le **nombre de faux-positifs** attendus ?*
+***Question:** si on admet un seuil de $`r 100*alpha`\%$ de faux-positifs sur chaque test, quel est le **nombre de faux-positifs** attendus ?*
 
 ## Nombre de faux-positifs attendus
 
@@ -368,10 +368,63 @@ Nombre de faux-positif attendus pour  $\alpha = `r alpha`$.
 
 Dans un problème de prédiction ou de classification, on  peut dresser un tableau de contingence indiquant la correspondance entre le statut réel de chaque test (sous hypothèse nulle $H_0$ ou alternative $H_1$) et le résultat du test (positif ou négatif). 
 
+
 |  Statut réel |    | $H_0$ | $H_1$ |
 |------------ |-------------|:--------:|:--------:|
 | Test | +  | $FP$ | $TP$ |
 |      | -  | $TN$ | $FN$ |
 
-$FP$: False Positive; $TP$: True Positive; $TN$: True negative; $FN$: False Negative.
+
+- $FP$: False Positive
+- $TP$: True Positive 
+- $TN$: True negative
+- $FN$: False Negative
+
+# Statistiques de contingence
+
+## False Positive Rate (FPR)
+
+Le taux de faux positive (False Positive Rate , **FPR**) est la proportion de tests déclarés positifs parmi tous ceux menés sous hypothèse nulle. 
+
+$$FPR = \frac{FP}{H0} = \frac{FP}{FP+TP}$$
+
+La **P-valeur** est une estimation du taux de faux-positifs attendu dans une batterie de tests. 
+
+
+```{r}
+dt <- data.frame(
+  matrix(nrow = 2, ncol = 2, data  = c("FP", "TP", "TN", "FN"))
+)
+rownames(dt) <- c("Test positif", "Test négatif")
+colnames(dt) <- c("H0", "H1")
+
+
+kable(dt) %>%
+  kable_styling("striped", full_width = F) %>%
+  column_spec(2, bold = T, color = "white", background = "gray")
+```
+
+## False Discovery Rate (FDR)
+
+Le taux de fausse découverte (False Discovery Rate, **FDR**) est la proportion de faux-positifs parmi tous les tests déclarés positifs. 
+
+$$FDR = \frac{FP}{\text{Positiv}} = \frac{FP}{FP+TP}$$
+
+On note par **q-valeur** l'estimation du taux de fausse découverte attendue à un niveau donné de p-valeur. 
+
+
+```{r}
+
+kable(dt) %>%
+  kable_styling("striped", full_width = F) %>%
+  row_spec(1, bold = T, color = "white", background = "gray")
+```
+
+
+## Résumé des statistiques de contingence
+
+| Statistics | Abbrev. | Formula |
+|-------------------------|--------|-------------------------|
+| False Positive Rate | **FPR** | $FPR = \frac{FP}{H0} = \frac{FP}{FP+TN}$ |
+| False Discovery Rate  | **FDR** |  $FDR = \frac{FP}{+} = \frac{FP}{FP+TP}$ |
 

@@ -7,7 +7,7 @@
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
   <meta name="author" content="Jacques van Helden" />
-  <meta name="date" content="2018-11-22" />
+  <meta name="date" content="2018-11-23" />
   <title>Approvoiser la P-valeur – Corrections pour les tests multiples</title>
   <style type="text/css">code{white-space: pre;}</style>
   <script src="07_tests_multiples_files/jquery-1.11.3/jquery.min.js"></script>
@@ -18,6 +18,7 @@
   <script src="07_tests_multiples_files/bootstrap-3.3.5/shim/respond.min.js"></script>
   <link href="07_tests_multiples_files/slidy-2/styles/slidy.css" rel="stylesheet" />
   <script src="07_tests_multiples_files/slidy-2/scripts/slidy.js"></script>
+  <script src="07_tests_multiples_files/kePrint-0.0.1/kePrint.js"></script>
 </head>
 <body>
 <div class="slide titlepage">
@@ -26,7 +27,7 @@
   <p class="author">
 Jacques van Helden
   </p>
-  <p class="date">2018-11-22</p>
+  <p class="date">2018-11-23</p>
 </div>
 <div id="what-is-a-p-value" class="slide section level2">
 <h2>What is a P value?</h2>
@@ -89,15 +90,14 @@ Jacques van Helden
 P(X \ge x) &amp;=  \sum_{i=x}^{n}{C_n^i p^i (1-p)^{n-i}} \\
   &amp;=  \sum_{i=6}^{100,000}{C_{100,000}^i 0.25^i (1-0.25)^{100,000-i}} \\
   &amp;= 0.00483
-\end{aligned}
-\]</span></p>
+\end{aligned}\]</span></p>
 </div>
 <div id="rna-seq-and-chip-seq" class="slide section level2">
 <h2>RNA-seq and ChIP-seq</h2>
 <div class="figure" style="text-align: center">
-<img src="images/Rioualen_2018_ChIP-seq_RNA-seq.png" alt="**Analyse NGS de la régulation par FNR chez *Escherichia coli***. *Haut : * Profil de couverture des reads alignés sur le génome de *E.coli* dans une expérience de ChIP-seq (pourpre), de RNA-seq chez une souche sauvage (gris) et mutante pour FNR (jade). *Bas :* gènes annotés, pics de  ChIP-seq, gènes différentiellement exprimés (RNA-seq). " width="40%" />
+<img src="images/Rioualen_2018_ChIP-seq_RNA-seq.png" alt="Analyse NGS de la régulation par FNR chez E. coli. Haut : Profil de couverture des reads alignés sur le génome de *E.coli* dans une expérience de ChIP-seq (pourpre), de RNA-seq chez une souche sauvage (gris) et mutante pour FNR (jade). Bas : gènes annotés, pics de  ChIP-seq, gènes différentiellement exprimés (RNA-seq). " width="40%" />
 <p class="caption">
-<strong>Analyse NGS de la régulation par FNR chez <em>Escherichia coli</em></strong>. <em>Haut : </em> Profil de couverture des reads alignés sur le génome de <em>E.coli</em> dans une expérience de ChIP-seq (pourpre), de RNA-seq chez une souche sauvage (gris) et mutante pour FNR (jade). <em>Bas :</em> gènes annotés, pics de ChIP-seq, gènes différentiellement exprimés (RNA-seq).
+Analyse NGS de la régulation par FNR chez E. coli. Haut : Profil de couverture des reads alignés sur le génome de <em>E.coli</em> dans une expérience de ChIP-seq (pourpre), de RNA-seq chez une souche sauvage (gris) et mutante pour FNR (jade). Bas : gènes annotés, pics de ChIP-seq, gènes différentiellement exprimés (RNA-seq).
 </p>
 </div>
 </div>
@@ -120,11 +120,10 @@ P(X \ge x) &amp;=  \sum_{i=x}^{n}{C_n^i p^i (1-p)^{n-i}} \\
 <li>Probabilité d’occurrences: <span class="math inline">\(P(X = x) = \frac{\lambda^x}{x!}e^{-\lambda} = \frac{50^{70}}{70!}e^{-50} = 0.00136\)</span></li>
 <li>P-valeur:</li>
 </ol>
-<p><span class="math display">\[\begin{align}
+<p><span class="math display">\[\begin{aligned}
 P(X \ge x) &amp;= \sum_{i=x}^{\infty} \frac{\lambda^i}{i!}e^{-\lambda} = 1 -  \sum_{i=0}^{x-1} \frac{\lambda^i}{i!}e^{-\lambda} \\
  &amp;= 1 -  \sum_{i=0}^{69} \frac{50^i}{i!}e^{-50} = 0.00433
-\end{align}
-\]</span></p>
+\end{aligned}\]</span></p>
 <ol start="5" style="list-style-type: lower-alpha">
 <li>E-valeur: <span class="math inline">\(E = P \cdot T = 0.00433 \cdot 20000 = 86.7\)</span></li>
 </ol>
@@ -165,7 +164,7 @@ P(X \ge x) &amp;= \sum_{i=x}^{\infty} \frac{\lambda^i}{i!}e^{-\lambda} = 1 -  \s
 </tr>
 </tbody>
 </table>
-<p><em><strong>Question:</strong> si on admet un seuil de <span class="math inline">\(5\%\)</span> de faux-positifs sur chaque tests, quel est le <strong>nombre de faux-positifs</strong> attendus ?</em></p>
+<p><em><strong>Question:</strong> si on admet un seuil de <span class="math inline">\(5\%\)</span> de faux-positifs sur chaque test, quel est le <strong>nombre de faux-positifs</strong> attendus ?</em></p>
 </div><div id="nombre-de-faux-positifs-attendus" class="slide section level2">
 <h2>Nombre de faux-positifs attendus</h2>
 <p>La <strong><em>E-valeur</em></strong> (<span class="math inline">\(E\)</span>, <strong><em>E-value</em></strong>, expectation) est le nombre attendu de faux-positifs lorsqu’on effectue une série de tests avec un seuil donné sur la probabilité critique (<span class="math inline">\(P\)</span>).</p>
@@ -242,7 +241,122 @@ P(X \ge x) &amp;= \sum_{i=x}^{\infty} \frac{\lambda^i}{i!}e^{-\lambda} = 1 -  \s
 </tr>
 </tbody>
 </table>
-<p><span class="math inline">\(FP\)</span>: False Positive; <span class="math inline">\(TP\)</span>: True Positive; <span class="math inline">\(TN\)</span>: True negative; <span class="math inline">\(FN\)</span>: False Negative.</p>
+<ul>
+<li><span class="math inline">\(FP\)</span>: False Positive</li>
+<li><span class="math inline">\(TP\)</span>: True Positive</li>
+<li><span class="math inline">\(TN\)</span>: True negative</li>
+<li><span class="math inline">\(FN\)</span>: False Negative</li>
+</ul>
+</div>
+<div id="statistiques-de-contingence" class="titleslide slide section level1"><h1>Statistiques de contingence</h1></div><div id="false-positive-rate-fpr" class="slide section level2">
+<h2>False Positive Rate (FPR)</h2>
+<p>Le taux de faux positive (False Positive Rate , <strong>FPR</strong>) est la proportion de tests déclarés positifs parmi tous ceux menés sous hypothèse nulle.</p>
+<p><span class="math display">\[FPR = \frac{FP}{H0} = \frac{FP}{FP+TP}\]</span></p>
+<p>La <strong>P-valeur</strong> est une estimation du taux de faux-positifs attendu dans une batterie de tests.</p>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+H0
+</th>
+<th style="text-align:left;">
+H1
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Test positif
+</td>
+<td style="text-align:left;font-weight: bold;color: white;background-color: gray;">
+FP
+</td>
+<td style="text-align:left;">
+TN
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Test négatif
+</td>
+<td style="text-align:left;font-weight: bold;color: white;background-color: gray;">
+TP
+</td>
+<td style="text-align:left;">
+FN
+</td>
+</tr>
+</tbody>
+</table>
+</div><div id="false-discovery-rate-fdr" class="slide section level2">
+<h2>False Discovery Rate (FDR)</h2>
+<p>Le taux de fausse découverte (False Discovery Rate, <strong>FDR</strong>) est la proportion de faux-positifs parmi tous les tests déclarés positifs.</p>
+<p><span class="math display">\[FDR = \frac{FP}{\text{Positiv}} = \frac{FP}{FP+TP}\]</span></p>
+<p>On note par <strong>q-valeur</strong> l’estimation du taux de fausse découverte attendue à un niveau donné de p-valeur.</p>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+H0
+</th>
+<th style="text-align:left;">
+H1
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;font-weight: bold;color: white;background-color: gray;">
+Test positif
+</td>
+<td style="text-align:left;font-weight: bold;color: white;background-color: gray;">
+FP
+</td>
+<td style="text-align:left;font-weight: bold;color: white;background-color: gray;">
+TN
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Test négatif
+</td>
+<td style="text-align:left;">
+TP
+</td>
+<td style="text-align:left;">
+FN
+</td>
+</tr>
+</tbody>
+</table>
+</div><div id="resume-des-statistiques-de-contingence" class="slide section level2">
+<h2>Résumé des statistiques de contingence</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Statistics</th>
+<th>Abbrev.</th>
+<th>Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>False Positive Rate</td>
+<td><strong>FPR</strong></td>
+<td><span class="math inline">\(FPR = \frac{FP}{H0} = \frac{FP}{FP+TN}\)</span></td>
+</tr>
+<tr class="even">
+<td>False Discovery Rate</td>
+<td><strong>FDR</strong></td>
+<td><span class="math inline">\(FDR = \frac{FP}{+} = \frac{FP}{FP+TP}\)</span></td>
+</tr>
+</tbody>
+</table>
 </div>
 
   <!-- dynamically load mathjax for compatibility with self-contained -->

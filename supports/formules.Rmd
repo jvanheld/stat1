@@ -3,6 +3,11 @@ title: "Formules de probabilités et statistique"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: no
+    toc_depth: 3
   html_document:
     code_folding: hide
     fig_caption: yes
@@ -11,11 +16,6 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: no
-    toc_depth: 3
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -87,7 +87,7 @@ setwd(dir.current)
 
 | Nom | Conditions | Formule |
 |---------------|---------------------|----------------------|
-| Permutations (factorielle) |  | $n! = n \cdot (n-1) \cdot \ldots \cdot 2 \cdot 1$ |
+| Permutations (factorielle) |  | $\left\{ \begin{array}{ll}  0! = 1 \, n! = n \cdot (n-1)! & \forall \: n \ge 1 \end{array} \right.$ |
 | Arrangements | Sans remise, ordonné | $A^x_n = \frac{n!}{(n - x)!} = n \cdot (n-1) \cdot \ldots \cdot (n-x+1)$   |
 | Combinaison (*choose*, *coefficient binomial*) | Sans remise, sans ordre | $\binom{n}{x} = C^x_n = \frac{n!}{x! (n-x)!}$  |
 | | | |

@@ -4,42 +4,40 @@ author: "Jacques van Helden, revised by Lucie Khamvongsa-Charbonnier and Yvon Mb
 date: "`r Sys.Date()`"
 output:
   slidy_presentation:
+    smart: no
+    slide_level: 2
+    self_contained: yes
     fig_caption: yes
     fig_height: 6
     fig_width: 7
-    fonttheme: structurebold
     highlight: tango
     incremental: no
     keep_md: yes
-    self_contained: no
     smaller: yes
     theme: cerulean
     toc: yes
     widescreen: yes
-  html_document:
-    fig_caption: yes
-    highlight: zenburn
-    self_contained: no
-    theme: cerulean
-    toc: yes
   ioslides_presentation:
+    slide_level: 2
+    self_contained: no
     colortheme: dolphin
     fig_caption: yes
     fig_height: 6
     fig_width: 7
     fonttheme: structurebold
     highlight: tango
-    self_contained: no
     smaller: yes
     toc: yes
     widescreen: yes
-  pdf_document:
+  html_document:
+    self_contained: no
     fig_caption: yes
     highlight: zenburn
+    theme: cerulean
     toc: yes
     toc_depth: 3
+    toc_float: yes
   beamer_presentation:
-#    always_allow_html: yes
     colortheme: dolphin
     fig_caption: yes
     fig_height: 6
@@ -51,6 +49,16 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
+  revealjs::revealjs_presentation:
+    theme: night
+    transition: none
+    self_contained: true
+    css: ../slides.css
 font-import: http://fonts.googleapis.com/css?family=Risque
 font-family: Garamond
 subtitle: Probabilités et statistique pour la biologie (STAT1)
@@ -195,7 +203,10 @@ Combien d'oligomères peut-on former (ADN ou peptides) en utilisant chaque rési
 - Premier résidu: $n$ possibilités. 
 - Dès le moment où on a choisi ce premier résidu, il ne reste plus que $n-1$ possibilités pour le second. On a donc $n \cdot (n-1)$ possibilités pour les deux premiers résidus. 
 - Pour la troisième position, il ne reste que $n-2$ résidus. On a donc $n \cdot (n-1) \cdot (n-2)$ possibilités pour les 3 premières positions de la séquence.
-- Par extension, le nombre total de possibilités est donc (en supposant $n$ suffisamment grand) $$n! = n \cdot (n-1) \cdot \ldots \cdot 2 \cdot 1$$.
+- Par extension, le nombre total de possibilités est donc (en supposant $n$ suffisamment grand) 
+
+$$n! = n \cdot (n-1) \cdot \ldots \cdot 2 \cdot 1$$
+
 - Dans notre cas:
 
     - $n! = 4! = `r signif(digits=3, factorial(4))`$ oligonucléotides comportant exactement 1 fois chaque nucléotide (taille 4).

@@ -3,23 +3,6 @@ title: "Combinatorix"
 author: "Jacques van Helden"
 date: "`r Sys.Date()`"
 output:
-  ioslides_presentation:
-    colortheme: dolphin
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    self_contained: no
-    smaller: yes
-    toc: yes
-    widescreen: yes
-  html_document:
-    fig_caption: yes
-    highlight: zenburn
-    self_contained: no
-    theme: cerulean
-    toc: yes
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -33,13 +16,13 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
-  pdf_document:
+  html_document:
     fig_caption: yes
     highlight: zenburn
+    self_contained: no
+    theme: cerulean
     toc: yes
-    toc_depth: 3
   beamer_presentation:
-#    always_allow_html: yes
     colortheme: dolphin
     fig_caption: yes
     fig_height: 6
@@ -51,6 +34,22 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
+  ioslides_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    self_contained: no
+    smaller: yes
+    toc: yes
+    widescreen: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
 font-family: Garamond
 subtitle: Probabilities and statistics for bioinformatics (STAT1)
@@ -183,25 +182,31 @@ par(par.ori) ## restaurer les paramètres par défaut
 ```
 
 
-## Exercice 02.1: oligomères sans résidus répétés
+## Exercise 02.1: oligomers with no repeated residue
 
-Combien d'oligomères peut-on former (ADN ou peptides) en utilisant chaque résidu une et une seule fois ?
+How many oligomers can be formed (DNA or peptides) that would contain exactly once each residue.
 
-**Approche suggérée**: agrégez progressivement les résidus, en vous demandant à chaque étape combien d'entre eux n'ont pas encore été incorporés. 
+**Suggested approach**: progressively aggregate the residues whilst wondering, at each step, bow many residues have not yet been incoroporated in the sequence. 
 
-**Questions subsidiaires**:
+**Sub-questions**:
 
-- Généralisez la formule pour des séquences d'objets tirés dans un ensemble de taille arbitraire ($n$). 
-- Quel est le nom de la fonction donnant le résultat ?
-- Dans ce processus, quel est le mode de sélection des résidus: **avec ou sans remise** ?
+- Generalise the formula for sequences of any type of elements drawn from a set of arbitrary size $n$. 
 
-## Solution: oligomères sans résidus répétés
+- What is the name of the corresponding function?
 
-- Premier résidu: $n$ possibilités. 
-- Dès le moment où on a choisi ce premier résidu, il ne reste plus que $n-1$ possibilités pour le second. On a donc $n \cdot (n-1)$ possibilités pour les deux premiers résidus. 
-- Pour la troisième position, il ne reste que $n-2$ résidus. On a donc $n \cdot (n-1) \cdot (n-2)$ possibilités pour les 3 premières positions de la séquence.
-- Par extension, le nombre total de possibilités est donc (en supposant $n$ suffisamment grand) $$n! = n \cdot (n-1) \cdot \ldots \cdot 2 \cdot 1$$.
-- Dans notre cas:
+- In this process, what is the mode of residue selection: **with** or **without replacement**?
+
+
+## Solution: oligomers with no repeated residue
+
+- First residue: $n$ possibilities. 
+- As soon as the first residue has been chosen, there are only $n-1$ possibilities to draw a different residue for the second position. We thus have  $n \cdot (n-1)$ possible sequences for the first two residues. 
+- For the third position, there are only $n-2$ residues left; We thus have On a donc $n \cdot (n-1) \cdot (n-2)$ possibilities for the 3 first positions of the sequence.
+- By extension of this reasoning, the total number of possible solutions (assuming $n$ is not too small) will be  
+
+$$n! = n \cdot (n-1) \cdot \ldots \cdot 2 \cdot 1$$
+
+- In our case:
 
     - $n! = 4! = `r signif(digits=3, factorial(4))`$ oligonucléotides comportant exactement 1 fois chaque nucléotide (taille 4).
     - $n! = 20! = `r signif(digits=3, factorial(20))`$ oligopeptides (taille 20).
@@ -301,7 +306,7 @@ $$\binom{n}{x} = C^x_n = \frac{n!}{x! (n-x)!}$$
 
 
 
-## Exercice 02.2 : listes (ordonnées) de gènes
+## Exercise 02.2 : listes (ordonnées) de gènes
 
 On a mené une expérience de transcriptome pour mesurer le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**en tenant compte** de l'ordre relatif de ces 15 gènes) ?
 
@@ -322,7 +327,7 @@ Il s'agit d'une sélection **sans remise** (chaque gène apparaît à une et une
 - En généralisant à la liste des $x$ premiers gènes dans un ensemble de $n$, on obtient $N = n \cdot (n-1)  \cdot (n-2) \cdot ... \cdot (n-x+1)$. 
 
 
-## Exercice 02.3 : ensembles (non-ordonnés) de gènes
+## Exercise 02.3 : ensembles (non-ordonnés) de gènes
 
 Lors d'une expérience de transcriptome indiquant le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**sans tenir compte** de l'ordre relatif de ces 15 gènes) ?
 
@@ -405,11 +410,11 @@ digraph combinatorix_flowchart {
 | Non | Non | $C^x_n = \binom{n}{x} = \frac{n!}{x! (n - x) !}$ | **Combinaisons** : tirages non ordonnés, sans remise, de $x$ éléments dans un ensemble de taille $n$ |
 
 
-# Exercices supplémentaires
+# Exercises supplémentaires
 
 
 
-## Exercice 02.5: oligopeptides $3 \times 20$
+## Exercise 02.5: oligopeptides $3 \times 20$
 
 *Combien d'oligopeptides de taille 60 peut-on former en utilisant exactement 3 fois chaque acide aminé ?*
 
@@ -439,5 +444,5 @@ cat(sample(rep(aa, times = 3)), sep = "")
 ```
 
 
-Cependant, il faut prendre en compte le fait que certaines permutations sont identiques (toutes celles où l'on permute deux acides aminés identiques). La difficulté de l'exercice sera donc de dénombrer le nombre de permutations *distinctes*. 
+Cependant, il faut prendre en compte le fait que certaines permutations sont identiques (toutes celles où l'on permute deux acides aminés identiques). La difficulté de l'Exercise sera donc de dénombrer le nombre de permutations *distinctes*. 
 

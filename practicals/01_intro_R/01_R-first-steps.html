@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Jacques van Helden" />
+
+<meta name="date" content="2019-09-12" />
+
+<title>First steps with R</title>
+
+<script src="01_R-first-steps_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="01_R-first-steps_files/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="01_R-first-steps_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="01_R-first-steps_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="01_R-first-steps_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="01_R-first-steps_files/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="01_R-first-steps_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="01_R-first-steps_files/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="01_R-first-steps_files/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  { color: #cccccc; background-color: #303030; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ffcfaf; } /* Alert */
+code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #dca3a3; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #f0dfaf; } /* ControlFlow */
+code span.ch { color: #dca3a3; } /* Char */
+code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code span.co { color: #7f9f7f; } /* Comment */
+code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code span.do { color: #7f9f7f; } /* Documentation */
+code span.dt { color: #dfdfbf; } /* DataType */
+code span.dv { color: #dcdccc; } /* DecVal */
+code span.er { color: #c3bf9f; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #c0bed1; } /* Float */
+code span.fu { color: #efef8f; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+code span.kw { color: #f0dfaf; } /* Keyword */
+code span.op { color: #f0efd0; } /* Operator */
+code span.ot { color: #efef8f; } /* Other */
+code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code span.sc { color: #dca3a3; } /* SpecialChar */
+code span.ss { color: #cc9393; } /* SpecialString */
+code span.st { color: #cc9393; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #cc9393; } /* VerbatimString */
+code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">First steps with R</h1>
+<h3 class="subtitle">Probabilités et statistique pour la biologie (STAT1)</h3>
+<h4 class="author">Jacques van Helden</h4>
+<h4 class="date">2019-09-12</h4>
+
+</div>
+
+
+<div id="goal-of-this-tutorial" class="section level2">
+<h2>Goal of this tutorial</h2>
+<p>This tutorial aims at discovering the fundamental elements of the <strong><em>R</em></strong> statistical language.</p>
+<p>We will briefly survey the following concepts.</p>
+<ul>
+<li><p>Handling variables</p>
+<ul>
+<li>Assigning a value to a variable</li>
+<li>Basic operations on numbers</li>
+<li><p>Basic data structures</p>
+<ul>
+<li>vectors</li>
+<li>matrices</li>
+<li>data.frames</li>
+<li>lists</li>
+</ul></li>
+</ul></li>
+<li><p>Using functions</p></li>
+<li><p>Graph drawing</p></li>
+<li><p>Distributions of probabilities</p></li>
+</ul>
+</div>
+<div id="using-r-as-a-calculator" class="section level2">
+<h2>Using <strong><em>R</em></strong> as a calculator</h2>
+<p><strong>Example:</strong> an addition with R.</p>
+<p>At the R prompt, type the following instruction and press the Enter key.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="dv">5</span></a></code></pre></div>
+<pre><code>[1] 7</code></pre>
+<p>The result (<span class="math inline">\(7\)</span>) of the addition is printed out, preceded by an index <span class="math inline">\([1]\)</span> (we will explain later why this index appears).</p>
+</div>
+<div id="assigning-a-value-to-a-variable" class="section level2">
+<h2>Assigning a value to a variable</h2>
+<p>In <strong><em>R</em></strong>, the succession of a the hyphen and “smaller than” characters (<strong><code>&lt;-</code></strong>) serves to assign a value to a variable. If the variable does not exist yet, it is created.</p>
+<p>For example</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="dv">2</span></a></code></pre></div>
+<p>creates a variable named <span class="math inline">\(a\)</span>, and assigns it the value <span class="math inline">\(2\)</span>.</p>
+<p>The result can be displayed with the <strong><em>print()</em></strong> function.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">print</span>(a)</a></code></pre></div>
+<pre><code>[1] 2</code></pre>
+<p><strong>Remarque : </strong> R permet également d’utiliser le symbole <code>=</code> pour effectuer une assignation. Cependant, nous préférons utiliser l’opérateur explicite <code>&lt;-</code>, qui est également préconisé sur les guides de style</p>
+</div>
+<div id="conventions-de-notation-en-r" class="section level2">
+<h2>Conventions de notation en R</h2>
+<p>Il existe plusieurs conventions possibles pour les noms de variables, de fonction, les opérateurs, etc. Chaque langage de programmation a ses propres standards et recommandations. Pour ce cours nous suivons les recommandations de <strong>Google R style guide :</strong></p>
+<p><a href="https://google.github.io/styleguide/Rguide.xml" class="uri">https://google.github.io/styleguide/Rguide.xml</a></p>
+<p>Cependant, pour les <a href="https://google.github.io/styleguide/Rguide.xml#identifiers">identifiants de variables</a>, la notation <code>variable.name</code> est traditionnelle mais pose problème aux personnes familières avec les langages orientés objet, et nous admettons donc la notation alternative en “dos de chameau” de type <code>variableName</code>. Attention, par convention les noms de variables commencent toujours par une minuscule.</p>
+</div>
+<div id="calculer-avec-des-variables" class="section level2">
+<h2>Calculer avec des variables</h2>
+<ul>
+<li>créer une variable nommée <span class="math inline">\(b\)</span> avec une valeur <span class="math inline">\(5\)</span>,</li>
+<li>calculer <span class="math inline">\(a + b\)</span> et enregistrer le résultat dans une variable nommée <span class="math inline">\(c\)</span>,</li>
+<li>imprimer le résultat.</li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">b &lt;-<span class="st"> </span><span class="dv">5</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">c &lt;-<span class="st"> </span>a <span class="op">+</span><span class="st"> </span>b</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">print</span>(a)</a></code></pre></div>
+<pre><code>[1] 2</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">print</span>(b)</a></code></pre></div>
+<pre><code>[1] 5</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">print</span>(c)</a></code></pre></div>
+<pre><code>[1] 7</code></pre>
+</div>
+<div id="assignation-neq-egalite" class="section level2">
+<h2>Assignation <span class="math inline">\(\neq\)</span> égalité</h2>
+<ul>
+<li>remplacer la valeur de <span class="math inline">\(a\)</span> par <span class="math inline">\(3\)</span>,</li>
+<li>imprimer la valeur de <span class="math inline">\(c\)</span></li>
+<li>est-il toujours vrai que <span class="math inline">\(c = a + b\)</span> ? Pourquoi ?</li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="dv">3</span> <span class="co">## Change the value of a</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw">print</span>(a)</a></code></pre></div>
+<pre><code>[1] 3</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">print</span>(b)</a></code></pre></div>
+<pre><code>[1] 5</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">print</span>(c)</a></code></pre></div>
+<pre><code>[1] 7</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="co">## Check whether c equals a + b</span></a>
+<a class="sourceLine" id="cb18-2" data-line-number="2">c <span class="op">==</span><span class="st"> </span>a <span class="op">+</span><span class="st"> </span>b</a></code></pre></div>
+<pre><code>[1] FALSE</code></pre>
+<p>Note: <strong><code>==</code></strong> indique qu’on teste si deux variables ont le même contenu. Le résultat est une valeur logique (TRUE ou FALSE).</p>
+</div>
+<div id="recalculer-un-resultat" class="section level2">
+<h2>Recalculer un résultat</h2>
+<p>Quand on change le contenu d’une variable <span class="math inline">\(a\)</span>, une autre variable (<span class="math inline">\(c\)</span>) préalablement calculées à partir de cette variable n’a aucune raison d’être recalculée si on ne le demande pas explicitement.</p>
+<p><strong>Exemple:</strong></p>
+<ul>
+<li>remplacer la valeur de <span class="math inline">\(a\)</span> par <span class="math inline">\(27\)</span>,</li>
+<li>recalculer et imprimer la valeur de <span class="math inline">\(c\)</span></li>
+<li>tester l’égalité <span class="math inline">\(c = a + b\)</span></li>
+</ul>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="dv">27</span> <span class="co">## Change the value of a</span></a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">c &lt;-<span class="st"> </span>a <span class="op">+</span><span class="st"> </span>b</a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="kw">print</span>(c) <span class="co">## Print the value of c</span></a></code></pre></div>
+<pre><code>[1] 32</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co">## Check whether c  equals a + b</span></a>
+<a class="sourceLine" id="cb22-2" data-line-number="2">c <span class="op">==</span><span class="st"> </span>a <span class="op">+</span><span class="st"> </span>b</a></code></pre></div>
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div id="vecteurs-de-valeurs" class="section level2">
+<h2>Vecteurs de valeurs</h2>
+<p>En <strong><em>R</em></strong>, la structure de données la plus simple est un <strong>vecteur</strong>.</p>
+<ul>
+<li>Dans l’exemple précédent, la variable <span class="math inline">\(a\)</span> ne contenait qu’un seul nombre, mais en pratique elle était stockée dans un vecteur à une seule entrée.</li>
+<li>La fonction <code>print()</code> indique les indices en début de lignes, ce qui est utile quand on affiche des vecteurs avec un grand nombre d’entrées.</li>
+</ul>
+<p><strong>Exemple:</strong> créer une variable nommée <strong><em>trois.nombres</em></strong>, et l’initialiser avec un vecteur dont les valeurs sont <strong><em>27</em></strong>, <strong><em>12</em></strong> and <strong><em>3000</em></strong>.</p>
+<p><strong>Trucs:</strong> - en R, les noms de variables peuvent comporter plusieurs mots séparés par des points; - la fonction <code>c()</code> combine plusieurs valeurs en un vecteur.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">trois.nombres &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">27</span>,<span class="dv">12</span>,<span class="dv">3000</span>)</a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="kw">print</span>(trois.nombres)</a></code></pre></div>
+<pre><code>[1]   27   12 3000</code></pre>
+</div>
+<div id="series-de-nombres" class="section level2">
+<h2>Séries de nombres</h2>
+<p>La façon la plus simple de créer une série de nombre est d’utiliser le double point, qui génère toutes les valeurs entières entre deux limites.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span><span class="dv">30</span></a>
+<a class="sourceLine" id="cb26-2" data-line-number="2"><span class="kw">print</span>(x)</a></code></pre></div>
+<pre><code> [1]  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22
+[24] 23 24 25 26 27 28 29 30</code></pre>
+<p><strong>Note: </strong> si l’impression des valeurs du vecteur dépasse la largeur de la page, R passe à la ligne et indique en début de ligne l’indice du premier élément. Un ature exemple:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw">print</span>(<span class="dv">58</span><span class="op">:</span><span class="dv">157</span>)</a></code></pre></div>
+<pre><code>  [1]  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72  73  74
+ [18]  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90  91
+ [35]  92  93  94  95  96  97  98  99 100 101 102 103 104 105 106 107 108
+ [52] 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125
+ [69] 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142
+ [86] 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157</code></pre>
+</div>
+<div id="calculer-avec-des-vecteurs" class="section level2">
+<h2>Calculer avec des vecteurs</h2>
+<p><strong>R</strong> permet de manipuler les vecteurs de façon extrêmement pratique. Une opération sur un vecteur s’applique automatiquement à tous ses éléments.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span> <span class="co"># Define a series from 1 to 10</span></a>
+<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="kw">print</span>(x)</a></code></pre></div>
+<pre><code> [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">y &lt;-<span class="st"> </span>x<span class="op">^</span><span class="dv">2</span> <span class="co"># Compute the square of each number</span></a>
+<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="kw">print</span>(y)</a></code></pre></div>
+<pre><code> [1]   1   4   9  16  25  36  49  64  81 100</code></pre>
+</div>
+<div id="sequences-de-nombres" class="section level2">
+<h2>Séquences de nombres</h2>
+<p>La fonction <code>seq()</code> permet de générer des séries de nombres avec un espacement arbitraire.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">seq</span>(<span class="dt">from=</span><span class="op">-</span><span class="dv">1</span>, <span class="dt">to=</span><span class="dv">1</span>, <span class="dt">by=</span><span class="fl">0.1</span>)</a></code></pre></div>
+<pre><code> [1] -1.0 -0.9 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3 -0.2 -0.1  0.0  0.1  0.2  0.3
+[15]  0.4  0.5  0.6  0.7  0.8  0.9  1.0</code></pre>
+</div>
+<div id="les-variables-peuvent-contenir-du-texte" class="section level2">
+<h2>Les variables peuvent contenir du texte</h2>
+<p>Les variables ne se limitent pas aux nombres: elles peuvent contenir du texte (“chaînes de caractères”, “strings” en anglais).</p>
+<p>Ici également, nous utilisons la fonction <code>c()</code> pour combiner plusieurs chaînes de caractères dans un vecteur.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="co"># The # symbol allows to insert comments in R code</span></a>
+<a class="sourceLine" id="cb36-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb36-3" data-line-number="3"><span class="co"># Define  a vector named &quot;whoami&quot;, and </span></a>
+<a class="sourceLine" id="cb36-4" data-line-number="4"><span class="co"># containing two names</span></a>
+<a class="sourceLine" id="cb36-5" data-line-number="5">whoami &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Denis&quot;</span>, <span class="st">&quot;Siméon&quot;</span>)</a>
+<a class="sourceLine" id="cb36-6" data-line-number="6"><span class="kw">print</span>(whoami) <span class="co"># Comment at the end of a line</span></a></code></pre></div>
+<pre><code>[1] &quot;Denis&quot;  &quot;Siméon&quot;</code></pre>
+</div>
+<div id="concatenation-de-chaines-de-caracters" class="section level2">
+<h2>Concaténation de chaînes de caractèrs</h2>
+<p>La fonction <code>paste()</code> permet de concaténer les variables contenant du texte.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="co"># To concatenate the elements of a vector in a single chain, use &quot;collapse&quot;</span></a>
+<a class="sourceLine" id="cb38-2" data-line-number="2">prenom.complet &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="dt">collapse =</span> <span class="st">&quot; &quot;</span>, whoami)</a>
+<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="kw">print</span>(prenom.complet)</a></code></pre></div>
+<pre><code>[1] &quot;Denis Siméon&quot;</code></pre>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="co"># TO concatenate two vectors, use &quot;sep&quot;</span></a>
+<a class="sourceLine" id="cb40-2" data-line-number="2">nom &lt;-<span class="st"> &quot;Poisson&quot;</span></a>
+<a class="sourceLine" id="cb40-3" data-line-number="3"><span class="kw">print</span>(<span class="kw">paste</span>(<span class="dt">sep =</span> <span class="st">&quot; &quot;</span>, prenom.complet, nom))</a></code></pre></div>
+<pre><code>[1] &quot;Denis Siméon Poisson&quot;</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="co">## Concatenate 2 vectors with 3 values each</span></a>
+<a class="sourceLine" id="cb42-2" data-line-number="2">prenoms &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;George&quot;</span>, <span class="st">&quot;Alfred&quot;</span>, <span class="st">&quot;Frédéric&quot;</span>)</a>
+<a class="sourceLine" id="cb42-3" data-line-number="3">noms &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Sand&quot;</span>,  <span class="st">&quot;Musset&quot;</span>, <span class="st">&quot;Chopin&quot;</span>)</a>
+<a class="sourceLine" id="cb42-4" data-line-number="4"><span class="kw">paste</span>(<span class="dt">sep =</span> <span class="st">&quot; &quot;</span>, prenoms, noms)</a></code></pre></div>
+<pre><code>[1] &quot;George Sand&quot;     &quot;Alfred Musset&quot;   &quot;Frédéric Chopin&quot;</code></pre>
+</div>
+<div id="fonctions-graphiques" class="section level2">
+<h2>Fonctions graphiques</h2>
+<p>R comporte un grand nombre de fonctions permettant de dessiner des graphiques simples ou élaborés. Nous allons explorer ici les méthodes les plus simples.</p>
+</div>
+<div id="nuage-de-points-scatter-plot" class="section level2">
+<h2>Nuage de points (scatter plot)</h2>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">-10</span>, <span class="dt">to =</span> <span class="dv">10</span>, <span class="dt">by =</span> <span class="fl">0.1</span>)</a>
+<a class="sourceLine" id="cb44-2" data-line-number="2">y &lt;-<span class="st"> </span>x<span class="op">^</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb44-3" data-line-number="3"><span class="kw">plot</span>(x,y)</a></code></pre></div>
+<p><img src="figures/scatter_plot-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="courbe-line-plot" class="section level2">
+<h2>Courbe (line plot)</h2>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">-10</span>, <span class="dt">to =</span> <span class="dv">10</span>, <span class="dt">by =</span> <span class="fl">0.1</span>)</a>
+<a class="sourceLine" id="cb45-2" data-line-number="2">y &lt;-<span class="st"> </span>x<span class="op">^</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb45-3" data-line-number="3"><span class="kw">plot</span>(x,y, <span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a></code></pre></div>
+<p><img src="figures/line_plot-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="ameliorer-un-dessin" class="section level2">
+<h2>Améliorer un dessin</h2>
+<p><strong>Exercice: </strong> lisez l’aide de la fonction <code>plot()</code> en tapant <code>help(plot)</code>, et explorez les paramètres afin d’améliorer le graphique. Consultez également l’aide de la fonction <code>par()</code> (paramètres graphiques).</p>
+<p>Vous pouvez par exemple ajouter les éléments suivants:</p>
+<ul>
+<li>titre</li>
+<li>étiquettes des axes</li>
+<li>coloration de la courbe</li>
+<li>épaisseur de la courbe</li>
+<li>grille</li>
+<li>tracer une droite horizontale sur l’axe <span class="math inline">\(X=0\)</span></li>
+<li>tracer une droite verticale sur l’axe <span class="math inline">\(Y=0\)</span></li>
+<li>tout autre paramètre qui améliorera la lisibilité du résultat</li>
+</ul>
+<p>La solution se trouve sur la diapo suivante (ne regardez pas !).</p>
+</div>
+<div id="solution" class="section level2">
+<h2>Solution</h2>
+<p>Faites tourner le code-ci-dessous pour afficher le résultat.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">-10</span>, <span class="dt">to =</span> <span class="dv">10</span>, <span class="dt">by =</span> <span class="fl">0.1</span>)</a>
+<a class="sourceLine" id="cb46-2" data-line-number="2">y &lt;-<span class="st"> </span>x<span class="op">^</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb46-3" data-line-number="3"><span class="kw">plot</span>(x,y, </a>
+<a class="sourceLine" id="cb46-4" data-line-number="4">     <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, <span class="co"># Plot type</span></a>
+<a class="sourceLine" id="cb46-5" data-line-number="5">     <span class="dt">main =</span> <span class="st">&quot;Parabole&quot;</span>, <span class="co"># Main title</span></a>
+<a class="sourceLine" id="cb46-6" data-line-number="6">     <span class="dt">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="co">#X label</span></a>
+<a class="sourceLine" id="cb46-7" data-line-number="7">     <span class="dt">ylab =</span> <span class="st">&quot;y = x^2&quot;</span>, <span class="co"># Y label</span></a>
+<a class="sourceLine" id="cb46-8" data-line-number="8">     <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="co"># Curve color</span></a>
+<a class="sourceLine" id="cb46-9" data-line-number="9">     <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="co"># Line width</span></a>
+<a class="sourceLine" id="cb46-10" data-line-number="10">     <span class="dt">las =</span> <span class="dv">1</span> <span class="co"># display axis labels horizontally </span></a>
+<a class="sourceLine" id="cb46-11" data-line-number="11">     )</a>
+<a class="sourceLine" id="cb46-12" data-line-number="12"><span class="kw">grid</span>(<span class="dt">lty =</span> <span class="st">&quot;dashed&quot;</span>, <span class="dt">col=</span><span class="st">&quot;gray&quot;</span>) <span class="co"># Grid</span></a>
+<a class="sourceLine" id="cb46-13" data-line-number="13"><span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">0</span>) <span class="co"># Horizontal line</span></a>
+<a class="sourceLine" id="cb46-14" data-line-number="14"><span class="kw">abline</span>(<span class="dt">v =</span> <span class="dv">0</span>) <span class="co"># Vertical line</span></a></code></pre></div>
+</div>
+<div id="distributions-de-probabilites" class="section level2">
+<h2>Distributions de probabilités</h2>
+<p><strong>R</strong> fournit 4 fonctions pour chacune des des distributions de probabilité classiques.</p>
+<p>Avant d’aller plus loin, lisez attentivement l’aide pour les fonctions associées à la distribution binomiale.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">help</span>(<span class="st">&quot;Binomial&quot;</span>)</a></code></pre></div>
+<p><strong>Questions:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Quelle est la fonction R qui permet de calculer la fonction de masse de probabilité (également appelée “densité”) ?</li>
+<li>Quelle fonction R correspond à la fonction de répartition (également appelée “fonction de distribution”) ?</li>
+<li>A quoi sert la fonction <em>rbinom()</em> ?</li>
+</ol>
+</div>
+<div id="graphe-de-la-binomiale" class="section level2">
+<h2>Graphe de la binomiale</h2>
+<p><strong>Exercice:</strong> en supposant des nucléotides équiprobables et indépendants, dessiner la distribution de probabilité du nombre d’adénines pour un oligonucléotide de taille 30.</p>
+<ul>
+<li>fonction de masse de la probabilité</li>
+<li>fonction de répartition</li>
+</ul>
+<p>Dans les diapos suivantes, nous vous guidons pas à pas pour débuter l’exercice, et vous pourrez ensuite améliorer le résultat à vote guise.</p>
+</div>
+<div id="formule-de-la-solution" class="section level2">
+<h2>Formule de la solution</h2>
+<p>Le nombre d’adénines peut prendre n’importe quelle valeur entre <span class="math inline">\(0\)</span> et <span class="math inline">\(30\)</span>. On peut modéliser le problème comme un schéma de Bernoulli avec <span class="math inline">\(n=30\)</span> essais pouvant chacun résulter en un succès (une adénine) avec une probabilité <span class="math inline">\(p=0.25\)</span>, ou un échec (tout autre nucléotide), avec une probabilité <span class="math inline">\(q = 1-p = 0.75\)</span>.</p>
+<p>La probabilité d’observer exactement <span class="math inline">\(x\)</span> adénine vaut donc.</p>
+<p><span class="math display">\[P(X=x) = \binom{n}{x} p^x (1-p)^{n-x} = \frac{30!}{x!(30-x)!} \cdot 0.25^x \cdot 0.75^{n-x}\]</span> où <span class="math inline">\(x\)</span> peut prendre n’importe quelle valeur entre <span class="math inline">\(0\)</span> et <span class="math inline">\(30\)</span>.</p>
+</div>
+<div id="calcul-de-la-fonction-de-masse-de-probabilite" class="section level2">
+<h2>Calcul de la fonction de masse de probabilité</h2>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="co">## Define all possible values for X</span></a>
+<a class="sourceLine" id="cb48-2" data-line-number="2">n &lt;-<span class="st"> </span><span class="dv">30</span></a>
+<a class="sourceLine" id="cb48-3" data-line-number="3">x &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span>n</a>
+<a class="sourceLine" id="cb48-4" data-line-number="4">p &lt;-<span class="st"> </span><span class="fl">0.25</span></a>
+<a class="sourceLine" id="cb48-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb48-6" data-line-number="6"><span class="co">## Compute the binomial PMF</span></a>
+<a class="sourceLine" id="cb48-7" data-line-number="7">pmf &lt;-<span class="st"> </span><span class="kw">dbinom</span>(<span class="dt">x =</span> x, <span class="dt">size =</span> n, <span class="dt">prob =</span> p)</a></code></pre></div>
+</div>
+<div id="sous-ensemble-des-valeurs-dun-vecteur" class="section level2">
+<h2>Sous-ensemble des valeurs d’un vecteur</h2>
+<p>Nous pouvons imprimer les 4 premières valeurs de la variable <em>pmf</em> (pour <span class="math inline">\(x\)</span> de <span class="math inline">\(0\)</span> à <span class="math inline">\(3\)</span>) …</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">pmf[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a></code></pre></div>
+<pre><code>[1] 0.0001785821 0.0017858209 0.0086314677 0.0268534550 0.0604202738</code></pre>
+<p>… ou les 4 dernières valeurs (pour <span class="math inline">\(x\)</span> de <span class="math inline">\(27\)</span> à <span class="math inline">\(30\)</span>).</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">pmf[(n<span class="dv">-3</span>)<span class="op">:</span>n]</a></code></pre></div>
+<pre><code>[1] 1.925374e-12 9.508019e-14 3.395721e-15 7.806256e-17</code></pre>
+</div>
+<div id="restriction-du-nombre-de-decimales" class="section level2">
+<h2>Restriction du nombre de décimales</h2>
+<p>La fonction <code>round()</code> arrondit un résultat à un nombre donné de décimales.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw">round</span>(pmf, <span class="dt">digit=</span><span class="dv">3</span>)</a></code></pre></div>
+<pre><code> [1] 0.000 0.002 0.009 0.027 0.060 0.105 0.145 0.166 0.159 0.130 0.091
+[12] 0.055 0.029 0.013 0.005 0.002 0.001 0.000 0.000 0.000 0.000 0.000
+[23] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000</code></pre>
+<p>Pour des distributions de probabilités, on descend assez facilement à des valeurs très faibles, dont on désire connaître l’ordre de grandeur tout en affichant un nombre raisonnable de chiffres significatifs (ceux qui suivent la première décimale non nulle). Pour cela, il est plus pratique d’utiliser la fonction <code>signif()</code>,</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw">signif</span>(pmf, <span class="dt">digit=</span><span class="dv">3</span>)</a></code></pre></div>
+<pre><code> [1] 1.79e-04 1.79e-03 8.63e-03 2.69e-02 6.04e-02 1.05e-01 1.45e-01
+ [8] 1.66e-01 1.59e-01 1.30e-01 9.09e-02 5.51e-02 2.91e-02 1.34e-02
+[15] 5.43e-03 1.93e-03 6.03e-04 1.66e-04 3.99e-05 8.39e-06 1.54e-06
+[22] 2.44e-07 3.33e-08 3.86e-09 3.75e-10 3.00e-11 1.93e-12 9.51e-14
+[29] 3.40e-15 7.81e-17 8.67e-19</code></pre>
+</div>
+<div id="dessin-de-la-distribution-binomiale" class="section level2">
+<h2>Dessin de la distribution binomiale</h2>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1">n &lt;-<span class="st"> </span><span class="dv">30</span>; x &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span>n   <span class="co"># Define the X values from 0 to 14</span></a>
+<a class="sourceLine" id="cb57-2" data-line-number="2">y &lt;-<span class="st"> </span><span class="kw">dbinom</span>(<span class="dt">x =</span> x, <span class="dt">size =</span> n, <span class="dt">prob =</span> <span class="fl">0.25</span>) <span class="co"># Poisson density</span></a>
+<a class="sourceLine" id="cb57-3" data-line-number="3"><span class="kw">plot</span>(x,y) <span class="co"># Check the result</span></a></code></pre></div>
+<p><img src="figures/dbinom_plot-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Ce premier dessin n’est pas très élégant. Les points ne se détachent pas très bien du fond. Nous allons améliorer ce dessin.</p>
+</div>
+<div id="exercice-1-ameliorer-le-dessin-de-la-binomiale" class="section level2">
+<h2>Exercice 1 : améliorer le dessin de la binomiale</h2>
+<p>Utilisez les différentes option de la fonction <code>plot()</code> pour mieux mettre en évidence la forme de la distribution (résultat attendu sur la diapo suivante).</p>
+<ul>
+<li><p>Commencez par choisir un type de points (option <code>type</code>) qui donne l’impression de la hauteur de la probabilité (valeur <span class="math inline">\(Y\)</span>) correspondant à chaque point de l’axe <span class="math inline">\(X\)</span>.</p></li>
+<li><p>Ajoutez un titre (option <code>main</code>) et adaptez les légendes aux axes (options <code>xlab</code>et <code>ylab</code>)</p></li>
+<li><p>Colorez le dessin (option <code>col</code>)</p></li>
+<li><p>Epaississez les traits (option <code>lwd</code>)</p></li>
+<li><p>Ajoutez une grille horizontale (fonction <code>grid()</code>)</p></li>
+<li><p>Assurez-vous que les étiquettes des axes soient toutes horizontales (option <code>las</code>).</p></li>
+</ul>
+</div>
+<div id="resultat-attendu" class="section level2">
+<h2>Résultat attendu</h2>
+<p><img src="figures/dbinom_plot_improved-1.png" width="80%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="exercice-serie-de-courbes-binomiales" class="section level2">
+<h2>Exercice: série de courbes binomiales</h2>
+<p>Dessinez une série de courbes binomiales avec <span class="math inline">\(n=30\)</span> essais, et des valeurs de <span class="math inline">\(p\)</span> allant de <span class="math inline">\(0.1\)</span> à <span class="math inline">\(0.9\)</span> par pas de <span class="math inline">\(0.1\)</span>.</p>
+<p><img src="figures/binomial_series-1.png" width="60%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="exercice-convergence-de-la-binomiale-vers-une-normale" class="section level2">
+<h2>Exercice: convergence de la binomiale vers une normale</h2>
+<p><img src="figures/unnamed-chunk-18-1.png" width="80%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="avant-de-terminer-conservez-la-trace-de-votre-session" class="section level2">
+<h2>Avant de terminer : conservez la trace de votre session</h2>
+<p>La traçabilité constitue un enjeu essentiel en sciences. La fonction <strong><em>R</em></strong> <code>sessionInfo()</code> fournit un résumé des conditions d’une session de travail: version de R, système opérateur, bibliothèques de fonctions utilisées.</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
+<pre><code>R version 3.6.1 (2019-07-05)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS Mojave 10.14.6
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] knitr_1.23
+
+loaded via a namespace (and not attached):
+ [1] compiler_3.6.1  magrittr_1.5    tools_3.6.1     htmltools_0.3.6
+ [5] yaml_2.2.0      Rcpp_1.0.2      stringi_1.4.3   rmarkdown_1.14 
+ [9] stringr_1.4.0   xfun_0.8        digest_0.6.20   evaluate_0.14  </code></pre>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

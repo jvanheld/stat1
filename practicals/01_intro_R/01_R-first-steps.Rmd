@@ -1,21 +1,16 @@
 ---
-title: "Premiers pas avec R"
+title: "First steps with R"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  ioslides_presentation:
-    colortheme: dolphin
+  html_document:
+    self_contained: no
     fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    incremental: no
-    keep_md: no
-    smaller: yes
+    highlight: zenburn
     theme: cerulean
     toc: yes
-    widescreen: yes
+    toc_depth: 3
+    toc_float: yes
   slidy_presentation:
     self_contained: no
     fig_caption: yes
@@ -29,14 +24,19 @@ output:
     toc: yes
     toc_float: yes
     widescreen: yes
-  html_document:
-    self_contained: no
+  ioslides_presentation:
+    colortheme: dolphin
     fig_caption: yes
-    highlight: zenburn
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_md: no
+    smaller: yes
     theme: cerulean
     toc: yes
-    toc_depth: 3
-    toc_float: yes
+    widescreen: yes
   pdf_document:
     fig_caption: yes
     highlight: zenburn
@@ -89,61 +89,63 @@ setwd(dir.current)
 ```
 
 
-## But de ce tutoriel
+## Goal of this tutorial
 
-Le but de ce tutoriel est de décuvrir les éléments fondamentaux du langage de statistiques ***R***. 
+This tutorial aims at discovering the fundamental elements of the ***R*** statistical language. 
 
-Nous aborderons les éléments suivants: 
 
-- Manupulation de variables
+We will briefly survey the following concepts.
 
-    - Assignation d'une valeur à une variable
-    - Opérations basiques sur des nombres
-    - Structures de base: 
+- Handling variables
+
+    - Assigning a value to a variable
+    - Basic operations on numbers
+    - Basic data structures
     
-        - vecteurs, 
+        - vectors
         - matrices
         - data.frames
-        - listes
+        - lists
+    
+- Using functions
+    
+- Graph drawing
 
-- Fonctions
-
-- Graphiques
-
-- Distributions de probabilités
+- Distributions of probabilities
 
 
-## Utiliser ***R*** comme calculette
+## Using ***R*** as a calculator
 
-**Exemple:** une addition avec R.
+**Example:** an addition with R.
+
+At the R prompt, type the following instruction and press the Enter key. 
 
 ```{r}
 2 + 5
 ```
 
-Le résultat affiché ($7$) est précédé d'un indice ($[1]$). Nous verrons ultérieurement l'utilisation de ces indices. 
+The result ($7$) of the addition is printed out, preceded by an index $[1]$ (we will explain later why this index appears). 
 
-## Assignation d'une valeur à une variable
+## Assigning a value to a variable
 
-En ***R***, la combinaison de lettres "trait d'union" et "plus petit que" (`<-`) indique qu'il faut assigner une valeur à une variable.
+In ***R***, the succession of a the hyphen and "smaller than" characters (**`<-`**) serves to assign a value to a variable. If the variable does not exist yet, it is created.
 
-Ainsi, la commande suivante
+For example
 
 ```{r}
 a <- 2
 ```
 
-- crée une variable nommée $a$, 
-- lui assigner la valeur $2$, 
+creates a variable named $a$, and assigns it the value $2$. 
 
 
-Le résultat peut être affiché avec la fonction R `print()`. 
+The result can be displayed with the  `print()` function. 
 
 ```{r}
 print(a)
 ```
 
-**Remarque : ** R permet également d'utiliser le symbole "égale" (`=`) pour effectuer une assignation. Cependant, nous préférons utiliser l'opérateur explicite `<-`, qui est également préconisé sur les [recommandations de style](https://google.github.io/styleguide/Rguide.html).
+**Remark: ** R also allows to use the equal symbol (`=`) to assign a value to a variable. However, we prefer to use the original assignation (`<-`), to follow the [R style recommendations](https://google.github.io/styleguide/Rguide.html). 
 
 ## Conventions de notation en R
 

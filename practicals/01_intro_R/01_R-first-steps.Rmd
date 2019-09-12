@@ -4,6 +4,7 @@ author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
   html_document:
+    code_folding: show
     self_contained: no
     fig_caption: yes
     highlight: zenburn
@@ -147,19 +148,25 @@ print(a)
 
 **Remark: ** R also allows to use the equal symbol (`=`) to assign a value to a variable. However, we prefer to use the original assignation (`<-`), to follow the [R style recommendations](https://google.github.io/styleguide/Rguide.html). 
 
-## Conventions de notation en R
+## Naming and syntactic conventions in R
 
-Il existe plusieurs conventions possibles pour les noms de variables, de fonction, les opérateurs, etc. Chaque langage de programmation a ses propres standards et recommandations. Pour ce cours nous suivons les recommandations de **Google R style guide :**
+A priori, are several conventions can be envisaged to ensure a consistent naming of variables, functions, operators, etc. 
+
+For each programming language, the community of programmers defines some standard(s) to ensure a consistency of the published code. 
+
+For this course, we will follow the recommendations of hte **Google R style guide :**
 
 <https://google.github.io/styleguide/Rguide.xml>
 
-Cependant, pour les [identifiants de variables](https://google.github.io/styleguide/Rguide.xml#identifiers), la notation `variable.name` est traditionnelle mais pose problème aux personnes familières avec les langages orientés objet, et nous admettons donc la notation alternative en "dos de chameau" de type `variableName`. Attention, par convention les noms de variables commencent toujours par une minuscule. 
+However, for  [variable idendifiers](https://google.github.io/styleguide/Rguide.xml#identifiers), the traditional notation `variable.name` raises some issues for programmers who are familiar with object-oriented languages (e.g. java, python), where the point serves to apply a method (that follows the point) to an object (that precedes the point). 
 
-## Calculer avec des variables
+To avoid this confusion, we will use the alternative so-called *camel back* notation (e.g. `variableName`). Attention, according to this convention, variable names always start with a lower case, whereas function / method names start with an uppercase. 
 
-- créer une variable nommée $b$ avec une valeur $5$, 
-- calculer  $a + b$ et enregistrer le résultat dans une variable nommée $c$,
-- imprimer le résultat. 
+## Computing with variables
+
+- Create a variable named $b$ with value $5$
+- Compute  $a + b$ and store the result in a variable named $c$
+- Print the result
 
 ```{r}
 b <- 5
@@ -169,11 +176,16 @@ print(b)
 print(c)
 ```
 
-## Assignation $\neq$ égalité
+## Assignation $\neq$ equality
 
-- remplacer la valeur de $a$ par $3$, 
-- imprimer la valeur de $c$
-- est-il toujours vrai que $c = a + b$ ? Pourquoi ?
+### Exercise
+
+- Replace the value of $a$ by $3$
+- Print out the value of $c$
+- Is-it still true that $c = a + b$? Why?
+
+### Solution
+
 
 ```{r}
 a <- 3 ## Change the value of a
@@ -185,17 +197,18 @@ print(c)
 c == a + b
 ```
 
-Note: **`==`** indique qu'on teste si deux variables ont le même contenu. Le résultat est une valeur logique (TRUE ou FALSE).
+Interpretation: **`==`** tests whether two variables have the same content. The result is a logical value (TRUE or FALSE). 
 
-## Recalculer un résultat
+## Recomputing a result
 
-Quand on change le contenu d'une variable $a$, une autre variable ($c$) préalablement calculées à partir de cette variable n'a aucune raison d'être recalculée si on ne le demande pas explicitement. 
+When the content of a given variable $a$ is changed, another variable ($c$) previously computed from it has no reason to be recomputed if not explicitly requested. 
 
-**Exemple:** 
 
-- remplacer la valeur de $a$ par $27$, 
-- recalculer et imprimer la valeur de $c$
-- tester l'égalité $c = a + b$
+**Example:** 
+
+- Replace the value of $a$ by $27$, 
+- Recompute the value of $c$
+- Test the equality $c = a + b$
 
 ```{r}
 a <- 27 ## Change the value of a
@@ -206,19 +219,20 @@ print(c) ## Print the value of c
 c == a + b
 ```
 
-## Vecteurs de valeurs
+## Vectors of valuees
 
-En  ***R***, la structure de données la plus simple est un **vecteur**. 
+In  ***R***, the simplest data structure is a **vector**. 
 
-- Dans l'exemple précédent, la variable $a$ ne contenait qu'un seul nombre, mais en pratique elle était stockée dans un vecteur à une seule entrée. 
-- La fonction `print()` indique les indices en début de lignes, ce qui est utile quand on affiche des vecteurs avec un grand nombre d'entrées. 
+- In the previous example, the variable $a$ contained a single number, but in practice it was stored in a single-entry vector. 
+
+- The R function `print()` displays the indices at the beginning of each row. This is useful when displaying a vector with alarge number of entries. 
 
 
-**Exemple:** créer une variable nommée  ***trois.nombres***, et l'initialiser avec un vecteur dont les valeurs sont ***27***, ***12*** and ***3000***.
+**Example:** create a variable named  ***threeNumbers***, and initialise it with a vector containing the values ***27***, ***12*** and ***3000***.
 
-**Trucs:**
-- en R, les noms de variables peuvent comporter plusieurs mots séparés par des points; 
-- la fonction `c()` combine plusieurs valeurs en un vecteur.
+**Tips:**
+
+- the function `c()` combines several values into a vector.
 
 ```{r}
 trois.nombres <- c(27,12,3000)
@@ -226,16 +240,18 @@ print(trois.nombres)
 ```
 
 
-## Séries de nombres
+## Series of numbers
 
-La façon la plus simple de créer une série de nombre est d'utiliser le double point, qui génère toutes les valeurs entières entre deux limites. 
+The simplest way to create a series of number is to use the column character `:`, which generates all integer values between two boundaries; 
 
 ```{r}
 x <- 0:30
 print(x)
 ```
 
-**Note: ** si l'impression des valeurs du vecteur dépasse la largeur de la page, R passe à la ligne et indique en début de ligne l'indice du premier élément. Un ature exemple: 
+**Note: ** if the printout of the values extends beyond the width of the console, R goes to the next row but displays between square brackets the index of the first element at the beginning of the new row. 
+
+Another example
 
 
 ```{r}
@@ -243,11 +259,10 @@ print(58:157)
 ```
 
 
-## Calculer avec des vecteurs
+## Computing with vectors
 
 
-**R** permet de manipuler les vecteurs de façon extrêmement pratique. 
-Une opération sur un vecteur s'applique automatiquement à tous ses éléments. 
+**R** enables to handle vectors in a every practical ways: mathematical operations involving a vector automatically apply to all its elements.
 
 
 ```{r}
@@ -258,19 +273,22 @@ print(y)
 ```
 
 
-## Séquences de nombres
+## Sequences of numbers
 
-La fonction `seq()` permet de générer des séries de nombres avec un espacement arbitraire. 
+The function `seq()` enables to generate series of bumbers separated by an arbitrary interval. 
 
 ```{r}
 seq(from=-1, to=1, by=0.1)
 ```
 
-## Les variables peuvent contenir du texte
+## Variables can also contain text
 
-Les variables ne se limitent pas aux nombres: elles peuvent contenir du texte ("chaînes de caractères", "strings" en anglais).
+Variables are not restricted to numbers: they can contain text (strings of characters). 
 
-Ici également, nous utilisons la fonction `c()` pour combiner plusieurs chaînes de caractères dans un vecteur. 
+
+We will now use the function `c()` to combine severak character strings into a vector. 
+
+
 
 ```{r}
 # The # symbol allows to insert comments in R code
@@ -281,32 +299,41 @@ whoami <- c("Denis", "Siméon")
 print(whoami) # Comment at the end of a line
 ```
 
-## Concaténation de chaînes de caractèrs
+## Sring concatenation
 
-La fonction `paste()` permet de concaténer les variables contenant du texte. 
+The function `paste()` enables to concatenate string-containing variables.  
 
 ```{r}
 # To concatenate the elements of a vector in a single chain, use "collapse"
-prenom.complet <- paste(collapse = " ", whoami)
-print(prenom.complet)
+firstName <- paste(collapse = " ", whoami)
+print(firstName)
 
 # TO concatenate two vectors, use "sep"
-nom <- "Poisson"
-print(paste(sep = " ", prenom.complet, nom))
+lastName <- "Poisson"
+print(paste(sep = " ", firstName, lastName))
 
 ## Concatenate 2 vectors with 3 values each
-prenoms <- c("George", "Alfred", "Frédéric")
-noms <- c("Sand",  "Musset", "Chopin")
-paste(sep = " ", prenoms, noms)
+firstNames <- c("George", "Alfred", "Frédéric")
+lastNames <- c("Sand",  "Musset", "Chopin")
+fullNames <- paste(sep = " ", firstNames, lastNames)
+print(fullNames)
 
 ```
 
 
-## Fonctions graphiques
+Note that the `paste()` functions can also be used to concatenate all the values of a given vector, but this requires to use the `collapse` argument insteead of `sep`. 
 
-R comporte un grand nombre de fonctions permettant de dessiner des graphiques simples ou élaborés. Nous allons explorer ici les méthodes les plus simples. 
 
-## Nuage de points (scatter plot)
+```{r}
+paste(fullNames, collapse = ", ")
+```
+
+
+## Graphical functions
+
+R includes a large number of functions enabling to draw simple or elaborate graphics. We explore hereafter the simplest methods.
+
+## Scatter plot
 
 ```{r scatter_plot, fig.width=7, fig.height=5, fig.align="center"}
 x <- seq(from = -10, to = 10, by = 0.1)
@@ -314,7 +341,7 @@ y <- x^2
 plot(x,y)
 ```
 
-## Courbe (line plot)
+## Curve (line plot)
 
 
 ```{r line_plot, fig.width=7, fig.height=5, fig.align="center"}
@@ -324,27 +351,28 @@ plot(x,y, type="l")
 ```
 
 
-## Améliorer un dessin
+## Improving a graphics
 
-**Exercice: ** lisez l'aide de la fonction `plot()` en tapant `help(plot)`, et explorez les paramètres afin d'améliorer le graphique. Consultez également l'aide de la fonction `par()` (paramètres graphiques). 
+**Exercise: ** on the R console, type `help(plot)`, read the help of the `plot()` function, and explore the parameters in order to improve the previous graphics. Also consult the help, function for the graphical parameters (`help(par`). 
 
 
-Vous pouvez par exemple ajouter les éléments suivants: 
+You could for example, attempt to add the following elements to the figure: 
 
-- titre
-- étiquettes des axes
-- coloration de la courbe
-- épaisseur de la courbe
-- grille
-- tracer une droite horizontale sur l'axe $X=0$
-- tracer une droite verticale sur l'axe $Y=0$
-- tout autre paramètre qui améliorera la lisibilité du résultat
+- title
+- axis labels
+- line color
+- line width
+- grid
+- trace an horizontal line to mark the Y axis at coordinate $X=0$
+- trace a vertical line to mark the X axis at coordinate $Y=0$
+- any other parameter that will improve the readability / interpretability of the resulting Figure
 
-La solution se trouve sur la diapo suivante (ne regardez pas !). 
+An example of solution is shown in the next section (don't look before having done the exercise!).
 
 ## Solution
 
-Faites tourner le code-ci-dessous pour afficher le résultat. 
+Run the following chunk of code to generate the improved figure. 
+
 
 ```{r line_plot_improved, fig.width=7, fig.height=5, fig.align="center", echo = TRUE, eval = FALSE}
 x <- seq(from = -10, to = 10, by = 0.1)
@@ -365,11 +393,13 @@ abline(v = 0) # Vertical line
 ```
 
 
-## Distributions de probabilités
+## Probability distributions
 
-**R** fournit 4 fonctions pour chacune des des distributions de probabilité classiques. 
+For each one of the classical distribution of probabilities, **R** provides 4 functions-. 
 
-Avant d'aller plus loin, lisez attentivement l'aide pour les fonctions associées à la distribution binomiale.
+
+Before going any further, read carefully the help for the functions associated to the binomial distribution. 
+
 
 ```{r binomial_help}
 help("Binomial")
@@ -378,13 +408,17 @@ help("Binomial")
 
 **Questions:** 
 
-1. Quelle est la fonction R qui permet de calculer la fonction de masse de probabilité (également appelée "densité") ?
-2. Quelle fonction R correspond à la fonction de répartition (également appelée "fonction de distribution") ?
-2. A quoi sert la fonction *rbinom()* ?
+1. Which R function enables to compuote the probabilty mass function (also called "density" for convenience)?
 
-## Graphe de la binomiale
+2. Which R function corresponds to the cumulative distribution function (CDF)?
 
-**Exercice:** en supposant des nucléotides équiprobables et indépendants, dessiner la distribution de probabilité du nombre d'adénines pour un oligonucléotide de taille 30. 
+2. What is the role of the function *rbinom()*?
+
+## Drawing the binomial distribution
+
+
+**Exercise:** assuming a DNA seqsuence with equiprobable nucleotides, draw the expected distribution for the number of Adenin ($A$) residues in an  oligonucleotide of length 30 (count the adenines on a single strand) 
+
 
 - fonction de masse de la probabilité
 - fonction de répartition

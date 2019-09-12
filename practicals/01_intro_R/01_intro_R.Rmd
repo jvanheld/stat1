@@ -209,18 +209,19 @@ c == a + b
 En  ***R***, la structure de données la plus simple est un **vecteur**. 
 
 - Dans l'exemple précédent, la variable $a$ ne contenait qu'un seul nombre, mais en pratique elle était stockée dans un vecteur à une seule entrée. 
-- La fonction `print()` indique les indices en début de lignes, ce qui est utile quand on affiche des vecteurs avec un grand nombre d'entrées. 
+
+- La fonction `print()` affiche les indices en début de lignes, ce qui est utile quand on affiche des vecteurs avec un grand nombre d'entrées. 
 
 
-**Exemple:** créer une variable nommée  ***trois.nombres***, et l'initialiser avec un vecteur dont les valeurs sont ***27***, ***12*** and ***3000***.
+**Exemple:** créer une variable nommée  ***troisNombres***, et l'initialiser avec un vecteur dont les valeurs sont ***27***, ***12*** et ***3000***.
 
 **Trucs:**
-- en R, les noms de variables peuvent comporter plusieurs mots séparés par des points; 
+
 - la fonction `c()` combine plusieurs valeurs en un vecteur.
 
 ```{r}
-trois.nombres <- c(27,12,3000)
-print(trois.nombres)
+troisNombres <- c(27,12,3000)
+print(troisNombres)
 ```
 
 
@@ -233,7 +234,9 @@ x <- 0:30
 print(x)
 ```
 
-**Note: ** si l'impression des valeurs du vecteur dépasse la largeur de la page, R passe à la ligne et indique en début de ligne l'indice du premier élément. Un ature exemple: 
+**Note: ** si l'impression des valeurs du vecteur dépasse la largeur de la console, R passe à la ligne et affiche en début de ligne  l'indice du premier élément. 
+
+Un autre exemple: 
 
 
 ```{r}
@@ -258,7 +261,7 @@ print(y)
 
 ## Séquences de nombres
 
-La fonction `seq()` permet de générer des séries de nombres avec un espacement arbitraire. 
+La fonction `seq()` permet de générer des séries de nombres séparés par un intervalle arbitraire. 
 
 ```{r}
 seq(from=-1, to=1, by=0.1)
@@ -285,18 +288,28 @@ La fonction `paste()` permet de concaténer les variables contenant du texte.
 
 ```{r}
 # To concatenate the elements of a vector in a single chain, use "collapse"
-prenom.complet <- paste(collapse = " ", whoami)
-print(prenom.complet)
+firstName <- paste(collapse = " ", whoami)
+print(firstName)
 
 # TO concatenate two vectors, use "sep"
-nom <- "Poisson"
-print(paste(sep = " ", prenom.complet, nom))
+lastName <- "Poisson"
+print(paste(sep = " ", firstName, lastName))
 
 ## Concatenate 2 vectors with 3 values each
-prenoms <- c("George", "Alfred", "Frédéric")
-noms <- c("Sand",  "Musset", "Chopin")
-paste(sep = " ", prenoms, noms)
+firstNames <- c("George", "Alfred", "Frédéric")
+lastNames <- c("Sand",  "Musset", "Chopin")
+fullNames <- paste(sep = " ", firstNames, lastNames)
+print(fullNames)
 
+```
+
+
+
+Notez que la fonction `paste()` peut aussi s'utiliser pour concaténer toutes les valeurs d'un vecteur, mais ceci requiert de définir l'argument  `collapse` à la place de `sep`. 
+
+
+```{r}
+paste(fullNames, collapse = ", ")
 ```
 
 
@@ -342,7 +355,7 @@ La solution se trouve sur la diapo suivante (ne regardez pas !).
 
 ## Solution
 
-Faites tourner le code-ci-dessous pour afficher le résultat. 
+Exécutez le bloc de code-ci-dessous pour afficher le résultat. 
 
 ```{r line_plot_improved, fig.width=7, fig.height=5, fig.align="center", echo = TRUE, eval = FALSE}
 x <- seq(from = -10, to = 10, by = 0.1)

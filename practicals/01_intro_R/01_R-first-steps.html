@@ -26,6 +26,7 @@
 <link href="01_R-first-steps_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="01_R-first-steps_files/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="01_R-first-steps_files/navigation-1.1/tabsets.js"></script>
+<script src="01_R-first-steps_files/navigation-1.1/codefolding.js"></script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -91,6 +92,15 @@ code span.va { } /* Variable */
 code span.vs { color: #cc9393; } /* VerbatimString */
 code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
 
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
 </style>
 <script>
 // apply pandoc div.sourceCode style to pre.sourceCode instead
@@ -237,6 +247,9 @@ summary {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -320,6 +333,14 @@ div.tocify {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">First steps with R</h1>
@@ -366,23 +387,26 @@ div.tocify {
 <p>For example</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="dv">2</span></a></code></pre></div>
 <p>creates a variable named <span class="math inline">\(a\)</span>, and assigns it the value <span class="math inline">\(2\)</span>.</p>
-<p>The result can be displayed with the <strong><em>print()</em></strong> function.</p>
+<p>The result can be displayed with the <code>print()</code> function.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">print</span>(a)</a></code></pre></div>
 <pre><code>[1] 2</code></pre>
-<p><strong>Remarque : </strong> R permet également d’utiliser le symbole <code>=</code> pour effectuer une assignation. Cependant, nous préférons utiliser l’opérateur explicite <code>&lt;-</code>, qui est également préconisé sur les guides de style</p>
+<p><strong>Remark: </strong> R also allows to use the equal symbol (<code>=</code>) to assign a value to a variable. However, we prefer to use the original assignation (<code>&lt;-</code>), to follow the <a href="https://google.github.io/styleguide/Rguide.html">R style recommendations</a>.</p>
 </div>
-<div id="conventions-de-notation-en-r" class="section level2">
-<h2>Conventions de notation en R</h2>
-<p>Il existe plusieurs conventions possibles pour les noms de variables, de fonction, les opérateurs, etc. Chaque langage de programmation a ses propres standards et recommandations. Pour ce cours nous suivons les recommandations de <strong>Google R style guide :</strong></p>
+<div id="naming-and-syntactic-conventions-in-r" class="section level2">
+<h2>Naming and syntactic conventions in R</h2>
+<p>A priori, are several conventions can be envisaged to ensure a consistent naming of variables, functions, operators, etc.</p>
+<p>For each programming language, the community of programmers defines some standard(s) to ensure a consistency of the published code.</p>
+<p>For this course, we will follow the recommendations of hte <strong>Google R style guide :</strong></p>
 <p><a href="https://google.github.io/styleguide/Rguide.xml" class="uri">https://google.github.io/styleguide/Rguide.xml</a></p>
-<p>Cependant, pour les <a href="https://google.github.io/styleguide/Rguide.xml#identifiers">identifiants de variables</a>, la notation <code>variable.name</code> est traditionnelle mais pose problème aux personnes familières avec les langages orientés objet, et nous admettons donc la notation alternative en “dos de chameau” de type <code>variableName</code>. Attention, par convention les noms de variables commencent toujours par une minuscule.</p>
+<p>However, for <a href="https://google.github.io/styleguide/Rguide.xml#identifiers">variable idendifiers</a>, the traditional notation <code>variable.name</code> raises some issues for programmers who are familiar with object-oriented languages (e.g. java, python), where the point serves to apply a method (that follows the point) to an object (that precedes the point).</p>
+<p>To avoid this confusion, we will use the alternative so-called <em>camel back</em> notation (e.g. <code>variableName</code>). Attention, according to this convention, variable names always start with a lower case, whereas function / method names start with an uppercase.</p>
 </div>
-<div id="calculer-avec-des-variables" class="section level2">
-<h2>Calculer avec des variables</h2>
+<div id="computing-with-variables" class="section level2">
+<h2>Computing with variables</h2>
 <ul>
-<li>créer une variable nommée <span class="math inline">\(b\)</span> avec une valeur <span class="math inline">\(5\)</span>,</li>
-<li>calculer <span class="math inline">\(a + b\)</span> et enregistrer le résultat dans une variable nommée <span class="math inline">\(c\)</span>,</li>
-<li>imprimer le résultat.</li>
+<li>Create a variable named <span class="math inline">\(b\)</span> with value <span class="math inline">\(5\)</span></li>
+<li>Compute <span class="math inline">\(a + b\)</span> and store the result in a variable named <span class="math inline">\(c\)</span></li>
+<li>Print the result</li>
 </ul>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">b &lt;-<span class="st"> </span><span class="dv">5</span></a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">c &lt;-<span class="st"> </span>a <span class="op">+</span><span class="st"> </span>b</a>
@@ -393,13 +417,18 @@ div.tocify {
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">print</span>(c)</a></code></pre></div>
 <pre><code>[1] 7</code></pre>
 </div>
-<div id="assignation-neq-egalite" class="section level2">
-<h2>Assignation <span class="math inline">\(\neq\)</span> égalité</h2>
+<div id="assignation-neq-equality" class="section level2">
+<h2>Assignation <span class="math inline">\(\neq\)</span> equality</h2>
+<div id="exercise" class="section level3">
+<h3>Exercise</h3>
 <ul>
-<li>remplacer la valeur de <span class="math inline">\(a\)</span> par <span class="math inline">\(3\)</span>,</li>
-<li>imprimer la valeur de <span class="math inline">\(c\)</span></li>
-<li>est-il toujours vrai que <span class="math inline">\(c = a + b\)</span> ? Pourquoi ?</li>
+<li>Replace the value of <span class="math inline">\(a\)</span> by <span class="math inline">\(3\)</span></li>
+<li>Print out the value of <span class="math inline">\(c\)</span></li>
+<li>Is-it still true that <span class="math inline">\(c = a + b\)</span>? Why?</li>
 </ul>
+</div>
+<div id="solution" class="section level3">
+<h3>Solution</h3>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="dv">3</span> <span class="co">## Change the value of a</span></a>
 <a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw">print</span>(a)</a></code></pre></div>
 <pre><code>[1] 3</code></pre>
@@ -410,16 +439,17 @@ div.tocify {
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="co">## Check whether c equals a + b</span></a>
 <a class="sourceLine" id="cb18-2" data-line-number="2">c <span class="op">==</span><span class="st"> </span>a <span class="op">+</span><span class="st"> </span>b</a></code></pre></div>
 <pre><code>[1] FALSE</code></pre>
-<p>Note: <strong><code>==</code></strong> indique qu’on teste si deux variables ont le même contenu. Le résultat est une valeur logique (TRUE ou FALSE).</p>
+<p>Interpretation: <strong><code>==</code></strong> tests whether two variables have the same content. The result is a logical value (TRUE or FALSE).</p>
 </div>
-<div id="recalculer-un-resultat" class="section level2">
-<h2>Recalculer un résultat</h2>
-<p>Quand on change le contenu d’une variable <span class="math inline">\(a\)</span>, une autre variable (<span class="math inline">\(c\)</span>) préalablement calculées à partir de cette variable n’a aucune raison d’être recalculée si on ne le demande pas explicitement.</p>
-<p><strong>Exemple:</strong></p>
+</div>
+<div id="recomputing-a-result" class="section level2">
+<h2>Recomputing a result</h2>
+<p>When the content of a given variable <span class="math inline">\(a\)</span> is changed, another variable (<span class="math inline">\(c\)</span>) previously computed from it has no reason to be recomputed if not explicitly requested.</p>
+<p><strong>Example:</strong></p>
 <ul>
-<li>remplacer la valeur de <span class="math inline">\(a\)</span> par <span class="math inline">\(27\)</span>,</li>
-<li>recalculer et imprimer la valeur de <span class="math inline">\(c\)</span></li>
-<li>tester l’égalité <span class="math inline">\(c = a + b\)</span></li>
+<li>Replace the value of <span class="math inline">\(a\)</span> by <span class="math inline">\(27\)</span>,</li>
+<li>Recompute the value of <span class="math inline">\(c\)</span></li>
+<li>Test the equality <span class="math inline">\(c = a + b\)</span></li>
 </ul>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="dv">27</span> <span class="co">## Change the value of a</span></a>
 <a class="sourceLine" id="cb20-2" data-line-number="2">c &lt;-<span class="st"> </span>a <span class="op">+</span><span class="st"> </span>b</a>
@@ -429,27 +459,31 @@ div.tocify {
 <a class="sourceLine" id="cb22-2" data-line-number="2">c <span class="op">==</span><span class="st"> </span>a <span class="op">+</span><span class="st"> </span>b</a></code></pre></div>
 <pre><code>[1] TRUE</code></pre>
 </div>
-<div id="vecteurs-de-valeurs" class="section level2">
-<h2>Vecteurs de valeurs</h2>
-<p>En <strong><em>R</em></strong>, la structure de données la plus simple est un <strong>vecteur</strong>.</p>
+<div id="vectors-of-valuees" class="section level2">
+<h2>Vectors of valuees</h2>
+<p>In <strong><em>R</em></strong>, the simplest data structure is a <strong>vector</strong>.</p>
 <ul>
-<li>Dans l’exemple précédent, la variable <span class="math inline">\(a\)</span> ne contenait qu’un seul nombre, mais en pratique elle était stockée dans un vecteur à une seule entrée.</li>
-<li>La fonction <code>print()</code> indique les indices en début de lignes, ce qui est utile quand on affiche des vecteurs avec un grand nombre d’entrées.</li>
+<li><p>In the previous example, the variable <span class="math inline">\(a\)</span> contained a single number, but in practice it was stored in a single-entry vector.</p></li>
+<li><p>The R function <code>print()</code> displays the indices at the beginning of each row. This is useful when displaying a vector with alarge number of entries.</p></li>
 </ul>
-<p><strong>Exemple:</strong> créer une variable nommée <strong><em>trois.nombres</em></strong>, et l’initialiser avec un vecteur dont les valeurs sont <strong><em>27</em></strong>, <strong><em>12</em></strong> and <strong><em>3000</em></strong>.</p>
-<p><strong>Trucs:</strong> - en R, les noms de variables peuvent comporter plusieurs mots séparés par des points; - la fonction <code>c()</code> combine plusieurs valeurs en un vecteur.</p>
+<p><strong>Example:</strong> create a variable named <strong><em>threeNumbers</em></strong>, and initialise it with a vector containing the values <strong><em>27</em></strong>, <strong><em>12</em></strong> and <strong><em>3000</em></strong>.</p>
+<p><strong>Tips:</strong></p>
+<ul>
+<li>the function <code>c()</code> combines several values into a vector.</li>
+</ul>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">trois.nombres &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">27</span>,<span class="dv">12</span>,<span class="dv">3000</span>)</a>
 <a class="sourceLine" id="cb24-2" data-line-number="2"><span class="kw">print</span>(trois.nombres)</a></code></pre></div>
 <pre><code>[1]   27   12 3000</code></pre>
 </div>
-<div id="series-de-nombres" class="section level2">
-<h2>Séries de nombres</h2>
-<p>La façon la plus simple de créer une série de nombre est d’utiliser le double point, qui génère toutes les valeurs entières entre deux limites.</p>
+<div id="series-of-numbers" class="section level2">
+<h2>Series of numbers</h2>
+<p>The simplest way to create a series of number is to use the column character <code>:</code>, which generates all integer values between two boundaries;</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span><span class="dv">30</span></a>
 <a class="sourceLine" id="cb26-2" data-line-number="2"><span class="kw">print</span>(x)</a></code></pre></div>
 <pre><code> [1]  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22
 [24] 23 24 25 26 27 28 29 30</code></pre>
-<p><strong>Note: </strong> si l’impression des valeurs du vecteur dépasse la largeur de la page, R passe à la ligne et indique en début de ligne l’indice du premier élément. Un ature exemple:</p>
+<p><strong>Note: </strong> if the printout of the values extends beyond the width of the console, R goes to the next row but displays between square brackets the index of the first element at the beginning of the new row.</p>
+<p>Another example</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw">print</span>(<span class="dv">58</span><span class="op">:</span><span class="dv">157</span>)</a></code></pre></div>
 <pre><code>  [1]  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72  73  74
  [18]  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90  91
@@ -458,8 +492,8 @@ div.tocify {
  [69] 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142
  [86] 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157</code></pre>
 </div>
-<div id="calculer-avec-des-vecteurs" class="section level2">
-<h2>Calculer avec des vecteurs</h2>
+<div id="computing-with-vectors" class="section level2">
+<h2>Computing with vectors</h2>
 <p><strong>R</strong> permet de manipuler les vecteurs de façon extrêmement pratique. Une opération sur un vecteur s’applique automatiquement à tous ses éléments.</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span> <span class="co"># Define a series from 1 to 10</span></a>
 <a class="sourceLine" id="cb30-2" data-line-number="2"><span class="kw">print</span>(x)</a></code></pre></div>
@@ -538,7 +572,7 @@ div.tocify {
 </ul>
 <p>La solution se trouve sur la diapo suivante (ne regardez pas !).</p>
 </div>
-<div id="solution" class="section level2">
+<div id="solution-1" class="section level2">
 <h2>Solution</h2>
 <p>Faites tourner le code-ci-dessous pour afficher le résultat.</p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">-10</span>, <span class="dt">to =</span> <span class="dv">10</span>, <span class="dt">by =</span> <span class="fl">0.1</span>)</a>
@@ -712,6 +746,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {

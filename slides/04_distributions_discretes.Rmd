@@ -3,17 +3,20 @@ title: "Distributions discrètes"
 author: "Jacques van Helden"
 date: "`r Sys.Date()`"
 output:
-  slidy_presentation:
+  ioslides_presentation:
+    css: slides.css
     fig_caption: yes
     fig_height: 6
     fig_width: 7
     highlight: tango
-    incremental: no
-    keep_md: yes
     smaller: yes
-    theme: cerulean
     toc: yes
     widescreen: yes
+  revealjs::revealjs_presentation:
+    theme: night
+    transition: none
+    self_contained: true
+    css: ../slides.css
   html_document:
     fig_caption: yes
     fig_height: 6
@@ -44,13 +47,15 @@ output:
     highlight: zenburn
     toc: yes
     toc_depth: 3
-  ioslides_presentation:
-    css: slides.css
+  slidy_presentation:
     fig_caption: yes
     fig_height: 6
     fig_width: 7
     highlight: tango
+    incremental: no
+    keep_md: yes
     smaller: yes
+    theme: cerulean
     toc: yes
     widescreen: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
@@ -79,7 +84,6 @@ dir.slides <- file.path(dir.main, "slides")
 setwd(dir.slides)
 ```
 
-# Eléments de théorie
 
 ## Distribution de probabilité discrète
 
@@ -667,7 +671,7 @@ En 1943, Salvador Luria et Max Delbruck démontrent que les mutations ne sont pa
 <font color="red">A FAIRE</font>
 
 
-# Exercices
+## Exercices
 
 - [html](04_distributions_discretes_exercices.html)
 - [pdf](04_distributions_discretes_exercices.pdf)

@@ -1,10 +1,12 @@
 ---
 title: "Exercices: distributions discrètes"
 author: "Jacques van Helden"
-date: "`r Sys.Date()`"
+date: '`r Sys.Date()`'
 output:
   slidy_presentation:
-    self_contained: no
+    smart: no
+    slide_level: 2
+    self_contained: yes
     fig_caption: yes
     fig_height: 6
     fig_width: 7
@@ -13,27 +15,28 @@ output:
     keep_md: yes
     smaller: yes
     theme: cerulean
+    toc: yes
+    widescreen: yes
+  ioslides_presentation:
+    slide_level: 2
+    self_contained: no
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    smaller: yes
     toc: yes
     widescreen: yes
   html_document:
     self_contained: no
     fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    incremental: no
-    keep_md: yes
-    smaller: yes
+    highlight: zenburn
     theme: cerulean
     toc: yes
     toc_depth: 3
     toc_float: yes
-    widescreen: yes
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: no
-    toc_depth: 3
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -46,16 +49,16 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
-  ioslides_presentation:
-    self_contained: no
-    css: slides.css
+  pdf_document:
     fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    smaller: yes
+    highlight: zenburn
     toc: yes
-    widescreen: yes
+    toc_depth: 3
+  revealjs::revealjs_presentation:
+    theme: night
+    transition: none
+    self_contained: true
+    css: ../slides.css
 font-import: http://fonts.googleapis.com/css?family=Risque
 subtitle: Probabilités et statistique pour la biologie (STAT1)
 font-family: Garamond

@@ -3,13 +3,17 @@ title: "Echantillonnage et estimation"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  html_document:
+  slidy_presentation:
     fig_caption: yes
-    highlight: zenburn
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
     theme: cerulean
     toc: yes
-    toc_depth: 3
-    toc_float: yes
+    widescreen: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -36,17 +40,13 @@ output:
     highlight: zenburn
     toc: yes
     toc_depth: 3
-  slidy_presentation:
+  html_document:
     fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    incremental: no
-    keep_md: yes
-    smaller: yes
+    highlight: zenburn
     theme: cerulean
     toc: yes
-    widescreen: yes
+    toc_depth: 3
+    toc_float: yes
   word_document:
     toc: yes
     toc_depth: 3

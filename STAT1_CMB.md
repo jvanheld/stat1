@@ -26,7 +26,7 @@
 |  | | Exercises | Concepts of probabilities | [[html](slides/03_concepts_proba_exercises.html)] [[pdf](slides/03_concepts_proba_exercises.pdf)] [[Rmd](slides/03_concepts_proba_exercises.Rmd)] |
 |  | | Lecture | Discrete distributions | [[html](slides/04_distributions_discretes.html)] [[pdf](slides/04_distributions_discretes.pdf)] [[Rmd](slides/04_distributions_discretes.Rmd)] |
 |  |  | Exercises | Discrete distributions | [[html](slides/04_distributions_discretes_exercises.html)] [[pdf](slides/04_distributions_discretes_exercises.pdf)] [[Rmd](slides/04_distributions_discretes_exercises.Rmd)] |
-| 13/09 | 14h - 17h | Practicals | First steps with R | [[html](practicals/01_intro_R/01_intro_R.html)] [[pdf](practicals/01_intro_R/01_intro_R.pdf)] [[Rmd](practicals/01_intro_R/01_intro_R.Rmd)] |
+| 13/09 | 14h - 17h | Practicals | First steps with R | [[html](practicals/01_intro_R/01_R-first-steps.html)] [[pdf](practicals/01_intro_R/01_R-first-steps.pdf)] [[Rmd](practicals/01_intro_R/01_R-first-steps.Rmd)] |
 
 ****************************************************************
 
@@ -34,7 +34,7 @@
 
 | Pradctical | Contents | Teaching material | 
 |------|---------------------------------|--------------------------|
-| TP1 | First steps with R | Slides: [html](practicals/01_intro_R/01_intro_R.html) [pdf](practicals/01_intro_R/01_intro_R.pdf) [Rmd](practicals/01_intro_R/01_intro_R.Rmd) |
+| TP1 | First steps with R | Slides: [html](practicals/01_intro_R/01_R-first-steps.html) [pdf](practicals/01_intro_R/01_R-first-steps.pdf) [Rmd](practicals/01_intro_R/01_R-first-steps.Rmd) |
 | TP2 | Table d'annotations génomiques | Slides: [html](practicals/02_yeast_annotations/02_yeast_annotations.html) [pdf](practicals/02_yeast_annotations/02_yeast_annotations.pdf) [Rmd](practicals/02_yeast_annotations/02_yeast_annotations.Rmd) |
 | TP3 | Tests de comparaison de moyennes | Slides: [html](practicals/03_test_comparaison_moyennes/03_test_comparaison_moyennes.html) [pdf](practicals/03_test_comparaison_moyennes/03_test_comparaison_moyennes.pdf) [Rmd](practicals/03_test_comparaison_moyennes/03_test_comparaison_moyennes.Rmd) |
 

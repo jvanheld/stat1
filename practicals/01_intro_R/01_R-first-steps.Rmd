@@ -12,19 +12,6 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
-  slidy_presentation:
-    self_contained: no
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    incremental: no
-    keep_md: no
-    smaller: yes
-    theme: cerulean
-    toc: yes
-    toc_float: yes
-    widescreen: yes
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -55,6 +42,19 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
+  slidy_presentation:
+    self_contained: no
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: no
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    toc_float: yes
+    widescreen: yes
   word_document:
     toc: yes
     toc_depth: 3
@@ -219,7 +219,7 @@ print(c) ## Print the value of c
 c == a + b
 ```
 
-## Vectors of valuees
+## Vectors of values
 
 In  ***R***, the simplest data structure is a **vector**. 
 
@@ -235,8 +235,8 @@ In  ***R***, the simplest data structure is a **vector**.
 - the function `c()` combines several values into a vector.
 
 ```{r}
-trois.nombres <- c(27,12,3000)
-print(trois.nombres)
+threeNumbers <- c(27,12,3000)
+print(threeNumbers)
 ```
 
 
@@ -417,7 +417,7 @@ help("Binomial")
 ## Drawing the binomial distribution
 
 
-**Exercise:** assuming a DNA seqsuence with equiprobable nucleotides, draw the expected distribution for the number of Adenin ($A$) residues in an  oligonucleotide of length 30 (count the adenines on a single strand) 
+**Exercise:** assuming a DNA seqsuence with equiprobable nucleotides, draw the expected distribution for the number of Adenin ($A$) residues in an  oligonucleotide of length 30 (count the adenines on a single strand).  
 
 
 - fonction de masse de la probabilité
@@ -526,7 +526,7 @@ grid(lty = "solid", col="gray")
 
 Dessinez une série de courbes binomiales avec $n=30$ essais, et des valeurs de $p$ allant de $0.1$ à $0.9$ par pas de $0.1$. 
 
-```{r binomial_series, fig.width = 12, fig.height = 6, out.width = "60%", echo = FALSE}
+```{r binomial_series, fig.width = 12, fig.height = 9, out.width = "60%", echo = FALSE}
 par(mfrow = c(3,3))
 n <- 30  # Number of trials
 x <- 0:n # Number of successes
@@ -545,7 +545,7 @@ par(mfrow = c(1,1))
 
 ## Exercice: convergence de la binomiale vers une normale
 
-```{r fig.width = 10, fig.height = 8, out.width="80%", echo = FALSE}
+```{r fig.width = 12, fig.height = 6, out.width="60%", echo = FALSE}
 n <- 10
 p <- 0.4
 

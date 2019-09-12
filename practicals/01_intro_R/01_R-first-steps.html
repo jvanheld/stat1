@@ -459,8 +459,8 @@ div.tocify {
 <a class="sourceLine" id="cb22-2" data-line-number="2">c <span class="op">==</span><span class="st"> </span>a <span class="op">+</span><span class="st"> </span>b</a></code></pre></div>
 <pre><code>[1] TRUE</code></pre>
 </div>
-<div id="vectors-of-valuees" class="section level2">
-<h2>Vectors of valuees</h2>
+<div id="vectors-of-values" class="section level2">
+<h2>Vectors of values</h2>
 <p>In <strong><em>R</em></strong>, the simplest data structure is a <strong>vector</strong>.</p>
 <ul>
 <li><p>In the previous example, the variable <span class="math inline">\(a\)</span> contained a single number, but in practice it was stored in a single-entry vector.</p></li>
@@ -471,8 +471,8 @@ div.tocify {
 <ul>
 <li>the function <code>c()</code> combines several values into a vector.</li>
 </ul>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">trois.nombres &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">27</span>,<span class="dv">12</span>,<span class="dv">3000</span>)</a>
-<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="kw">print</span>(trois.nombres)</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">threeNumbers &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">27</span>,<span class="dv">12</span>,<span class="dv">3000</span>)</a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="kw">print</span>(threeNumbers)</a></code></pre></div>
 <pre><code>[1]   27   12 3000</code></pre>
 </div>
 <div id="series-of-numbers" class="section level2">
@@ -494,7 +494,7 @@ div.tocify {
 </div>
 <div id="computing-with-vectors" class="section level2">
 <h2>Computing with vectors</h2>
-<p><strong>R</strong> permet de manipuler les vecteurs de façon extrêmement pratique. Une opération sur un vecteur s’applique automatiquement à tous ses éléments.</p>
+<p><strong>R</strong> enables to handle vectors in a every practical ways: mathematical operations involving a vector automatically apply to all its elements.</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span> <span class="co"># Define a series from 1 to 10</span></a>
 <a class="sourceLine" id="cb30-2" data-line-number="2"><span class="kw">print</span>(x)</a></code></pre></div>
 <pre><code> [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
@@ -502,17 +502,17 @@ div.tocify {
 <a class="sourceLine" id="cb32-2" data-line-number="2"><span class="kw">print</span>(y)</a></code></pre></div>
 <pre><code> [1]   1   4   9  16  25  36  49  64  81 100</code></pre>
 </div>
-<div id="sequences-de-nombres" class="section level2">
-<h2>Séquences de nombres</h2>
-<p>La fonction <code>seq()</code> permet de générer des séries de nombres avec un espacement arbitraire.</p>
+<div id="sequences-of-numbers" class="section level2">
+<h2>Sequences of numbers</h2>
+<p>The function <code>seq()</code> enables to generate series of bumbers separated by an arbitrary interval.</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">seq</span>(<span class="dt">from=</span><span class="op">-</span><span class="dv">1</span>, <span class="dt">to=</span><span class="dv">1</span>, <span class="dt">by=</span><span class="fl">0.1</span>)</a></code></pre></div>
 <pre><code> [1] -1.0 -0.9 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3 -0.2 -0.1  0.0  0.1  0.2  0.3
 [15]  0.4  0.5  0.6  0.7  0.8  0.9  1.0</code></pre>
 </div>
-<div id="les-variables-peuvent-contenir-du-texte" class="section level2">
-<h2>Les variables peuvent contenir du texte</h2>
-<p>Les variables ne se limitent pas aux nombres: elles peuvent contenir du texte (“chaînes de caractères”, “strings” en anglais).</p>
-<p>Ici également, nous utilisons la fonction <code>c()</code> pour combiner plusieurs chaînes de caractères dans un vecteur.</p>
+<div id="variables-can-also-contain-text" class="section level2">
+<h2>Variables can also contain text</h2>
+<p>Variables are not restricted to numbers: they can contain text (strings of characters).</p>
+<p>We will now use the function <code>c()</code> to combine severak character strings into a vector.</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="co"># The # symbol allows to insert comments in R code</span></a>
 <a class="sourceLine" id="cb36-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb36-3" data-line-number="3"><span class="co"># Define  a vector named &quot;whoami&quot;, and </span></a>
@@ -521,90 +521,94 @@ div.tocify {
 <a class="sourceLine" id="cb36-6" data-line-number="6"><span class="kw">print</span>(whoami) <span class="co"># Comment at the end of a line</span></a></code></pre></div>
 <pre><code>[1] &quot;Denis&quot;  &quot;Siméon&quot;</code></pre>
 </div>
-<div id="concatenation-de-chaines-de-caracters" class="section level2">
-<h2>Concaténation de chaînes de caractèrs</h2>
-<p>La fonction <code>paste()</code> permet de concaténer les variables contenant du texte.</p>
+<div id="sring-concatenation" class="section level2">
+<h2>Sring concatenation</h2>
+<p>The function <code>paste()</code> enables to concatenate string-containing variables.</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="co"># To concatenate the elements of a vector in a single chain, use &quot;collapse&quot;</span></a>
-<a class="sourceLine" id="cb38-2" data-line-number="2">prenom.complet &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="dt">collapse =</span> <span class="st">&quot; &quot;</span>, whoami)</a>
-<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="kw">print</span>(prenom.complet)</a></code></pre></div>
+<a class="sourceLine" id="cb38-2" data-line-number="2">firstName &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="dt">collapse =</span> <span class="st">&quot; &quot;</span>, whoami)</a>
+<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="kw">print</span>(firstName)</a></code></pre></div>
 <pre><code>[1] &quot;Denis Siméon&quot;</code></pre>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="co"># TO concatenate two vectors, use &quot;sep&quot;</span></a>
-<a class="sourceLine" id="cb40-2" data-line-number="2">nom &lt;-<span class="st"> &quot;Poisson&quot;</span></a>
-<a class="sourceLine" id="cb40-3" data-line-number="3"><span class="kw">print</span>(<span class="kw">paste</span>(<span class="dt">sep =</span> <span class="st">&quot; &quot;</span>, prenom.complet, nom))</a></code></pre></div>
+<a class="sourceLine" id="cb40-2" data-line-number="2">lastName &lt;-<span class="st"> &quot;Poisson&quot;</span></a>
+<a class="sourceLine" id="cb40-3" data-line-number="3"><span class="kw">print</span>(<span class="kw">paste</span>(<span class="dt">sep =</span> <span class="st">&quot; &quot;</span>, firstName, lastName))</a></code></pre></div>
 <pre><code>[1] &quot;Denis Siméon Poisson&quot;</code></pre>
 <div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="co">## Concatenate 2 vectors with 3 values each</span></a>
-<a class="sourceLine" id="cb42-2" data-line-number="2">prenoms &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;George&quot;</span>, <span class="st">&quot;Alfred&quot;</span>, <span class="st">&quot;Frédéric&quot;</span>)</a>
-<a class="sourceLine" id="cb42-3" data-line-number="3">noms &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Sand&quot;</span>,  <span class="st">&quot;Musset&quot;</span>, <span class="st">&quot;Chopin&quot;</span>)</a>
-<a class="sourceLine" id="cb42-4" data-line-number="4"><span class="kw">paste</span>(<span class="dt">sep =</span> <span class="st">&quot; &quot;</span>, prenoms, noms)</a></code></pre></div>
+<a class="sourceLine" id="cb42-2" data-line-number="2">firstNames &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;George&quot;</span>, <span class="st">&quot;Alfred&quot;</span>, <span class="st">&quot;Frédéric&quot;</span>)</a>
+<a class="sourceLine" id="cb42-3" data-line-number="3">lastNames &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Sand&quot;</span>,  <span class="st">&quot;Musset&quot;</span>, <span class="st">&quot;Chopin&quot;</span>)</a>
+<a class="sourceLine" id="cb42-4" data-line-number="4">fullNames &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="dt">sep =</span> <span class="st">&quot; &quot;</span>, firstNames, lastNames)</a>
+<a class="sourceLine" id="cb42-5" data-line-number="5"><span class="kw">print</span>(fullNames)</a></code></pre></div>
 <pre><code>[1] &quot;George Sand&quot;     &quot;Alfred Musset&quot;   &quot;Frédéric Chopin&quot;</code></pre>
+<p>Note that the <code>paste()</code> functions can also be used to concatenate all the values of a given vector, but this requires to use the <code>collapse</code> argument insteead of <code>sep</code>.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="kw">paste</span>(fullNames, <span class="dt">collapse =</span> <span class="st">&quot;, &quot;</span>)</a></code></pre></div>
+<pre><code>[1] &quot;George Sand, Alfred Musset, Frédéric Chopin&quot;</code></pre>
 </div>
-<div id="fonctions-graphiques" class="section level2">
-<h2>Fonctions graphiques</h2>
-<p>R comporte un grand nombre de fonctions permettant de dessiner des graphiques simples ou élaborés. Nous allons explorer ici les méthodes les plus simples.</p>
+<div id="graphical-functions" class="section level2">
+<h2>Graphical functions</h2>
+<p>R includes a large number of functions enabling to draw simple or elaborate graphics. We explore hereafter the simplest methods.</p>
 </div>
-<div id="nuage-de-points-scatter-plot" class="section level2">
-<h2>Nuage de points (scatter plot)</h2>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">-10</span>, <span class="dt">to =</span> <span class="dv">10</span>, <span class="dt">by =</span> <span class="fl">0.1</span>)</a>
-<a class="sourceLine" id="cb44-2" data-line-number="2">y &lt;-<span class="st"> </span>x<span class="op">^</span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb44-3" data-line-number="3"><span class="kw">plot</span>(x,y)</a></code></pre></div>
+<div id="scatter-plot" class="section level2">
+<h2>Scatter plot</h2>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">-10</span>, <span class="dt">to =</span> <span class="dv">10</span>, <span class="dt">by =</span> <span class="fl">0.1</span>)</a>
+<a class="sourceLine" id="cb46-2" data-line-number="2">y &lt;-<span class="st"> </span>x<span class="op">^</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb46-3" data-line-number="3"><span class="kw">plot</span>(x,y)</a></code></pre></div>
 <p><img src="figures/scatter_plot-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="courbe-line-plot" class="section level2">
-<h2>Courbe (line plot)</h2>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">-10</span>, <span class="dt">to =</span> <span class="dv">10</span>, <span class="dt">by =</span> <span class="fl">0.1</span>)</a>
-<a class="sourceLine" id="cb45-2" data-line-number="2">y &lt;-<span class="st"> </span>x<span class="op">^</span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb45-3" data-line-number="3"><span class="kw">plot</span>(x,y, <span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a></code></pre></div>
+<div id="curve-line-plot" class="section level2">
+<h2>Curve (line plot)</h2>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">-10</span>, <span class="dt">to =</span> <span class="dv">10</span>, <span class="dt">by =</span> <span class="fl">0.1</span>)</a>
+<a class="sourceLine" id="cb47-2" data-line-number="2">y &lt;-<span class="st"> </span>x<span class="op">^</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb47-3" data-line-number="3"><span class="kw">plot</span>(x,y, <span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a></code></pre></div>
 <p><img src="figures/line_plot-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="ameliorer-un-dessin" class="section level2">
-<h2>Améliorer un dessin</h2>
-<p><strong>Exercice: </strong> lisez l’aide de la fonction <code>plot()</code> en tapant <code>help(plot)</code>, et explorez les paramètres afin d’améliorer le graphique. Consultez également l’aide de la fonction <code>par()</code> (paramètres graphiques).</p>
-<p>Vous pouvez par exemple ajouter les éléments suivants:</p>
+<div id="improving-a-graphics" class="section level2">
+<h2>Improving a graphics</h2>
+<p><strong>Exercise: </strong> on the R console, type <code>help(plot)</code>, read the help of the <code>plot()</code> function, and explore the parameters in order to improve the previous graphics. Also consult the help, function for the graphical parameters (<code>help(par</code>).</p>
+<p>You could for example, attempt to add the following elements to the figure:</p>
 <ul>
-<li>titre</li>
-<li>étiquettes des axes</li>
-<li>coloration de la courbe</li>
-<li>épaisseur de la courbe</li>
-<li>grille</li>
-<li>tracer une droite horizontale sur l’axe <span class="math inline">\(X=0\)</span></li>
-<li>tracer une droite verticale sur l’axe <span class="math inline">\(Y=0\)</span></li>
-<li>tout autre paramètre qui améliorera la lisibilité du résultat</li>
+<li>title</li>
+<li>axis labels</li>
+<li>line color</li>
+<li>line width</li>
+<li>grid</li>
+<li>trace an horizontal line to mark the Y axis at coordinate <span class="math inline">\(X=0\)</span></li>
+<li>trace a vertical line to mark the X axis at coordinate <span class="math inline">\(Y=0\)</span></li>
+<li>any other parameter that will improve the readability / interpretability of the resulting Figure</li>
 </ul>
-<p>La solution se trouve sur la diapo suivante (ne regardez pas !).</p>
+<p>An example of solution is shown in the next section (don’t look before having done the exercise!).</p>
 </div>
 <div id="solution-1" class="section level2">
 <h2>Solution</h2>
-<p>Faites tourner le code-ci-dessous pour afficher le résultat.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">-10</span>, <span class="dt">to =</span> <span class="dv">10</span>, <span class="dt">by =</span> <span class="fl">0.1</span>)</a>
-<a class="sourceLine" id="cb46-2" data-line-number="2">y &lt;-<span class="st"> </span>x<span class="op">^</span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb46-3" data-line-number="3"><span class="kw">plot</span>(x,y, </a>
-<a class="sourceLine" id="cb46-4" data-line-number="4">     <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, <span class="co"># Plot type</span></a>
-<a class="sourceLine" id="cb46-5" data-line-number="5">     <span class="dt">main =</span> <span class="st">&quot;Parabole&quot;</span>, <span class="co"># Main title</span></a>
-<a class="sourceLine" id="cb46-6" data-line-number="6">     <span class="dt">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="co">#X label</span></a>
-<a class="sourceLine" id="cb46-7" data-line-number="7">     <span class="dt">ylab =</span> <span class="st">&quot;y = x^2&quot;</span>, <span class="co"># Y label</span></a>
-<a class="sourceLine" id="cb46-8" data-line-number="8">     <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="co"># Curve color</span></a>
-<a class="sourceLine" id="cb46-9" data-line-number="9">     <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="co"># Line width</span></a>
-<a class="sourceLine" id="cb46-10" data-line-number="10">     <span class="dt">las =</span> <span class="dv">1</span> <span class="co"># display axis labels horizontally </span></a>
-<a class="sourceLine" id="cb46-11" data-line-number="11">     )</a>
-<a class="sourceLine" id="cb46-12" data-line-number="12"><span class="kw">grid</span>(<span class="dt">lty =</span> <span class="st">&quot;dashed&quot;</span>, <span class="dt">col=</span><span class="st">&quot;gray&quot;</span>) <span class="co"># Grid</span></a>
-<a class="sourceLine" id="cb46-13" data-line-number="13"><span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">0</span>) <span class="co"># Horizontal line</span></a>
-<a class="sourceLine" id="cb46-14" data-line-number="14"><span class="kw">abline</span>(<span class="dt">v =</span> <span class="dv">0</span>) <span class="co"># Vertical line</span></a></code></pre></div>
+<p>Run the following chunk of code to generate the improved figure.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">-10</span>, <span class="dt">to =</span> <span class="dv">10</span>, <span class="dt">by =</span> <span class="fl">0.1</span>)</a>
+<a class="sourceLine" id="cb48-2" data-line-number="2">y &lt;-<span class="st"> </span>x<span class="op">^</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb48-3" data-line-number="3"><span class="kw">plot</span>(x,y, </a>
+<a class="sourceLine" id="cb48-4" data-line-number="4">     <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, <span class="co"># Plot type</span></a>
+<a class="sourceLine" id="cb48-5" data-line-number="5">     <span class="dt">main =</span> <span class="st">&quot;Parabole&quot;</span>, <span class="co"># Main title</span></a>
+<a class="sourceLine" id="cb48-6" data-line-number="6">     <span class="dt">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="co">#X label</span></a>
+<a class="sourceLine" id="cb48-7" data-line-number="7">     <span class="dt">ylab =</span> <span class="st">&quot;y = x^2&quot;</span>, <span class="co"># Y label</span></a>
+<a class="sourceLine" id="cb48-8" data-line-number="8">     <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="co"># Curve color</span></a>
+<a class="sourceLine" id="cb48-9" data-line-number="9">     <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="co"># Line width</span></a>
+<a class="sourceLine" id="cb48-10" data-line-number="10">     <span class="dt">las =</span> <span class="dv">1</span> <span class="co"># display axis labels horizontally </span></a>
+<a class="sourceLine" id="cb48-11" data-line-number="11">     )</a>
+<a class="sourceLine" id="cb48-12" data-line-number="12"><span class="kw">grid</span>(<span class="dt">lty =</span> <span class="st">&quot;dashed&quot;</span>, <span class="dt">col=</span><span class="st">&quot;gray&quot;</span>) <span class="co"># Grid</span></a>
+<a class="sourceLine" id="cb48-13" data-line-number="13"><span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">0</span>) <span class="co"># Horizontal line</span></a>
+<a class="sourceLine" id="cb48-14" data-line-number="14"><span class="kw">abline</span>(<span class="dt">v =</span> <span class="dv">0</span>) <span class="co"># Vertical line</span></a></code></pre></div>
 </div>
-<div id="distributions-de-probabilites" class="section level2">
-<h2>Distributions de probabilités</h2>
-<p><strong>R</strong> fournit 4 fonctions pour chacune des des distributions de probabilité classiques.</p>
-<p>Avant d’aller plus loin, lisez attentivement l’aide pour les fonctions associées à la distribution binomiale.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">help</span>(<span class="st">&quot;Binomial&quot;</span>)</a></code></pre></div>
+<div id="probability-distributions" class="section level2">
+<h2>Probability distributions</h2>
+<p>For each one of the classical distribution of probabilities, <strong>R</strong> provides 4 functions-.</p>
+<p>Before going any further, read carefully the help for the functions associated to the binomial distribution.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw">help</span>(<span class="st">&quot;Binomial&quot;</span>)</a></code></pre></div>
 <p><strong>Questions:</strong></p>
 <ol style="list-style-type: decimal">
-<li>Quelle est la fonction R qui permet de calculer la fonction de masse de probabilité (également appelée “densité”) ?</li>
-<li>Quelle fonction R correspond à la fonction de répartition (également appelée “fonction de distribution”) ?</li>
-<li>A quoi sert la fonction <em>rbinom()</em> ?</li>
+<li><p>Which R function enables to compuote the probabilty mass function (also called “density” for convenience)?</p></li>
+<li><p>Which R function corresponds to the cumulative distribution function (CDF)?</p></li>
+<li><p>What is the role of the function <em>rbinom()</em>?</p></li>
 </ol>
 </div>
-<div id="graphe-de-la-binomiale" class="section level2">
-<h2>Graphe de la binomiale</h2>
-<p><strong>Exercice:</strong> en supposant des nucléotides équiprobables et indépendants, dessiner la distribution de probabilité du nombre d’adénines pour un oligonucléotide de taille 30.</p>
+<div id="drawing-the-binomial-distribution" class="section level2">
+<h2>Drawing the binomial distribution</h2>
+<p><strong>Exercise:</strong> assuming a DNA seqsuence with equiprobable nucleotides, draw the expected distribution for the number of Adenin (<span class="math inline">\(A\)</span>) residues in an oligonucleotide of length 30 (count the adenines on a single strand).</p>
 <ul>
 <li>fonction de masse de la probabilité</li>
 <li>fonction de répartition</li>
@@ -619,32 +623,32 @@ div.tocify {
 </div>
 <div id="calcul-de-la-fonction-de-masse-de-probabilite" class="section level2">
 <h2>Calcul de la fonction de masse de probabilité</h2>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="co">## Define all possible values for X</span></a>
-<a class="sourceLine" id="cb48-2" data-line-number="2">n &lt;-<span class="st"> </span><span class="dv">30</span></a>
-<a class="sourceLine" id="cb48-3" data-line-number="3">x &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span>n</a>
-<a class="sourceLine" id="cb48-4" data-line-number="4">p &lt;-<span class="st"> </span><span class="fl">0.25</span></a>
-<a class="sourceLine" id="cb48-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb48-6" data-line-number="6"><span class="co">## Compute the binomial PMF</span></a>
-<a class="sourceLine" id="cb48-7" data-line-number="7">pmf &lt;-<span class="st"> </span><span class="kw">dbinom</span>(<span class="dt">x =</span> x, <span class="dt">size =</span> n, <span class="dt">prob =</span> p)</a></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="co">## Define all possible values for X</span></a>
+<a class="sourceLine" id="cb50-2" data-line-number="2">n &lt;-<span class="st"> </span><span class="dv">30</span></a>
+<a class="sourceLine" id="cb50-3" data-line-number="3">x &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span>n</a>
+<a class="sourceLine" id="cb50-4" data-line-number="4">p &lt;-<span class="st"> </span><span class="fl">0.25</span></a>
+<a class="sourceLine" id="cb50-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb50-6" data-line-number="6"><span class="co">## Compute the binomial PMF</span></a>
+<a class="sourceLine" id="cb50-7" data-line-number="7">pmf &lt;-<span class="st"> </span><span class="kw">dbinom</span>(<span class="dt">x =</span> x, <span class="dt">size =</span> n, <span class="dt">prob =</span> p)</a></code></pre></div>
 </div>
 <div id="sous-ensemble-des-valeurs-dun-vecteur" class="section level2">
 <h2>Sous-ensemble des valeurs d’un vecteur</h2>
 <p>Nous pouvons imprimer les 4 premières valeurs de la variable <em>pmf</em> (pour <span class="math inline">\(x\)</span> de <span class="math inline">\(0\)</span> à <span class="math inline">\(3\)</span>) …</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">pmf[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">pmf[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a></code></pre></div>
 <pre><code>[1] 0.0001785821 0.0017858209 0.0086314677 0.0268534550 0.0604202738</code></pre>
 <p>… ou les 4 dernières valeurs (pour <span class="math inline">\(x\)</span> de <span class="math inline">\(27\)</span> à <span class="math inline">\(30\)</span>).</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">pmf[(n<span class="dv">-3</span>)<span class="op">:</span>n]</a></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">pmf[(n<span class="dv">-3</span>)<span class="op">:</span>n]</a></code></pre></div>
 <pre><code>[1] 1.925374e-12 9.508019e-14 3.395721e-15 7.806256e-17</code></pre>
 </div>
 <div id="restriction-du-nombre-de-decimales" class="section level2">
 <h2>Restriction du nombre de décimales</h2>
 <p>La fonction <code>round()</code> arrondit un résultat à un nombre donné de décimales.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw">round</span>(pmf, <span class="dt">digit=</span><span class="dv">3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw">round</span>(pmf, <span class="dt">digit=</span><span class="dv">3</span>)</a></code></pre></div>
 <pre><code> [1] 0.000 0.002 0.009 0.027 0.060 0.105 0.145 0.166 0.159 0.130 0.091
 [12] 0.055 0.029 0.013 0.005 0.002 0.001 0.000 0.000 0.000 0.000 0.000
 [23] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000</code></pre>
 <p>Pour des distributions de probabilités, on descend assez facilement à des valeurs très faibles, dont on désire connaître l’ordre de grandeur tout en affichant un nombre raisonnable de chiffres significatifs (ceux qui suivent la première décimale non nulle). Pour cela, il est plus pratique d’utiliser la fonction <code>signif()</code>,</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw">signif</span>(pmf, <span class="dt">digit=</span><span class="dv">3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="kw">signif</span>(pmf, <span class="dt">digit=</span><span class="dv">3</span>)</a></code></pre></div>
 <pre><code> [1] 1.79e-04 1.79e-03 8.63e-03 2.69e-02 6.04e-02 1.05e-01 1.45e-01
  [8] 1.66e-01 1.59e-01 1.30e-01 9.09e-02 5.51e-02 2.91e-02 1.34e-02
 [15] 5.43e-03 1.93e-03 6.03e-04 1.66e-04 3.99e-05 8.39e-06 1.54e-06
@@ -653,9 +657,9 @@ div.tocify {
 </div>
 <div id="dessin-de-la-distribution-binomiale" class="section level2">
 <h2>Dessin de la distribution binomiale</h2>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1">n &lt;-<span class="st"> </span><span class="dv">30</span>; x &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span>n   <span class="co"># Define the X values from 0 to 14</span></a>
-<a class="sourceLine" id="cb57-2" data-line-number="2">y &lt;-<span class="st"> </span><span class="kw">dbinom</span>(<span class="dt">x =</span> x, <span class="dt">size =</span> n, <span class="dt">prob =</span> <span class="fl">0.25</span>) <span class="co"># Poisson density</span></a>
-<a class="sourceLine" id="cb57-3" data-line-number="3"><span class="kw">plot</span>(x,y) <span class="co"># Check the result</span></a></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">n &lt;-<span class="st"> </span><span class="dv">30</span>; x &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span>n   <span class="co"># Define the X values from 0 to 14</span></a>
+<a class="sourceLine" id="cb59-2" data-line-number="2">y &lt;-<span class="st"> </span><span class="kw">dbinom</span>(<span class="dt">x =</span> x, <span class="dt">size =</span> n, <span class="dt">prob =</span> <span class="fl">0.25</span>) <span class="co"># Poisson density</span></a>
+<a class="sourceLine" id="cb59-3" data-line-number="3"><span class="kw">plot</span>(x,y) <span class="co"># Check the result</span></a></code></pre></div>
 <p><img src="figures/dbinom_plot-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Ce premier dessin n’est pas très élégant. Les points ne se détachent pas très bien du fond. Nous allons améliorer ce dessin.</p>
 </div>
@@ -682,12 +686,12 @@ div.tocify {
 </div>
 <div id="exercice-convergence-de-la-binomiale-vers-une-normale" class="section level2">
 <h2>Exercice: convergence de la binomiale vers une normale</h2>
-<p><img src="figures/unnamed-chunk-18-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/unnamed-chunk-19-1.png" width="60%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="avant-de-terminer-conservez-la-trace-de-votre-session" class="section level2">
 <h2>Avant de terminer : conservez la trace de votre session</h2>
 <p>La traçabilité constitue un enjeu essentiel en sciences. La fonction <strong><em>R</em></strong> <code>sessionInfo()</code> fournit un résumé des conditions d’une session de travail: version de R, système opérateur, bibliothèques de fonctions utilisées.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
 <pre><code>R version 3.6.1 (2019-07-05)
 Platform: x86_64-apple-darwin15.6.0 (64-bit)
 Running under: macOS Mojave 10.14.6

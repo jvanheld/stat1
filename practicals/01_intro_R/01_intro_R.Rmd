@@ -3,6 +3,11 @@ title: "Premiers pas avec R"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -16,6 +21,14 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
+  html_document:
+    self_contained: no
+    fig_caption: yes
+    highlight: zenburn
+    theme: cerulean
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
   slidy_presentation:
     self_contained: no
     fig_caption: yes
@@ -29,19 +42,6 @@ output:
     toc: yes
     toc_float: yes
     widescreen: yes
-  html_document:
-    self_contained: no
-    fig_caption: yes
-    highlight: zenburn
-    theme: cerulean
-    toc: yes
-    toc_depth: 3
-    toc_float: yes
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: yes
-    toc_depth: 3
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -425,13 +425,13 @@ pmf <- dbinom(x = x, size = n, prob = p)
 
 ## Sous-ensemble des valeurs d'un vecteur
 
-Nous pouvons imprimer les 4 premières valeurs de la variable *pmf* (pour $x$ de $0$ à $3$) ...
+Nous pouvons sélectionner les 5 premières valeurs de la variable *pmf* (qui correspondent aux nombres de succès $x$ allant de $0$ à $4$) ...
 
 ```{r}
 pmf[1:5]
 ```
 
-... ou les 4 dernières valeurs (pour $x$ de $27$ à $30$).
+... ou les 4 dernières valeurs ($x$ allant de $27$ à $30$ succès).
 
 ```{r}
 pmf[(n-3):n]
@@ -445,7 +445,7 @@ La fonction `round()` arrondit un résultat à un nombre donné de décimales.
 round(pmf, digit=3)
 ```
 
-Pour des distributions de probabilités, on descend assez facilement à des valeurs très faibles, dont on désire connaître l'ordre de grandeur tout en affichant un nombre raisonnable de chiffres significatifs (ceux qui suivent la première décimale non nulle). Pour cela, il est plus pratique d'utiliser la fonction `signif()`, 
+Pour des distributions de probabilités, on descend assez facilement à des valeurs très faibles, dont on désire connaître l'ordre de grandeur tout en affichant un nombre raisonnable de chiffres significatifs (ceux qui suivent la première décimale non nulle). Pour cela, il est plus pratique d'utiliser la fonction `signif()`.
 
 ```{r}
 signif(pmf, digit=3)
@@ -567,7 +567,7 @@ par(mfrow=c(1,1))
 
 ## Avant de terminer : conservez la trace de votre session
 
-La traçabilité constitue un enjeu essentiel en sciences. 
+La traçabilité et la reproductibilité des analyses constituent un enjeu essentiel en sciences. 
 La fonction ***R***  `sessionInfo()` fournit un résumé des conditions d'une session de travail: version de R, système opérateur, bibliothèques de fonctions utilisées. 
 
 

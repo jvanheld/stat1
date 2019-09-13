@@ -20,3 +20,14 @@ Ce site Web contient  / this Web site contains:
 
 
 ****************************************************************
+
+### Resources 
+
+
+| Resource | Description | URL |
+|-----------------|-------------------------|
+| R poject  | Home page of the R statistical project | <https://www.r-project.org/> |
+| CRAN | Distribution of the R software + libraries | <https://cran.r-project.org/> |
+| RStudio | Environment to develop R code | <https://www.rstudio.com/> |
+| R cheat sheet | A summary of R syntax + some popular functions | <> |
+| R markdown | A very short description of the markdown language | <https://www.rstudio.com/resources/cheatsheets/#rmarkdown> |

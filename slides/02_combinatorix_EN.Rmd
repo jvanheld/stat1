@@ -89,7 +89,7 @@ library(DiagrammeR)
 DNA is composed of 4 nucleotides denoted by the letters $A$, $C$, $G$, $T$. Proteins are made of 20 amino acids. 
 
 
-a. For each one of these two types of macromolecules, how many distinct oligomers can be formed by polymerizing 30 residues (20-mers) ?
+a. For each one of these two types of macromolecules, how many distinct oligomers can be formed by polymerizing 30 residues ("30-mers") ?
 
     **Suggested approach**: start by addressing a simpler form of the same problem, by starting with polymers of much smaller sizes: 1, then 2 residues, ...
 
@@ -98,7 +98,7 @@ b. Generalize the formula for oligomers of an arbitrary size $k$ (so-called **k-
 c. What is the name of the function resulting from this analysis?
 
 
-d. In this process, which mode did you use to pick up the residues: **with** or **wirhout replacement**?
+d. In this process, which mode did you use to pick up the residues: **with** or **without replacement**?
 
 ## Solution: enumeration of oligomers
 
@@ -110,7 +110,7 @@ d. In this process, which mode did you use to pick up the residues: **with** or 
     
     - Two-residue sequences: for each of the $n$ possible residues at the first position, we can select $n$ resodies for the second one $\rightarrow$ there are $n \cdot n = n^2$ possible dimers.
     
-    - Trimers: for each of these dimers, there are $n$ possible  residues that can be chosen for the$3^{d}$ position $\rightarrow$ there are $n^2 \cdot n = n^3 distinct trinucleotides.
+    - Trimers: for each of these dimers, there are $n$ possible  residues that can be chosen for the$3^{d}$ position $\rightarrow$ there are $n^2 \cdot n = n^3$ distinct trinucleotides.
     
 - Generalisation to $k$-mers: there are $n^k$ distinct sequences of size $k$.
 
@@ -263,12 +263,28 @@ plot(n, N,
 par(par.ori)
 ```
 
-## Elements of combinatorics
 
-We summarize here the most widely used formulas in combinatorics. 
+## Exercise 02.2: gene lists (with order)
 
-- Arrangements (drawings with order, without replacement)
-- Combinations (drawings without considering the order of the items, without replacement)
+A transcriptome experiment has been led to define the level of expression of all the yeast genes. Knowing that the genome contains $6000$ genes, how many possible ways are there to select the $15$ most expressed genes *with their relative order*?
+
+
+**Suggested approach**: as previously, simplify the problem by starting from the minimal selection, and progressively increase the number of selected genes (1 gène, 2 gènes, ...). 
+
+**Complementary questions**: 
+
+- Give the example of a familiar bet game related to this enumerating process. 
+- Generalise the formula for any selection of a list of $x$ items in a set containing $n$ elements. 
+
+
+## Solution 02.2: listes (ordonnées) de gènes
+
+Il s'agit d'une sélection **sans remise** (chaque gène apparaît à une et une seule position dans la liste de tous les gènes), et **ordonnée** (les  mêmes gènes pris dans un ordre différent sont considérés comme un résultat différent).
+
+- Pour le premier gène, il y a $n=6000$ possibiité.
+- Dès le moment où on connaît le premier gène, il n'existe plus que 5999 possibilités pour le second, et donc $n \cdot (n-1) = 6000 \cdot 5999$ possibilités pour la suite des deux premiers gènes; 
+- Par extension, il existe $6000 \cdot 5999 \cdot 5998 \cdot \ldots \cdot 5986 = `r signif(digits=3, prod(6000 - (0:14)))`$ possibilités pour les 15 premiers gènes. 
+- En généralisant à la liste des $x$ premiers gènes dans un ensemble de $n$, on obtient $N = n \cdot (n-1)  \cdot (n-2) \cdot ... \cdot (n-x+1)$. 
 
 ## Arrangements
 
@@ -288,28 +304,6 @@ $$
 - [**tricast** (also named **trifecta**](https://en.wikipedia.org/wiki/Trifecta)). 
 
 - A bet where players must predict the three winner horses  ($x=3$) of a race, and the exact order of their arrival. For $n=15$ horses, there are $n \cdot (n-1) \cdot (n-2) = 15 \cdot 14 \cdot 13 = `r 15*14*13`$ possibilities. 
-
-
-## Exercise 02.2: gene lists (with order)
-
-A transcriptome experiment has been led to define the level of expression of all the yeast genes. Knowing that the genome contains $6000$ genes, how many possible ways are there to select the $15$ most expressed genes *with their relative order*?
-
-
-**Suggested approach**: as previously, simplify the problem by starting from the minimal selection, and progressively increase the number of selected genes (1 gène, 2 gènes, ...). 
-
-**Complementary questions**: 
-
-- Give the example of a familiar bet game related to this enumerating process. 
-- Generalise the formula for any selection of a list of $x$ items in a set containing $n$ elements. 
-
-## Solution 02.2: listes (ordonnées) de gènes
-
-Il s'agit d'une sélection **sans remise** (chaque gène apparaît à une et une seule position dans la liste de tous les gènes), et **ordonnée** (les  mêmes gènes pris dans un ordre différent sont considérés comme un résultat différent).
-
-- Pour le premier gène, il y a $n=6000$ possibiité.
-- Dès le moment où on connaît le premier gène, il n'existe plus que 5999 possibilités pour le second, et donc $n \cdot (n-1) = 6000 \cdot 5999$ possibilités pour la suite des deux premiers gènes; 
-- Par extension, il existe $6000 \cdot 5999 \cdot 5998 \cdot \ldots \cdot 5986 = `r signif(digits=3, prod(6000 - (0:14)))`$ possibilités pour les 15 premiers gènes. 
-- En généralisant à la liste des $x$ premiers gènes dans un ensemble de $n$, on obtient $N = n \cdot (n-1)  \cdot (n-2) \cdot ... \cdot (n-x+1)$. 
 
 
 ## Exercise 02.3: ensembles (non-ordonnés) de gènes
@@ -348,15 +342,16 @@ $$\binom{n}{x} = C^x_n = \frac{n!}{x! (n-x)!}$$
 
 - [**trio**](https://en.wikipedia.org/wiki/Trifecta), a variation of the **tricast** bet, where the order of arrival of the 3 winner horses is not taken in consideration. 
 
-    $$\binom{n}{x} = \binom{15}{3} = C^3_{15} = \frac{15!}{3! 12!} = `r choose(n=15, k=3)`$$
+$$\binom{n}{x} = \binom{15}{3} = C^3_{15} = \frac{15!}{3! 12!} = `r choose(n=15, k=3)`$$
 
 - [**loto** (or lotto)](https://fr.wikipedia.org/wiki/Loto): each better checks 6 numbers within a grid containing 90 numbers. The number of possibilities is 
 
-    $$\binom{n}{x} = \binom{90}{6} = C^6_{90} = \frac{90!}{6! 84!} = `r choose(n=90, k=6)`$$
+$$\binom{n}{x} = \binom{90}{6} = C^6_{90} = \frac{90!}{6! 84!} = `r choose(n=90, k=6)`$$
 
 
 
 # Résumé des concepts et formules
+
 
 ## Tirages avec / sans remise
 
@@ -372,12 +367,21 @@ Il existe deux types classiques de tirage d'éléments au sein d'un ensemble: av
     - Jeu de dés. A chaque lancer on dispose des mêmes possibilités (6 faces).
     - Génération d'une séquence aléatoire, par sélection itérative d'un élément dans l'ensemble des résidus (4 nucléotides pour l'ADN, 20 acides aminés pour les protéines). 
     
+## Elements of combinatorics
+
+
+- Arrangements: drawings with order, without replacement
+- Combinations: drawings without considering the order of the items, without replacement)
+
+
+
+    
 ## Choix de la formule
 
-```{r combinatorix_flowchart, out.width = "90%", fig.width = 8, fig.height = 5}
+```{r combinatorics_flowchart, out.width = "90%", fig.width = 8, fig.height = 5}
 
 grViz("
-digraph combinatorix_flowchart {
+digraph combinatorics_flowchart {
   node [shape = diamond, fontname = Helvetica ]
   node [fontcolor = 'orange']
   A [label = 'remise ?']; 
@@ -440,7 +444,7 @@ aa.table <- read.delim("amino_acid_table.tsv", sep = "\t")
 aa <- sort(as.vector(aa.table$Symbol))
 aa <- aa[aa %in% LETTERS]
 
-cat(sort(rep(aa, times=3)), sep = "")
+cat(sort(rep(aa, times = 3)), sep = "")
 ```
 
 Toutes les permutations de ces 60 lettres sont des solutions valides. En voici trois exemples. 

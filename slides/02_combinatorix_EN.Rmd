@@ -1,8 +1,32 @@
 ---
-title: "Combinatorix"
+title: "Combinatorics"
 author: "Jacques van Helden"
 date: "`r Sys.Date()`"
 output:
+  beamer_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
+  powerpoint_presentation:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    slide_level: 2
+    toc: no
+  html_document:
+    fig_caption: yes
+    highlight: zenburn
+    self_contained: no
+    theme: cerulean
+    toc: yes
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -16,24 +40,6 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
-  html_document:
-    fig_caption: yes
-    highlight: zenburn
-    self_contained: no
-    theme: cerulean
-    toc: yes
-  beamer_presentation:
-    colortheme: dolphin
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
-    toc: yes
   pdf_document:
     fig_caption: yes
     highlight: zenburn
@@ -63,7 +69,7 @@ library(knitr)
 options(width = 300)
 knitr::opts_chunk$set(
   fig.width = 7, fig.height = 5, 
-  fig.path = 'figures/02_combinatorix_',
+  fig.path = 'figures/02_combinatorics_',
   fig.align = "center", 
   size = "tiny", 
   echo = FALSE, eval = TRUE, 
@@ -190,7 +196,7 @@ How many oligomers can be formed (DNA or peptides) that would contain exactly on
 
 **Sub-questions**:
 
-- Generalise the formula for sequences of any type of elements drawn from a set of arbitrary size $n$. 
+- Generalise the formula for sequences of items of any type, drawn from a set of arbitrary size $n$. 
 
 - What is the name of the corresponding function?
 
@@ -211,11 +217,11 @@ $$n! = n \cdot (n-1) \cdot \ldots \cdot 2 \cdot 1$$
     - $n! = 4! = `r signif(digits=3, factorial(4))`$ oligonucléotides comportant exactement 1 fois chaque nucléotide (taille 4).
     - $n! = 20! = `r signif(digits=3, factorial(20))`$ oligopeptides (taille 20).
     
-## La factorielle
+## The factorial function
 
-- S'applique pour dénombrer les permutations d'un ensemble.
-- Il s'agit de tirages sans remise.
-- Définie par une formule récursive.
+- Enumerates the number of possible permutations of a finite set of items
+- Drawing withour replacement
+- Defined by a recursive formula
 
 $$N = n! = \left\{
                 \begin{array}{ll}
@@ -224,15 +230,15 @@ $$N = n! = \left\{
                 \end{array}
               \right.$$
 
-Notes: 0! vaut 1, par définition, ce qui permet de calculer 1! avec la formule récursive. 
+Note: by definition, $0! = 1$, which enables to compute $1!$ and the subsequent numbers with the recursive formula. 
 
-Pour $n$ suffisamment grand cela donne en clair.
+For sufficiently large values of $n$, a clearer formulation is
 
 $$N = n \cdot (n-1) \cdot (n-2) \ldots 2 \cdot 1$$
 
-## Factorielle
+## Factorial
 
-```{r factorielle, out.width = "95%", echo=FALSE, fig.width=10, fig.height=4}
+```{r factorial, out.width = "95%", echo=FALSE, fig.width=10, fig.height=4}
 n <- 1:20
 N <- factorial(n)
 # plot(n,N, log = "y")
@@ -240,14 +246,14 @@ N <- factorial(n)
 par.ori <- par(no.readonly = TRUE)
 par(mfrow = c(1,2))
 plot(n, N, 
-     main = "Factorielle",
+     main = "Factorial",
      xlab = "n",
      ylab = "N",
      las = 2, cex.axis = 0.8,
      type = "h", lwd = 3, col = "blue"
 )
 plot(n, N, 
-     main = "Factorielle\n(échelle logarithmique)",
+     main = "Factorial\n(logarithmic Y scale)",
      xlab = "n",
      ylab = "N (log scale)",
      las = 2, cex.axis = 0.8,
@@ -257,18 +263,18 @@ plot(n, N,
 par(par.ori)
 ```
 
-## Eléments de combinatoire
+## Elements of combinatorics
 
-Nous résumons ici les formules les plus utilisées en analyse combinatoire. 
+We summarize here the most widely used formulas in combinatorics. 
 
-- Arrangements (tirages ordonnés sans remise)
-- Combinaisons (tirages non-ordonnés sans remise)
+- Arrangements (drawings with order, without replacement)
+- Combinations (drawings without considering the order of the items, without replacement)
 
 ## Arrangements
 
-On appelle **arrangements** les tirages *ordonnés* effectués *sans remise* au sein d'un ensemble. 
+In combinatorics, the term  **arrangement** denotes an *orderless* drawing *without replacement*, i.e.  random drawing where the order of the item is taken in consideration, and where each already selected item cannot be selected as next element. 
 
-Nombre d'arrangements de $x$ éléments tirés parmi $n$. 
+Number of arrangements of $x$ items drawn in a set of size $n$. 
 
 $$\begin{array}{ccl}
 A^x_n & = & \frac{n!}{(n - x)!} \\
@@ -277,47 +283,26 @@ A^x_n & = & \frac{n!}{(n - x)!} \\
 \end{array}
 $$
 
-**Application typique:**
+## Arrangements -- Typical application
 
-- **[tiercé](https://fr.wikipedia.org/wiki/Tierc%C3%A9_(jeu))** dans l'ordre. 
+- [**tricast** (also named **trifecta**](https://en.wikipedia.org/wiki/Trifecta)). 
 
-- Les joueurs parient sur les trois chevaux gagnants d'une course ($x=3$). Pour $n=15$ chevaux partants, il existe $n \cdot (n-1) \cdot (n-2) = 15 \cdot 14 \cdot 13 = `r 15*14*13`$ possibilités. 
-
-## Combinaisons
-
-On appelle **combinaisons** le nombre de sous-ensembles de $x$ qu'on peut  tirer *sans remise* dans un ensemble de taille $n$,  si l'on ne tient pas de l'ordre des éléments tirés. 
-
-Ce nombre est fourni par le **coefficient binomial**.
-
-$$\binom{n}{x} = C^x_n = \frac{n!}{x! (n-x)!}$$
+- A bet where players must predict the three winner horses  ($x=3$) of a race, and the exact order of their arrival. For $n=15$ horses, there are $n \cdot (n-1) \cdot (n-2) = 15 \cdot 14 \cdot 13 = `r 15*14*13`$ possibilities. 
 
 
-**Attention: ** les paramètres sont placés différemment dans la première  ($binom{n}{x}$, "x parmi n") et la seconde notation ($C^x_n$, "choose").
+## Exercise 02.2: gene lists (with order)
 
-## Combinaisons -- Applications typiques
-
-- **[tiercé](https://fr.wikipedia.org/wiki/Tierc%C3%A9_(jeu))** dans le désordre.
-
-    $$\binom{n}{x} = \binom{15}{3} = C^3_{15} = \frac{15!}{3! 12!} = `r choose(n=15, k=3)`$$
-
-- jeu de **[loto](https://fr.wikipedia.org/wiki/Loto)** (ou lotto): chaque joueur dispose d'une grille avec 90 numéros, et doit en cocher 6. Nombre de possibilités: 
-    $$\binom{n}{x} = \binom{90}{6} = C^6_{90} = \frac{90!}{6! 84!} = `r choose(n=90, k=6)`$$
+A transcriptome experiment has been led to define the level of expression of all the yeast genes. Knowing that the genome contains $6000$ genes, how many possible ways are there to select the $15$ most expressed genes *with their relative order*?
 
 
+**Suggested approach**: as previously, simplify the problem by starting from the minimal selection, and progressively increase the number of selected genes (1 gène, 2 gènes, ...). 
 
+**Complementary questions**: 
 
-## Exercise 02.2 : listes (ordonnées) de gènes
+- Give the example of a familiar bet game related to this enumerating process. 
+- Generalise the formula for any selection of a list of $x$ items in a set containing $n$ elements. 
 
-On a mené une expérience de transcriptome pour mesurer le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**en tenant compte** de l'ordre relatif de ces 15 gènes) ?
-
-**Approche suggérée**: comme précédemment, simplifiez le problème en partant de la sélection minimale, et augmentez progressivement le nombre de gènes (1 gène, 2 gènes, ...). 
-
-**Questions subsidiaires**: 
-
-- Trouvez un exemple familier de jeu de pari apparenté à ce problème. 
-- Généralisez la formule pour la sélection d'une liste de $x$ gènes dans un génome qui en comporte $n$. 
-
-## Solution 02.2 : listes (ordonnées) de gènes
+## Solution 02.2: listes (ordonnées) de gènes
 
 Il s'agit d'une sélection **sans remise** (chaque gène apparaît à une et une seule position dans la liste de tous les gènes), et **ordonnée** (les  mêmes gènes pris dans un ordre différent sont considérés comme un résultat différent).
 
@@ -327,9 +312,9 @@ Il s'agit d'une sélection **sans remise** (chaque gène apparaît à une et une
 - En généralisant à la liste des $x$ premiers gènes dans un ensemble de $n$, on obtient $N = n \cdot (n-1)  \cdot (n-2) \cdot ... \cdot (n-x+1)$. 
 
 
-## Exercise 02.3 : ensembles (non-ordonnés) de gènes
+## Exercise 02.3: ensembles (non-ordonnés) de gènes
 
-Lors d'une expérience de transcriptome indiquant le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**sans tenir compte** de l'ordre relatif de ces 15 gènes) ?
+Lors d'une expérience de transcriptome indiquant le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**sans tenir compte** de l'ordre relatif de ces 15 gènes)?
 
 **Approche suggérée**: comme précédemment, simplifiez le problème en partant de sélections minimales (1 gène, 2 gènes, ...) et généralisez la formule. 
 
@@ -337,15 +322,38 @@ Lors d'une expérience de transcriptome indiquant le niveau d'expression de tous
 
 - Trouvez un exemple familier de jeu de pari apparenté à ce problème. 
 - Généralisez la formule pour la sélection d'un ensemble de $x$ gènes dans un génome qui en comporte $n$. 
-- Connaissez-vous le nom de la formule ainsi trouvée ?
+- Connaissez-vous le nom de la formule ainsi trouvée?
 
 
-## Solution 02.3 : ensembles (non-ordonnés) de gènes
+## Solution 02.3: ensembles (non-ordonnés) de gènes
 
 - Pour une sélection d'un seul gène, il existe $n=6000$ possibilité. 
 - Pour 2 gènes, il existe $n \cdot (n-1) = 6000 \cdot 5999$ arrangements, mais ceci inclut deux fois chaque paire de gènes ($(a, b)$ et $(b, a)$). Le nombre d'ensembles non ordonnés est donc $N = n \dot (n-1)/2$.
 - De même, pour 3 gènes, il faut diviser le nombre d'arrangements ($A^x_n = \frac{n!}{(n-x)!} = 6000 \cdot 5999 \cdot 5998$) par le nombre de permutations parmi tous les triplets de gènes ($(a, b, c), (a, c, b), (b, a, c) \ldots$), ce qui donne $\frac{6000!}{(6000-3)! 3!} = \frac{6000 \cdot 5999 \cdot 5888}{6} = `r signif(digits=3, choose(6000,3))`$.
-- Pour 15 gènes, on obtient $\frac{n!}{(n-x)!x!} = \frac{6000!}{5985! \cdot 15!} = `r signif(digits=3, choose(6000, 15))`$ *combinaisons* possibles.
+- Pour 15 gènes, on obtient $\frac{n!}{(n-x)!x!} = \frac{6000!}{5985! \cdot 15!} = `r signif(digits=3, choose(6000, 15))`$ *combinations* possibles.
+
+
+## Combinations
+
+A **combination** is a selection *without replacement*  a finite set, where the order of drawing is taken in considration. 
+
+The number of possible combinations of $x$ numbers among $n$ is provided by the **bbinomial coefficient**.
+
+$$\binom{n}{x} = C^x_n = \frac{n!}{x! (n-x)!}$$
+
+
+**Attention: ** the relative positions of $x$ and $n$  are opposite in the two alternative notations for combinations $binom{n}{x}$ ("$x$ among $n$") and  ($C^x_n$, "choose").
+
+## combinations -- Typical application
+
+- [**trio**](https://en.wikipedia.org/wiki/Trifecta), a variation of the **tricast** bet, where the order of arrival of the 3 winner horses is not taken in consideration. 
+
+    $$\binom{n}{x} = \binom{15}{3} = C^3_{15} = \frac{15!}{3! 12!} = `r choose(n=15, k=3)`$$
+
+- [**loto** (or lotto)](https://fr.wikipedia.org/wiki/Loto): each better checks 6 numbers within a grid containing 90 numbers. The number of possibilities is 
+
+    $$\binom{n}{x} = \binom{90}{6} = C^6_{90} = \frac{90!}{6! 84!} = `r choose(n=90, k=6)`$$
+
 
 
 # Résumé des concepts et formules
@@ -375,21 +383,21 @@ digraph combinatorix_flowchart {
   A [label = 'remise ?']; 
   B [label = 'ordonné ?'];
   D [label = 'ordonné ?']  
-  G [label = 'sélection\nexhaustive ?']
+  G [label = 'exhaustive selection?']
 
   node [shape = 'rectangle', fontcolor = 'black']
-  C [label = 'suite\ngéométrique'];
+  C [label = 'geometric progression'];
   E [label = 'arrangement']
-  F [label = 'combinaison']
-  H [label = 'factorielle']
+  F [label = 'combination']
+  H [label = 'factorial']
 
-  edge [arrowhead  = 'normal', color = '#00BB00', fontcolor = '#00BB00', label = 'oui']
+  edge [arrowhead  = 'normal', color = '#00BB00', fontcolor = '#00BB00', label = 'Yes']
   A -> B
   B -> C
   D -> G
   G -> H
 
-  edge [arrowhead  = 'normal', color = '#BB0000', fontcolor = '#BB0000', label = 'non']
+  edge [arrowhead  = 'normal', color = '#BB0000', fontcolor = '#BB0000', label = 'No']
   A -> D
   D -> F
   G -> E
@@ -400,28 +408,28 @@ digraph combinatorix_flowchart {
 ```
 
 
-## Formules
+## Formulas
 
-| Remise | Ordre | Formule | Description |
+| Replacement | Ordre | Formula | Description |
 |--------|-------|------------|---------------------------------|
-| Oui | Oui | $n^x$ | **Suite géométrique**: tirages ordonnés (séquences), avec remise, de $x$ éléments dans un ensemble de taille $n$. |
-| Non | Oui | $n!$ | **Factorielle**: permutations d'un ensemble de taille $n$ |
-| Non | Oui | $A^x_n = \frac{n!}{(n-x)!}$ | **Arrangements** : tirages ordonnés, sans remise, de $x$ éléments dans un ensemble de taille $n$ |
-| Non | Non | $C^x_n = \binom{n}{x} = \frac{n!}{x! (n - x) !}$ | **Combinaisons** : tirages non ordonnés, sans remise, de $x$ éléments dans un ensemble de taille $n$ |
+| Yes | Yes | $n^x$ | **Geometric progression**: ordered drawings (sequences), with replacement, of $x$ items from a set of size $n$ |
+| No | Yes | $n!$ | **factorial**: permutations of all elements of a set of size $n$ |
+| No | Yes | $A^x_n = \frac{n!}{(n-x)!}$ | **Arrangements** : ordered drawing, without replacement, of $x$ items in a set of size $n$  |
+| No | No | $C^x_n = \binom{n}{x} = \frac{n!}{x! (n - x) !}$ | **Combinations** : orderless drawing, without replacement, of $x$ items in a set of size $n$ |
 
 
-# Exercises supplémentaires
+# Supplementary exercises
 
 
 
 ## Exercise 02.5: oligopeptides $3 \times 20$
 
-*Combien d'oligopeptides de taille 60 peut-on former en utilisant exactement 3 fois chaque acide aminé ?*
+*How many distinct oligopeptides of size $k=60$ can be formed by using exactly $3$ times each amino acid?*
 
 
-## Solution 02.5 : oligopeptides $3 \times 20$
+## Solution 02.5: oligopeptides $3 \times 20$
 
-*Combien d'oligopeptides de taille 60 peut-on former en utilisant exactement 3 fois chaque acide aminé ?*
+*How many distinct oligopeptides of size $k=60$ can be formed by using exactly $3$ times each amino acid?*
 
 Commençons par générer une séquence particulière qui remplit ces conditions, en concaténant 3 copies de chaque acide aminé, dans l'ordre alphabétique. 
 
@@ -442,7 +450,6 @@ cat(sample(rep(aa, times = 3)), sep = "")
 cat(sample(rep(aa, times = 3)), sep = "")
 cat(sample(rep(aa, times = 3)), sep = "")
 ```
-
 
 Cependant, il faut prendre en compte le fait que certaines permutations sont identiques (toutes celles où l'on permute deux acides aminés identiques). La difficulté de l'Exercise sera donc de dénombrer le nombre de permutations *distinctes*. 
 

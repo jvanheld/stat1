@@ -33,6 +33,7 @@ output:
     toc_float: yes
     widescreen: yes
   html_document:
+    self_contained: no
     code_folding: show
     fig_caption: yes
     highlight: zenburn

@@ -3,18 +3,11 @@ title: "Analyse d'une table d'annotations génomiques"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  slidy_presentation:
+  pdf_document:
     fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    incremental: no
-    keep_md: no
-    smaller: yes
-    theme: cerulean
+    highlight: zenburn
     toc: yes
-    toc_float: yes
-    widescreen: yes
+    toc_depth: 3
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -40,12 +33,8 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: yes
-    toc_depth: 3
   html_document:
+    self_contained: no
     code_folding: show
     fig_caption: yes
     highlight: zenburn
@@ -53,6 +42,18 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
+  slidy_presentation:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: no
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    toc_float: yes
+    widescreen: yes
   word_document:
     toc: yes
     toc_depth: 3

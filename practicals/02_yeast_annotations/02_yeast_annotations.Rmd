@@ -702,7 +702,7 @@ legend("topright", legend = c("genome", "chr3"), col = c("blue", "violet"), lwd=
 
 - Ajoutez à ce tableau une colonne indiquant la fréquence relative de chaque classe de longueurs de gènes.
 
-- Ajoutez à ce tableau des colonnes indiquant la **fonction de répartition empirique** des longueuurs de gènes (nombre de gènes d'une taille inférieure ou égale à chaque valeur $x$ observée, et fréquence relative de ce nombre). 
+- Ajoutez à ce tableau des colonnes indiquant la **fonction de répartition empirique** des longueurs de gènes (nombre de gènes d'une taille inférieure ou égale à chaque valeur $x$ observée, et fréquence relative de ce nombre). 
 
     - fonction de base: `cumsum()`
     - fonction avancée;`ecdf()`
@@ -759,6 +759,3 @@ La fonction ***R***  `sessionInfo()` fournit un résumé des conditions d'une se
 sessionInfo()
 ```
 
-<!--
-## Rendu
--->

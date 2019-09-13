@@ -20,7 +20,7 @@
 
 | Day | Time | Type | Contents | Teaching material | 
 |-----------|-------------|----------|------------------------------|----------------|
-| 13/09 | 9h - 12h | Lecture | Combinatorix |  [[html](slides/02_combinatorix.html)] [[pdf](slides/02_combinatorix.pdf)] [[Rmd](slides/02_combinatorix.Rmd)] |
+| 13/09 | 9h - 12h | Lecture | Combinatorix |  [[html](slides/02_combinatorix_EN.html)] [[pdf](slides/02_combinatorix_EN.pdf)] [[Rmd](slides/02_combinatorix_EN.Rmd)] |
 |  |  | Exercises | Combinatorix |  [[html](slides/02_combinatorix_exercises.html)] [[pdf](slides/02_combinatorix_exercises.pdf)] [[Rmd](slides/02_combinatorix_exercises.Rmd)] |
 |  | | Lecture | Concepts of probabilities | [[html](slides/03_concepts_proba.html)] [[pdf](slides/03_concepts_proba.pdf)] [[Rmd](slides/03_concepts_proba.Rmd)] |
 |  | | Exercises | Concepts of probabilities | [[html](slides/03_concepts_proba_exercises.html)] [[pdf](slides/03_concepts_proba_exercises.pdf)] [[Rmd](slides/03_concepts_proba_exercises.Rmd)] |

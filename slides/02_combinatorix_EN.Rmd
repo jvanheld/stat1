@@ -3,30 +3,6 @@ title: "Combinatorics"
 author: "Jacques van Helden"
 date: "`r Sys.Date()`"
 output:
-  beamer_presentation:
-    colortheme: dolphin
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
-    toc: yes
-  powerpoint_presentation:
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    slide_level: 2
-    toc: no
-  html_document:
-    fig_caption: yes
-    highlight: zenburn
-    self_contained: no
-    theme: cerulean
-    toc: yes
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -40,6 +16,30 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
+  powerpoint_presentation:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    slide_level: 2
+    toc: no
+  html_document:
+    fig_caption: yes
+    highlight: zenburn
+    self_contained: no
+    theme: cerulean
+    toc: yes
+  beamer_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
   pdf_document:
     fig_caption: yes
     highlight: zenburn

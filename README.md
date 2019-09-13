@@ -23,7 +23,6 @@ Ce site Web contient  / this Web site contains:
 
 ### Resources 
 
-
 | Resource | Description | URL |
 |-----------------|-------------------------|------------------------------------|
 | R poject  | Home page of the R statistical project | <https://www.r-project.org/> |

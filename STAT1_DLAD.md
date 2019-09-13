@@ -22,15 +22,15 @@ Les autres chapitres sont traités par Pascal Rihet, dont les supports sont disp
 
 | Jour | Horaire | Type | Contenu | Supports | 
 |-----------|-------------|----------|------------------------------|----------------|
-| 19/11 | 8h - 10h | Cours-TD | Eléments d'analyse combinatoire |  [[html](slides/02_combinatorix.html)] [[pdf](slides/02_combinatorix.pdf)] [[Rmd](slides/02_combinatorix.Rmd)] |
-|  |  | | Exercices : éléments d'analyse combinatoire |  [[html](slides/02_combinatorix_exercices.html)] [[pdf](slides/02_combinatorix_exercices.pdf)] [[Rmd](slides/02_combinatorix_exercices.Rmd)] |
-|  | | | Concepts de probabilités | [[html](slides/03_concepts_proba.html)] [[pdf](slides/03_concepts_proba.pdf)] [[Rmd](slides/03_concepts_proba.Rmd)] |
-|  | | | Exercices: concepts de probabilités | [[html](slides/03_concepts_proba_exercices.html)] [[pdf](slides/03_concepts_proba_exercices.pdf)] [[Rmd](slides/03_concepts_proba_exercices.Rmd)] |
-| 19/11 | 10h - 12h | Cours-TD | Distributions discrètes | [[html](slides/04_distributions_discretes.html)] [[pdf](slides/04_distributions_discretes.pdf)] [[Rmd](slides/04_distributions_discretes.Rmd)] |
-|  |  | | Exercices: distributions discrètes | [[html](slides/04_distributions_discretes_exercices.html)] [[pdf](slides/04_distributions_discretes_exercices.pdf)] [[Rmd](slides/04_distributions_discretes_exercices.Rmd)] |
-| 19/11 | 14h - 18h | TP  (2h par groupe) | Premiers pas avec R | [[html](practicals/01_intro_R/01_intro_R.html)] [[pdf](practicals/01_intro_R/01_intro_R.pdf)] [[Rmd](practicals/01_intro_R/01_intro_R.Rmd)] |
-| 22/11 | 8h - 10h | Cours-TD | Apprivoiser la P-valeur -- Tests multiples | [[html](slides/07_tests_multiples.html)] [[pdf](slides/07_tests_multiples.pdf)] [[Rmd](slides/slides/07_tests_multiples.Rmd)] |
-| 22/11 | 14h - 18h | TP  (2h par groupe) | Tests multiples | [[html](practicals/tests_multiples_kmers/test_multiples_TP.html)] [[pdf](practicals/tests_multiples_kmers/test_multiples_TP.pdf)] [[Rmd](practicals/tests_multiples_kmers/test_multiples_TP.Rmd)] |
+| 19/11 | 8h - 10h | CM | Eléments d'analyse combinatoire |  [[html](slides/02_combinatorix.html)] [[pdf](slides/02_combinatorix.pdf)] [[Rmd](slides/02_combinatorix.Rmd)] |
+|  |  | TD | Eléments d'analyse combinatoire |  [[html](slides/02_combinatorix_exercices.html)] [[pdf](slides/02_combinatorix_exercices.pdf)] [[Rmd](slides/02_combinatorix_exercices.Rmd)] |
+|  | | CM | Concepts de probabilités | [[html](slides/03_concepts_proba.html)] [[pdf](slides/03_concepts_proba.pdf)] [[Rmd](slides/03_concepts_proba.Rmd)] |
+|  | | TD | Concepts de probabilités | [[html](slides/03_concepts_proba_exercices.html)] [[pdf](slides/03_concepts_proba_exercices.pdf)] [[Rmd](slides/03_concepts_proba_exercices.Rmd)] |
+| 19/11 | 10h - 12h | CM | Distributions discrètes | [[html](slides/04_distributions_discretes.html)] [[pdf](slides/04_distributions_discretes.pdf)] [[Rmd](slides/04_distributions_discretes.Rmd)] |
+|  |  | TD | Distributions discrètes | [[html](slides/04_distributions_discretes_exercices.html)] [[pdf](slides/04_distributions_discretes_exercices.pdf)] [[Rmd](slides/04_distributions_discretes_exercices.Rmd)] |
+| 19/11 | 14h - 18h | TP | Premiers pas avec R | [[html](practicals/01_intro_R/01_intro_R.html)] [[pdf](practicals/01_intro_R/01_intro_R.pdf)] [[Rmd](practicals/01_intro_R/01_intro_R.Rmd)] |
+| 22/11 | 8h - 10h | CM | Apprivoiser la P-valeur -- Tests multiples | [[html](slides/07_tests_multiples.html)] [[pdf](slides/07_tests_multiples.pdf)] [[Rmd](slides/slides/07_tests_multiples.Rmd)] |
+| 22/11 | 14h - 18h | TP | Tests multiples | [[html](practicals/tests_multiples_kmers/test_multiples_TP.html)] [[pdf](practicals/tests_multiples_kmers/test_multiples_TP.pdf)] [[Rmd](practicals/tests_multiples_kmers/test_multiples_TP.Rmd)] |
 
 ****************************************************************
 ### Cours et exercices

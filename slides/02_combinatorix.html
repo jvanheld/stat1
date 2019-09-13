@@ -7,7 +7,7 @@
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
   <meta name="author" content="Jacques van Helden, revised by Lucie Khamvongsa-Charbonnier and Yvon Mbouamboua" />
-  <meta name="date" content="2018-11-22" />
+  <meta name="date" content="2019-09-13" />
   <title>Eléments d’analyse combinatoire</title>
   <style type="text/css">code{white-space: pre;}</style>
   <script src="02_combinatorix_files/jquery-1.11.3/jquery.min.js"></script>
@@ -18,6 +18,10 @@
   <script src="02_combinatorix_files/bootstrap-3.3.5/shim/respond.min.js"></script>
   <link href="02_combinatorix_files/slidy-2/styles/slidy.css" rel="stylesheet" />
   <script src="02_combinatorix_files/slidy-2/scripts/slidy.js"></script>
+  <script src="02_combinatorix_files/htmlwidgets-1.3/htmlwidgets.js"></script>
+  <script src="02_combinatorix_files/viz-0.3/viz.js"></script>
+  <link href="02_combinatorix_files/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+  <script src="02_combinatorix_files/grViz-binding-1.0.1/grViz.js"></script>
 </head>
 <body>
 <div class="slide titlepage">
@@ -26,7 +30,7 @@
   <p class="author">
 Jacques van Helden, revised by Lucie Khamvongsa-Charbonnier and Yvon Mbouamboua
   </p>
-  <p class="date">2018-11-22</p>
+  <p class="date">2019-09-13</p>
 </div>
 <div id="denombrements-doligonucleotides-et-oligopeptides" class="title-slide slide section level1"><h1>Dénombrements d’oligonucléotides et oligopeptides</h1></div><div id="probleme-denombrement-doligomeres" class="slide section level2">
 <h1>Problème: dénombrement d’oligomères</h1>
@@ -69,8 +73,12 @@ x_k &amp;=  x_{k-1} \cdot n \\
 <p>Dans notre cas, la valeur initiale <span class="math inline">\(x_0=1\)</span>; <span class="math inline">\(k\)</span> est la taille de l’oligomère; et <span class="math inline">\(n\)</span> est le nombre de résidus (<span class="math inline">\(n=4\)</span> pour les acides nucléiques, <span class="math inline">\(n=20\)</span> pour les séquences peptidiques).</p>
 </div><div id="nonmbre-doligomeres" class="slide section level2">
 <h1>Nonmbre d’oligomères</h1>
-<p><font color = "red">A FAIRE: quelques explications + les formules + graphique</font></p>
-<p><img src="figures/02_combinatorix_number_distinct_oligos-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<div class="figure" style="text-align: center">
+<img src="figures/02_combinatorix_number_distinct_oligos-1.png" alt="Nombre d'oligonucléotides (dessus) ou d'oligopeptides (dessous), en utilisant une échelle soit linéaire (gauche) soit logarithmique (droite) pour l'ordonnée." width="60%" />
+<p class="caption">
+Nombre d’oligonucléotides (dessus) ou d’oligopeptides (dessous), en utilisant une échelle soit linéaire (gauche) soit logarithmique (droite) pour l’ordonnée.
+</p>
+</div>
 </div><div id="exercice-02.1-oligomeres-sans-residus-repetes" class="slide section level2">
 <h1>Exercice 02.1: oligomères sans résidus répétés</h1>
 <p>Combien d’oligomères peut-on former (ADN ou peptides) en utilisant chaque résidu une et une seule fois ?</p>
@@ -202,8 +210,8 @@ A^x_n &amp; = &amp; \frac{n!}{(n - x)!} \\
 </ol>
 </div><div id="choix-de-la-formule" class="slide section level2">
 <h1>Choix de la formule</h1>
-<div id="htmlwidget-8f19bab76b72f56905ac" style="width:90%;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8f19bab76b72f56905ac">{"x":{"diagram":"\ndigraph combinatorix_flowchart {\n  node [shape = diamond, fontname = Helvetica ]\n  node [fontcolor = \"orange\"]\n  A [label = \"remise ?\"]; \n  B [label = \"ordonné ?\"];\n  D [label = \"ordonné ?\"]  \n  G [label = \"sélection\nexhaustive ?\"]\n\n  node [shape = \"rectangle\", fontcolor = \"black\"]\n  C [label = \"suite\ngéométrique\"];\n  E [label = \"arrangement\"]\n  F [label = \"combinaison\"]\n  H [label = \"factorielle\"]\n\n  edge [arrowhead  = \"normal\", color = \"#00BB00\", fontcolor = \"#00BB00\", label = \"oui\"]\n  A -> B\n  B -> C\n  D -> G\n  G -> H\n\n  edge [arrowhead  = \"normal\", color = \"#BB0000\", fontcolor = \"#BB0000\", label = \"non\"]\n  A -> D\n  D -> F\n  G -> E\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-142f6d64c889df1c390c" style="width:90%;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-142f6d64c889df1c390c">{"x":{"diagram":"\ndigraph combinatorix_flowchart {\n  node [shape = diamond, fontname = Helvetica ]\n  node [fontcolor = \"orange\"]\n  A [label = \"remise ?\"]; \n  B [label = \"ordonné ?\"];\n  D [label = \"ordonné ?\"]  \n  G [label = \"sélection\nexhaustive ?\"]\n\n  node [shape = \"rectangle\", fontcolor = \"black\"]\n  C [label = \"suite\ngéométrique\"];\n  E [label = \"arrangement\"]\n  F [label = \"combinaison\"]\n  H [label = \"factorielle\"]\n\n  edge [arrowhead  = \"normal\", color = \"#00BB00\", fontcolor = \"#00BB00\", label = \"oui\"]\n  A -> B\n  B -> C\n  D -> G\n  G -> H\n\n  edge [arrowhead  = \"normal\", color = \"#BB0000\", fontcolor = \"#BB0000\", label = \"non\"]\n  A -> D\n  D -> F\n  G -> E\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div><div id="formules" class="slide section level2">
 <h1>Formules</h1>
 <table>
@@ -258,9 +266,9 @@ A^x_n &amp; = &amp; \frac{n!}{(n - x)!} \\
 <p>Commençons par générer une séquence particulière qui remplit ces conditions, en concaténant 3 copies de chaque acide aminé, dans l’ordre alphabétique.</p>
 <pre><code>AAACCCDDDEEEFFFGGGHHHIIIKKKLLLMMMNNNPPPQQQRRRSSSTTTVVVWWWYYY</code></pre>
 <p>Toutes les permutations de ces 60 lettres sont des solutions valides. En voici trois exemples.</p>
-<pre><code>MSFCSEPFYLVKQGGDNTVTIICIPCKQTYAAFYWDMMAQWDKSELHEGNRNHLVRWHPR</code></pre>
-<pre><code>GGAEKTLEFPVPIFVMCQWHSNDRSQFSRRMCYMWAYAGDHKDVIIHTTNNYEQLCPLKW</code></pre>
-<pre><code>KEDPRRFMSNTGWCMLFIFHVWTAELWDIRKKPNPAHYQTQCDLSSHVVYAQYMGGNEIC</code></pre>
+<pre><code>RPQKQGMMIATDANCYMNFAKHLYGIETCSWYDSGERHKFNCLVEPRWTVPFWLSQIDVH</code></pre>
+<pre><code>FKEERMENQHSHHIYAYSGDFDSKATLCRLIATCWVQPQIRNPYDGMKMGTPCFWVVLWN</code></pre>
+<pre><code>VAHHRFVWAEGQTYMNCCTSADDRQYIKMSPGLQNNKCHMFVGIWPYIFRSDEKLTLPEW</code></pre>
 <p>Cependant, il faut prendre en compte le fait que certaines permutations sont identiques (toutes celles où l’on permute deux acides aminés identiques). La difficulté de l’exercice sera donc de dénombrer le nombre de permutations <em>distinctes</em>.</p>
 </div>
 

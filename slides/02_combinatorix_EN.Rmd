@@ -1,8 +1,25 @@
 ---
-title: "Eléments d'analyse combinatoire"
-author: "Jacques van Helden, revised by Lucie Khamvongsa-Charbonnier and Yvon Mbouamboua"
+title: "Combinatorix"
+author: "Jacques van Helden"
 date: "`r Sys.Date()`"
 output:
+  ioslides_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    self_contained: no
+    smaller: yes
+    toc: yes
+    widescreen: yes
+  html_document:
+    fig_caption: yes
+    highlight: zenburn
+    self_contained: no
+    theme: cerulean
+    toc: yes
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -14,23 +31,6 @@ output:
     self_contained: no
     smaller: yes
     theme: cerulean
-    toc: yes
-    widescreen: yes
-  html_document:
-    fig_caption: yes
-    highlight: zenburn
-    self_contained: no
-    theme: cerulean
-    toc: yes
-  ioslides_presentation:
-    colortheme: dolphin
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    self_contained: no
-    smaller: yes
     toc: yes
     widescreen: yes
   pdf_document:
@@ -53,7 +53,7 @@ output:
     toc: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
 font-family: Garamond
-subtitle: Probabilités et statistique pour la biologie (STAT1)
+subtitle: Probabilities and statistics for bioinformatics (STAT1)
 editor_options:
   chunk_output_type: console
 transition: linear
@@ -77,46 +77,52 @@ library(DiagrammeR)
 
 ```
 
-# Dénombrements d'oligonucléotides et oligopeptides
+# Enumerating oligonucleotides and oligopeptides
 
-## Problème: dénombrement d'oligomères
+## Problem
 
-L'ADN est composé de 4 nucléotides distincts dénotés par les lettres A, C, G, T, et les protéines de 20 acides aminés. 
+DNA is composed of 4 nucleotides denoted by the letters $A$, $C$, $G$, $T$. Proteins are made of 20 amino acids. 
 
-a. Pour chacun de ces deux types de polymères, combien d'oligomères distincts peut-on former en polymérisant 20 résidus ("20-mères") ?
 
-    **Approche suggérée**: simplifiez le problème au maximum, en commençant par des polymères beaucoup plus courts (1 résidu, 2 résidus). 
+a. For each one of these two types of macromolecules, how many distinct oligomers can be formed by polymerizing 30 residues (20-mers) ?
 
-b. Généralisez la formule pour les oligomères d'une longueur arbitraire $k$ (**"k-mères"**), en symbolisant par $n$ le nombre de résidus. 
-c. Quel est le nom de la fonction donnant le résultat ?
-d. Dans ce processus, quel est le mode de sélection des résidus: **avec ou sans remise** ?
+    **Suggested approach**: start by addressing a simpler form of the same problem, by starting with polymers of much smaller sizes: 1, then 2 residues, ...
 
-## Solution: dénombrement d'oligomères
+b. Generalize the formula for oligomers of an arbitrary size $k$ (so-called **k-mers** in the domain), made of $n$ distinct residues. 
 
-- Il s'agit d'un tirage avec remise: à chaque position de la séquence on a le choix entre $n$ résidus (4 pour les acides nucléiques, 20 pour les protéines).
+c. What is the name of the function resulting from this analysis?
 
-- Approche progressive de la solution
 
-    - Cas trivial: séquence d'un seul résidu $\rightarrow$ le nombre de possibilités est $n$. 
-    - Pour chacune des $n$ possibilités de premier résidu, il y a $n$ possibilités pour choisir le second résidu $\rightarrow$ il existe $n \cdot n = n^2$ séquences de taille 2. 
-    - Pour chacune d'entre elles, $n$ résidus possibles en $3^{ème}$ position $\rightarrow$ il existe $n^2 \cdot n = n^3$ séquences distinctes de taille 3.
+d. In this process, which mode did you use to pick up the residues: **with** or **wirhout replacement**?
+
+## Solution: enumeration of oligomers
+
+- The underlying process is a **drawing with replacement**: at each position of the sequence, we can choose any of the $n$ residues ($n=4$ for nucleotidic sequences, $n=20$ for peptidic sequences). 
+
+- Progressive approach of the solution
+
+    - Trivial case: single-residue sequence $\rightarrow$ there are exactly $n$ possibilities.
     
-- Généralisation: il existe $n^k$ séquences distinctes de taille $k$.
+    - Two-residue sequences: for each of the $n$ possible residues at the first position, we can select $n$ resodies for the second one $\rightarrow$ there are $n \cdot n = n^2$ possible dimers.
+    
+    - Trimers: for each of these dimers, there are $n$ possible  residues that can be chosen for the$3^{d}$ position $\rightarrow$ there are $n^2 \cdot n = n^3 distinct trinucleotides.
+    
+- Generalisation to $k$-mers: there are $n^k$ distinct sequences of size $k$.
 
-- Dans notre cas, la taille des séquences $k=20$. On a donc 
+- In our case, the sequence size was  $k=30$. We have thus
 
-    - $N = n^k = 4^{20} = `r signif(digits=3, 4^20)`$ oligonucléotides distincts 
-    - $N = n^k = 20^{20} = `r signif(digits=3, 20^20)`$ oligopeptides distincts 
+    - $N = n^k = 4^{30} = `r signif(digits=3, 4^30)`$ distinct oligonucleotides sequences 
+    - $N = n^k = 20^{20} = `r signif(digits=3, 20^30)`$ distinct oligopeptide sequences
 
-- Il s'agit d'une **suite géométrique**.
+- If we consider the succession of numbers obtained for increasing oligomer sizes $k=1, 2, \cdot$ we observe a **geometric progression**.
 
-## La suite géométrique
+## The geometric progression
 
-Une **suite géométrique** est une succession de nombres dont chaque terme est obtenu en multipliant le terme précédent par un facteur constant. 
+The **geometric progression** is a succession of numbers where each term can be computed by multiplying the previous one by a constant factor. 
 
 $$x_i = x_{i-1} \cdot n$$
 
-Pour $k$ suffisamment grand on peut développer la formule.
+For a large size of $k$ the formula can be developed. 
 
 $$\begin{aligned}
 x_k &=  x_{k-1} \cdot n \\
@@ -124,14 +130,14 @@ x_k &=  x_{k-1} \cdot n \\
 &=  x_{k-3} \cdot n^3 = \ldots = x_0 \cdot n^k 
 \end{aligned}$$
 
-Dans notre cas, la valeur initiale $x_0=1$;  $k$ est la taille de l'oligomère;  et $n$ est le nombre de résidus ($n=4$ pour les acides nucléiques, $n=20$ pour les séquences peptidiques).
+In our case, the initial value is $x_0=1$; $k$ denotes the oligomer size, and $n$ is the number of distinct residues used to form the oligomer ($n=4$ for nucleic acids, $n=20$ for amino acids).
 
 
-## Nonmbre d'oligomères
+## Number of oligomers
 
 
 
-```{r number_distinct_oligos, out.width = "60%", fig.width=8, fig.height=6, echo=FALSE, fig.cap="Nombre d'oligonucléotides (dessus) ou d'oligopeptides (dessous), en utilisant une échelle soit linéaire (gauche) soit logarithmique (droite) pour l'ordonnée."}
+```{r number_distinct_oligos, out.width = "60%", fig.width=8, fig.height=6, echo=FALSE, fig.cap="Number of possible oligonucleotides (top) and oligopeptides (bottom) with either a linear (left) and logarithmic (right) scale for the ordinate."}
 x <- 1:20 ## Oligomer size
 
 par.ori <- par(no.readonly = TRUE)
@@ -173,9 +179,8 @@ plot(x, N,
      type = "p", pch = 19, col = "blue"
 )
 
-par(par.ori) ## restore default parameters
+par(par.ori) ## restaurer les paramètres par défaut
 ```
-
 
 
 ## Exercice 02.1: oligomères sans résidus répétés

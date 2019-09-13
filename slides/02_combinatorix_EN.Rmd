@@ -378,10 +378,10 @@ Il existe deux types classiques de tirage d'éléments au sein d'un ensemble: av
     
 ## Choix de la formule
 
-```{r combinatorix_flowchart, out.width = "90%", fig.width = 8, fig.height = 5}
+```{r combinatorics_flowchart, out.width = "90%", fig.width = 8, fig.height = 5}
 
 grViz("
-digraph combinatorix_flowchart {
+digraph combinatorics_flowchart {
   node [shape = diamond, fontname = Helvetica ]
   node [fontcolor = 'orange']
   A [label = 'remise ?']; 

@@ -3,14 +3,18 @@ title: "Analyse d'une table d'annotations génomiques"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  html_document:
-    code_folding: show
+  slidy_presentation:
     fig_caption: yes
-    highlight: zenburn
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: no
+    smaller: yes
     theme: cerulean
     toc: yes
-    toc_depth: 3
     toc_float: yes
+    widescreen: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -41,18 +45,14 @@ output:
     highlight: zenburn
     toc: yes
     toc_depth: 3
-  slidy_presentation:
+  html_document:
+    code_folding: show
     fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    incremental: no
-    keep_md: no
-    smaller: yes
+    highlight: zenburn
     theme: cerulean
     toc: yes
+    toc_depth: 3
     toc_float: yes
-    widescreen: yes
   word_document:
     toc: yes
     toc_depth: 3
@@ -89,7 +89,7 @@ setwd(dir.current)
 
 ## But de ce TP
 
-Durant ce TP, vous serez amenés à effectuer les t^âches suivantes: 
+Durant ce TP, vous serez amenés à effectuer les tâches suivantes: 
 
 1. Manipuler une table de données génomique (les annotations du génome de la levure).
 2. Sélectionner un sous-ensemble des données en filtrant les lignes sur base d'un critère déterminé (type d'annotation, chromosome).
@@ -103,7 +103,7 @@ Durant ce TP, vous serez amenés à effectuer les t^âches suivantes:
 A la fin du TP, vous déposerez deux fichiers sur Ametice. 
 
 1. Votre **code R**.
-2. Un **rapport d'synthétique** qui inclura une présentation des principaux résultats (figures, statistiques descriptives) et votre interprétation. 
+2. Un **rapport synthétique** qui inclura une présentation des principaux résultats (figures, statistiques descriptives) et votre interprétation. 
 
 ### Attendus pour le code
 
@@ -112,10 +112,12 @@ A la fin du TP, vous déposerez deux fichiers sur Ametice.
 2. Le code devra être **correctement documenté** (le symbole `#` en début ou en milieu de ligne indique que le reste de cette ligne est un commentaire).
 
 - avant chaque bloc de code, expliquer ce que vous comptez faire, à quoi sert ce bloc de code; 
-- si c'st utile, ajoutez quelques mots de commentaires pour justifier l'approche choisi;
+
+- si c'est utile, ajoutez quelques mots de commentaires pour justifier l'approche choisi;
+
 - chaque fois que vous déinifissez une variable, ajoutez sur la même ligne un commentaire indiquant ce que cette variable représente. 
 
-3. Le code doit être **tansportable**: après l'avoir téléchargé, on doit pouvoir l'exécuter sur une autre machine. Je testerai systématiquement si les fichiers de code peuvent ^être exécutés sur ma machine. Evitez donc tout recours à des chemins absolus (nous indiquons ci-dessous comment définir des chemins relatifs par rapport à la racine de votre compte). 
+3. Le code doit être **tansportable**: après l'avoir téléchargé, on doit pouvoir l'exécuter sur une autre machine. Je testerai systématiquement si les fichiers de code peuvent être exécutés sur ma machine. Evitez donc tout recours à des chemins absolus (nous indiquons ci-dessous comment définir des chemins relatifs par rapport à la racine de votre compte). 
 
 ### Attendus pour le rapport d'interprétation
 

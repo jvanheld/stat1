@@ -35,7 +35,7 @@
 | Pradctical | Contents | Teaching material | 
 |------|---------------------------------|--------------------------|
 | TP1 | First steps with R | Slides: [html](practicals/01_intro_R/01_R-first-steps.html) [pdf](practicals/01_intro_R/01_R-first-steps.pdf) [Rmd](practicals/01_intro_R/01_R-first-steps.Rmd) |
-| TP2 | Table d'annotations génomiques | Slides: [html](practicals/02_yeast_annotations/02_yeast_annotations.html) [pdf](practicals/02_yeast_annotations/02_yeast_annotations.pdf) [Rmd](practicals/02_yeast_annotations/02_yeast_annotations.Rmd) |
+| TP2 | Table d'annotations génomiques | Slides: [html](practicals/02_yeast_annotations/02_yeast_annotations_EN.html) [pdf](practicals/02_yeast_annotations/02_yeast_annotations_EN.pdf) [Rmd](practicals/02_yeast_annotations/02_yeast_annotations_EN.Rmd) |
 | TP3 | Tests de comparaison de moyennes | Slides: [html](practicals/03_test_comparaison_moyennes/03_test_comparaison_moyennes.html) [pdf](practicals/03_test_comparaison_moyennes/03_test_comparaison_moyennes.pdf) [Rmd](practicals/03_test_comparaison_moyennes/03_test_comparaison_moyennes.Rmd) |
 
 

@@ -3,15 +3,11 @@ title: "First steps with R"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  html_document:
-    code_folding: show
-    self_contained: no
+  pdf_document:
     fig_caption: yes
     highlight: zenburn
-    theme: cerulean
     toc: yes
     toc_depth: 3
-    toc_float: yes
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -25,11 +21,6 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: yes
-    toc_depth: 3
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -55,10 +46,19 @@ output:
     toc: yes
     toc_float: yes
     widescreen: yes
+  html_document:
+    code_folding: show
+    self_contained: no
+    fig_caption: yes
+    highlight: zenburn
+    theme: cerulean
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
   word_document:
     toc: yes
     toc_depth: 3
-font-import: http://fonts.googleapis.com/css ?family=Risque
+font-import: http://fonts.googleapis.com/css?family=Risque
 font-family: Garamond
 subtitle: Probabilités et statistique pour la biologie (STAT1)
 address: TAGC lab, Aix-Marseille Université, France
@@ -154,7 +154,7 @@ A priori, are several conventions can be envisaged to ensure a consistent naming
 
 For each programming language, the community of programmers defines some standard(s) to ensure a consistency of the published code. 
 
-For this course, we will follow the recommendations of hte **Google R style guide :**
+For this course, we will follow the recommendations of hte **Google R style guide:**
 
 <https://google.github.io/styleguide/Rguide.xml>
 
@@ -419,22 +419,20 @@ help("Binomial")
 
 **Exercise:** assuming a DNA seqsuence with equiprobable nucleotides, draw the expected distribution for the number of Adenin ($A$) residues in an  oligonucleotide of length 30 (count the adenines on a single strand).  
 
+- probability mass funciton
+- cumulative distribution
 
-- fonction de masse de la probabilité
-- fonction de répartition
+In the forthcoming slides, we will guide you step by step to start the exercise, and you will then be invited to improve the result at your will. 
 
-Dans les diapos suivantes, nous vous guidons pas à pas pour débuter l'exercice, et vous pourrez ensuite améliorer le résultat à vote guise. 
+## Formula of the solution
 
-## Formule de la solution
-
-Le nombre d'adénines peut prendre n'importe quelle valeur entre $0$ et $30$. On peut modéliser le problème comme un schéma de Bernoulli avec $n=30$ essais pouvant chacun résulter en un succès (une adénine) avec une probabilité $p=0.25$, ou un échec (tout autre nucléotide), avec une probabilité $q = 1-p = 0.75$. 
-
-La probabilité d'observer exactement $x$ adénine vaut donc. 
+The number of adenins can take any value between $0$ and $30$. The problem can be modeled as  Bernoulli Schema with $n=30$ trials, which can each result in either a success (observing and adenin, with $p=0.25$) or a failure (any other nucleotide, with probability $q = 1-p = 0.75$). 
+The probability to observe exactly $x$ adenins is thus:
 
 $$P(X=x) = \binom{n}{x} p^x (1-p)^{n-x} = \frac{30!}{x!(30-x)!} \cdot 0.25^x \cdot 0.75^{n-x}$$
-où $x$ peut prendre n'importe quelle valeur entre $0$ et $30$. 
+where $x$ can take any value between  $0$ and $30$. 
 
-## Calcul de la fonction de masse de probabilité
+## Computation of the probability mass function
 
 ```{r binomial_PMF}
 ## Define all possible values for X
@@ -446,36 +444,36 @@ p <- 0.25
 pmf <- dbinom(x = x, size = n, prob = p)
 ```
 
-## Sous-ensemble des valeurs d'un vecteur
+## Selecting a subset of entries from a vector
 
-Nous pouvons imprimer les 4 premières valeurs de la variable *pmf* (pour $x$ de $0$ à $3$) ...
+We can select the 4 first values of the `pmf`variable defined above (which correspond to number of successes $x$ from $0$ to $4$) ...
 
 ```{r}
 pmf[1:5]
 ```
 
-... ou les 4 dernières valeurs (pour $x$ de $27$ à $30$).
+... or the 4 last values ($x$ values from $27$ to $30$ succeses).
 
 ```{r}
 pmf[(n-3):n]
 ```
 
-## Restriction du nombre de décimales
+## Restricting the number of decimals
 
-La fonction `round()` arrondit un résultat à un nombre donné de décimales. 
+The function `round()` rounds a result with a given number of digits. 
 
 ```{r}
 round(pmf, digit=3)
 ```
 
-Pour des distributions de probabilités, on descend assez facilement à des valeurs très faibles, dont on désire connaître l'ordre de grandeur tout en affichant un nombre raisonnable de chiffres significatifs (ceux qui suivent la première décimale non nulle). Pour cela, il est plus pratique d'utiliser la fonction `signif()`, 
+However, this is not always the best solution. Indeed, probability values can rapidly reach very small values, and we would thus not like to replace all these values by $0$ if they are lower than the number of decimals. We would like to see both the order of magnitude, and to show the value with  a reasonable number of significant digits. For this, we can use the  `signif()` function.  
 
 ```{r}
 signif(pmf, digit=3)
 ```
 
 
-## Dessin de la distribution binomiale
+## Drawing the binomial distribution
 
 
 ```{r dbinom_plot, fig.width=7, fig.height=4, fig.align="center"}
@@ -484,26 +482,26 @@ y <- dbinom(x = x, size = n, prob = 0.25) # Poisson density
 plot(x,y) # Check the result
 ```
 
-Ce premier dessin n'est pas très élégant. Les points ne se détachent pas très bien du fond. Nous allons améliorer ce dessin.  
+This first drawing is not very elegant. The empty circles do not make it easy to perceive the general shape of the distribution. We can attempt to improve its interpretability. 
 
-## Exercice 1 : améliorer le dessin de la binomiale
+## Exercise 1: improving the drawing of the binomial
 
-Utilisez les différentes option de la fonction `plot()` pour mieux mettre en évidence la forme de la distribution (résultat attendu sur la diapo suivante). 
+Use the following options of the `plot()` function to highlight the shape of the distribution. To give you an idea of the target, the expected result is displayed on the next slide.
 
-- Commencez par choisir un type de points  (option `type`) qui donne l'impression de la hauteur de la probabilité (valeur $Y$) correspondant à chaque point de l'axe $X$.
+- Choose a type of points (option `type`) that reflects the height of the probability (valeur $Y$) at the different values of $X$.
 
-- Ajoutez un titre (option `main`) et adaptez les légendes aux axes (options `xlab`et `ylab`)
+- Add a title (option `main`) and specify relevant axis legends  (options `xlab` and  `ylab`)
 
-- Colorez le dessin (option `col`)
+- Color the drawing (option `col`)
 
-- Epaississez les traits (option `lwd`)
+- Thicken the lines (option `lwd`)
 
-- Ajoutez une grille horizontale (fonction `grid()`)
+- Add an horizontal grid (function `grid()`)
 
-- Assurez-vous que les étiquettes des axes soient toutes horizontales (option `las`).
+- make sure that the axis labels are horizontal (option `las`).
 
 
-## Résultat attendu
+## Expected result
 
 ```{r dbinom_plot_improved, fig.width=7, fig.height=4, out.width="80%", fig.align="center", echo = FALSE}
 n <- 30; x <- 0:n   # Define the X values from 0 to 14
@@ -522,9 +520,9 @@ grid(lty = "solid", col="gray")
 ```
 
 
-## Exercice: série de courbes binomiales
+## Exercise: series of binomial curves
 
-Dessinez une série de courbes binomiales avec $n=30$ essais, et des valeurs de $p$ allant de $0.1$ à $0.9$ par pas de $0.1$. 
+Draw a series of binomial curves with $n=30$ trials, and probabilities ranging from $p=0.1$ to $p=0.9$ by steps of $0.1$. 
 
 ```{r binomial_series, fig.width = 12, fig.height = 9, out.width = "60%", echo = FALSE}
 par(mfrow = c(3,3))
@@ -543,7 +541,7 @@ par(mfrow = c(1,1))
 ```
 
 
-## Exercice: convergence de la binomiale vers une normale
+## Exercise: convergence of the binomial to the normal
 
 ```{r fig.width = 12, fig.height = 6, out.width="60%", echo = FALSE}
 n <- 10
@@ -588,13 +586,14 @@ par(mfrow=c(1,1))
 
 
 
-## Avant de terminer : conservez la trace de votre session
+## Before finishing: keep a trace of your session!
 
-La traçabilité constitue un enjeu essentiel en sciences. 
-La fonction ***R***  `sessionInfo()` fournit un résumé des conditions d'une session de travail: version de R, système opérateur, bibliothèques de fonctions utilisées. 
+Traceabilityand reproducibility of the analyses are crucial issues for sciences. 
+The  ***R*** function `sessionInfo()` summarises the software environment used for the current a working session: R version, operating system, loaded libraries/packages and their versions.
 
 
 ```{r}
 sessionInfo()
 ```
 
+*******

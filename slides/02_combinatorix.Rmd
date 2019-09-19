@@ -3,18 +3,20 @@ title: "Eléments d'analyse combinatoire"
 author: "Jacques van Helden, revised by Lucie Khamvongsa-Charbonnier and Yvon Mbouamboua"
 date: "`r Sys.Date()`"
 output:
-  beamer_presentation:
-    colortheme: dolphin
+  slidy_presentation:
+    smart: no
+    slide_level: 2
+    self_contained: yes
     fig_caption: yes
     fig_height: 6
     fig_width: 7
-    fonttheme: structurebold
     highlight: tango
     incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
     toc: yes
+    widescreen: yes
   ioslides_presentation:
     slide_level: 2
     self_contained: no
@@ -41,20 +43,18 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
-  slidy_presentation:
-    smart: no
-    slide_level: 2
-    self_contained: yes
+  beamer_presentation:
+    colortheme: dolphin
     fig_caption: yes
     fig_height: 6
     fig_width: 7
+    fonttheme: structurebold
     highlight: tango
     incremental: no
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
     toc: yes
-    widescreen: yes
   pdf_document:
     fig_caption: yes
     highlight: zenburn
@@ -289,7 +289,7 @@ Il s'agit d'une sélection **sans remise** (chaque gène apparaît à une et une
 
 ## Exercice 02.3 : ensembles (non-ordonnés) de gènes
 
-Lors d'une expérience de transcriptome indiquant le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**sans tenir compte** de l'ordre relatif de ces 15 gènes) ?
+Ona a réalisé une expérience de transcriptome indiquant le niveau d'expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (**sans tenir compte** de l'ordre relatif de ces 15 gènes) ?
 
 **Approche suggérée**: comme précédemment, simplifiez le problème en partant de sélections minimales (1 gène, 2 gènes, ...) et généralisez la formule. 
 

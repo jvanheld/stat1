@@ -24,8 +24,8 @@
 |  |  | Exercises | Combinatorics |  [[html](slides/02_combinatorix_exercices.html)] [[pdf](slides/02_combinatorix_exercices.pdf)] [[Rmd](slides/02_combinatorix_exercices.Rmd)] |
 |  | | Lecture | Concepts of probabilities | [[html](slides/03_concepts_proba.html)] [[pdf](slides/03_concepts_proba.pdf)] [[Rmd](slides/03_concepts_proba.Rmd)] |
 |  | | Exercises | Concepts of probabilities | [[html](slides/03_concepts_proba_exercices.html)] [[pdf](slides/03_concepts_proba_exercices.pdf)] [[Rmd](slides/03_concepts_proba_exercices.Rmd)] |
-|  | | Lecture | Discrete distributions | [[html](slides/04_distributions_discretes.html)] [[pdf](slides/04_distributions_discretes.pdf)] [[Rmd](slides/04_distributions_discretes.Rmd)] |
-|  |  | Exercises | Discrete distributions | [[html](slides/04_distributions_discretes_exercices.html)] [[pdf](slides/04_distributions_discretes_exercices.pdf)] [[Rmd](slides/04_distributions_discretes_exercices.Rmd)] |
+|  | | Lecture | Discrete distributions | [[html](slides/04_discrete_distributions_EN.html)] [[pdf](slides/04_discrete_distributions_EN.pdf)] [[Rmd](slides/04_discrete_distributions_EN.Rmd)] |
+|  |  | Exercises | Discrete distributions | [[html](slides/04_discrete_distributions_EN_exercices.html)] [[pdf](slides/04_discrete_distributions_EN_exercices.pdf)] [[Rmd](slides/04_discrete_distributions_EN_exercices.Rmd)] |
 | 13/09 | 14h - 17h | Practicals | First steps with R | [[html](practicals/01_intro_R/01_R-first-steps.html)] [[pdf](practicals/01_intro_R/01_R-first-steps.pdf)] [[Rmd](practicals/01_intro_R/01_R-first-steps.Rmd)] |
 
 ****************************************************************

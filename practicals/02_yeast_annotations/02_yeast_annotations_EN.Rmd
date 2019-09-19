@@ -105,7 +105,7 @@ During this practical session, you will run the following tasks:
 At the end of the practical you will be asked to submit two documents 
 
 
-1. Your **R code**.
+1. Your **R code**.Each question must be explicitly formulated before presenting the results that answer it and giving an interpretation of these results. 
 2. UA  **synthetic report**, which will include a presentation of the main results (figures, descriptives stats, tables) as well as your interpretation of the result. 
 
 ### Expectation for the code
@@ -125,10 +125,10 @@ At the end of the practical you will be asked to submit two documents
 
 ### Expected content for the interpretation report
 
-Your report must be synthetic (1 text page max + many figures and table as you want)
+Your report must be synthetic (1 text page max + as many figures and table as you wish)
 Le rapport doit être synthétique (1 page de texte maximum + autant de figures et tables que vous le désirez). 
 
-Each question have to be explicitly presented before to show results and give interpretation to these restults.
+Each question must be explicitly formulated before presenting the results that answer it and then interpreting those results.  
 Chaque question doit être exprimée explicitement avant de présenter les résultats qui y répondent et de fournir l'interprétation de ces résultats. 
 
 Each figure or table must be documented with a legend that allows a naive reader to understand what it represents. The interpretation of the results displayed on a figure or table will be found in the main text (with a reference to the figure or table number).
@@ -160,20 +160,20 @@ cds <- subset(feature.table, feature=="CDS")
 
 ```
 
-- 1992: publication du premier chromosome eucaryote complet, le 3ème chromosome de la levure. 
-- 1996: publication du génome complet.
+- 1992: publication of the first complete eukaryotic chromosome, the 3rd yeast chromosome. 
+- 1996: publication of the complete genome.
 
-Sur base des gènes dU 3ème chromosome (échantillon) on peut estimer la taille moyenne d'un gène de levure. 
+On the base of the genes of the 3rd chromosome (sample) we can estimate the average size of a yeast gene. 
 
 **Questions: ** 
 
-(a) La moyenne d'échantillon (chromosome III) permettait-elle de prédire la moyenne de la population (génome complet) ? 
+(a) Would the sample mean (chromosome III) be sufficient to predict the population mean (complete genome) ? 
 
-    Pour répondre à cette quesiton, nous imaginerons que nous sommes revenus en 1992, et utiliserons l'ensemble des gènes du chromosome III (considérés ici comme un échantillon du génome) pour estimer la taille moyenne des gènes pour l'ensemble du génome (la "population" de gènes").
+    To answer this question, we will imagine that we came back in 1992, and will use all the genes of chromosome III (considered here as a sample of the genome) to estimate the average size of genes for the whole genome (the "population" of genes").
 
-(b) Cet échantillon peut-il être qualifié de "simple et indépendant" ?
+(b) Can this sample be described as "simple and independent" ?
 
-## Analyse de la longueur des gènes de la levure du boulanger
+## Analysis of the length of the baker's yeast genes
 
 ```{r cds_length_histo, out.width="90%", fig.width=10, fig.height=4, fig.cap="Distribution of cds lengths for Saccharomyces cerevisiae. ", echo=FALSE}
 par.ori <- par(no.readonly = TRUE)
@@ -209,30 +209,30 @@ par <- par.ori
 
 
 
-## Tutoriel
+## Tutorial
 
-Avant de passer aux exercices, nous vous montrons ici quelques éléments de base concernant la lecture, la manipulation et l'écriture des tableaux de données avec R.
+Before moving to the exercises, we show you here some basic elements about reading, manipulating and writing data tables with R.
 
 
-### Le chemin de la maison (manuel)
+### The path to the home (manual)
 
-Nous allons créer un dossier pour ce tuto, en partant de la racine de nore compte. 
+We will create a folder for this tutorial, starting from the root of our account.  
 
-Première possibilité (**rapide mais peu élégant**):  entrer (manuellement) le chemin de la racine de votre compte dans une variable
+First possibility (**quick but not very elegant**):  enter (manually) the path from the root of your account in a variable
 
-`dir.home <- /le/chemin/de/ma/maison`
+`dir.home <- /the/path/to/the/home`
 
-- Avantage: rapide et pratique
-- Désavantage: non portable, ne fonctionnera que sur votre ordinateur
+- Advantage: fast and convenient
+- Disadvantage: not portable, will only work on your computer
 
-### Le chemin de la maison (automatique)
+### The path to the home (automatic)
 
-Une solution plus générale: utiliser la commande **R** `Sys.getenv()`.
+A more general solution: use the **R** command  `Sys.getenv()`.
 
-- Invoquée sans paramètre, cette commande liste toutes les variables d'environnement (votre configuration système). 
-- On peut restreindre l'output à une variable d'environnement donnée, par exemple `Sys.getenv("HOME")` retourne le chemin de la racine de votre compte.
+- Invoked without parameters, this command lists all environment variables (your system configuration). 
+- The output can be restricted to a given environment variable, for example `Sys.getenv("HOME")` returns the path to the root of your account.
 
-**Note:** écriture équivalente sous Linux: le symbole tilde `~` indique également le chemin de la rachine de votre compte. 
+**Note:** equivalent writing with Linux: the tilde symbol `~` also indicates the path to the root of your account. 
 
 ```{r get_home}
 ## Identify the home directory 
@@ -242,7 +242,7 @@ print(dir.home)
 ```
 
 
-### Création d'un dossier pour le TP
+### Creating a folder for the TP
 
 ```{r create_practical_dir}
 ## Define a variable containing the path of the results for this tutorial
@@ -261,9 +261,9 @@ list.files()
 
 ```
 
-### Téléchargement du fichier GTF à partir d'EnsemblGenomes
+### Downloading the GTF file from EnsemblGenomes
 
-**Astuce: ** avant de télécharger le fichier d'annotations (GTF) depuis EnsemblGenomes vers notre ordinateur, nous allons vérifier s'il est déjà présent (et dans ce cas on ne le re-télécharge pas). 
+**Tips: ** before downloading the annotation file (GTF) from EnsemblGenomes to our computer, we will check if it is already present (and in this case we do not re-download it). 
 
 ```{r download_GTF}
 ## Define the URL of the annotation file (GTF-formatted)
@@ -281,25 +281,25 @@ if (file.exists(local.GTF)) {
 }
 ```
 
-### Chargement d'un tableau de données
+### Loading a data table
 
-R comporte plusieurs types de structures tabulaires (matrix, data.frame, table). 
+R has several types of tabular structures (matrix, data.frame, table).
 
-La structure la plus couramment utilisée est le `data.frame`, qui consiste en un tableau de valeurs (numériques ou chaînes de caractères) dont les lignes et les colonnes sont associées à des noms. 
+The most commonly used structure is the `data.frame`, which consists of an array of values (numeric or strings) whose rows and columns are associated with names. 
 
-La fonction `read.table()` permet de lire un fichier texte contenant un tableau de données, et de stocker le contenu dans une variable.
+The function `read.table()` allows you to read a text file containing a data table, and store the content in a variable.
 
-Plusieurs fonctions dérivées de `read.table()` facilitent la lecture de différents types de formats: 
+Several functions derived from `read.table()` make it easier to read different types of formats:  
 
-- `read.delim()` pour les fichiers dont les colonnes sont délimitées par un caractère  particulier (généralement la tabulation, représentée par "\t").
-- `read.csv()` pour les fichiers "comma-searated values".
+- `read.delim()` for files whose columns are delimited by a particular character (usually the tab, represented by "\t").
+- `read.csv()` for files "comma-searated values".
 
 
-1. Téléchargez le fichier suivant sur votre ordinateur: 
+1. Download the following file to your computer: 
 
 - [Saccharomyces_cerevisiae.R64-1-1.37.gtf](../../data/Saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.37.gtf)
 
-2. Chargez-le au moyen de la fonction read.table (pour cela vous devez remplacer le chemin ci-dessous par celui de votre ordinateur). 
+2. Load it using the read.table function (for this you must replace the path below by that of your computer). 
 
 ```{r read.table, echo=TRUE, result=TRUE}
 ## Read a GTF file with yeast genome annotations
@@ -321,9 +321,9 @@ names(feature.table) <- c("seqname", "source", "feature", "start", "end", "score
 
 ```
 
-### Exploration du contenu d'un tableau de données
+### Exploring the content of a data table
 
-La première chose à faire après avoir chargé un tableau de données est de vérifier ses dimensions
+The first thing to do after loading a data table is to check its dimensions.
 
 ```{r echo=TRUE, result=TRUE, warning=FALSE}
 dim(feature.table) ## Dimensions of the tbale
@@ -331,18 +331,18 @@ nrow(feature.table) ## Number of rows
 ncol(feature.table) ## Number of columns
 ```
 
-L'affichage du tableau d'annotations complet ne serait pas très lisible, puisqu'il comporte des dizaines de milliers de lignes. 
+The display of the complete annotation table would not be very readable, since it contains tens of thousands of lines.  
 
-Nous pouvons afficher les premières lignes avec la fonction `head()`. 
+We can display the first lines with the function `head()`. 
 
-**Note: ** la dernière colonne est particulièrement lourde (elle contient un tas d'information). Nous verrons plus loin comment sélectionner un sous-ensemble des colonnes pour alléger l'affichage.  
+**Note: ** the last column is particularly heavy (it contains a lot of information). We will see later how to select a subset of the columns to simplify the display.  
 
 ```{r echo=TRUE, eval=TRUE, result=TRUE}
 ## Display the 5 first rows of the feature table
 head(feature.table, n = 5) 
 ```
 
-La fonction `tail()` affiche les dernières lignes:
+The function `tail()` displays the last few lines:
 
 ```{r echo=TRUE, eval=TRUE, result=TRUE}
 ## Display the 5 last rows of the feature table
@@ -357,39 +357,39 @@ View(feature.table)
 ```
 
 
-### Sélection de sous-ensembles d'un tableau
+### Selection of subsets from a table
 
-Sélection d'une ligne spécifiée par son indice.
+Selection of a line specified by its index.
 
 ```{r echo=TRUE, eval=TRUE, result=TRUE}
 feature.table[12,]
 ```
 
-Sélection d'une colonne spécifiée par son indice (affichage des premières valeurs seulement.
+Selection of a column specified by its index (display of the first values only).
 
 ```{r echo=TRUE, eval=TRUE, result=TRUE}
 head(feature.table[,3])
 ```
 
-Selection d'une cellule en combinant indices de ligne et colonne.
+Selection of a cell by combining row and column indices.
 
 ```{r echo=TRUE, eval=TRUE, result=TRUE}
 feature.table[12, 3]
 ```
 
-Sélection d'un bloc de colonnes et/ou de lignes.
+Selection of a column and/or row set.
 
 ```{r echo=TRUE, eval=TRUE, result=TRUE}
 feature.table[100:105, 1:6]
 ```
-Sélection de colonnes "à la carte" (ici, les coordonnées génomiques de chaque "feature"):  chromosome, début, fin, brin. 
+
+Selection of specific columns (here, the genomic coordinates of each feature): chromosome, beginning, end, strand.
 
 ```{r echo=TRUE, eval=TRUE, result=TRUE}
 feature.table[100:105, c(1,4,5,7)]
 ```
 
-
-Sélectionner une colonne sur base de son nom.
+Select a column based on its name.
 
 ```{r echo=TRUE, eval=TRUE, result=TRUE}
 ## Select the "start" column and print the 100 first results
@@ -399,7 +399,7 @@ head(feature.table$start, n=100)
 head(feature.table$feature, n=20)
 ```
 
-Sélection de plusieurs colonnes sur base de leurs noms. 
+Selection of several columns based on their names. 
 
 
 ```{r echo=TRUE, eval=TRUE, result=TRUE}
@@ -407,15 +407,15 @@ Sélection de plusieurs colonnes sur base de leurs noms.
 feature.table[100:106, c("seqname", "start", "end", "strand")]
 ```
 
-**Note**: il est également possible de nommer les lignes d'un data.frame mais le tableau GTF ne se prête pas à cela. Nous verrons d'autres exemples ultérieurement. 
+**Note**: Selection of several columns based on their names. It is also possible to name the rows of a data.frame but the GTF table does not support this. We will see more examples later.
 
 
 
-### Sélection d'un sous-ensemble de lignes sur base du contenu d'une colonne
+### Selection of a subset of rows based on the content of a column
 
-La fonction `subset()` permet de sélectionner un sous-ensemble des lignes d'un data.frame sur base d'une condition appliquée à une ou plusieurs colonnes. 
+The function `subset()` allows you to select a subset of the rows of a data.frame based on a condition applied to one or more columns.
 
-Nous pouvons l'appliquer pour sélectionner le sous-ensemble des lignes du tableau d'annotations correspondant à des séquences codantes (CDS).
+We can apply it to select the subset of rows in the annotation table corresponding to coding sequences (CDS).
 
 ```{r echo=TRUE, eval=TRUE, result=TRUE}
 ## Select subset of features having "cds" as "feature" attribute
@@ -425,9 +425,9 @@ nrow(feature.table) ## Count the number of features
 nrow(cds) ## Count the number of cds
 ```
 
-### Décompte par valeur
+### Count by value
 
-La fonction `table()` permet de compter le nombre d'occurrences de chaque valeur dans un vecteur ou un tableau. Quelques exemples d'utilisation ci-dessous. 
+The function `table()` allows you to count the occurrences of each value in a vector or array. Some examples of use below.  
 
 ```{r echo=TRUE, eval=TRUE, results=TRUE}
 ## Count the number of featues per chromosome
@@ -437,8 +437,7 @@ table(feature.table$seqname)
 table(feature.table$feature)
 ```
 
-On peut calculer des tables de contingence en comptant le nombre de combinaisons entre 2 vecteurs (ou 2 colonnes d'un tableau). 
-
+Contingency tables can be calculated by counting the number of combinations between 2 vectors (or 2 columns of a table). 
 
 ```{r echo=TRUE, eval=TRUE, results=TRUE}
 ##  Table with two vectors
@@ -448,22 +447,24 @@ table(feature.table$feature, feature.table$seqname)
 table(feature.table[, c("feature", "seqname")])
 ```
 
-## Exercices
+## Exercises
 
-### 1. Spécifications du format GTF
+### 1. GTF format specifications
 
-Lisez les spécifications du format GTF.
+Read the GTF format specifications.
 
 - Ensembl (<http://www.ensembl.org/info/website/upload/gff.html>)
 - UCSC (<https://genome.ucsc.edu/FAQ/FAQformat.html#format4>)
 
-### 2. Création d'un dossier local pour le TP
+### 2. Creating a local folder for the TP
 
-Créez un dossier local (par exemple: `stat1/TP_levure` à partir de la racine de votre compte). Nous vous suggérons d'utiliser les fonctions suivantes: 
+Create a local folder (for example: `stat1/TP_yeast` from the root of your account). We suggest you to use the following functions: 
+ 
 
-- `Sys.getenv("HOME")` (Linnux et Mac OS X), pour obtenir la racine de votre compte utilisateur;
-- `file.path()` pour construire un chemin;
-- `dir.create()` pour créer le dossier de ce TP. Lisez attendivement les options de cette fonction avec `help(dir.create)` 
+- `Sys.getenv("HOME")` (Linnux and Mac OS X), to get the root of your user account;
+- `file.path()` to build a path;
+- `dir.create()` to create the folder for the TP
+pour créer le dossier de ce TP. Lisez attendivement les options de cette fonction avec `help(dir.create)` 
 
 ### 3. Localisation du fichier d'annotations
 

@@ -3,18 +3,15 @@ title: "Analysis of a genome annotation table"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  slidy_presentation:
+  html_document:
+    self_contained: no
+    code_folding: show
     fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    incremental: no
-    keep_md: no
-    smaller: yes
+    highlight: zenburn
     theme: cerulean
     toc: yes
+    toc_depth: 3
     toc_float: yes
-    widescreen: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -32,15 +29,18 @@ output:
     highlight: zenburn
     toc: yes
     toc_depth: 3
-  html_document:
-    self_contained: no
-    code_folding: show
+  slidy_presentation:
     fig_caption: yes
-    highlight: zenburn
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: no
+    smaller: yes
     theme: cerulean
     toc: yes
-    toc_depth: 3
     toc_float: yes
+    widescreen: yes
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes

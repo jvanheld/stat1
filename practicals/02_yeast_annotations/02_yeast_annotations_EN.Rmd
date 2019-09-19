@@ -111,7 +111,7 @@ At the end of the practical you will be asked to submit two documents
 ### Expectation for the code
 
 
-1. The code must be **readable and undestandable**: choose variable names that exploicitly indicate what they represent.
+1. The code must be **readable and undestandable**: choose variable names that explicitly indicate what they represent.
 
 2. The code must be properly documented (the `#` symbol starts a comment, either at the begining or in the middle of a line of code).
 
@@ -125,13 +125,16 @@ At the end of the practical you will be asked to submit two documents
 
 ### Expected content for the interpretation report
 
+Your report must be synthetic (1 text page max + many figures and table as you want)
 Le rapport doit être synthétique (1 page de texte maximum + autant de figures et tables que vous le désirez). 
 
+Each question have to be explicitly presented before to show results and give interpretation to these restults.
 Chaque question doit être exprimée explicitement avant de présenter les résultats qui y répondent et de fournir l'interprétation de ces résultats. 
 
+Each figure or table must be documented with a legend that allows a naive reader to understand what it represents. The interpretation of the results displayed on a figure or table will be found in the main text (with a reference to the figure or table number).
 Chaque figure ou table doit être documentée par une légende permettant à un lecteur naïf de comprendre ce qu'elle représente. L'interprétation des résultats affichés sur une figure ou table se trouvera dans le texte principal (avec une référence au numéro de figure ou table). 
 
-## Exemple historique: génome de la levure
+## Historical example: yeast genome
 
 ```{r load_yeast_cds_lengths, echo=FALSE}
 ## Read a GTF file

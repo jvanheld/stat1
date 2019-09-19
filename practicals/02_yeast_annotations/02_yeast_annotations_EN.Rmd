@@ -3,23 +3,6 @@ title: "Analysis of a genome annotation table"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: yes
-    toc_depth: 3
-  beamer_presentation:
-    colortheme: dolphin
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
-    toc: yes
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -32,6 +15,23 @@ output:
     toc: yes
     toc_float: yes
     widescreen: yes
+  beamer_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
   html_document:
     self_contained: no
     code_folding: show
@@ -129,10 +129,10 @@ Your report must be synthetic (1 text page max + as many figures and table as yo
 Le rapport doit être synthétique (1 page de texte maximum + autant de figures et tables que vous le désirez). 
 
 Each question must be explicitly formulated before presenting the results that answer it and then interpreting those results.  
-Chaque question doit être exprimée explicitement avant de présenter les résultats qui y répondent et de fournir l'interprétation de ces résultats. 
+
 
 Each figure or table must be documented with a legend that allows a naive reader to understand what it represents. The interpretation of the results displayed on a figure or table will be found in the main text (with a reference to the figure or table number).
-Chaque figure ou table doit être documentée par une légende permettant à un lecteur naïf de comprendre ce qu'elle représente. L'interprétation des résultats affichés sur une figure ou table se trouvera dans le texte principal (avec une référence au numéro de figure ou table). 
+ 
 
 ## Historical example: yeast genome
 
@@ -141,13 +141,13 @@ Chaque figure ou table doit être documentée par une légende permettant à un 
 ## Format specification: http://www.ensembl.org/info/website/upload/gff.html
 
 ## Download tab-delimited file with chromosome sizes (unless already there)
-gtf.url <- "http://jvanheld.github.io/stat1/data/Saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz"
-gtf.file <- file.path(dir.main, "data", "Saccharomyces_cerevisiae", "Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz")
+gtf.url <- "http://jvanheld.github.io/stat1/data/Saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.37.gtf"
+gtf.file <- file.path(dir.main, "data", "Saccharomyces_cerevisiae", "Saccharomyces_cerevisiae.R64-1-1.37.gtf")
 
 if (file.exists(gtf.file)) {
   message("GTF annotation file: ", gtf.file)
 } else {
-  download.file(gtf.URL, destfile = gtf.file)
+  download.file(gtf.url, destfile = gtf.file)
 }
 
 feature.table <- read.delim(gtf.file, comment.char = "#", sep="\t", header=FALSE, row.names=NULL)

@@ -14,18 +14,6 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
-  beamer_presentation:
-    colortheme: dolphin
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
-    toc: yes
   ioslides_presentation:
     css: slides.css
     fig_caption: yes
@@ -40,6 +28,18 @@ output:
     highlight: zenburn
     toc: yes
     toc_depth: 3
+  beamer_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
   html_document:
     fig_caption: yes
     highlight: zenburn
@@ -105,7 +105,7 @@ On **estime** les paramètres de la population ($\mu$, $\sigma$) à partir des p
 
 
 ```{r one_sample, out.width="50%", fig.cap="Sélection d'un échantillon dans une population. "}
-include_graphics("figures/population_one_sample.pdf") 
+include_graphics("figures/population_one_sample.png") 
 ```
 
 ## Population et échantillons
@@ -114,7 +114,7 @@ include_graphics("figures/population_one_sample.pdf")
 
 
 ```{r some_samples, out.width="50%", fig.cap="Sélection d'un échantillon dans une population. "}
-include_graphics("figures/population_some_samples.pdf")
+include_graphics("figures/population_some_samples.png")
 ```
 
 ## Paramètres classiques

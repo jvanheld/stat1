@@ -3,15 +3,11 @@ title: "Analysis of a genome annotation table"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  html_document:
-    self_contained: no
-    code_folding: show
+  pdf_document:
     fig_caption: yes
     highlight: zenburn
-    theme: cerulean
     toc: yes
     toc_depth: 3
-    toc_float: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -24,11 +20,15 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
-  pdf_document:
+  html_document:
+    self_contained: no
+    code_folding: show
     fig_caption: yes
     highlight: zenburn
+    theme: cerulean
     toc: yes
     toc_depth: 3
+    toc_float: yes
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -418,7 +418,7 @@ We can apply it to select the subset of rows in the annotation table correspondi
 
 ```{r echo=TRUE, eval=TRUE, result=TRUE}
 ## Select subset of features having "cds" as "feature" attribute
-cds <- subset(feature.table, feature=="cds")
+cds <- subset(feature.table, feature=="CDS")
 
 nrow(feature.table) ## Count the number of features
 nrow(cds) ## Count the number of cds

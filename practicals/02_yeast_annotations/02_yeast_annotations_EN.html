@@ -602,12 +602,12 @@ feature.table[<span class="dv">100</span><span class="op">:</span><span class="d
 <p>The function <code>subset()</code> allows you to select a subset of the rows of a data.frame based on a condition applied to one or more columns.</p>
 <p>We can apply it to select the subset of rows in the annotation table corresponding to coding sequences (CDS).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Select subset of features having &quot;cds&quot; as &quot;feature&quot; attribute
-cds &lt;-<span class="st"> </span><span class="kw">subset</span>(feature.table, feature<span class="op">==</span><span class="st">&quot;cds&quot;</span>)
+cds &lt;-<span class="st"> </span><span class="kw">subset</span>(feature.table, feature<span class="op">==</span><span class="st">&quot;CDS&quot;</span>)
 
 <span class="kw">nrow</span>(feature.table) ## Count the number of features</code></pre></div>
 <pre><code>[1] 43028</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(cds) ## Count the number of cds</code></pre></div>
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 7050</code></pre>
 </div>
 <div id="count-by-value" class="section level3">
 <h3>Count by value</h3>

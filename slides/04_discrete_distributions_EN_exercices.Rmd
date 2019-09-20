@@ -1,0 +1,172 @@
+---
+title: "Exercises: discrete distributions"
+author: "Jacques van Helden"
+date: '`r Sys.Date()`'
+output:
+  slidy_presentation:
+    smart: no
+    slide_level: 2
+    self_contained: yes
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
+  ioslides_presentation:
+    slide_level: 2
+    self_contained: no
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    smaller: yes
+    toc: yes
+    widescreen: yes
+  html_document:
+    self_contained: no
+    fig_caption: yes
+    highlight: zenburn
+    theme: cerulean
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  beamer_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
+  revealjs::revealjs_presentation:
+    theme: night
+    transition: none
+    self_contained: true
+    css: ../slides.css
+font-import: http://fonts.googleapis.com/css?family=Risque
+subtitle: Probabilités et statistique pour la biologie (STAT1)
+font-family: Garamond
+transition: linear
+---
+
+```{r include=FALSE, echo=FALSE, eval=TRUE}
+library(knitr)
+
+options(width = 300)
+knitr::opts_chunk$set(
+  fig.width = 7, fig.height = 5, 
+  out.width = "80%",
+  fig.align = "center", 
+  fig.path = "figures/04_discrete-distrib_",
+  size = "tiny", 
+  echo = TRUE, eval = TRUE, 
+  warning = FALSE, message = FALSE, 
+  results = TRUE, comment = "")
+# knitr::asis_output("\\footnotesize")
+
+dir.main <- "~/stat1"
+dir.slides <- file.path(dir.main, "slides")
+setwd(dir.slides)
+```
+
+
+
+## Exercise 04.1: probability of a motif with mismatches
+
+We scan a genome to search all occurrences of the motif $GATAAG$, and we admit a given numnber of mismatches. Assuming equiprobable and independent nucleotides, what would be the probability to find, at a given genomic position:
+
+
+
+a. An perfect match with the motif  (not a signle mismatch)?
+b. An alignement with not a single matching nucleotide (6 mismatches)?
+c. An instance with exactly 1 substitution?
+d. An instance with at most 2 substitutions?
+
+## Exercise 04.2: alignment of NGS sequences 
+
+After an experiment of *Next Generation Sequencing* (*NGS*), we dispose of a sequence library containing $N=10^6$ short reads. We run a read mapping software to find the position of these sequences on a reference genome that contain $C=20$ chromosomes totaling  $G=10^9$ base pairs. We use a gapless algorithm and we don't accept any mismatch.
+
+We would like to compute the probability of a perfect alignment (not a single mismatch) for a particular short read at a given position of the genome, as a function of the read length  ($k$).
+
+- Which theoretical distribution would you use to model this problem? Justify your choice. 
+
+- Write the formula of the corresponding probability. 
+`
+
+Note: during the practicals we will draw this distribution with *R*.
+
+
+## Exercise 04.3: sites de restriction
+
+Dans un génome bactérien de 4 Mb avec une composition de 50% de G+C, on observe 130 occurrences de l'hexanucléotide GGCGCC. On suppose un schéma de Bernoulli et une composition équiprobable de nucléotides.
+
+(a) Quelle est la probabilité d’observer une occurrence de GGCGCC à une position donnée du génome?
+(b) Combien d'occurrences s'attend-on à trouver dans l'ensemble du génome?
+(c) Quelle serait la probabilité d'observer un nombre aussi faible d'occurrences (130 ou moins) si l'on générait une séquence aléatoire selon le modèle de Bernoulli avec nucléotides équiprobables?
+(d) Comment peut-on interpréter cette sous-représentation de l'hexanucléotide GGCGCC du point de vue biologique?
+
+\newpage
+## Exercise 04.4: Jeu de roulette
+
+La roulette comporte 37 nombres allant du 0 au 36. Un joueur a décidé de miser systématiquement 1 euro sur le nombre 17 jusqu’à ce que ce nombre sorte, et de s’arrêter ensuite. 
+
+Sachant que quand on mise sur un seul nombre, le gain vaut 36 fois la mise, quelle est la probabilité pour que le joueur sorte du casino en ayant gagné de l’argent? 
+
+Il n’est pas nécessaire de fournir une réponse numérique, vous pouvez vous contenter de fournir la formule, en indiquant les nombres correspondant aux différents symboles mathématiques. Justifiez votre réponse en expliquant votre raisonnement. 
+
+## Exercise 04.5: probabilité des longueurs d'ORF
+
+On détecte les cadres ouverts de lecture (*open reading frames*, *ORF*) d'un génome en identifiant toutes les séquences de taille multiple de 3 comprises entre un start (ATG) et un stop (TAA, TAG ou TGA). 
+
+a. Sur base des fréquences génomiques de trinucléotides, calculer la probabilité de trouver à une position donnée du génome un ORF d'au moins 100 codons. 
+b. Sachant que le génome fait 12 Mb, quel est le nombre attendu d'ORF d'au moins 100 codons?
+
+
+```{r echo=FALSE}
+oligo.freq <- read.table("../data/Saccharomyces_cerevisiae/oligo_freq/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab", 
+                         sep = "\t", row.names = NULL)
+colnames(oligo.freq) <- c("sequence", "frequency", "occurrences")
+oligo.freq$frequency <- signif(digits = 3, oligo.freq$frequency)
+
+row.names(oligo.freq) <- oligo.freq$sequence
+
+#oligo.freq["...",] <- c("...", "...", "...")
+
+selected.oligos <- c("AAA", "ATG", "TAA", "TAG", "TGA")
+
+kable(data.frame(oligo.freq[selected.oligos, ]), row.names = FALSE)
+#print(data.frame(oligo.freq[selected.oligos, ]))
+```
+
+
+## Exercise 04.6: mutagenèse
+
+On soumet une librairie de molécules d'ADN de 1 kilobase à un traitement mutagène qui provoque un nombre moyen de 5 mutations ponctuelles (substitutions) par molécule.
+
+a. Quelle est la probabilité d'avoir exactement 5 mutations pour une molécule donnée?
+b. Quelle est la probabilité pour une molécule d'ADN de n'avoir subi aucune mutation au cours du traitement?
+c. Quelle est la probabilité d'obtenir au moins 10 mutations ?
+
+Formulation attendue pour la réponse.
+
+- Expliquez le raisonnement qui vous permet de modéliser ce problème. 
+- Justifiez vos choix des hypothèses de travail. 
+- Ecrivez les formules avec les symboles, puis remplacez le symboles par les valeurs numériques correspondantes. Il n'est pas nécessaire de calculer la valeur finale (ceci nécessite un ordinateur, nous le ferons pendant les TP). 
+
+

@@ -1,0 +1,686 @@
+---
+title: "Discrete distributions"
+author: "Jacques van Helden"
+date: "`r Sys.Date()`"
+output:
+  beamer_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
+  revealjs::revealjs_presentation:
+    theme: night
+    transition: none
+    self_contained: true
+    css: ../slides.css
+  html_document:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+    widescreen: yes
+  ioslides_presentation:
+    css: slides.css
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    smaller: yes
+    toc: yes
+    widescreen: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
+  slidy_presentation:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
+font-import: http://fonts.googleapis.com/css?family=Risque
+subtitle: Probabilités et statistique pour la biologie (STAT1)
+font-family: Garamond
+transition: linear
+---
+
+```{r include=FALSE, echo=FALSE, eval=TRUE}
+library(knitr)
+
+options(width = 300)
+knitr::opts_chunk$set(
+  fig.width = 7, fig.height = 5, 
+  out.width = "80%",
+  fig.align = "center", 
+  fig.path = "figures/04_discrete-distrib_",
+  size = "tiny", 
+  echo = TRUE, eval = TRUE, 
+  warning = FALSE, message = FALSE, 
+  results = TRUE, comment = "")
+# knitr::asis_output("\\footnotesize")
+
+dir.main <- "~/stat1"
+dir.slides <- file.path(dir.main, "slides")
+setwd(dir.slides)
+```
+
+
+## Discrete distributions of probabilities
+
+The expression  ***discrete distribution*** denotes probability distribution of variables that only take discrete values (by opposition to continuous distributions).
+
+**Notes:** 
+
+- In probabilities, the observed variable ($x$) usually represents the number of successes of a series of tests, or the counts of some observation. In such cases, its values are natural numbers ($x \in \mathbb{N}$).
+
+- The probability $\operatorname{P}(x)$ takes real values comprised between 0 and 1, but its distribution is said *discrete¨since it is only defined fora set of discrete values of $X$. It is generally represented by a step function. 
+
+## Geometric distribution
+
+**Application:** waiting time until the first appeearance of an event in a Bernoulli schema. 
+
+
+**Examples:**
+
+- In a series of dices rollings, count the number rolls ($x$) before the first occurrence of a 6 (this occurrence itself is not taken into account). 
+
+- Length of a DNA sequence before the first occurrence of a cytosine. 
+
+
+## Mass function of the geometric distribution
+
+
+The  ***Probability Mass Function*** (***PMF***) indicates the probability to observe a particular result.
+
+For the geometric distribution, it indicates the probability to observe exactly $x$ failures before the first success, in a series of independent trials with a probability of success $p$. 
+
+$$\operatorname{P}(X = x) = (1-p)^x \cdot p$$
+
+Justification: 
+
+- The probability of failure for the first trial is $q = 1-p$ (complementary events).
+- Bernoulli schema $\rightarrow$ the trials are independent $\rightarrow$ the probability of the series is the product of probabilities of its successive outcomes.
+- One thus computes the product of probabilities of the  $x$ initial failures and of the success at the $(x+1)^\text{th}$ trial. 
+
+*Note: the PMF of discrete distributions relates to the concept of **density** used for continuous distributions.*
+
+
+## Geometric PMF
+
+
+```{r geometric_PMF, fig.width=9, fig.height=4, echo=FALSE, fig.cap="**Fonction de masse de la loi géométrique**. Gauche: ordonnée en échelle logarithmique. "}
+################################################################
+##
+## Illustrations of the geometric distribution
+##
+## Running this script requires to first run the script config.R
+##    source('http://pedagogix-tagc.univ-mrs.fr/courses/stat
+##
+## Single-command execution:
+##   source(file.path(dir.R.files, 'geometric.R'))
+
+# x11(width = 12, height = 15)
+
+## Parameters
+p <- 0.25      # Probability of success
+n <- 30        # Waiting time (time of the first success)
+x <- 0:n       # X values to be plotted
+
+test.x <- 3    #  A particular X value where an arraw will be plotted
+
+
+## Color specification (I cannot use colors for the book, but well for slides)
+color.status <- "full"
+if (color.status == "full") {
+  plot.colors <- c('density' = 'blue',
+              'CDF' = '#00BB00',
+              'dCDF' = 'purple'
+              )
+} else {
+  plot.colors <- c('density' = 'black',
+                   'CDF' = 'black',
+                   'dCDF' = 'black'
+  )
+}
+
+# ## Drawing parameters
+par.ori <- par(no.readonly = TRUE)
+par(mfrow=c(1,2))
+par(las=1)
+grid.color <- '#CCCCCC'
+
+## grid sizes
+x.grid <- 0:6*5
+y.grid <- 0:20*0.05
+
+## ##############################################################
+## Waiting time before the first success in a Bernouli schema
+
+################################################################
+## Plot the probability mass function
+plot(x - 0.5,
+     dgeom(x,p),
+     ylim=c(0,1),
+     main="Geometric\nProbability mass function (PMF)",
+     xlab = 'Waiting time',
+     ylab = 'Probability: P(X=x)',
+     panel.first=c(abline(v=x.grid,col=grid.color),
+       abline(h=y.grid,col=grid.color)),
+     col=plot.colors['density'],
+     lwd=2, las=1,
+     type = 's'
+     )
+legend("topright", bty = "o", bg="white", 
+       legend=paste(sep = "", 'P(X = ',test.x,')  = ', format(p)))
+
+## Draw arrows to illustrate the relationship between density curve and probability
+test.p <- dgeom(test.x,p)
+arrows(test.x, 0,test.x,test.p,col = '#888888',length = 0.1,angle = 25,code=2,lwd=2)
+arrows(test.x, test.p,0,test.p,col = '#888888',length = 0.1,angle = 25,code=2,lwd=2)
+text(test.x,0, test.x,pos=4, cex=0.7)
+text(0,test.p, round(test.p, digits=3),pos=1, cex=0.7)
+
+################################################################
+## Plot the probability mass function with logarithmic Y scale. Show an
+## extended domain of X, to illustrate the capability of log scales to
+## display small probabilities.
+ext.x <- 0:(n+10)
+plot(ext.x - 0.5,
+     dgeom(ext.x,p),
+     main=paste('PMF (log Y scale)'),
+     xlab = 'Waiting time',
+     ylab = 'Probability: P(X=x); log scale',
+     ylim=c(min(dgeom(ext.x,p)),1),
+     panel.first=grid(equilog=F,col=grid.color,lty = 'solid'),
+     col=plot.colors['density'],
+     lwd=2, las=1,
+     type = 's',
+     log = 'y'
+     )
+
+## Draw arrows to illustrate the relationship between CDF and left tail probability
+log.test.x = c(test.x, 29)
+log.test.p <- round(dgeom(log.test.x, p),digits=c(3,5))
+arrows(log.test.x, 1e-5,log.test.x,log.test.p,col = '#888888',length = 0.1,angle = 25,code=2,lwd=2)
+arrows(log.test.x, log.test.p,0,log.test.p,col = '#888888',length = 0.1,angle = 25,code=2,lwd=2)
+text(log.test.x,1e-5, log.test.x,pos=1, cex=0.7)
+text(0,log.test.p, log.test.p,pos=1, cex=0.7)
+
+par(mfrow=c(1,1))
+```
+
+## Distribution tails and cumulative distribution function
+
+The ***tails*** of a distribution are the areas comprised under the density curve up to a given value (***left tail***) or staring from a given value (***right queue***).
+
+
+- The ***right queue*** indicates the probability to observe a result ($X$) **smaller than or equal to** a given value ($x$): $\operatorname{P}(X \le x$). 
+
+    - **Definition: ** the ***Cumulative Density Function*** (***CDF***) $\operatorname{P}(X \le x)$ indicates the probability for a random variable  $X$ to take a value smaller than or equal to a given value ($x$). It corresponds to the left tail of the distribution (including the $x$ value). 
+
+- The **left tail** of a distribution indicates the probability to observe a result  **higher than or equal to** a given value: $\operatorname{P}(X \ge x$). 
+
+    - Note: in the next chapters we will see the use of the right tail of different distributions to measure the ***P value***, in the context of functional enrichment tests, motif over-representations, peak detection, $\ldots$  
+
+## Distribution tails and cumulative distribution function
+
+```{r goemetric_CDF, fig.width=7, fig.height=5.5, out.width="90%", echo=FALSE, fig.cap="**Queues et fonction de répartition de probabilité géométrique**. "}
+
+par(mfrow = c(2,2))
+
+################################################################
+## Plot the probability mass function and highlight the left tail
+left.tail.range <- 0:test.x
+plot(x - 0.5,
+     dgeom(x,p),
+     ylim = c(0,1),
+     main = paste('Left tail, X<=', test.x),
+     xlab = 'Waiting time',
+     ylab = 'Probability: P(X=x)',
+     panel.first = c(abline(v = x.grid,
+                            col = grid.color),
+                     abline(h = y.grid,col = grid.color),
+       rect(left.tail.range - 0.5, 0, left.tail.range + 0.5, dgeom(left.tail.range,p), density = NULL, angle = 45,
+            col = '#BBBBBB', border = '#BBBBBB')
+       ),
+     col = plot.colors['density'],
+     lwd = 2, las = 1,
+     type = 's'
+     )
+legend('topright',
+       legend = paste(
+         'P(X<=', test.x, ') = ', 
+         round(pgeom(test.x, p), digits = 3), sep = ''), 
+       bty = 'o', bg  = '#FFFFFF')
+axis(1, at = test.x, labels = test.x, 
+     las = 1, col.ticks = '#888888')
+
+
+################################################################
+## Plot the probability mass function and highlight the right tail
+right.tail.range <- test.x:n
+plot(x - 0.5,
+     dgeom(x,p),
+     ylim = c(0,1),
+     main = paste('Right tail, X>=', test.x),
+     xlab = 'Waiting time',
+     ylab = 'Probability: P(X=x)',
+     panel.first = c(abline(v = x.grid, col = grid.color),
+       abline(h = y.grid, col = grid.color),
+       rect(right.tail.range - 0.5, 0, right.tail.range + 0.5,
+            dgeom(right.tail.range,p), density = NULL, angle = 45,
+            col = '#BBBBBB', border = '#BBBBBB')
+       ),
+     col = plot.colors['density'],
+     lwd = 2, las = 1,
+     type = 's'
+     )
+legend('topright',
+       legend = paste('P(X>=',test.x,') = ', 
+                      round(pgeom(test.x - 1, p, lower.tail = F), 
+                            digits = 3), sep = ''), 
+       bty = 'o', 
+       bg = '#FFFFFF')
+axis(1, at = test.x, labels = test.x, las = 1, 
+     col.ticks = '#888888')
+
+################################################################
+## Plot the CDF function
+plot(x - 0.5,
+     pgeom(x,p),
+     ylim = c(0,1),
+     main = paste('Cumulative distribution function (CDF)'),
+     xlab = 'Waiting time',
+     ylab = 'CDF = P(X<=x)',
+     panel.first = c(abline(v = x.grid, col = grid.color),
+       abline(h = y.grid,col = grid.color)),
+     col = plot.colors['CDF'],
+     lwd = 2, las = 1,
+     type = 's'
+     )
+legend('bottomright', 
+       legend = paste('P(X<=',test.x,') = ', 
+                    round(pgeom(test.x, p), digits = 3),  
+                    sep = ''), bty = 'o', bg = '#FFFFFF')
+
+## Draw arrows to illustrate the relationship between CDF and left tail probability
+left.tail.p <- pgeom(test.x, p)
+arrows(test.x, 0, test.x, left.tail.p, 
+       col = '#888888', length = 0.1, 
+       angle = 25, code = 2, lwd = 2)
+arrows(test.x, left.tail.p, 0, left.tail.p, 
+       col = '#888888', length = 0.1, angle = 25, code = 2, lwd = 2)
+text(x = test.x, y = 0, labels = test.x, pos = 4, cex = 0.7)
+text(0, left.tail.p, round(left.tail.p, digits = 3), pos = 3, cex = 0.7)
+
+
+################################################################
+## Plot the dCDF function
+plot(x - 0.5,
+     pgeom(x - 1, p, lower.tail = F), ## We use x-1 to obtain the inclusive dCDF rather than the default exclusive one
+     ylim = c(0,1),
+     main = paste('Decreasing CDF (dCDF)'),
+     xlab = 'Waiting time',
+     ylab = 'dCDF = P(X>=x)',
+     panel.first = c(abline(v = x.grid, col = grid.color),
+       abline(h = y.grid, col = grid.color)),
+     col = plot.colors['dCDF'],
+     lwd = 2, las = 1,
+     type = 's')
+legend('topright', 
+       legend = paste(
+         'P(X>=', test.x,') = ', 
+         round(pgeom(test.x - 1, p, lower.tail = F), digits = 3), 
+         sep = ''), bty = 'o', 
+       bg = '#FFFFFF')
+
+## Draw arrows to illustrate the relationship between dCDF and right tail probability
+right.tail.p <- pgeom(test.x - 1, p, lower.tail = F)
+arrows(test.x, 0, test.x, right.tail.p, col = '#888888', 
+       length = 0.1, angle = 25, code = 2, lwd = 2)
+arrows(test.x, right.tail.p, 0, right.tail.p, col = '#888888',
+       length = 0.1, angle = 25, code = 2, lwd = 2)
+text(test.x, 0, test.x,pos = 4, cex = 0.7)
+text(0, right.tail.p, round(right.tail.p, digits = 3), 
+     pos = 3, cex = 0.7)
+
+## Show that the sum of CDF and dCDF differ from 1
+## print(c(dgeom(test.x, p), left.tail.p, right.tail.p, right.tail.p + left.tail.p),digits=3)
+par(par.ori)
+par(mfrow = c(1,1))
+
+```
+
+## Binomial distribution
+
+The **binomial distribution** indicates the probability to observe a given number of successes ($x$) in a series of  $n$ independent trials with constant success probability  $p$  (Bernoulli schema).
+
+**Binomial PMF**
+
+$$\operatorname{P}(X=x) = \binom{n}{x} \cdot  p^x  \cdot (1-p)^{n-x} = C_n^x  p^x  (1-p)^{n-x} = \frac{n!}{x!(n-x)!} p^x (1-p)^{n-x}$$
+
+**Binomial CDF**
+
+$$\operatorname{P}(X \ge x)  =   \sum_{i=x}^{n}{P(X=i)} =  \sum_{i=x}^{n}{C_n^i p^i (1-p)^{n-i}}$$
+
+**Properties**
+
+- **Expectation** (number of successes expected by chance): $<X> = n \cdot p$
+- **Variance**: $\sigma^2 = n \cdot p \cdot (1 - p)$. 
+
+    - Note: the variance of the binomial is inferior to its mean
+    
+- **Standard deviation**: $\sigma = \sqrt{n \cdot p \cdot (1 - p)}$
+
+
+
+## $i$-shaped binomial distribution
+
+
+The binomial distribution can take various shapes depending on the values of its parameters (success probability  $p$, and number of trials $n$). 
+
+When the expectation ($p \cdot n$) is very small, the binomial distribution is monotonously decreasing and is qualified of ***$i$-shaped***. 
+
+```{r binomial_i-shaped, fig.width=9, fig.height=4, echo=FALSE, fig.cap="Distribution binomiale en forme de i.  "}
+
+
+## Drawing parameters
+par.ori <- par(no.readonly = TRUE)
+par(mfrow=c(1,2))
+grid.color <- '#CCCCCC'
+
+
+## color specification (actually I don't use colors for the book
+if (color.status == "full") {
+  plot.col <- c('probability' = 'blue',
+                'CDF' = 'darkgreen',
+                'dCDF' = 'purple',
+                'grid' = '#CCCCCC'
+                )
+} else {
+  plot.col <- c('probability' = 'black',
+                'CDF' = 'black',
+                'dCDF' = 'black',
+                'grid' = '#CCCCCC'
+                )
+}
+line.types <- c(probability="solid",
+                CDF="solid",
+                dCDF="solid",
+                grid="solid")
+
+## Drawing parameters
+par.ori <- par(no.readonly = TRUE)
+par(las=1)
+
+#### initialize parameters
+p.values <- c(0.02,0.1,0.5,0.98) ## Success probabilities
+n <- 20 ## Number of trials
+x.display <- 20 ## Max value to display on the X axis
+x <- c(0:n, n) ## Add an "n" at the end in order to have the last horizontal bar in the plot
+x.shifted <- (0:(n+1))-0.5
+x.grid <- x
+y.grid <- seq(from=0,to=1,by=0.2)
+  
+
+#### Binomial functions
+p <- 0.02
+binomial.mean <- p*n
+
+xmax <- 5 + 4*binomial.mean
+
+plot(x.shifted,
+     dbinom(x,n,p),
+     main=paste("Binomial probability (p=",format(p),", n=", format(n), ")"),
+     ylim=c(0,1),
+     xlab="X (successes)",
+     ylab="P(X=x)",
+     col=plot.col["probability"],
+     lty=line.types["probability"],
+     type="s",
+     lwd=2, las=1,
+     panel.first=c(abline(v=x.grid,col=plot.col['grid'],lty=line.types["grid"]),
+                   abline(h=y.grid,col=plot.col['grid'],lty=line.types["grid"]))
+)
+
+plot(x.shifted,
+     pbinom(x,n,p),
+     main=paste("CDF (p=",format(p),", n=", format(n), ")"),
+     ylim=c(0,1),
+     xlab="X (successes)",
+     ylab="P(X <= x)",
+     col=plot.col["CDF"],
+     lty=line.types["CDF"],
+     type="s",
+     lwd=2, las=1,
+     panel.first=c(abline(v=x.grid,col=plot.col['grid'],lty=line.types["grid"]),
+                   abline(h=y.grid,col=plot.col['grid'],lty=line.types["grid"]))
+)
+par(par.ori)
+par(mfrow=c(1,1))
+```
+
+## Asymmetric bell-shaped binomial distribution
+
+When the probability is relatively high but still lower than $0.5$, the distribution takes the shape of an asymmetric bell. 
+
+```{r binomial_distrib_bell-shaped, fig.width=9, fig.height=4, echo=FALSE, fig.cap="Distribution binomiale en forme de cloche asymétrique.  "}
+
+## Drawing parameters
+par(mfrow=c(1,2))
+par(las=1)
+
+################################################################
+#
+# Binomial series
+#
+
+
+#### Binomial functions
+p <- 0.25
+binomial.mean <- p*n
+
+xmax <- 5 + 4*binomial.mean
+
+plot(x.shifted,
+     dbinom(x,n,p),
+     main=paste("Binomial probability (p=",format(p),", n=", format(n), ")"),
+     ylim=c(0,1),
+     xlab="X (successes)",
+     ylab="P(X=x)",
+     col=plot.col["probability"],
+     lty=line.types["probability"],
+     type="s",
+     lwd=2, las=1,
+     panel.first=c(abline(v=x.grid,col=plot.col['grid'],lty=line.types["grid"]),
+                   abline(h=y.grid,col=plot.col['grid'],lty=line.types["grid"]))
+)
+
+plot(x.shifted,
+     pbinom(x,n,p),
+     main=paste("CDF (p=",format(p),", n=", format(n), ")"),
+     ylim=c(0,1),
+     xlab="X (successes)",
+     ylab="P(X <= x)",
+     col=plot.col["CDF"],
+     lty=line.types["CDF"],
+     type="s",
+     lwd=2, las=1,
+     panel.first=c(abline(v=x.grid,col=plot.col['grid'],lty=line.types["grid"]),
+                   abline(h=y.grid,col=plot.col['grid'],lty=line.types["grid"]))
+)
+par(par.ori)
+par(mfrow=c(1,1))
+```
+
+## Symmetric bell-shaped binomial
+
+When the success probability $p$ is exactly $0.5$, the binomial distribution takes the shape of a symmetrical bell. 
+
+```{r binomial_distrib_symmetric-bell, fig.width=9, fig.height=4, echo=FALSE, fig.cap="Distribution binomiale en forme de cloche symétrique (p=0.5). "}
+
+## Drawing parameters
+par(mfrow=c(1,2))
+par(las=1)
+
+p <- 0.5
+binomial.mean <- p*n
+
+xmax <- 5 + 4*binomial.mean
+
+plot(x.shifted,
+     dbinom(x,n,p),
+     main=paste("Binomial probability (p=",format(p),", n=", format(n), ")"),
+     ylim=c(0,1),
+     xlab="X (successes)",
+     ylab="P(X=x)",
+     col=plot.col["probability"],
+     lty=line.types["probability"],
+     type="s",
+     lwd=2, las=1,
+     panel.first=c(abline(v=x.grid,col=plot.col['grid'],lty=line.types["grid"]),
+                   abline(h=y.grid,col=plot.col['grid'],lty=line.types["grid"]))
+)
+
+plot(x.shifted,
+     pbinom(x,n,p),
+     main=paste("CDF (p=",format(p),", n=", format(n), ")"),
+     ylim=c(0,1),
+     xlab="X (successes)",
+     ylab="P(X <= x)",
+     col=plot.col["CDF"],
+     lty=line.types["CDF"],
+     type="s",
+     lwd=2, las=1,
+     panel.first=c(abline(v=x.grid,col=plot.col['grid'],lty=line.types["grid"]),
+                   abline(h=y.grid,col=plot.col['grid'],lty=line.types["grid"]))
+)
+par(par.ori)
+par(mfrow = c(1,1))
+```
+
+
+## $j$-shaped binomial distribution
+
+Then the success probability is close to 1, the distirbution is monotonously increasing and is qualified of ***$j$-shaped distribution. 
+
+```{r binomial_distrib_j-shaped, fig.width=9, fig.height=4, echo=FALSE, fig.cap="Distribution binomiale en forme de j.  "}
+
+## Drawing parameters
+par(mfrow=c(1,2))
+par(las=1)
+
+p <- 0.98
+binomial.mean <- p*n
+
+xmax <- 5 + 4*binomial.mean
+
+plot(x.shifted,
+     dbinom(x,n,p),
+     main=paste("Binomial probability (p=",format(p),", n=", format(n), ")"),
+     ylim=c(0,1),
+     xlab="X (successes)",
+     ylab="P(X=x)",
+     col=plot.col["probability"],
+     lty=line.types["probability"],
+     type="s",
+     lwd=2, las=1,
+     panel.first=c(abline(v=x.grid,col=plot.col['grid'],lty=line.types["grid"]),
+                   abline(h=y.grid,col=plot.col['grid'],lty=line.types["grid"]))
+)
+
+plot(x.shifted,
+     pbinom(x,n,p),
+     main=paste("CDF (p=",format(p),", n=", format(n), ")"),
+     ylim=c(0,1),
+     xlab="X (successes)",
+     ylab="P(X <= x)",
+     col=plot.col["CDF"],
+     lty=line.types["CDF"],
+     type="s",
+     lwd=2, las=1,
+     panel.first=c(abline(v=x.grid,col=plot.col['grid'],lty=line.types["grid"]),
+                   abline(h=y.grid,col=plot.col['grid'],lty=line.types["grid"]))
+)
+par(par.ori)
+par(mfrow=c(1,1))
+```
+
+
+
+## Examples of applications of the binomial
+
+1. **Dices**:  number of 6 observed during a series of 10 dice rolls
+2. **Sequence alignment**: number of identities between two sequences   alignmed without gap and with an arhbitrary offset.
+3. **Motif analysis**: number of occurrences of a given motif in a genome. 
+
+
+**Note: ** the binomial assumes a Bernoulli schema. Forexamples 2 and 3 this amounts to consider that nucleotides are concatenated in an independent way, which is quite unrealistic. 
+
+
+## Poisson law
+
+La loi de Poisson décrit la probabilité du nombre d'occurrences d'un événement pendant un intervalle de temps fixé, en supposant que le nombre moyen d'événements par unité de temps est constant, et que les événements sont indépendants (les réalisations précédentes n'affectement pas la probabilité des occurrences suivantes).
+
+### Fonction de masse
+
+$$P(X = x) = \frac{\lambda^x}{x!}e^{-\lambda}$$
+
+- $x$ est le nombre d'événements observés;
+- $\lambda$ (lettre grècque "lambda") représente l'espérance, autrement dit la moyenne attendue pour le nombre d'événements;
+- $e$ est la base de l'exponentielle ($e = `r round(digits=3, exp(1))`$).
+
+## Propriétés de la distribution de Poisson
+
+- **Espérance** (nombre de succès attendus au hasard): $<X> = \lambda$ (par construction)
+
+- **variance**: $\sigma^2 = lambda$ (***variance égale à la moyenne!***)
+    
+- **Ecart-type**: $\sigma = \sqrt{\lambda}$
+
+
+
+## Application : mutagenèse
+
+- On soumet une population à un mutagène (agent chimique, irratiations). Chaque individu subit un certain nombre  de mutations. 
+
+- En tenant compte de la dose de mutagène (temps d'exposition, intensité/concentration), on peut estimer empiriquement le nombre moyen de mutations par individu (*espérance*, $\lambda$).
+
+- La loi de Poisson peut être utilisée pour décrire la probabilité d'observer un nombre donné de mutations ($x=0, 1, 2, ...$).
+
+## Expérience historique de Luria-Delbruck (1943)
+
+En 1943, Salvador Luria et Max Delbruck démontrent que les mutations ne sont pas induites par l'agent mutagène,  ([Luria & Delbruck, 1943, Genetics 28:491–511](https://www.ncbi.nlm.nih.gov/pubmed/17247100)).
+
+
+
+## Convergence de la loi binomiale vers la Poisson
+
+<font color="red">A FAIRE</font>
+
+
+## Exercices
+
+- [html](04_distributions_discretes_exercices.html)
+- [pdf](04_distributions_discretes_exercices.pdf)
+- [Rmd](04_distributions_discretes_exercices.Rmd)

@@ -6,7 +6,7 @@
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
   <meta name="author" content="Jacques van Helden, revised by Lucie Khamvongsa-Charbonnier and Yvon Mbouamboua" />
-  <meta name="date" content="2019-09-13" />
+  <meta name="date" content="2019-09-20" />
   <title>Eléments d’analyse combinatoire</title>
   <style type="text/css">code{white-space: pre;}</style>
   <script>/*! jQuery v1.11.3 | (c) 2005, 2015 jQuery Foundation, Inc. | jquery.org/license */
@@ -2659,7 +2659,7 @@ color: #333333;
   <p class="author">
 Jacques van Helden, revised by Lucie Khamvongsa-Charbonnier and Yvon Mbouamboua
   </p>
-  <p class="date">2019-09-13</p>
+  <p class="date">2019-09-20</p>
 </div>
 <div id="denombrements-doligonucleotides-et-oligopeptides" class="title-slide slide section level1"><h1>Dénombrements d’oligonucléotides et oligopeptides</h1></div><div id="probleme-denombrement-doligomeres" class="slide section level2">
 <h1>Problème: dénombrement d’oligomères</h1>
@@ -2773,7 +2773,7 @@ Nombre d’oligonucléotides (dessus) ou d’oligopeptides (dessous), en utilisa
 </ul>
 </div><div id="exercice-02.3-ensembles-non-ordonnes-de-genes" class="slide section level2">
 <h1>Exercice 02.3 : ensembles (non-ordonnés) de gènes</h1>
-<p>Lors d’une expérience de transcriptome indiquant le niveau d’expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (<strong>sans tenir compte</strong> de l’ordre relatif de ces 15 gènes) ?</p>
+<p>Ona a réalisé une expérience de transcriptome indiquant le niveau d’expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (<strong>sans tenir compte</strong> de l’ordre relatif de ces 15 gènes) ?</p>
 <p><strong>Approche suggérée</strong>: comme précédemment, simplifiez le problème en partant de sélections minimales (1 gène, 2 gènes, …) et généralisez la formule.</p>
 <p><strong>Questions subsidiaires</strong>:</p>
 <ul>
@@ -2843,8 +2843,8 @@ A^x_n &amp; = &amp; \frac{n!}{(n - x)!} \\
 </ol>
 </div><div id="choix-de-la-formule" class="slide section level2">
 <h1>Choix de la formule</h1>
-<div id="htmlwidget-f1aea2ac140a1a4982e7" style="width:90%;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f1aea2ac140a1a4982e7">{"x":{"diagram":"\ndigraph combinatorix_flowchart {\n  node [shape = diamond, fontname = Helvetica ]\n  node [fontcolor = \"orange\"]\n  A [label = \"remise ?\"]; \n  B [label = \"ordonné ?\"];\n  D [label = \"ordonné ?\"]  \n  G [label = \"sélection\nexhaustive ?\"]\n\n  node [shape = \"rectangle\", fontcolor = \"black\"]\n  C [label = \"suite\ngéométrique\"];\n  E [label = \"arrangement\"]\n  F [label = \"combinaison\"]\n  H [label = \"factorielle\"]\n\n  edge [arrowhead  = \"normal\", color = \"#00BB00\", fontcolor = \"#00BB00\", label = \"oui\"]\n  A -> B\n  B -> C\n  D -> G\n  G -> H\n\n  edge [arrowhead  = \"normal\", color = \"#BB0000\", fontcolor = \"#BB0000\", label = \"non\"]\n  A -> D\n  D -> F\n  G -> E\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-085fc367c6afb018bf15" style="width:90%;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-085fc367c6afb018bf15">{"x":{"diagram":"\ndigraph combinatorics_flowchart {\n  node [shape = diamond, fontname = Helvetica ]\n  node [fontcolor = \"orange\"]\n  A [label = \"remise ?\"]; \n  B [label = \"ordonné ?\"];\n  D [label = \"ordonné ?\"]  \n  G [label = \"sélection\nexhaustive ?\"]\n\n  node [shape = \"rectangle\", fontcolor = \"black\"]\n  C [label = \"suite\ngéométrique\"];\n  E [label = \"arrangement\"]\n  F [label = \"combinaison\"]\n  H [label = \"factorielle\"]\n\n  edge [arrowhead  = \"normal\", color = \"#00BB00\", fontcolor = \"#00BB00\", label = \"oui\"]\n  A -> B\n  B -> C\n  D -> G\n  G -> H\n\n  edge [arrowhead  = \"normal\", color = \"#BB0000\", fontcolor = \"#BB0000\", label = \"non\"]\n  A -> D\n  D -> F\n  G -> E\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div><div id="formules" class="slide section level2">
 <h1>Formules</h1>
 <table>
@@ -2899,9 +2899,9 @@ A^x_n &amp; = &amp; \frac{n!}{(n - x)!} \\
 <p>Commençons par générer une séquence particulière qui remplit ces conditions, en concaténant 3 copies de chaque acide aminé, dans l’ordre alphabétique.</p>
 <pre><code>AAACCCDDDEEEFFFGGGHHHIIIKKKLLLMMMNNNPPPQQQRRRSSSTTTVVVWWWYYY</code></pre>
 <p>Toutes les permutations de ces 60 lettres sont des solutions valides. En voici trois exemples.</p>
-<pre><code>HGEMFTIKVNSTMYGKSAIWVMDDCRHYLEQQCQRWPHCGSPLTNDLYAEIFNFKVRAPW</code></pre>
-<pre><code>QIIMTNKFIFTMAERSWEDKNEGLWHPLCDNAPCSAVYPWDQGYHMVVHQRFKCTSRGLY</code></pre>
-<pre><code>GVDNMKQTRTSSGTNMFEPFAFRMKQHCHKAAHLCVSNEDYIWDYCIGPPVYIEWWQLRL</code></pre>
+<pre><code>LTCRNWRYIGPTTASMNKYMICDLHWMFIPYQKEWEHVRCDFLKPQFVGVQEGNDASSHA</code></pre>
+<pre><code>LVLPDWMEHFFRESCENAIGMFRTCIPCAKSGQTNSGYWVPILWYKNDQMTHDHKAQVRY</code></pre>
+<pre><code>RGCKQTESHDVDCMMEATLLIRVSEAQCGPRWNMFYPKQFLKWSIHVWFNYIAHPYDTGN</code></pre>
 <p>Cependant, il faut prendre en compte le fait que certaines permutations sont identiques (toutes celles où l’on permute deux acides aminés identiques). La difficulté de l’exercice sera donc de dénombrer le nombre de permutations <em>distinctes</em>.</p>
 </div>
 

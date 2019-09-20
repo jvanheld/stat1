@@ -7,7 +7,7 @@
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
   <meta name="author" content="Jacques van Helden" />
-  <meta name="date" content="2019-09-13" />
+  <meta name="date" content="2019-09-20" />
   <title>Combinatorics</title>
   <style type="text/css">code{white-space: pre;}</style>
   <script src="02_combinatorix_EN_files/jquery-1.11.3/jquery.min.js"></script>
@@ -30,7 +30,7 @@
   <p class="author">
 Jacques van Helden
   </p>
-  <p class="date">2019-09-13</p>
+  <p class="date">2019-09-20</p>
 </div>
 <div id="enumerating-oligonucleotides-and-oligopeptides" class="title-slide slide section level1"><h1>Enumerating oligonucleotides and oligopeptides</h1></div><div id="problem" class="slide section level2">
 <h1>Problem</h1>
@@ -52,7 +52,7 @@ Jacques van Helden
 <li><p>Two-residue sequences: for each of the <span class="math inline">\(n\)</span> possible residues at the first position, we can select <span class="math inline">\(n\)</span> resodies for the second one <span class="math inline">\(\rightarrow\)</span> there are <span class="math inline">\(n \cdot n = n^2\)</span> possible dimers.</p></li>
 <li><p>Trimers: for each of these dimers, there are <span class="math inline">\(n\)</span> possible residues that can be chosen for the<span class="math inline">\(3^{d}\)</span> position <span class="math inline">\(\rightarrow\)</span> there are <span class="math inline">\(n^2 \cdot n = n^3\)</span> distinct trinucleotides.</p></li>
 </ul></li>
-<li><p>Generalisation to <span class="math inline">\(k\)</span>-mers: there are <span class="math inline">\(n^k\)</span> distinct sequences of size <span class="math inline">\(k\)</span>.</p></li>
+<li><p>Generalization to <span class="math inline">\(k\)</span>-mers: there are <span class="math inline">\(n^k\)</span> distinct sequences of size <span class="math inline">\(k\)</span>.</p></li>
 <li><p>In our case, the sequence size was <span class="math inline">\(k=30\)</span>. We have thus</p>
 <ul>
 <li><span class="math inline">\(N = n^k = 4^{30} = 1.15\times 10^{18}\)</span> distinct oligonucleotides sequences</li>
@@ -82,10 +82,10 @@ Number of possible oligonucleotides (top) and oligopeptides (bottom) with either
 </div><div id="exercise-02.1-oligomers-with-no-repeated-residue" class="slide section level2">
 <h1>Exercise 02.1: oligomers with no repeated residue</h1>
 <p>How many oligomers can be formed (DNA or peptides) that would contain exactly once each residue.</p>
-<p><strong>Suggested approach</strong>: progressively aggregate the residues whilst wondering, at each step, bow many residues have not yet been incoroporated in the sequence.</p>
+<p><strong>Suggested approach</strong>: progressively aggregate the residues whilst wondering, at each step, bow many residues have not yet been incorporated in the sequence.</p>
 <p><strong>Sub-questions</strong>:</p>
 <ul>
-<li><p>Generalise the formula for sequences of items of any type, drawn from a set of arbitrary size <span class="math inline">\(n\)</span>.</p></li>
+<li><p>Generalize the formula for sequences of items of any type, drawn from a set of arbitrary size <span class="math inline">\(n\)</span>.</p></li>
 <li><p>What is the name of the corresponding function?</p></li>
 <li><p>In this process, what is the mode of residue selection: <strong>with</strong> or <strong>without replacement</strong>?</p></li>
 </ul>
@@ -94,22 +94,22 @@ Number of possible oligonucleotides (top) and oligopeptides (bottom) with either
 <ul>
 <li>First residue: <span class="math inline">\(n\)</span> possibilities.</li>
 <li>As soon as the first residue has been chosen, there are only <span class="math inline">\(n-1\)</span> possibilities to draw a different residue for the second position. We thus have <span class="math inline">\(n \cdot (n-1)\)</span> possible sequences for the first two residues.</li>
-<li>For the third position, there are only <span class="math inline">\(n-2\)</span> residues left; We thus have On a donc <span class="math inline">\(n \cdot (n-1) \cdot (n-2)\)</span> possibilities for the 3 first positions of the sequence.</li>
+<li>For the third position, there are only <span class="math inline">\(n-2\)</span> residues left; We thus have <span class="math inline">\(n \cdot (n-1) \cdot (n-2)\)</span> possibilities for the 3 first positions of the sequence.</li>
 <li>By extension of this reasoning, the total number of possible solutions (assuming <span class="math inline">\(n\)</span> is not too small) will be</li>
 </ul>
 <p><span class="math display">\[n! = n \cdot (n-1) \cdot \ldots \cdot 2 \cdot 1\]</span></p>
 <ul>
 <li><p>In our case:</p>
 <ul>
-<li><span class="math inline">\(n! = 4! = 24\)</span> oligonucléotides comportant exactement 1 fois chaque nucléotide (taille 4).</li>
-<li><span class="math inline">\(n! = 20! = 2.43\times 10^{18}\)</span> oligopeptides (taille 20).</li>
+<li><span class="math inline">\(n! = 4! = 24\)</span> oligonuclEotides includinf each nucleotide exactly once (size 4).</li>
+<li><span class="math inline">\(n! = 20! = 2.43\times 10^{18}\)</span> oligopeptides (size 20).</li>
 </ul></li>
 </ul>
 </div><div id="the-factorial-function" class="slide section level2">
 <h1>The factorial function</h1>
 <ul>
 <li>Enumerates the number of possible permutations of a finite set of items</li>
-<li>Drawing withour replacement</li>
+<li>Drawing without replacement</li>
 <li>Defined by a recursive formula</li>
 </ul>
 <p><span class="math display">\[N = n! = \left\{
@@ -127,21 +127,24 @@ Number of possible oligonucleotides (top) and oligopeptides (bottom) with either
 </div><div id="exercise-02.2-gene-lists-with-order" class="slide section level2">
 <h1>Exercise 02.2: gene lists (with order)</h1>
 <p>A transcriptome experiment has been led to define the level of expression of all the yeast genes. Knowing that the genome contains <span class="math inline">\(6000\)</span> genes, how many possible ways are there to select the <span class="math inline">\(15\)</span> most expressed genes <em>with their relative order</em>?</p>
-<p><strong>Suggested approach</strong>: as previously, simplify the problem by starting from the minimal selection, and progressively increase the number of selected genes (1 gène, 2 gènes, …).</p>
+<p><strong>Suggested approach</strong>: as previously, simplify the problem by starting from the minimal selection, and progressively increase the number of selected genes (1 gene, 2 genes, …).</p>
 <p><strong>Complementary questions</strong>:</p>
 <ul>
 <li>Give the example of a familiar bet game related to this enumerating process.</li>
-<li>Generalise the formula for any selection of a list of <span class="math inline">\(x\)</span> items in a set containing <span class="math inline">\(n\)</span> elements.</li>
+<li>Generalize the formula for any selection of a list of <span class="math inline">\(x\)</span> items in a set containing <span class="math inline">\(n\)</span> elements.</li>
 </ul>
-</div><div id="solution-02.2-listes-ordonnees-de-genes" class="slide section level2">
-<h1>Solution 02.2: listes (ordonnées) de gènes</h1>
-<p>Il s’agit d’une sélection <strong>sans remise</strong> (chaque gène apparaît à une et une seule position dans la liste de tous les gènes), et <strong>ordonnée</strong> (les mêmes gènes pris dans un ordre différent sont considérés comme un résultat différent).</p>
+</div><div id="solution-02.2-ordered-lists-of-genes" class="slide section level2">
+<h1>Solution 02.2: (ordered) lists of genes</h1>
+<p>This is a selection <strong>without replacement</strong> (indeed, each gene appears at one and only one position in the list of all genes), and <strong>ordered</strong> (a list with the same genes taken in a different orders would be considered as a different result).</p>
 <ul>
-<li>Pour le premier gène, il y a <span class="math inline">\(n=6000\)</span> possibiité.</li>
-<li>Dès le moment où on connaît le premier gène, il n’existe plus que 5999 possibilités pour le second, et donc <span class="math inline">\(n \cdot (n-1) = 6000 \cdot 5999\)</span> possibilités pour la suite des deux premiers gènes;</li>
-<li>Par extension, il existe <span class="math inline">\(6000 \cdot 5999 \cdot 5998 \cdot \ldots \cdot 5986 = 4.62\times 10^{56}\)</span> possibilités pour les 15 premiers gènes.</li>
-<li>En généralisant à la liste des <span class="math inline">\(x\)</span> premiers gènes dans un ensemble de <span class="math inline">\(n\)</span>, on obtient <span class="math inline">\(N = n \cdot (n-1) \cdot (n-2) \cdot ... \cdot (n-x+1)\)</span>.</li>
+<li>For the first gene, there are <span class="math inline">\(n=6000\)</span> possibilities.</li>
+<li>As soon as the first gene has been defined, there are only <span class="math inline">\(5999\)</span> possibilities left for the second gene. There are thus <span class="math inline">\(n \cdot (n-1) = 6000 \cdot 5999\)</span> possibilities for the succession of the two first genes;</li>
+<li>By extension, there are <span class="math inline">\(6000 \cdot 5999 \cdot 5998 \cdot \ldots \cdot 5986 = 4.62\times 10^{56}\)</span> possibilities for the first 15 genes.<br />
+</li>
+<li>If we generalize this reasoning to the lists of the <span class="math inline">\(x\)</span> first genes in a set of <span class="math inline">\(n\)</span>, we obtain <span class="math inline">\(N = n \cdot (n-1) \cdot (n-2) \cdot ... \cdot (n-x+1)\)</span>.</li>
 </ul>
+<p>Note that this can be represented by a more compact formula.</p>
+<p><span class="math inline">\(N = n \cdot (n-1) \cdot (n-2) \cdot ... \cdot (n-x+1) = \frac{n!}{(n-x)!}\)</span></p>
 </div><div id="arrangements" class="slide section level2">
 <h1>Arrangements</h1>
 <p>In combinatorics, the term <strong>arrangement</strong> denotes an <em>orderless</em> drawing <em>without replacement</em>, i.e. random drawing where the order of the item is taken in consideration, and where each already selected item cannot be selected as next element.</p>
@@ -158,66 +161,66 @@ A^x_n &amp; = &amp; \frac{n!}{(n - x)!} \\
 <li><p><a href="https://en.wikipedia.org/wiki/Trifecta"><strong>tricast</strong> (also named <strong>trifecta</strong></a>).</p></li>
 <li><p>A bet where players must predict the three winner horses (<span class="math inline">\(x=3\)</span>) of a race, and the exact order of their arrival. For <span class="math inline">\(n=15\)</span> horses, there are <span class="math inline">\(n \cdot (n-1) \cdot (n-2) = 15 \cdot 14 \cdot 13 = 2730\)</span> possibilities.</p></li>
 </ul>
-</div><div id="exercise-02.3-ensembles-non-ordonnes-de-genes" class="slide section level2">
-<h1>Exercise 02.3: ensembles (non-ordonnés) de gènes</h1>
-<p>Lors d’une expérience de transcriptome indiquant le niveau d’expression de tous les gènes de la levure. Sachant que le génome comporte 6000 gènes, combien de possibilité existe-t-il pour sélectionner les 15 gènes les plus fortement exprimés (<strong>sans tenir compte</strong> de l’ordre relatif de ces 15 gènes)?</p>
-<p><strong>Approche suggérée</strong>: comme précédemment, simplifiez le problème en partant de sélections minimales (1 gène, 2 gènes, …) et généralisez la formule.</p>
-<p><strong>Questions subsidiaires</strong>:</p>
+</div><div id="exercise-02.3-unordered-sets-of-genes" class="slide section level2">
+<h1>Exercise 02.3: unordered sets of genes</h1>
+<p>A transcriptomics experiment has been led to measure the level of expression of all yeast genes. Knowing that the genome contains <span class="math inline">\(6000\)</span> genes, how many possibilities are there to select the <span class="math inline">\(15\)</span> genes with the highest expression level <strong>without</strong> taking into account the relative order of those 15 genes?</p>
+<p><strong>Suggested approach</strong>: as previously, simplify the problem by starting from minimal selections (1 gene, 2 genes, …) and then generalize the formula.</p>
+<p><strong>Complementary questions</strong>:</p>
 <ul>
-<li>Trouvez un exemple familier de jeu de pari apparenté à ce problème.</li>
-<li>Généralisez la formule pour la sélection d’un ensemble de <span class="math inline">\(x\)</span> gènes dans un génome qui en comporte <span class="math inline">\(n\)</span>.</li>
-<li>Connaissez-vous le nom de la formule ainsi trouvée?</li>
+<li>Find an example of familiar bet game related to this problem.</li>
+<li>Generalize the formula for the selection of a set of <span class="math inline">\(x\)</span> genes from a genome containing <span class="math inline">\(n\)</span> genes.</li>
+<li>Do you know the name of the formula that resulted from this reasoning?</li>
 </ul>
-</div><div id="solution-02.3-ensembles-non-ordonnes-de-genes" class="slide section level2">
-<h1>Solution 02.3: ensembles (non-ordonnés) de gènes</h1>
+</div><div id="solution-02.3-unordered-sets-of-genes" class="slide section level2">
+<h1>Solution 02.3: unordered sets of genes</h1>
 <ul>
-<li>Pour une sélection d’un seul gène, il existe <span class="math inline">\(n=6000\)</span> possibilité.</li>
-<li>Pour 2 gènes, il existe <span class="math inline">\(n \cdot (n-1) = 6000 \cdot 5999\)</span> arrangements, mais ceci inclut deux fois chaque paire de gènes (<span class="math inline">\((a, b)\)</span> et <span class="math inline">\((b, a)\)</span>). Le nombre d’ensembles non ordonnés est donc <span class="math inline">\(N = n \dot (n-1)/2\)</span>.</li>
-<li>De même, pour 3 gènes, il faut diviser le nombre d’arrangements (<span class="math inline">\(A^x_n = \frac{n!}{(n-x)!} = 6000 \cdot 5999 \cdot 5998\)</span>) par le nombre de permutations parmi tous les triplets de gènes (<span class="math inline">\((a, b, c), (a, c, b), (b, a, c) \ldots\)</span>), ce qui donne <span class="math inline">\(\frac{6000!}{(6000-3)! 3!} = \frac{6000 \cdot 5999 \cdot 5888}{6} = 3.6\times 10^{10}\)</span>.</li>
-<li>Pour 15 gènes, on obtient <span class="math inline">\(\frac{n!}{(n-x)!x!} = \frac{6000!}{5985! \cdot 15!} = 3.53\times 10^{44}\)</span> <em>combinations</em> possibles.</li>
+<li>For a single-gene selection, there are <span class="math inline">\(n=6000\)</span> possibilities.</li>
+<li>For 2 genes, there are <span class="math inline">\(n \cdot (n-1) = 6000 \cdot 5999\)</span> arrangements, but these would cover each gene pair with two different orders: <span class="math inline">\((a,b)\)</span> and <span class="math inline">\((b,a\)</span>). The number of <strong>unordered</strong> subsets of two genes is thus <span class="math inline">\(N = n \dot (n-1)/2\)</span>.</li>
+<li>Similarly, for 3 genes we need to divide the number of arrangements (<span class="math inline">\(A^x_n = \frac{n!}{(n-x)!} = 6000 \cdot 5999 \cdot 5998\)</span>) by the number of permutations of the same gene triplet (<span class="math inline">\((a, b, c), (a, c, b), (b, a, c) \ldots\)</span>), which gives <span class="math inline">\(\frac{6000!}{(6000-3)! 3!} = \frac{6000 \cdot 5999 \cdot 5888}{6} = 3.6\times 10^{10}\)</span>.</li>
+<li>For <span class="math inline">\(15\)</span> genes we obtain <span class="math inline">\(\frac{n!}{(n-x)!x!} = \frac{6000!}{5985! \cdot 15!} = 3.53\times 10^{44}\)</span> possible <em>combinations</em>.</li>
 </ul>
 </div><div id="combinations" class="slide section level2">
 <h1>Combinations</h1>
-<p>A <strong>combination</strong> is a selection <em>without replacement</em> a finite set, where the order of drawing is taken in considration.</p>
-<p>The number of possible combinations of <span class="math inline">\(x\)</span> numbers among <span class="math inline">\(n\)</span> is provided by the <strong>bbinomial coefficient</strong>.</p>
+<p>A <strong>combination</strong> is a selection <em>without replacement</em> a finite set, where the order of drawing is taken into consideration.</p>
+<p>The number of possible combinations of <span class="math inline">\(x\)</span> numbers among <span class="math inline">\(n\)</span> is provided by the <strong>binomial coefficient</strong>.</p>
 <p><span class="math display">\[\binom{n}{x} = C^x_n = \frac{n!}{x! (n-x)!}\]</span></p>
 <p><strong>Attention: </strong> the relative positions of <span class="math inline">\(x\)</span> and <span class="math inline">\(n\)</span> are opposite in the two alternative notations for combinations <span class="math inline">\(binom{n}{x}\)</span> (“<span class="math inline">\(x\)</span> among <span class="math inline">\(n\)</span>”) and (<span class="math inline">\(C^x_n\)</span>, “choose”).</p>
 </div><div id="combinations-typical-application" class="slide section level2">
-<h1>combinations – Typical application</h1>
+<h1>Combinations – Typical application</h1>
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/Trifecta"><strong>trio</strong></a>, a variation of the <strong>tricast</strong> bet, where the order of arrival of the 3 winner horses is not taken in consideration.</li>
 </ul>
 <p><span class="math display">\[\binom{n}{x} = \binom{15}{3} = C^3_{15} = \frac{15!}{3! 12!} = 455\]</span></p>
 <ul>
-<li><a href="https://fr.wikipedia.org/wiki/Loto"><strong>loto</strong> (or lotto)</a>: each better checks 6 numbers within a grid containing 90 numbers. The number of possibilities is</li>
+<li><a href="https://fr.wikipedia.org/wiki/Loto"><strong>loto</strong> (or lotto)</a>: each player checks 6 numbers within a grid containing 90 numbers. The number of possibilities is</li>
 </ul>
 <p><span class="math display">\[\binom{n}{x} = \binom{90}{6} = C^6_{90} = \frac{90!}{6! 84!} = 6.2261463\times 10^{8}\]</span></p>
 </div>
-<div id="resume-des-concepts-et-formules" class="title-slide slide section level1"><h1>Résumé des concepts et formules</h1></div><div id="tirages-avec-sans-remise" class="slide section level2">
-<h1>Tirages avec / sans remise</h1>
-<p>Il existe deux types classiques de tirage d’éléments au sein d’un ensemble: avec ou sans remise.</p>
+<div id="summary-of-the-concepts-and-formulas" class="title-slide slide section level1"><h1>Summary of the concepts and formulas</h1></div><div id="drawings-with-without-replacement" class="slide section level2">
+<h1>Drawings with / without replacement</h1>
+<p>There are two classical ways of drawing elements among a set: with or without replacement.</p>
 <ol style="list-style-type: decimal">
-<li><p><strong>Tirage sans remise</strong>: chaque élément peut être tiré au plus une fois. Exemples:</p>
+<li><p><strong>Drawing without replacement</strong>: each element can be selected at most once. Examples:</p>
 <ul>
-<li>Jeu de <a href="https://fr.wikipedia.org/wiki/Loto">loto</a> (ou lotto).</li>
-<li>Sélection aléatoire d’un ensemble de gènes dans un génome.</li>
+<li><a href="https://fr.wikipedia.org/wiki/Loto"><em>loto</em></a> game (also spelled <em>lotto</em>).</li>
+<li>Arbitrary selection of a subset of the genes from a genome.</li>
 </ul></li>
-<li><p>Tirage <strong>avec remise</strong>: chaque élément peut être tiré zéro, une ou plusieurs fois. Exemples:</p>
+<li><p>Drawing <strong>with replacement</strong>: each element can be drawn zero, one or several times. Examples:</p>
 <ul>
-<li>Jeu de dés. A chaque lancer on dispose des mêmes possibilités (6 faces).</li>
-<li>Génération d’une séquence aléatoire, par sélection itérative d’un élément dans l’ensemble des résidus (4 nucléotides pour l’ADN, 20 acides aminés pour les protéines).</li>
+<li>Dice game. At each drawing of a dice, we have the same possible outcomes (6 sides).</li>
+<li>Generation of a random sequence, by iteratively adding a randomly selected residue (4 nucleotides for DNA, 20 aminoacids for proteins).</li>
 </ul></li>
 </ol>
 </div><div id="elements-of-combinatorics" class="slide section level2">
 <h1>Elements of combinatorics</h1>
 <ul>
-<li>Arrangements: drawings with order, without replacement</li>
-<li>Combinations: drawings without considering the order of the items, without replacement)</li>
+<li><strong>Arrangements</strong>: drawings with order, without replacement</li>
+<li><strong>Combinations</strong>: drawings without considering the order of the items, without replacement)</li>
 </ul>
-</div><div id="choix-de-la-formule" class="slide section level2">
-<h1>Choix de la formule</h1>
-<div id="htmlwidget-6cc5a0b59e767c661076" style="width:90%;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6cc5a0b59e767c661076">{"x":{"diagram":"\ndigraph combinatorics_flowchart {\n  node [shape = diamond, fontname = Helvetica ]\n  node [fontcolor = \"orange\"]\n  A [label = \"remise ?\"]; \n  B [label = \"ordonné ?\"];\n  D [label = \"ordonné ?\"]  \n  G [label = \"exhaustive selection?\"]\n\n  node [shape = \"rectangle\", fontcolor = \"black\"]\n  C [label = \"geometric progression\"];\n  E [label = \"arrangement\"]\n  F [label = \"combination\"]\n  H [label = \"factorial\"]\n\n  edge [arrowhead  = \"normal\", color = \"#00BB00\", fontcolor = \"#00BB00\", label = \"Yes\"]\n  A -> B\n  B -> C\n  D -> G\n  G -> H\n\n  edge [arrowhead  = \"normal\", color = \"#BB0000\", fontcolor = \"#BB0000\", label = \"No\"]\n  A -> D\n  D -> F\n  G -> E\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div><div id="choice-of-the-appropriate-formula" class="slide section level2">
+<h1>Choice of the appropriate formula</h1>
+<div id="htmlwidget-609e7ff3f38cc56f97a0" style="width:90%;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-609e7ff3f38cc56f97a0">{"x":{"diagram":"\ndigraph combinatorics_flowchart {\n  node [shape = diamond, fontname = Helvetica ]\n  node [fontcolor = \"orange\"]\n  A [label = \"replacement ?\"]; \n  B [label = \"ordered ?\"];\n  D [label = \"ordered ?\"]  \n  G [label = \"exhaustive selection?\"]\n\n  node [shape = \"rectangle\", fontcolor = \"black\"]\n  C [label = \"geometric progression\"];\n  E [label = \"arrangement\"]\n  F [label = \"combination\"]\n  H [label = \"factorial\"]\n\n  edge [arrowhead  = \"normal\", color = \"#00BB00\", fontcolor = \"#00BB00\", label = \"Yes\"]\n  A -> B\n  B -> C\n  D -> G\n  G -> H\n\n  edge [arrowhead  = \"normal\", color = \"#BB0000\", fontcolor = \"#BB0000\", label = \"No\"]\n  A -> D\n  D -> F\n  G -> E\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div><div id="formulas" class="slide section level2">
 <h1>Formulas</h1>
 <table>
@@ -230,7 +233,7 @@ A^x_n &amp; = &amp; \frac{n!}{(n - x)!} \\
 <thead>
 <tr class="header">
 <th>Replacement</th>
-<th>Ordre</th>
+<th>Order</th>
 <th>Formula</th>
 <th>Description</th>
 </tr>
@@ -269,13 +272,13 @@ A^x_n &amp; = &amp; \frac{n!}{(n - x)!} \\
 </div><div id="solution-02.5-oligopeptides-3-times-20" class="slide section level2">
 <h1>Solution 02.5: oligopeptides <span class="math inline">\(3 \times 20\)</span></h1>
 <p><em>How many distinct oligopeptides of size <span class="math inline">\(k=60\)</span> can be formed by using exactly <span class="math inline">\(3\)</span> times each amino acid?</em></p>
-<p>Commençons par générer une séquence particulière qui remplit ces conditions, en concaténant 3 copies de chaque acide aminé, dans l’ordre alphabétique.</p>
+<p>Let us start by generating a particular sequence that fits these conditions, by concatenating 3 copies of each amino acid by alphabetic order.</p>
 <pre><code>AAACCCDDDEEEFFFGGGHHHIIIKKKLLLMMMNNNPPPQQQRRRSSSTTTVVVWWWYYY</code></pre>
-<p>Toutes les permutations de ces 60 lettres sont des solutions valides. En voici trois exemples.</p>
-<pre><code>ENNSWLFPHMGKQVQWKFPTYIAGSLGFQHLVEISRRRDCAVTHYCMCYIDKMDPNTAEW</code></pre>
-<pre><code>TCIGKYRRSLQFKMVHFPRDANESGYHQENWIVLDAYNFTCGSMDAQWIHMPVPLWKTEC</code></pre>
-<pre><code>YRQIQTKPVSATKMLMFFWGYEHTFDDNEVVLRIPPSLCNYRKEHGWQIWNAGDMCSCHA</code></pre>
-<p>Cependant, il faut prendre en compte le fait que certaines permutations sont identiques (toutes celles où l’on permute deux acides aminés identiques). La difficulté de l’Exercise sera donc de dénombrer le nombre de permutations <em>distinctes</em>.</p>
+<p>Any permutation of these 60 letters is a valid solution. Here are three examples.</p>
+<pre><code>QMEYLGDMNEDPCHLDLSCWTIRKAPGYRVIHWRQSVQNSEWNFKAIGAYVFHMTCPFKT</code></pre>
+<pre><code>HFEICTDMTQHAQPYIRLVMEHMRCYWAGNNPKVDPISDGKTQFKWWSLVFRYASNLCGE</code></pre>
+<pre><code>VVLNTNPEQFEKYKHGPWASGYADRMEKCRVQADWTWITCNLLRFFSPIHQMMSHGDCYI</code></pre>
+<p>However, we have to take into account that any permutation between two identical amino acids will give an identical sequence. The difficulty of the exercise will thus be to enumerate the number of <em>distinct</em> permutations.</p>
 </div>
 
   <!-- dynamically load mathjax for compatibility with self-contained -->

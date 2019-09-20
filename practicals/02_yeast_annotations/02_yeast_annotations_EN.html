@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jacques van Helden" />
 
-<meta name="date" content="2019-09-19" />
+<meta name="date" content="2019-09-20" />
 
 <title>Analysis of a genome annotation table</title>
 
@@ -319,9 +319,9 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Analysis of a genome annotation table</h1>
-<h3 class="subtitle">Probabilités et statistique pour la biologie (STAT1)</h3>
+<h3 class="subtitle">Probabilities and statistics for biology (STAT1)</h3>
 <h4 class="author">Jacques van Helden</h4>
-<h4 class="date">2019-09-19</h4>
+<h4 class="date">2019-09-20</h4>
 
 </div>
 
@@ -342,13 +342,13 @@ div.tocify {
 <p>At the end of the practical you will be asked to submit two documents</p>
 <ol style="list-style-type: decimal">
 <li>Your <strong>R code</strong>.Each question must be explicitly formulated before presenting the results that answer it and giving an interpretation of these results.</li>
-<li>UA <strong>synthetic report</strong>, which will include a presentation of the main results (figures, descriptives stats, tables) as well as your interpretation of the result.</li>
+<li>UA <strong>synthetic report</strong>, which will include a presentation of the main results (figures, descriptive stats, tables) as well as your interpretation of the result.</li>
 </ol>
 <div id="expectation-for-the-code" class="section level3">
 <h3>Expectation for the code</h3>
 <ol style="list-style-type: decimal">
 <li><p>The code must be <strong>readable and undestandable</strong>: choose variable names that explicitly indicate what they represent.</p></li>
-<li><p>The code must be properly documented (the <code>#</code> symbol starts a comment, either at the begining or in the middle of a line of code).</p>
+<li><p>The code must be properly documented (the <code>#</code> symbol starts a comment, either at the beginning or in the middle of a line of code).</p>
 <ul>
 <li><p>Before each chunk of code, explain what this code is supposed to do, what it serves to.</p></li>
 <li><p>Don’t hesitate to occasionally add some comment words to justify the chosen approach.</p></li>
@@ -359,7 +359,7 @@ div.tocify {
 </div>
 <div id="expected-content-for-the-interpretation-report" class="section level3">
 <h3>Expected content for the interpretation report</h3>
-<p>Your report must be synthetic (1 text page max + as many figures and table as you wish) Le rapport doit être synthétique (1 page de texte maximum + autant de figures et tables que vous le désirez).</p>
+<p>Your report must be synthetic (1 text page max + as many figures and table as you wish)</p>
 <p>Each question must be explicitly formulated before presenting the results that answer it and then interpreting those results.</p>
 <p>Each figure or table must be documented with a legend that allows a naive reader to understand what it represents. The interpretation of the results displayed on a figure or table will be found in the main text (with a reference to the figure or table number).</p>
 </div>
@@ -458,7 +458,7 @@ local.GTF &lt;-<span class="st"> </span><span class="kw">file.path</span>(dir.tu
 <p>Several functions derived from <code>read.table()</code> make it easier to read different types of formats:</p>
 <ul>
 <li><code>read.delim()</code> for files whose columns are delimited by a particular character (usually the tab, represented by “”).</li>
-<li><code>read.csv()</code> for files “comma-searated values”.</li>
+<li><code>read.csv()</code> for files “comma-separated values”.</li>
 </ul>
 <ol style="list-style-type: decimal">
 <li>Download the following file to your computer:</li>
@@ -677,7 +677,7 @@ feature       XIV  XV XVI
 <h3>2. Creating a local folder for the TP</h3>
 <p>Create a local folder (for example: <code>stat1/TP_yeast</code> from the root of your account). We suggest you to use the following functions:</p>
 <ul>
-<li><code>Sys.getenv(&quot;HOME&quot;)</code> (Linnux and Mac OS X), to get the root of your user account;</li>
+<li><code>Sys.getenv(&quot;HOME&quot;)</code> (Linux and Mac OS X), to get the root of your user account;</li>
 <li><code>file.path()</code> to build a path;</li>
 <li><code>dir.create()</code> to create the folder for the TP. Read carefully the options of this function with <code>help(dir.create)</code></li>
 </ul>
@@ -692,8 +692,8 @@ feature       XIV  XV XVI
 <li>Copy the address (URL) of the file <a href="ftp://ftp.ensemblgenomes.org/pub/release-37/fungi/gtf/saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz">Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz</a></li>
 </ul>
 </div>
-<div id="downloading-a-file-from-an-ftp-site" class="section level3">
-<h3>4. Downloading a file from an ftp site</h3>
+<div id="downloading-a-file-from-an-ftp-website" class="section level3">
+<h3>4. Downloading a file from an ftp website</h3>
 <p>Suggested functions:</p>
 <ul>
 <li><code>download.file()</code> (read the help to know the arguments)</li>
@@ -720,22 +720,17 @@ feature.table<span class="op">$</span>length &lt;-<span class="st"> </span>featu
 <li>fonction <code>table()</code></li>
 </ul></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="op">~</span><span class="kw">table</span>(feature.table<span class="op">$</span>feature)</code></pre></div>
 <pre><code>~table(feature.table$feature)</code></pre>
 <ul>
 <li><p>Select the lines corresponding to coding regions (“CDS”)</p>
 <ul>
 <li>fonction <code>subset()</code></li>
 </ul></li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cds &lt;-<span class="st"> </span><span class="kw">subset</span>(feature.table, feature<span class="op">==</span><span class="st">&quot;CDS&quot;</span>)</code></pre></div>
-<ul>
 <li><p>Count the number of CDS per chromosome.</p>
 <ul>
 <li>fonction <code>table()</code></li>
 </ul></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(cds<span class="op">$</span>seqname)</code></pre></div>
 <pre><code>
    I   II  III   IV   IX Mito    V   VI  VII VIII    X   XI  XII XIII  XIV 
  122  492  194  895  255   59  345  151  619  346  422  361  615  544  458 
@@ -744,44 +739,18 @@ feature.table<span class="op">$</span>length &lt;-<span class="st"> </span>featu
 <ul>
 <li>Load the chromosome size table <a href="../../data/Saccharomyces_cerevisiae/chrom_sizes.tsv">chrom_sizes.tsv</a>, and calculate the gene density for each chromosome (number of genes per Mb).</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Download tab-delimited file with chromosome sizes (unless already there)
-annot.url &lt;-<span class="st"> &quot;http://jvanheld.github.io/stat1/data/Saccharomyces_cerevisiae/chrom_sizes.tsv&quot;</span>
-chrom.size.file &lt;-<span class="st"> </span><span class="kw">file.path</span>(dir.tuto, <span class="st">&quot;chrom_sizes.tsv&quot;</span>)
-
-<span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(chrom.size.file)) {
-    <span class="kw">download.file</span>(annot.url, <span class="dt">destfile =</span> chrom.size.file)
-}
-
-## Read chromosome sizes
-chrom.size &lt;-<span class="st"> </span><span class="kw">read.delim</span>(
-  <span class="dt">file =</span> chrom.size.file,
-  <span class="dt">header =</span> <span class="ot">FALSE</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)
-
-## Assign a name to the columns
-<span class="kw">names</span>(chrom.size) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;chromID&quot;</span>, <span class="st">&quot;size&quot;</span>)
-<span class="co"># View(chrom.size)</span>
-
-## print the size of hte third chromosome
-chrom.size[<span class="st">&quot;III&quot;</span>, <span class="st">&quot;size&quot;</span>]</code></pre></div>
 <pre><code>[1] 316617</code></pre>
 </div>
 <div id="histogram-of-gene-length" class="section level3">
 <h3>6. Histogram of gene length</h3>
 <p>By using the function <code>hist()</code>, draw a histogram representing the length distribution of the CDS.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(cds<span class="op">$</span>length)</code></pre></div>
 <p><img src="figures/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Choose the class intervals in a way that the histogram is informative (neither too large nor too few classes).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Take more or less 100 bins
-h &lt;-<span class="st"> </span><span class="kw">hist</span>(cds<span class="op">$</span>length, <span class="dt">breaks=</span><span class="dv">100</span>)</code></pre></div>
 <p><img src="figures/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Retrieve the result of <code>hist()</code> in a variable named <code>cds.length.hist</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Define breaks exactly in the way you wish
-cds.length.hist &lt;-<span class="st"> </span><span class="kw">hist</span>(cds<span class="op">$</span>length, <span class="dt">breaks=</span><span class="kw">seq</span>(<span class="dt">from=</span><span class="dv">0</span>, <span class="dt">to=</span><span class="kw">max</span>(cds<span class="op">$</span>length)<span class="op">+</span><span class="dv">100</span>, <span class="dt">by=</span><span class="dv">100</span>))</code></pre></div>
 <p><img src="figures/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Print the result on the screen (<code>print()</code>) and analyze the structure of the variable <code>cds.length.hist</code> (this is a list variable).</p>
 <p>Useful functions:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Display the values used to draw the histogram
-<span class="kw">print</span>(cds.length.hist )</code></pre></div>
 <pre><code>$breaks
   [1]     0   100   200   300   400   500   600   700   800   900  1000
  [12]  1100  1200  1300  1400  1500  1600  1700  1800  1900  2000  2100
@@ -869,8 +838,7 @@ attr(,&quot;class&quot;)
 <li><code>class(cds.length.hist)</code></li>
 <li><code>attributes(cds.length.hist)</code></li>
 </ul>
-<p>Other types of graphs allow you to explore the distribution of a set of data. In particular, box plots display, for a series of data, the median, the interquartile range, a confidence interval and outliers.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">boxplot</span>(length <span class="op">~</span><span class="st"> </span>seqname, <span class="dt">data =</span> cds, <span class="dt">col=</span><span class="st">&quot;palegreen&quot;</span>, <span class="dt">horizontal=</span><span class="ot">TRUE</span>, <span class="dt">las=</span><span class="dv">1</span>, <span class="dt">xlab=</span><span class="st">&quot;Gene length&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Chromosome&quot;</span>)</code></pre></div>
+<p>Other types of graphs allow you to explore the distribution of a set of data. In particular, box plots display, for a series of data, the median, the quarterfinal range, a confidence interval and outliers.</p>
 <div class="figure" style="text-align: center">
 <img src="figures/unnamed-chunk-24-1.png" alt="Boîte à moustache indiquant la distribution de longueur des gènes par chromosome. " width="672" />
 <p class="caption">
@@ -880,50 +848,18 @@ Boîte à moustache indiquant la distribution de longueur des gènes par chromos
 </div>
 <div id="descriptive-parameters" class="section level3">
 <h3>7. Descriptive parameters</h3>
-<p>Calculate the parameters of central tendency (mean, median, mode) and dispersion (variance, standard deviation, inter-quartile deviation)</p>
+<p>Calculate the parameters of central tendency (mean, median, mode) and dispersion (variance, standard deviation, inter-quarterly deviation)</p>
 <ul>
 <li>for the genes of chromosome III;</li>
 <li>for all yeast genes.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">subset</span>(cds, seqname <span class="op">==</span><span class="st"> &quot;III&quot;</span>, <span class="dt">select =</span> <span class="st">&quot;length&quot;</span>)
-<span class="kw">dim</span>(x) </code></pre></div>
 <pre><code>[1] 194   1</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(x) ## Ah ah, this is not a vector but a data.frame</code></pre></div>
 <pre><code>[1] &quot;data.frame&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Convert the data frame into a vector
-x &lt;-<span class="st"> </span><span class="kw">unlist</span>(x)
-<span class="kw">class</span>(x)</code></pre></div>
 <pre><code>[1] &quot;numeric&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(x)</code></pre></div>
 <pre><code>length1 length2 length3 length4 length5 length6 
     741    1845    1374     780     630     525 </code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Compute the mean, either manually or with the ad hoc R function
-n &lt;-<span class="st"> </span><span class="kw">length</span>(x) 
-<span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;Chromosome III contains&quot;</span>, n, <span class="st">&quot;CDS&quot;</span>))</code></pre></div>
 <pre><code>[1] &quot;Chromosome III contains 194 CDS&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">message</span>(<span class="st">&quot;Chromosome III contains &quot;</span>, n, <span class="st">&quot; CDS&quot;</span>)
-
-m &lt;-<span class="st"> </span><span class="kw">mean</span>(x)
-<span class="kw">print</span>(m)</code></pre></div>
 <pre><code>[1] 1169.521</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">message</span>(<span class="st">&quot;mean(x) = &quot;</span>, <span class="kw">round</span>(m, <span class="dt">digits =</span> <span class="dv">1</span>))
-
-## Compute the mean manually to compare the result
-m.recalc &lt;-<span class="st"> </span><span class="kw">sum</span>(x)<span class="op">/</span>n
-<span class="kw">message</span>(<span class="st">&quot;Manually computed sample mean: &quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">1</span>, m.recalc))
-
-## Compute manually standard dev of the sample
-sample.var &lt;-<span class="st"> </span><span class="kw">sum</span>((x <span class="op">-</span><span class="st"> </span>m)<span class="op">^</span><span class="dv">2</span>)<span class="op">/</span><span class="st"> </span>n
-sample.sd &lt;-<span class="st"> </span><span class="kw">sqrt</span>(sample.var)
-<span class="kw">message</span>(<span class="st">&quot;Sample standard dev =&quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">1</span>, sample.sd))
-
-## Compute an estimate of the population standard deviation
-pop.sd.est &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">sum</span>((x <span class="op">-</span><span class="st"> </span>m)<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>(n<span class="op">-</span><span class="dv">1</span>))
-<span class="kw">message</span>(<span class="st">&quot;Sample-based estimate of population standard dev =&quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">1</span>, pop.sd.est))
-
-## Compute the standard deviation with R function sd()
-R.sd &lt;-<span class="st"> </span><span class="kw">sd</span>(x)
-<span class="kw">message</span>(<span class="st">&quot;Result of R sd() function =&quot;</span>, <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">1</span>, R.sd))</code></pre></div>
 <p><strong>Ah ah! (skeptical tone)</strong> The R function <code>sd()</code> does <strong>not</strong> compute the standard deviation of the input numbers (<span class="math inline">\(s\)</span>), but the <strong>estimate of the standard deviaiton of the population</strong> (<span class="math inline">\(\hat{\sigma}\)</span>)</p>
 <p>Display these parameters on the histogram of gene length, using the function <code>arrows()</code></p>
 </div>
@@ -931,42 +867,8 @@ R.sd &lt;-<span class="st"> </span><span class="kw">sd</span>(x)
 <h3>8. Intervalle de confiance</h3>
 <p>From genes of chromosome III (considered as the sample available in 1992), calculate a confidence interval around the mean, and formulate the interpretation of this confidence interval. Then evaluate whether or not this confidence interval covered the average population (all genes in the yeast genome, which became available 4 years after chromosome III).</p>
 <p><span class="math display">\[ \bar{x} \pm \frac{\hat{\sigma}}{\sqrt(n)} \cdot t_{1-\alpha/2}^{n-1}\]</span></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Define alpha, the risk
-alpha &lt;-<span class="st"> </span><span class="fl">0.05</span>
-
-## Let us get the critical value for the t distribution
-<span class="kw">help</span>(<span class="st">&quot;TDist&quot;</span>)
-
-## Which value corresponds to alpha/2 
-
-## Beware ! by default the qt() function return the lower tail
-<span class="kw">qt</span>(<span class="dt">p =</span> alpha<span class="op">/</span><span class="dv">2</span>, <span class="dt">df =</span>  n <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)</code></pre></div>
 <pre><code>[1] -1.972332</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## For confidence intervals we need a positive t value, we thus take the upper tail
-t.value &lt;-<span class="st"> </span><span class="kw">qt</span>(<span class="dt">p =</span> alpha<span class="op">/</span><span class="dv">2</span>, <span class="dt">df =</span>  n <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)
-
-IC.min &lt;-<span class="st"> </span>m <span class="op">-</span><span class="st"> </span>pop.sd.est <span class="op">*</span><span class="st"> </span>t.value <span class="op">/</span><span class="kw">sqrt</span>(n)
-IC.max &lt;-<span class="st"> </span>m <span class="op">+</span><span class="st"> </span>pop.sd.est <span class="op">*</span><span class="st"> </span>t.value <span class="op">/</span><span class="kw">sqrt</span>(n)
-
-<span class="kw">message</span>(<span class="st">&quot;Confidence interval: [&quot;</span>, 
-        <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">1</span>, IC.min), 
-        <span class="st">&quot;, &quot;</span>, 
-        <span class="kw">round</span>(<span class="dt">digits=</span><span class="dv">1</span>, IC.max), <span class="st">&quot;]&quot;</span>)</code></pre></div>
-<p>Draw a polygnone of frequencies indicating the number of genes per class (class medium).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Draw a frequency polygon
-<span class="kw">plot</span>(cds.length.hist <span class="op">$</span>mids, cds.length.hist <span class="op">$</span>counts, 
-     <span class="dt">main=</span><span class="st">&quot;Frequency polygon&quot;</span>, 
-     <span class="dt">xlab=</span><span class="st">&quot;Gene length&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Number of genes&quot;</span>, 
-     <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, <span class="dt">col=</span><span class="st">&quot;darkgreen&quot;</span>, <span class="dt">lwd=</span><span class="dv">2</span>, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">5000</span>))
-<span class="kw">grid</span>()
-
-<span class="kw">arrows</span>(<span class="dt">x0 =</span> IC.min, <span class="dt">y0 =</span> <span class="dv">100</span>, <span class="dt">x1 =</span> IC.max, <span class="dt">y1=</span><span class="dv">100</span>, <span class="dt">length =</span> <span class="dv">0</span>, <span class="dt">angle =</span> <span class="dv">00</span>, <span class="dt">col=</span><span class="st">&quot;violet&quot;</span>, <span class="dt">lwd=</span><span class="dv">3</span>)
-<span class="kw">abline</span>(<span class="dt">v =</span> m, <span class="dt">col=</span><span class="st">&quot;violet&quot;</span>)
-
-pop.mean &lt;-<span class="st"> </span><span class="kw">mean</span>(cds<span class="op">$</span>length)
-<span class="kw">abline</span>(<span class="dt">v =</span> pop.mean, <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)
-
-<span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;genome&quot;</span>, <span class="st">&quot;chr3&quot;</span>), <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;violet&quot;</span>), <span class="dt">lwd=</span><span class="dv">1</span>)</code></pre></div>
+<p>Draw a polygon of frequencies indicating the number of genes per class (class medium).</p>
 <p><img src="figures/unnamed-chunk-27-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="distribution-of-gene-length" class="section level3">
@@ -988,8 +890,8 @@ pop.mean &lt;-<span class="st"> </span><span class="kw">mean</span>(cds<span cla
 <div id="randomly-expected-distribution-for-gene-length" class="section level3">
 <h3>10. Randomly expected distribution for gene length</h3>
 <p>Based on the genome size (12.156.679 bp) and codon genomic frequencies defined below, calculate the random expected gene length distribution, and add it to the graph.</p>
-<p>You can download the genomic frequencies of all trinucleotides here: <a href="http://jvanheld.github.io/stat1/data/Saccharomyces_cerevisiae/oligo_freq/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab">3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab</a></p>
-<p>Alternative: create a variable <code>freq.3nt</code> and manually assign the values for the 4? required nucleotides from the table below.</p>
+<p>You can download the genomic frequencies of all polynucleotides here: <a href="http://jvanheld.github.io/stat1/data/Saccharomyces_cerevisiae/oligo_freq/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab">3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab</a></p>
+<p>Alternative: create a variable <code>freq.3nt</code> and manually assign the values for the 4? required polynucleotides from the table below.</p>
 <table>
 <thead>
 <tr class="header">
@@ -1029,7 +931,7 @@ pop.mean &lt;-<span class="st"> </span><span class="kw">mean</span>(cds<span cla
 </div>
 <div id="before-finishing-keep-track-of-your-session" class="section level3">
 <h3>11. Before finishing : keep track of your session</h3>
-<p>Traceability is an essential issue in science. The function <strong><em>R</em></strong> <code>sessionInfo()</code> provides a summary of the conditions of a work session: version of R, operator system, libraries of functions used.</p>
+<p>Tractability is an essential issue in science. The function <strong><em>R</em></strong> <code>sessionInfo()</code> provides a summary of the conditions of a work session: version of R, operator system, libraries of functions used.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
 <pre><code>R version 3.6.1 (2019-07-05)
 Platform: x86_64-pc-linux-gnu (64-bit)

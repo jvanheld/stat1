@@ -3,15 +3,11 @@ title: "Analysis of a genome annotation table"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  html_document:
-    self_contained: no
-    code_folding: show
+  pdf_document:
     fig_caption: yes
     highlight: zenburn
-    theme: cerulean
     toc: yes
     toc_depth: 3
-    toc_float: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -24,11 +20,15 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
-  pdf_document:
+  html_document:
+    self_contained: no
+    code_folding: show
     fig_caption: yes
     highlight: zenburn
+    theme: cerulean
     toc: yes
     toc_depth: 3
+    toc_float: yes
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -59,7 +59,7 @@ output:
     toc_depth: 3
 font-import: http://fonts.googleapis.com/css ?family=Risque
 font-family: Garamond
-subtitle: Probabilités et statistique pour la biologie (STAT1)
+subtitle: Probabilities and statistics for biology (STAT1)
 address: TAGC lab, Aix-Marseille Université, France
 transition: linear
 ---
@@ -106,14 +106,14 @@ At the end of the practical you will be asked to submit two documents
 
 
 1. Your **R code**.Each question must be explicitly formulated before presenting the results that answer it and giving an interpretation of these results. 
-2. UA  **synthetic report**, which will include a presentation of the main results (figures, descriptives stats, tables) as well as your interpretation of the result. 
+2. UA  **synthetic report**, which will include a presentation of the main results (figures, descriptive stats, tables) as well as your interpretation of the result. 
 
 ### Expectation for the code
 
 
 1. The code must be **readable and undestandable**: choose variable names that explicitly indicate what they represent.
 
-2. The code must be properly documented (the `#` symbol starts a comment, either at the begining or in the middle of a line of code).
+2. The code must be properly documented (the `#` symbol starts a comment, either at the beginning or in the middle of a line of code).
 
     - Before each chunk of code, explain what this code is supposed to do, what it serves to.
     
@@ -126,7 +126,6 @@ At the end of the practical you will be asked to submit two documents
 ### Expected content for the interpretation report
 
 Your report must be synthetic (1 text page max + as many figures and table as you wish)
-Le rapport doit être synthétique (1 page de texte maximum + autant de figures et tables que vous le désirez). 
 
 Each question must be explicitly formulated before presenting the results that answer it and then interpreting those results.  
 
@@ -292,7 +291,7 @@ The function `read.table()` allows you to read a text file containing a data tab
 Several functions derived from `read.table()` make it easier to read different types of formats:  
 
 - `read.delim()` for files whose columns are delimited by a particular character (usually the tab, represented by "\t").
-- `read.csv()` for files "comma-searated values".
+- `read.csv()` for files "comma-separated values".
 
 
 1. Download the following file to your computer: 
@@ -461,7 +460,7 @@ Read the GTF format specifications.
 Create a local folder (for example: `stat1/TP_yeast` from the root of your account). We suggest you to use the following functions: 
  
 
-- `Sys.getenv("HOME")` (Linnux and Mac OS X), to get the root of your user account;
+- `Sys.getenv("HOME")` (Linux and Mac OS X), to get the root of your user account;
 - `file.path()` to build a path;
 - `dir.create()` to create the folder for the TP. Read carefully the options of this function with `help(dir.create)` 
 
@@ -475,7 +474,7 @@ Locate the yeast genome annotation file in GTF format in this local folder.
 - Copy the address (URL) of the file [Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz](ftp://ftp.ensemblgenomes.org/pub/release-37/fungi/gtf/saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz)
 
 
-### 4. Downloading a file from an ftp site
+### 4. Downloading a file from an ftp website
 
 Suggested functions:
 
@@ -493,7 +492,7 @@ Be sure to ignore the comment lines (which start with a character `#`).
 
 - Add to the annotation table (`feature.table`) a column entitled "length" which indicates the length of each annotated genomic feature.
 
-```{r}
+```{r }
 ## Add a colmn with feature lengths
 feature.table[, "length"] <- feature.table[, "end"] - feature.table[, "start"] + 1
 
@@ -506,7 +505,7 @@ feature.table$length <- feature.table$end - feature.table$start + 1
 
     - fonction `table()`
 
-```{r}
+```{r echo=FALSE}
 ~table(feature.table$feature)
 ```
 
@@ -515,7 +514,7 @@ feature.table$length <- feature.table$end - feature.table$start + 1
 
     - fonction `subset()`
 
-```{r}
+```{r echo=FALSE}
 cds <- subset(feature.table, feature=="CDS")
 ```
 
@@ -525,13 +524,13 @@ cds <- subset(feature.table, feature=="CDS")
     - fonction `table()`
 
 
-```{r}
+```{r echo=FALSE}
 table(cds$seqname)
 ```
 
 - Load the chromosome size table [chrom_sizes.tsv](../../data/Saccharomyces_cerevisiae/chrom_sizes.tsv), and calculate the gene density for each chromosome (number of genes per Mb). 
 
-```{r}
+```{r echo=FALSE}
 ## Download tab-delimited file with chromosome sizes (unless already there)
 annot.url <- "http://jvanheld.github.io/stat1/data/Saccharomyces_cerevisiae/chrom_sizes.tsv"
 chrom.size.file <- file.path(dir.tuto, "chrom_sizes.tsv")
@@ -559,13 +558,13 @@ chrom.size["III", "size"]
 
 By using the function `hist()`, draw a histogram representing the length distribution of the CDS.
 
-```{r}
+```{r echo=FALSE}
 hist(cds$length)
 ```
 
 Choose the class intervals in a way that the histogram is informative (neither too large nor too few classes).
 
-```{r}
+```{r echo=FALSE}
 ## Take more or less 100 bins
 h <- hist(cds$length, breaks=100)
 
@@ -574,7 +573,7 @@ h <- hist(cds$length, breaks=100)
 
 Retrieve the result of `hist()` in a variable named `cds.length.hist`.
 
-```{r}
+```{r echo=FALSE}
 ## Define breaks exactly in the way you wish
 cds.length.hist <- hist(cds$length, breaks=seq(from=0, to=max(cds$length)+100, by=100))
 
@@ -585,7 +584,7 @@ Print the result on the screen (`print()`) and analyze the structure of the vari
 
 Useful functions:
 
-```{r}
+```{r echo=FALSE}
 ## Display the values used to draw the histogram
 print(cds.length.hist )
 
@@ -595,22 +594,22 @@ print(cds.length.hist )
 - `attributes(cds.length.hist)`
 
 
-Other types of graphs allow you to explore the distribution of a set of data. In particular, box plots display, for a series of data, the median, the interquartile range, a confidence interval and outliers.  
+Other types of graphs allow you to explore the distribution of a set of data. In particular, box plots display, for a series of data, the median, the quarterfinal range, a confidence interval and outliers.  
 
-```{r fig.width=7, fig.height=5, fig.cap="Boîte à moustache indiquant la distribution de longueur des gènes par chromosome. "}
+```{r fig.width=7, fig.height=5, fig.cap="Boîte à moustache indiquant la distribution de longueur des gènes par chromosome. ", echo=FALSE}
 boxplot(length ~ seqname, data = cds, col="palegreen", horizontal=TRUE, las=1, xlab="Gene length", ylab="Chromosome")
 
 ```
 
 ### 7. Descriptive parameters
 
-Calculate the parameters of central tendency (mean, median, mode) and dispersion (variance, standard deviation, inter-quartile deviation) 
+Calculate the parameters of central tendency (mean, median, mode) and dispersion (variance, standard deviation, inter-quarterly deviation) 
 
 - for the genes of chromosome III;
 - for all yeast genes.
 
 
-```{r}
+```{r echo=FALSE}
 x <- subset(cds, seqname == "III", select = "length")
 dim(x) 
 class(x) ## Ah ah, this is not a vector but a data.frame
@@ -660,7 +659,7 @@ Then evaluate whether or not this confidence interval covered the average popula
 
 $$ \bar{x} \pm \frac{\hat{\sigma}}{\sqrt(n)} \cdot t_{1-\alpha/2}^{n-1}$$
 
-```{r}
+```{r echo=FALSE}
 ## Define alpha, the risk
 alpha <- 0.05
 
@@ -685,9 +684,9 @@ message("Confidence interval: [",
 
 ```
 
-Draw a polygnone of frequencies indicating the number of genes per class (class medium). 
+Draw a polygon of frequencies indicating the number of genes per class (class medium). 
 
-```{r}
+```{r echo=FALSE}
 
 ## Draw a frequency polygon
 plot(cds.length.hist $mids, cds.length.hist $counts, 
@@ -726,9 +725,9 @@ legend("topright", legend = c("genome", "chr3"), col = c("blue", "violet"), lwd=
 
 Based on the genome size (12.156.679 bp) and codon genomic frequencies defined below, calculate the random expected gene length distribution, and add it to the graph. 
 
-You can download the genomic frequencies of all trinucleotides here:  [3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab](http://jvanheld.github.io/stat1/data/Saccharomyces_cerevisiae/oligo_freq/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab)
+You can download the genomic frequencies of all polynucleotides here:  [3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab](http://jvanheld.github.io/stat1/data/Saccharomyces_cerevisiae/oligo_freq/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab)
 
-Alternative: create a variable `freq.3nt` and manually assign the values for the 4? required nucleotides from the table below.
+Alternative: create a variable `freq.3nt` and manually assign the values for the 4? required polynucleotides from the table below.
 
 
 ```{r echo=FALSE}
@@ -761,7 +760,7 @@ kable(data.frame(oligo.freq[selected.oligos, ]), row.names = FALSE)
 
 ### 11. Before finishing : keep track of your session
 
-Traceability is an essential issue in science. 
+Tractability is an essential issue in science. 
 The function ***R***  `sessionInfo()` provides a summary of the conditions of a work session: version of R, operator system, libraries of functions used. 
 
 

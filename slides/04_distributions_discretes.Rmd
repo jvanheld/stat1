@@ -393,7 +393,7 @@ $$\operatorname{P}(X \ge x)  =   \sum_{i=x}^{n}{P(X=i)} =  \sum_{i=x}^{n}{C_n^i 
 
 La distribution binomiale peut prendre différentes formes selon les valeurs des paramètres (probabilité de succès $p$, et nombre d'essais $n$). 
 
-Quand la probabilité de succès ($p$) est très faible par rapport au nombre d'essais ($n$), la distribution prend une forme de $i$. 
+Quand l'espérance ($p \cdot n$) est inférieure à 1, la distribution est monotone décroissante, et on la qualifie de ***distribution en forme de $i$***. 
 
 ```{r binomial_i-shaped, fig.width=9, fig.height=4, echo=FALSE, fig.cap="Distribution binomiale en forme de i.  "}
 
@@ -576,7 +576,7 @@ par(mfrow=c(1,1))
 
 ## Distribution binomiale en $j$
 
-Quand la probabilité de succès est proche de 1, la distribution prend une forme en $j$. 
+Quand la probabilité de succès est proche de 1, la distribution et monotone croissante et on la qualifie de ***distribution en forme de $j$***. 
 
 ```{r binomial_distrib_j-shaped, fig.width=9, fig.height=4, echo=FALSE, fig.cap="Distribution binomiale en forme de j.  "}
 
@@ -628,7 +628,7 @@ par(mfrow=c(1,1))
 2. **Alignement de séquences**: nombre d'identités entre deux séquences alignées sans gap.
 3. **Analyse de motifs**: nombre d'occurrences d'un motif dans un génome.
 
-**Note: ** le recours à la binomiale présuppose un modèle de Bernoulli. Pour les exemples 2 et 3 ceci revient à considérer que les nucléotides se succèdent de façon indépendante, ce qui est assez peu réaliste. 
+**Note: ** le recours à la binomiale présuppose un schema de Bernoulli. Pour les exemples 2 et 3 ceci revient à considérer que les nucléotides se succèdent de façon indépendante, ce qui est assez peu réaliste. 
 
 ## Loi de Poisson
 

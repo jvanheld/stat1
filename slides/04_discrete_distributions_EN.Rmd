@@ -3,17 +3,18 @@ title: "Discrete distributions"
 author: "Jacques van Helden"
 date: "`r Sys.Date()`"
 output:
-  slidy_presentation:
+  beamer_presentation:
+    colortheme: dolphin
     fig_caption: yes
     fig_height: 6
     fig_width: 7
+    fonttheme: structurebold
     highlight: tango
     incremental: no
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
     toc: yes
-    widescreen: yes
   revealjs::revealjs_presentation:
     theme: night
     transition: none
@@ -32,23 +33,6 @@ output:
     toc_depth: 3
     toc_float: yes
     widescreen: yes
-  beamer_presentation:
-    colortheme: dolphin
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
-    toc: yes
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: yes
-    toc_depth: 3
   ioslides_presentation:
     css: slides.css
     fig_caption: yes
@@ -56,6 +40,22 @@ output:
     fig_width: 7
     highlight: tango
     smaller: yes
+    toc: yes
+    widescreen: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
+  slidy_presentation:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
     toc: yes
     widescreen: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
@@ -386,19 +386,20 @@ $$\operatorname{P}(X \ge x)  =   \sum_{i=x}^{n}{P(X=i)} =  \sum_{i=x}^{n}{C_n^i 
 **Properties**
 
 - **Expectation** (number of successes expected by chance): $<X> = n \cdot p$
-- **variance**: $\sigma^2 = n \cdot p \cdot (1 - p)$. 
+- **Variance**: $\sigma^2 = n \cdot p \cdot (1 - p)$. 
 
     - Note: the variance of the binomial is inferior to its mean
     
-- **Ecart-type**: $\sigma = \sqrt{n \cdot p \cdot (1 - p)}$
+- **Standard deviation**: $\sigma = \sqrt{n \cdot p \cdot (1 - p)}$
 
 
 
-## Distribution binomiale en $i$
+## $i$-shaped binomial distribution
 
-La distribution binomiale peut prendre différentes formes selon les valeurs des paramètres (probabilité de succès $p$, et nombre d'essais $n$). 
 
-Quand la probabilité de succès ($p$) est très faible par rapport au nombre d'essais ($n$), la distribution prend une forme de $i$. 
+The binomial distribution can take various shapes depending on the values of its parameters (success probability  $p$, and number of trials $n$). 
+
+When the expectation ($p \cdot n$) is very small, the binomial distribution is monotonously decreasing and is qualified of ***$i$-shaped***. 
 
 ```{r binomial_i-shaped, fig.width=9, fig.height=4, echo=FALSE, fig.cap="Distribution binomiale en forme de i.  "}
 
@@ -479,9 +480,9 @@ par(par.ori)
 par(mfrow=c(1,1))
 ```
 
-## Distribution binomiale en cloche asymétrique
+## Asymmetric bell-shaped binomial distribution
 
-Quand la probabilité de succès relativement élevée mais inférieure à 0.5, la distribution prend une forme en cloche asymétrique. 
+When the probability is relatively high but still lower than $0.5$, the distribution takes the shape of an asymmetric bell. 
 
 ```{r binomial_distrib_bell-shaped, fig.width=9, fig.height=4, echo=FALSE, fig.cap="Distribution binomiale en forme de cloche asymétrique.  "}
 
@@ -532,9 +533,9 @@ par(par.ori)
 par(mfrow=c(1,1))
 ```
 
-## Distribution binomiale en cloche symétrique
+## Symmetric bell-shaped binomial
 
-Quand la probabilité de succès vaut 0.5, la distribution prend une forme en cloche symétrique. 
+When the success probability $p$ is exactly $0.5$, the binomial distribution takes the shape of a symmetrical bell. 
 
 ```{r binomial_distrib_symmetric-bell, fig.width=9, fig.height=4, echo=FALSE, fig.cap="Distribution binomiale en forme de cloche symétrique (p=0.5). "}
 
@@ -575,13 +576,13 @@ plot(x.shifted,
                    abline(h=y.grid,col=plot.col['grid'],lty=line.types["grid"]))
 )
 par(par.ori)
-par(mfrow=c(1,1))
+par(mfrow = c(1,1))
 ```
 
 
-## Distribution binomiale en $j$
+## $j$-shaped binomial distribution
 
-Quand la probabilité de succès est proche de 1, la distribution prend une forme en $j$. 
+Then the success probability is close to 1, the distirbution is monotonously increasing and is qualified of ***$j$-shaped distribution. 
 
 ```{r binomial_distrib_j-shaped, fig.width=9, fig.height=4, echo=FALSE, fig.cap="Distribution binomiale en forme de j.  "}
 
@@ -627,15 +628,17 @@ par(mfrow=c(1,1))
 
 
 
-## Examples d'applications de la binomiale
+## Examples of applications of the binomial
 
-1. **Jeu de dés**: nombre de 6 observés lors d'une série de 10 tirages. 
-2. **Alignement de séquences**: nombre d'identités entre deux séquences alignées sans gap.
-3. **Analyse de motifs**: nombre d'occurrences d'un motif dans un génome.
+1. **Dices**:  number of 6 observed during a series of 10 dice rolls
+2. **Sequence alignment**: number of identities between two sequences   alignmed without gap and with an arhbitrary offset.
+3. **Motif analysis**: number of occurrences of a given motif in a genome. 
 
-**Note: ** le recours à la binomiale présuppose un modèle de Bernoulli. Pour les examples 2 et 3 ceci revient à considérer que les nucléotides se succèdent de façon indépendante, ce qui est assez peu réaliste. 
 
-## Loi de Poisson
+**Note: ** the binomial assumes a Bernoulli schema. Forexamples 2 and 3 this amounts to consider that nucleotides are concatenated in an independent way, which is quite unrealistic. 
+
+
+## Poisson law
 
 La loi de Poisson décrit la probabilité du nombre d'occurrences d'un événement pendant un intervalle de temps fixé, en supposant que le nombre moyen d'événements par unité de temps est constant, et que les événements sont indépendants (les réalisations précédentes n'affectement pas la probabilité des occurrences suivantes).
 

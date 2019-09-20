@@ -3,20 +3,18 @@ title: "Exercises: discrete distributions"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  slidy_presentation:
-    smart: no
-    slide_level: 2
-    self_contained: yes
+  beamer_presentation:
+    colortheme: dolphin
     fig_caption: yes
     fig_height: 6
     fig_width: 7
+    fonttheme: structurebold
     highlight: tango
     incremental: no
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
     toc: yes
-    widescreen: yes
   ioslides_presentation:
     slide_level: 2
     self_contained: no
@@ -37,18 +35,20 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
-  beamer_presentation:
-    colortheme: dolphin
+  slidy_presentation:
+    smart: no
+    slide_level: 2
+    self_contained: yes
     fig_caption: yes
     fig_height: 6
     fig_width: 7
-    fonttheme: structurebold
     highlight: tango
     incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
     toc: yes
+    widescreen: yes
   pdf_document:
     fig_caption: yes
     highlight: zenburn
@@ -112,14 +112,18 @@ We would like to compute the probability of a perfect alignment (not a single mi
 Note: during the practicals we will draw this distribution with *R*.
 
 
-## Exercise 04.3: sites de restriction
+## Exercise 04.3: restriction sites
 
-Dans un génome bactérien de 4 Mb avec une composition de 50% de G+C, on observe 130 occurrences de l'hexanucléotide GGCGCC. On suppose un schéma de Bernoulli et une composition équiprobable de nucléotides.
+In a bacterial genome of 4Mb containing $50\%$ $G+C$ we observe 130 occurrences of the hexanucleotide $GGCGCC$. We assume an equiprobable and independent distribution of nucleotides. 
 
-(a) Quelle est la probabilité d’observer une occurrence de GGCGCC à une position donnée du génome?
-(b) Combien d'occurrences s'attend-on à trouver dans l'ensemble du génome?
-(c) Quelle serait la probabilité d'observer un nombre aussi faible d'occurrences (130 ou moins) si l'on générait une séquence aléatoire selon le modèle de Bernoulli avec nucléotides équiprobables?
-(d) Comment peut-on interpréter cette sous-représentation de l'hexanucléotide GGCGCC du point de vue biologique?
+
+(a) What is the probability to observe one occurrence of $GGCGCC$ at a given genomic position?
+
+(b) How many occurrences would we expect to find in the whole genome?
+
+(c) What is the probability to observe such a number of occurrences at least as weak as what we observe (at most 130 poccurrences) in a random sequence of the same size?
+
+(d) Is there a biological explanation for this under-representation of the hexanucleotide $GGCGCC$ in this bacterial genome?
 
 \newpage
 ## Exercise 04.4: Jeu de roulette
@@ -155,11 +159,12 @@ kable(data.frame(oligo.freq[selected.oligos, ]), row.names = FALSE)
 ```
 
 
-## Exercise 04.6: mutagenèse
+## Exercise 04.6: mutagenesis
 
-On soumet une librairie de molécules d'ADN de 1 kilobase à un traitement mutagène qui provoque un nombre moyen de 5 mutations ponctuelles (substitutions) par molécule.
+A 1-kb DNA library is treated with a mutagen, with a dosis corresponding to an average of 5 point substitutions per molecule. 
 
-a. Quelle est la probabilité d'avoir exactement 5 mutations pour une molécule donnée?
+a. What is the probability to have exactly 5 mutations for a given molecule?
+
 b. Quelle est la probabilité pour une molécule d'ADN de n'avoir subi aucune mutation au cours du traitement?
 c. Quelle est la probabilité d'obtenir au moins 10 mutations ?
 

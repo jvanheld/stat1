@@ -1,5 +1,8 @@
 ## Probabilities and statistics for modelling 1 (STAT1)
 
+
+### General info
+
 - AMU code: [SCMA07AL](https://formations.univ-amu.fr/ME5SBI-S53MA1Z1A-en.html)
 - 6h lectures + 6h exercises + 6h practicals
 - Teachers
@@ -12,11 +15,36 @@
     - Github repository: <https://github.com/jvanheld/stat1>
     - Ametice: <https://ametice.univ-amu.fr/course/view.php?id=50334>
 
-### Book chapters
+### Course contents
+
+This course is a quick revision of the basics of probability and statistics. The concepts will be taught in relation to concrete biological examples (genome analysis, complex systems). 
+
+The following concepts will be taught :
+
+- Combinatorial analysis
+- Concepts of probabilities
+- Discrete distributions (Bernouilli, binomial, geometric, hypergeometric, Poisson)
+- Quick review of the basic continuous laws (normal and Student’s distribution)
+- Estimation and sampling
+- Statistical hypothesis tests
+- Corrections for multiple testing
+
+Applications to biology will include: 
+
+- pattern matching and alignment of genomic sequences,
+- functional enrichment analysis,
+- detection of differentially expressed genes.
+
+### 2019 calendar
+
+### Course support
+
+
+#### Book chapters
 
 [Ametice](https://ametice.univ-amu.fr/course/view.php?id=50334) gives access to a draft versions of selected chapters of my unpublished book "Statistics for bioinformatics". This access is restricted to students registered for this course. 
 
-### 2019 course
+### Lectures and practicals
 
 | Day | Time | Type | Contents | Teaching material | 
 |-----------|-------------|----------|------------------------------|----------------|

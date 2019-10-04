@@ -37,6 +37,19 @@ Applications to biology will include:
 
 ### 2019 calendar
 
+Sept 13
+
+- Combinatorics
+- Concepts of probabilities
+- Practicals: first steps with R
+
+Sept 20
+
+- Estimation and sampling
+- Practicals: handling data tables with R
+
+Oct 
+
 ### Course support
 
 
@@ -44,7 +57,7 @@ Applications to biology will include:
 
 [Ametice](https://ametice.univ-amu.fr/course/view.php?id=50334) gives access to a draft versions of selected chapters of my unpublished book "Statistics for bioinformatics". This access is restricted to students registered for this course. 
 
-### Lectures and practicals
+#### Lectures and practicals
 
 | Day | Time | Type | Contents | Teaching material | 
 |-----------|-------------|----------|------------------------------|----------------|
@@ -58,7 +71,7 @@ Applications to biology will include:
 
 ****************************************************************
 
-### Practicals with R
+#### Practicals with R
 
 | Pradctical | Contents | Teaching material | 
 |------|---------------------------------|--------------------------|

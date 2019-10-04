@@ -243,7 +243,7 @@ for (i in 1:nb.nodes) {
 
 ## Test de Student
 
-Hypothèses d travail: **normalité** (ou bien grands échantillons), **homoscédasticité**. 
+Hypothèses de travail: **normalité** (ou bien grands échantillons), **homoscédasticité**. 
 
 Statistique: 
 

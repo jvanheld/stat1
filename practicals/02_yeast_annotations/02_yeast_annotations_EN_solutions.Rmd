@@ -3,11 +3,15 @@ title: "Analysis of a genome annotation table"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  pdf_document:
+  html_document:
+    self_contained: no
+    code_folding: show
     fig_caption: yes
     highlight: zenburn
+    theme: cerulean
     toc: yes
     toc_depth: 3
+    toc_float: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -20,15 +24,11 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
-  html_document:
-    self_contained: no
-    code_folding: show
+  pdf_document:
     fig_caption: yes
     highlight: zenburn
-    theme: cerulean
     toc: yes
     toc_depth: 3
-    toc_float: yes
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -57,7 +57,7 @@ output:
   word_document:
     toc: yes
     toc_depth: 3
-font-import: http://fonts.googleapis.com/css ?family=Risque
+font-import: http://fonts.googleapis.com/css?family=Risque
 font-family: Garamond
 subtitle: Probabilities and statistics for biology (STAT1)
 address: TAGC lab, Aix-Marseille Université, France
@@ -143,18 +143,22 @@ Each figure or table must be documented with a legend that allows a naive reader
 gtf.url <- "http://jvanheld.github.io/stat1/data/Saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.37.gtf"
 gtf.file <- file.path(dir.main, "data", "Saccharomyces_cerevisiae", "Saccharomyces_cerevisiae.R64-1-1.37.gtf")
 
+## Only download the file if not already stored on local computer
 if (file.exists(gtf.file)) {
   message("GTF annotation file: ", gtf.file)
 } else {
   download.file(gtf.url, destfile = gtf.file)
 }
 
-feature.table <- read.delim(gtf.file, comment.char = "#", sep="\t", header=FALSE, row.names=NULL)
+feature.table <- read.delim(gtf.file, 
+                            comment.char = "#", 
+                            sep = "\t", header = FALSE, row.names = NULL)
 names(feature.table) <- c("seqname", "source", "feature", "start", "end", "score", "strand", "frame", "attribute")
 # nrow(feature.table) ## Count feature number
+# View(feature.table)
 
 ## Select subset of features having "CDS" as "feature" attribute
-cds <- subset(feature.table, feature=="CDS")
+cds <- subset(feature.table, feature == "CDS")
 ## nrow(cds) ## Count the number of "coding sequences", i.e. open reading frames annotated as cds
 
 ```
@@ -166,11 +170,11 @@ On the base of the genes of the 3rd chromosome (sample) we can estimate the aver
 
 **Questions: ** 
 
-(a) Would the sample mean (chromosome III) be sufficient to predict the population mean (complete genome) ? 
+(a) Would the sample mean (chromosome III) be sufficient to predict the population mean (complete genome)? 
 
     To answer this question, we will imagine that we came back in 1992, and will use all the genes of chromosome III (considered here as a sample of the genome) to estimate the average size of genes for the whole genome (the "population" of genes").
 
-(b) Can this sample be described as "simple and independent" ?
+(b) Can this sample be described as "simple and independent"?
 
 ## Analysis of the length of the baker's yeast genes
 
@@ -179,13 +183,13 @@ par.ori <- par(no.readonly = TRUE)
 par(mar = c(4.1,4.1,2.1,1.1))
 
 ## Add a column to the table with cds lengths
-cds$length <- cds$end - cds$start +1
+cds$length <- cds$end - cds$start + 1
 max.len <- max(cds$length)
 
 ## Select cds on the third chromosome
 cds.III <- subset(cds, seqname == "III")
 # View(cds.III)
-par(mfrow=c(1, 2))
+par(mfrow = c(1, 2))
 
 ## Plot an histogram with cds lengths
 hist(cds.III$length, 
@@ -250,7 +254,9 @@ dir.tuto <- file.path(dir.home, "stat1", "TP2")
 print(dir.tuto)
 
 ## Create the directory for this tutorial
-dir.create(path = dir.tuto, showWarnings = FALSE, recursive = TRUE)
+dir.create(path = dir.tuto, 
+           showWarnings = FALSE, 
+           recursive = TRUE)
 
 ## Go to the tutorial directory
 setwd(dir.tuto)
@@ -259,6 +265,9 @@ setwd(dir.tuto)
 list.files()
 
 ```
+
+
+
 
 ### Downloading the GTF file from EnsemblGenomes
 
@@ -277,8 +286,14 @@ if (file.exists(local.GTF)) {
 } else {
   ## Download annotation table in GTF format
   download.file(url = gtf.URL, destfile = local.GTF)
+  message("GTF file downloaded in the tutorial folder: ", local.GTF)
 }
+
+
+
 ```
+
+
 
 ### Loading a data table
 
@@ -392,10 +407,10 @@ Select a column based on its name.
 
 ```{r echo=TRUE, eval=TRUE, result=TRUE}
 ## Select the "start" column and print the 100 first results
-head(feature.table$start, n=100)
+head(feature.table$start, n = 100)
 
 ## Print the 20 first values of the "feature" field, which indicates the feature type
-head(feature.table$feature, n=20)
+head(feature.table$feature, n = 20)
 ```
 
 Selection of several columns based on their names. 
@@ -418,7 +433,7 @@ We can apply it to select the subset of rows in the annotation table correspondi
 
 ```{r echo=TRUE, eval=TRUE, result=TRUE}
 ## Select subset of features having "cds" as "feature" attribute
-cds <- subset(feature.table, feature=="CDS")
+cds <- subset(feature.table, feature == "CDS")
 
 nrow(feature.table) ## Count the number of features
 nrow(cds) ## Count the number of cds
@@ -436,6 +451,18 @@ table(feature.table$seqname)
 table(feature.table$feature)
 ```
 
+We can use the `knitr::kable()` function to include a nicely formatted table in a report. This requires to load the `knitr` library.
+
+```{r echo=TRUE, eval=TRUE, results=TRUE}
+## Count the number of features per type
+require(knitr)
+features.per.type <- table(feature.table$feature)
+
+kable(features.per.type, col.names = c("feature type","Number"), caption = "Number of features of different types in the GTF annotations of the yest genome. ")
+```
+
+
+
 Contingency tables can be calculated by counting the number of combinations between 2 vectors (or 2 columns of a table). 
 
 ```{r echo=TRUE, eval=TRUE, results=TRUE}
@@ -443,7 +470,12 @@ Contingency tables can be calculated by counting the number of combinations betw
 table(feature.table$feature, feature.table$seqname)
 
 ## Same result with a 2-column data frame
-table(feature.table[, c("feature", "seqname")])
+table(feature.table[, c("seqname", "feature")])
+
+## The same, nicely formatted
+kable(table(feature.table[, c("seqname", "feature")]))
+
+
 ```
 
 ## Exercises
@@ -455,14 +487,16 @@ Read the GTF format specifications.
 - Ensembl (<http://www.ensembl.org/info/website/upload/gff.html>)
 - UCSC (<https://genome.ucsc.edu/FAQ/FAQformat.html#format4>)
 
+
 ### 2. Creating a local folder for the TP
 
-Create a local folder (for example: `stat1/TP_yeast` from the root of your account). We suggest you to use the following functions: 
- 
+Create a local folder (for example: `stat1/TP_yeast` from the root of your account). We suggest you to use the following functions. 
 
 - `Sys.getenv("HOME")` (Linux and Mac OS X), to get the root of your user account;
 - `file.path()` to build a path;
 - `dir.create()` to create the folder for the TP. Read carefully the options of this function with `help(dir.create)` 
+
+(solution is above)
 
 ### 3. Locating the annotation file
 
@@ -473,6 +507,7 @@ Locate the yeast genome annotation file in GTF format in this local folder.
 - In the search box, type *"saccharomyces cerevisiae"* and follow the link "[GTF](ftp://ftp.ensemblgenomes.org/pub/release-37/fungi/gtf/saccharomyces_cerevisiae)"
 - Copy the address (URL) of the file [Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz](ftp://ftp.ensemblgenomes.org/pub/release-37/fungi/gtf/saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz)
 
+(solution above)
 
 ### 4. Downloading a file from an ftp website
 
@@ -480,15 +515,17 @@ Suggested functions:
 
 - `download.file()` (read the help to know the arguments)
 
+(solution above)
+
 ### 5. Loading a data table in R
 
 Write a script that loads the data table into a variable named `feature.table`, using the function R `read.delim()`. 
 
 Be sure to ignore the comment lines (which start with a character `#`). 
 
+(solution above)
 
 ### 6. Compute the length of coding genes
-
 
 - Add to the annotation table (`feature.table`) a column entitled "length" which indicates the length of each annotated genomic feature.
 
@@ -506,7 +543,14 @@ feature.table$length <- feature.table$end - feature.table$start + 1
     - fonction `table()`
 
 ```{r echo=FALSE}
-~table(feature.table$feature)
+table(feature.table$feature)
+```
+
+- Print the same result in a nicely formatted table with `knitr::kable()`./
+
+```{r echo=FALSE}
+require(knitr)
+kable(table(feature.table$feature))
 ```
 
 
@@ -515,7 +559,7 @@ feature.table$length <- feature.table$end - feature.table$start + 1
     - fonction `subset()`
 
 ```{r echo=FALSE}
-cds <- subset(feature.table, feature=="CDS")
+cds <- subset(feature.table, feature == "CDS")
 ```
 
 
@@ -526,9 +570,10 @@ cds <- subset(feature.table, feature=="CDS")
 
 ```{r echo=FALSE}
 table(cds$seqname)
+kable(table(cds$seqname), col.names = c("Chromosome", "Number of CDSs"))
 ```
 
-- Load the chromosome size table [chrom_sizes.tsv](../../data/Saccharomyces_cerevisiae/chrom_sizes.tsv), and calculate the gene density for each chromosome (number of genes per Mb). 
+- Load the chromosome size table [chrom_sizes.tsv](../../data/Saccharomyces_cerevisiae/chrom_sizes.tsv), and compute the  density of genes for each chromosome (number of genes per Mb). 
 
 ```{r echo=FALSE}
 ## Download tab-delimited file with chromosome sizes (unless already there)
@@ -551,7 +596,22 @@ names(chrom.size) <- c("chromID", "size")
 ## print the size of hte third chromosome
 chrom.size["III", "size"]
 
+## Get the number of genes per chromosome
+genes <- subset(x = feature.table, feature == "gene")
+nrow(genes)
+nrow(cds)
+genes.per.chrom <- table(genes$seqname)
+
+## Merge the chromosome sizes and genes per chrom in a single table
+chrom.stats <- chrom.size
+chrom.stats$genes <- genes.per.chrom[rownames(chrom.stats)]
+chrom.stats$density <- chrom.stats$genes * 1e+6 / chrom.stats$size
+
+barplot(chrom.stats$density, horiz = TRUE, names.arg = rownames(chrom.stats), las = 1)
+
 ```
+
+
 
 
 ### 6. Histogram of gene length
@@ -566,8 +626,7 @@ Choose the class intervals in a way that the histogram is informative (neither t
 
 ```{r echo=FALSE}
 ## Take more or less 100 bins
-h <- hist(cds$length, breaks=100)
-
+h <- hist(cds$length, breaks = 100)
 
 ```
 
@@ -575,7 +634,11 @@ Retrieve the result of `hist()` in a variable named `cds.length.hist`.
 
 ```{r echo=FALSE}
 ## Define breaks exactly in the way you wish
-cds.length.hist <- hist(cds$length, breaks=seq(from=0, to=max(cds$length)+100, by=100))
+cds.length.hist <- hist(
+  cds$length, 
+  breaks = seq(from = 0, 
+               to = max(cds$length) + 100, 
+               by = 100))
 
 ```
 
@@ -586,7 +649,7 @@ Useful functions:
 
 ```{r echo=FALSE}
 ## Display the values used to draw the histogram
-print(cds.length.hist )
+print(cds.length.hist)
 
 ```
 
@@ -596,8 +659,16 @@ print(cds.length.hist )
 
 Other types of graphs allow you to explore the distribution of a set of data. In particular, box plots display, for a series of data, the median, the quarterfinal range, a confidence interval and outliers.  
 
+In the `boxplot()` function, we use the formula `length ~ seqname` in order to group lengths by seqname (i.e. chromosome names). 
+
 ```{r fig.width=7, fig.height=5, fig.cap="Boîte à moustache indiquant la distribution de longueur des gènes par chromosome. ", echo=FALSE}
-boxplot(length ~ seqname, data = cds, col="palegreen", horizontal=TRUE, las=1, xlab="Gene length", ylab="Chromosome")
+boxplot(length ~ seqname, 
+        data = cds, 
+        col = "palegreen", 
+        horizontal = TRUE, 
+        las = 1, 
+        xlab = "Gene length", 
+        ylab = "Chromosome")
 
 ```
 
@@ -652,7 +723,7 @@ message("Result of R sd() function =", round(digits=1, R.sd))
 
 Display these parameters on the histogram of gene length, using the function `arrows()`
 
-### 8. Intervalle de confiance
+### 8. Confidence interval
 
 From genes of chromosome III (considered as the sample available in 1992), calculate a confidence interval around the mean, and formulate the interpretation of this confidence interval. 
 Then evaluate whether or not this confidence interval covered the average population (all genes in the yeast genome, which became available 4 years after chromosome III). 
@@ -721,11 +792,11 @@ legend("topright", legend = c("genome", "chr3"), col = c("blue", "violet"), lwd=
     - suggestion: superposez les  ??utilisez le type de lignes "h" pour les fréquences de classe, et "l" ou "s" pour la fonction de répartition. 
 
 
-### 10. Randomly expected distribution for gene length
+### 10. Expected distribution of gene lengths
 
-Based on the genome size (12.156.679 bp) and codon genomic frequencies defined below, calculate the random expected gene length distribution, and add it to the graph. 
+Based on the genome size ($12.156.679$ bp) and genomic frequencies of the codons provided in the table below, calculate the gene length distribution that would be expected by chance, and draw it on top of the graph with the observed distribution of gene lengths. 
 
-You can download the genomic frequencies of all polynucleotides here:  [3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab](http://jvanheld.github.io/stat1/data/Saccharomyces_cerevisiae/oligo_freq/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab)
+Note: the genomic frequencies of all polynucleotides can be downloaded here:  [3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab](http://jvanheld.github.io/stat1/data/Saccharomyces_cerevisiae/oligo_freq/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab)
 
 Alternative: create a variable `freq.3nt` and manually assign the values for the 4? required polynucleotides from the table below.
 
@@ -751,14 +822,96 @@ row.names(oligo.freq) <- oligo.freq$sequence
 
 #oligo.freq["...",] <- c("...", "...", "...")
 
-selected.oligos <- c("AAA", "ATG", "TAA", "TAG", "TGA")
+selected.oligos <- c("AAA", "ATG", "TAA", "TAG", "TGA", "TTT")
 
 kable(data.frame(oligo.freq[selected.oligos, ]), row.names = FALSE)
 #print(data.frame(oligo.freq[selected.oligos, ]))
 ```
 
 
-### 11. Before finishing : keep track of your session
+```{r exp_orf_length_distrib, fig.width = 10, fig.height=12, out.width="100%", fig.cap="Distribution of the number of ORFs expected by chance in a random genomic sequence having the same codon frequencies as the yeast genome. "}
+## Compute the probabilities of start, stop ,and not-stop codons
+P <- c("start" = oligo.freq["ATG", "frequency"],
+       "stop" = sum(oligo.freq[c("TAA", "TGA", "TAG"), "frequency"])
+       )
+P["not-stop"] <- 1 - P["stop"]
+
+
+## Rounded number encompassing the number of codons of the longest gene
+max.n <- 100 * ceiling(max(cds$length) / 300) 
+n <- 1:max.n # A vector with all relevant length in numbers of codons
+L <- 3*n # Gene lengths in base pairs
+
+## Probability of observing an ORF of exactly n codons
+length.proba.density <- P["start"] * P["not-stop"]^n * P["stop"]
+length.pvalue <- rev(cumsum(rev(length.proba.density)))
+
+## Compute the random expectation for the number of genes
+## Note: genes can be found on both strands -> we multiply by 2
+G <- 12156679 ## Genome length
+exp.genes <- length.pvalue * G * 2
+
+
+## Plot the open reading frame (ORF) probability as a
+## function of ORF length (in base pairs)
+par(mfrow = c(3,2))
+plot(L, length.proba.density, type = "h",
+     las = 1, col = "blue",
+     main = "ORF length probability density (full range)",
+     xlab = "ORF length (base pairs)",
+     ylab = "P(X = x)")
+
+plot(L, length.proba.density, type = "h", xlim = c(0,600),
+     las = 1, col = "blue",
+     main = "ORF length probability density (restricted range)",
+     xlab = "ORF length (base pairs)",
+     ylab = "P(X = x)")
+
+plot(L, length.pvalue, type = "l", xlim = c(0,600),
+     las = 1, col = "darkgreen", lwd = 2, panel.first = grid(),
+     main = "ORF length P-value",
+     xlab = "ORF length (base pairs)",
+     ylab = "P(X >= x)")
+
+plot(L, exp.genes, type = "l", xlim = c(0,600),
+     las = 1, col = "darkgreen", lwd = 2, panel.first = grid(),
+     main = "Expected number of ORFs (restricted range)",
+     xlab = "ORF length (base pairs)",
+     ylab = "Expected ORFs")
+
+plot(L, length.pvalue, type = "l", 
+     las = 1, col = "darkgreen", lwd = 2, panel.first = grid(),
+     log = "y", xlim = c(0, 600), ylim = c(length.pvalue[201], 1),
+     main = "ORF length P-value",
+     xlab = "ORF length (base pairs)",
+     ylab = "P(X >= x) on a log scale")
+
+plot(L, exp.genes, type = "l", 
+     las = 1, col = "darkgreen", lwd = 2, panel.first = grid(),
+     log = "y", xlim = c(0, 600), ylim = c(exp.genes[201], exp.genes[1]),
+     main = "ORF length E-value (restricted range)",
+     xlab = "ORF length (base pairs)",
+     ylab = "Expected ORFs (log scale)")
+par(mfrow = c(1,1))
+
+
+```
+
+
+The **top-lefth panel** shows the **density of probability** of ORF lengths, i.e. the probability to observe by chance an ORF of exactly $x$ nucleotides: $P(X = x)$. The shape of the distribution is not very well depicted because the range extends up to $15,000$ base pairs, the length of the longest yeast gene. This gene is an outlier (exceptionally long, not representative of the other yeast genes). 
+
+The **top right panel** shows the same distribution with a range restricted to 0-600 bp. 
+
+The **middle left panel** shows the distribution of **P-value** for ORF lengths $x$ ranging from 0 to 600: $P(X \ge x)$. This is the probability, for each length $x$, to find by chance a gene at least as long starting at a given genomic position. 
+
+The **middle right panel** shows the **E-value** $E(X \ge x)$, i.e. the number of ORFs expected by chance in the whole genome, for length $x$ ranging from 0 to 600. 
+
+The **bottom** panels show the same distributions of P-value (left) and E-value (right) on a logarithmic scale, to better emphasize the very small probabilities. 
+
+Of note, with a threshold $X \ge 300$, we still expect `r exp.genes[100]` ORFs at random. Since this threshold was used to infer the presence of an ORF in the original annotation of the yeast genome, biologists knew that these annotations would contain an important number of false ORF predictions. Consistently, several hundreds of genes were discarded from the annotations a few years later, based on comparative genomics. Indeed, when the genomes of other fungal species became available, the genes for which no homologs was found in any other fungal genome were considered likely false positives. 
+
+
+### 11. Before finishing: keep track of your session
 
 Tractability is an essential issue in science. 
 The function ***R***  `sessionInfo()` provides a summary of the conditions of a work session: version of R, operator system, libraries of functions used. 

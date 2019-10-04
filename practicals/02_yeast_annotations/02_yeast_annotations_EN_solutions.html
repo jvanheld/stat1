@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Jacques van Helden" />
+
+<meta name="date" content="2019-10-04" />
+
+<title>Analysis of a genome annotation table</title>
+
+<script src="02_yeast_annotations_EN_solutions_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="02_yeast_annotations_EN_solutions_files/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="02_yeast_annotations_EN_solutions_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="02_yeast_annotations_EN_solutions_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="02_yeast_annotations_EN_solutions_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="02_yeast_annotations_EN_solutions_files/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="02_yeast_annotations_EN_solutions_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="02_yeast_annotations_EN_solutions_files/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="02_yeast_annotations_EN_solutions_files/navigation-1.1/tabsets.js"></script>
+<script src="02_yeast_annotations_EN_solutions_files/navigation-1.1/codefolding.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  { color: #cccccc; background-color: #303030; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ffcfaf; } /* Alert */
+code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #dca3a3; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #f0dfaf; } /* ControlFlow */
+code span.ch { color: #dca3a3; } /* Char */
+code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code span.co { color: #7f9f7f; } /* Comment */
+code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code span.do { color: #7f9f7f; } /* Documentation */
+code span.dt { color: #dfdfbf; } /* DataType */
+code span.dv { color: #dcdccc; } /* DecVal */
+code span.er { color: #c3bf9f; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #c0bed1; } /* Float */
+code span.fu { color: #efef8f; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+code span.kw { color: #f0dfaf; } /* Keyword */
+code span.op { color: #f0efd0; } /* Operator */
+code span.ot { color: #efef8f; } /* Other */
+code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code span.sc { color: #dca3a3; } /* SpecialChar */
+code span.ss { color: #cc9393; } /* SpecialString */
+code span.st { color: #cc9393; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #cc9393; } /* VerbatimString */
+code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Analysis of a genome annotation table</h1>
+<h3 class="subtitle">Probabilities and statistics for biology (STAT1)</h3>
+<h4 class="author">Jacques van Helden</h4>
+<h4 class="date">2019-10-04</h4>
+
+</div>
+
+
+<div id="goal-of-this-practical" class="section level2">
+<h2>Goal of this practical</h2>
+<p>During this practical session, you will run the following tasks:</p>
+<ol style="list-style-type: decimal">
+<li>Handle a table containing annotated features of the yeast genome.</li>
+<li>Select a subset of the data by filtering rows based on a given criterion (annotation type, chromosome, …)</li>
+<li>Generate graphics to represent different aspects of the data.</li>
+<li>Compute estimators of central tendency and dispersion.</li>
+<li>Compute a confidence interval around the mean.</li>
+</ol>
+</div>
+<div id="expected-report" class="section level2">
+<h2>Expected report</h2>
+<p>At the end of the practical you will be asked to submit two documents</p>
+<ol style="list-style-type: decimal">
+<li>Your <strong>R code</strong>.Each question must be explicitly formulated before presenting the results that answer it and giving an interpretation of these results.</li>
+<li>UA <strong>synthetic report</strong>, which will include a presentation of the main results (figures, descriptive stats, tables) as well as your interpretation of the result.</li>
+</ol>
+<div id="expectation-for-the-code" class="section level3">
+<h3>Expectation for the code</h3>
+<ol style="list-style-type: decimal">
+<li><p>The code must be <strong>readable and undestandable</strong>: choose variable names that explicitly indicate what they represent.</p></li>
+<li><p>The code must be properly documented (the <code>#</code> symbol starts a comment, either at the beginning or in the middle of a line of code).</p>
+<ul>
+<li><p>Before each chunk of code, explain what this code is supposed to do, what it serves to.</p></li>
+<li><p>Don’t hesitate to occasionally add some comment words to justify the chosen approach.</p></li>
+<li><p>Each time you define a variable, add a comment on the same line to indicate what this variable represents.</p></li>
+</ul></li>
+<li><p>The code must be <strong>portable</strong>: other people should be able to download it and run it on their computer. For this practical, I will systematically test whether your code can run on my computer. hard-coded absolute paths of a file on your machine should thus always be avoided (we will indicate hereafter how to define relative paths relative to the root of your user account).</p></li>
+</ol>
+</div>
+<div id="expected-content-for-the-interpretation-report" class="section level3">
+<h3>Expected content for the interpretation report</h3>
+<p>Your report must be synthetic (1 text page max + as many figures and table as you wish)</p>
+<p>Each question must be explicitly formulated before presenting the results that answer it and then interpreting those results.</p>
+<p>Each figure or table must be documented with a legend that allows a naive reader to understand what it represents. The interpretation of the results displayed on a figure or table will be found in the main text (with a reference to the figure or table number).</p>
+</div>
+</div>
+<div id="historical-example-yeast-genome" class="section level2">
+<h2>Historical example: yeast genome</h2>
+<ul>
+<li>1992: publication of the first complete eukaryotic chromosome, the 3rd yeast chromosome.</li>
+<li>1996: publication of the complete genome.</li>
+</ul>
+<p>On the base of the genes of the 3rd chromosome (sample) we can estimate the average size of a yeast gene.</p>
+<p><strong>Questions: </strong></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Would the sample mean (chromosome III) be sufficient to predict the population mean (complete genome)?</p>
+<p>To answer this question, we will imagine that we came back in 1992, and will use all the genes of chromosome III (considered here as a sample of the genome) to estimate the average size of genes for the whole genome (the “population” of genes&quot;).</p></li>
+<li><p>Can this sample be described as “simple and independent”?</p></li>
+</ol>
+</div>
+<div id="analysis-of-the-length-of-the-bakers-yeast-genes" class="section level2">
+<h2>Analysis of the length of the baker’s yeast genes</h2>
+<div class="figure" style="text-align: center">
+<img src="figures/cds_length_histo-1.png" alt="Distribution of cds lengths for Saccharomyces cerevisiae. " width="90%" />
+<p class="caption">
+Distribution of cds lengths for Saccharomyces cerevisiae.
+</p>
+</div>
+</div>
+<div id="tutorial" class="section level2">
+<h2>Tutorial</h2>
+<p>Before moving to the exercises, we show you here some basic elements about reading, manipulating and writing data tables with R.</p>
+<div id="the-path-to-the-home-manual" class="section level3">
+<h3>The path to the home (manual)</h3>
+<p>We will create a folder for this tutorial, starting from the root of our account.</p>
+<p>First possibility (<strong>quick but not very elegant</strong>): enter (manually) the path from the root of your account in a variable</p>
+<p><code>dir.home &lt;- /the/path/to/the/home</code></p>
+<ul>
+<li>Advantage: fast and convenient</li>
+<li>Disadvantage: not portable, will only work on your computer</li>
+</ul>
+</div>
+<div id="the-path-to-the-home-automatic" class="section level3">
+<h3>The path to the home (automatic)</h3>
+<p>A more general solution: use the <strong>R</strong> command <code>Sys.getenv()</code>.</p>
+<ul>
+<li>Invoked without parameters, this command lists all environment variables (your system configuration).</li>
+<li>The output can be restricted to a given environment variable, for example <code>Sys.getenv(&quot;HOME&quot;)</code> returns the path to the root of your account.</li>
+</ul>
+<p><strong>Note:</strong> equivalent writing with Linux: the tilde symbol <code>~</code> also indicates the path to the root of your account.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">## Identify the home directory </span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">## by getting the environment variable HOME </span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">dir.home &lt;-<span class="st"> </span><span class="kw">Sys.getenv</span>(<span class="st">&quot;HOME&quot;</span>)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">print</span>(dir.home)</a></code></pre></div>
+<pre><code>[1] &quot;/Users/jvanheld&quot;</code></pre>
+</div>
+<div id="creating-a-folder-for-the-tp" class="section level3">
+<h3>Creating a folder for the TP</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">## Define a variable containing the path of the results for this tutorial</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">dir.tuto &lt;-<span class="st"> </span><span class="kw">file.path</span>(dir.home, <span class="st">&quot;stat1&quot;</span>, <span class="st">&quot;TP2&quot;</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="kw">print</span>(dir.tuto)</a></code></pre></div>
+<pre><code>[1] &quot;/Users/jvanheld/stat1/TP2&quot;</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co">## Create the directory for this tutorial</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">dir.create</span>(<span class="dt">path =</span> dir.tuto, </a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">           <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>, </a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">           <span class="dt">recursive =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">## Go to the tutorial directory</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="kw">setwd</span>(dir.tuto)</a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">## List the files already present in the folder (if any)</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="kw">list.files</span>()</a></code></pre></div>
+<pre><code>[1] &quot;3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab&quot;
+[2] &quot;chrom_sizes.tsv&quot;                                   
+[3] &quot;Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz&quot;        </code></pre>
+</div>
+<div id="downloading-the-gtf-file-from-ensemblgenomes" class="section level3">
+<h3>Downloading the GTF file from EnsemblGenomes</h3>
+<p><strong>Tips: </strong> before downloading the annotation file (GTF) from EnsemblGenomes to our computer, we will check if it is already present (and in this case we do not re-download it).</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co">## Define the URL of the annotation file (GTF-formatted)</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">gtf.URL &lt;-<span class="st"> &quot;ftp://ftp.ensemblgenomes.org/pub/release-37/fungi/gtf/saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz&quot;</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">## Define the path where the local copy will be stored</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">local.GTF &lt;-<span class="st"> </span><span class="kw">file.path</span>(dir.tuto, <span class="st">&quot;Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz&quot;</span>)</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">## If the local file file laready exists, skip the download</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="cf">if</span> (<span class="kw">file.exists</span>(local.GTF)) {</a>
+<a class="sourceLine" id="cb7-9" data-line-number="9">  <span class="kw">message</span>(<span class="st">&quot;GTF file already exists in the tutorial folder: &quot;</span>, local.GTF)</a>
+<a class="sourceLine" id="cb7-10" data-line-number="10">} <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb7-11" data-line-number="11">  <span class="co">## Download annotation table in GTF format</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12">  <span class="kw">download.file</span>(<span class="dt">url =</span> gtf.URL, <span class="dt">destfile =</span> local.GTF)</a>
+<a class="sourceLine" id="cb7-13" data-line-number="13">  <span class="kw">message</span>(<span class="st">&quot;GTF file downloaded in the tutorial folder: &quot;</span>, local.GTF)</a>
+<a class="sourceLine" id="cb7-14" data-line-number="14">}</a></code></pre></div>
+</div>
+<div id="loading-a-data-table" class="section level3">
+<h3>Loading a data table</h3>
+<p>R has several types of tabular structures (matrix, data.frame, table).</p>
+<p>The most commonly used structure is the <code>data.frame</code>, which consists of an array of values (numeric or strings) whose rows and columns are associated with names.</p>
+<p>The function <code>read.table()</code> allows you to read a text file containing a data table, and store the content in a variable.</p>
+<p>Several functions derived from <code>read.table()</code> make it easier to read different types of formats:</p>
+<ul>
+<li><code>read.delim()</code> for files whose columns are delimited by a particular character (usually the tab, represented by &quot;).</li>
+<li><code>read.csv()</code> for files “comma-separated values”.</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>Download the following file to your computer:</li>
+</ol>
+<ul>
+<li><a href="../../data/Saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.37.gtf">Saccharomyces_cerevisiae.R64-1-1.37.gtf</a></li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Load it using the read.table function (for this you must replace the path below by that of your computer).</li>
+</ol>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co">## Read a GTF file with yeast genome annotations</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">## Load the feature table</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">feature.table &lt;-<span class="st"> </span><span class="kw">read.table</span>(</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">  local.GTF, </a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">  <span class="dt">comment.char =</span> <span class="st">&quot;#&quot;</span>, </a>
+<a class="sourceLine" id="cb8-7" data-line-number="7">  <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, </a>
+<a class="sourceLine" id="cb8-8" data-line-number="8">  <span class="dt">header=</span><span class="ot">FALSE</span>, </a>
+<a class="sourceLine" id="cb8-9" data-line-number="9">  <span class="dt">row.names=</span><span class="ot">NULL</span>)</a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">## The bed format does not contain any column header, </span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">## so we set it manually based on the description of the format, </span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">## found here: </span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">##     http://www.ensembl.org/info/website/upload/gff.html</span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="kw">names</span>(feature.table) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;seqname&quot;</span>, <span class="st">&quot;source&quot;</span>, <span class="st">&quot;feature&quot;</span>, <span class="st">&quot;start&quot;</span>, <span class="st">&quot;end&quot;</span>, <span class="st">&quot;score&quot;</span>, <span class="st">&quot;strand&quot;</span>, <span class="st">&quot;frame&quot;</span>, <span class="st">&quot;attribute&quot;</span>)</a></code></pre></div>
+</div>
+<div id="exploring-the-content-of-a-data-table" class="section level3">
+<h3>Exploring the content of a data table</h3>
+<p>The first thing to do after loading a data table is to check its dimensions.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">dim</span>(feature.table) <span class="co">## Dimensions of the tbale</span></a></code></pre></div>
+<pre><code>[1] 43028     9</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">nrow</span>(feature.table) <span class="co">## Number of rows</span></a></code></pre></div>
+<pre><code>[1] 43028</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">ncol</span>(feature.table) <span class="co">## Number of columns</span></a></code></pre></div>
+<pre><code>[1] 9</code></pre>
+<p>The display of the complete annotation table would not be very readable, since it contains tens of thousands of lines.</p>
+<p>We can display the first lines with the function <code>head()</code>.</p>
+<p><strong>Note: </strong> the last column is particularly heavy (it contains a lot of information). We will see later how to select a subset of the columns to simplify the display.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co">## Display the 5 first rows of the feature table</span></a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw">head</span>(feature.table, <span class="dt">n =</span> <span class="dv">5</span>) </a></code></pre></div>
+<pre><code>  seqname source     feature start  end score strand frame
+1      IV    SGD        gene  1802 2953     .      +     .
+2      IV    SGD  transcript  1802 2953     .      +     .
+3      IV    SGD        exon  1802 2953     .      +     .
+4      IV    SGD         CDS  1802 2950     .      +     0
+5      IV    SGD start_codon  1802 1804     .      +     0
+                                                                                                                                                                                                                                    attribute
+1                                                                                                                                                              gene_id YDL248W; gene_name COS7; gene_source SGD; gene_biotype protein_coding;
+2                                                       gene_id YDL248W; transcript_id YDL248W; gene_name COS7; gene_source SGD; gene_biotype protein_coding; transcript_name COS7; transcript_source SGD; transcript_biotype protein_coding;
+3                     gene_id YDL248W; transcript_id YDL248W; exon_number 1; gene_name COS7; gene_source SGD; gene_biotype protein_coding; transcript_name COS7; transcript_source SGD; transcript_biotype protein_coding; exon_id YDL248W.1;
+4 gene_id YDL248W; transcript_id YDL248W; exon_number 1; gene_name COS7; gene_source SGD; gene_biotype protein_coding; transcript_name COS7; transcript_source SGD; transcript_biotype protein_coding; protein_id YDL248W; protein_version 1;
+5                                        gene_id YDL248W; transcript_id YDL248W; exon_number 1; gene_name COS7; gene_source SGD; gene_biotype protein_coding; transcript_name COS7; transcript_source SGD; transcript_biotype protein_coding;</code></pre>
+<p>The function <code>tail()</code> displays the last few lines:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="co">## Display the 5 last rows of the feature table</span></a>
+<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="kw">tail</span>(feature.table, <span class="dt">n =</span> <span class="dv">5</span>) </a></code></pre></div>
+<pre><code>      seqname source     feature start   end score strand frame
+43024    Mito    SGD  transcript 85554 85709     .      +     .
+43025    Mito    SGD        exon 85554 85709     .      +     .
+43026    Mito    SGD         CDS 85554 85706     .      +     0
+43027    Mito    SGD start_codon 85554 85556     .      +     0
+43028    Mito    SGD  stop_codon 85707 85709     .      +     0
+                                                                                                                                                                                            attribute
+43024                                                     gene_id Q0297; transcript_id Q0297; gene_source SGD; gene_biotype protein_coding; transcript_source SGD; transcript_biotype protein_coding;
+43025                     gene_id Q0297; transcript_id Q0297; exon_number 1; gene_source SGD; gene_biotype protein_coding; transcript_source SGD; transcript_biotype protein_coding; exon_id Q0297.1;
+43026 gene_id Q0297; transcript_id Q0297; exon_number 1; gene_source SGD; gene_biotype protein_coding; transcript_source SGD; transcript_biotype protein_coding; protein_id Q0297; protein_version 1;
+43027                                      gene_id Q0297; transcript_id Q0297; exon_number 1; gene_source SGD; gene_biotype protein_coding; transcript_source SGD; transcript_biotype protein_coding;
+43028                                      gene_id Q0297; transcript_id Q0297; exon_number 1; gene_source SGD; gene_biotype protein_coding; transcript_source SGD; transcript_biotype protein_coding;</code></pre>
+<p>If you are using the <strong>RStudio</strong> environment, you can display the table in a dynamic viewer pane with the function <code>View()</code>.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="co">## In RStudio, display the table in a separate tab</span></a>
+<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw">View</span>(feature.table) </a></code></pre></div>
+</div>
+<div id="selection-of-subsets-from-a-table" class="section level3">
+<h3>Selection of subsets from a table</h3>
+<p>Selection of a line specified by its index.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">feature.table[<span class="dv">12</span>,]</a></code></pre></div>
+<pre><code>   seqname source    feature start  end score strand frame
+12      IV    SGD stop_codon  3834 3836     .      +     0
+                                                                                                                                                            attribute
+12 gene_id YDL247W-A; transcript_id YDL247W-A; exon_number 1; gene_source SGD; gene_biotype protein_coding; transcript_source SGD; transcript_biotype protein_coding;</code></pre>
+<p>Selection of a column specified by its index (display of the first values only).</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">head</span>(feature.table[,<span class="dv">3</span>])</a></code></pre></div>
+<pre><code>[1] gene        transcript  exon        CDS         start_codon stop_codon 
+Levels: CDS exon gene start_codon stop_codon transcript</code></pre>
+<p>Selection of a cell by combining row and column indices.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">feature.table[<span class="dv">12</span>, <span class="dv">3</span>]</a></code></pre></div>
+<pre><code>[1] stop_codon
+Levels: CDS exon gene start_codon stop_codon transcript</code></pre>
+<p>Selection of a column and/or row set.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">feature.table[<span class="dv">100</span><span class="op">:</span><span class="dv">105</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>]</a></code></pre></div>
+<pre><code>    seqname source     feature start   end score
+100      IV    SGD         CDS 34240 36477     .
+101      IV    SGD start_codon 36475 36477     .
+102      IV    SGD  stop_codon 34237 34239     .
+103      IV    SGD        gene 36797 38173     .
+104      IV    SGD  transcript 36797 38173     .
+105      IV    SGD        exon 36797 38173     .</code></pre>
+<p>Selection of specific columns (here, the genomic coordinates of each feature): chromosome, beginning, end, strand.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">feature.table[<span class="dv">100</span><span class="op">:</span><span class="dv">105</span>, <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">7</span>)]</a></code></pre></div>
+<pre><code>    seqname start   end strand
+100      IV 34240 36477      -
+101      IV 36475 36477      -
+102      IV 34237 34239      -
+103      IV 36797 38173      +
+104      IV 36797 38173      +
+105      IV 36797 38173      +</code></pre>
+<p>Select a column based on its name.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="co">## Select the &quot;start&quot; column and print the 100 first results</span></a>
+<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="kw">head</span>(feature.table<span class="op">$</span>start, <span class="dt">n =</span> <span class="dv">100</span>)</a></code></pre></div>
+<pre><code>  [1]  1802  1802  1802  1802  1802  2951  3762  3762  3762  3762  3762
+ [12]  3834  5985  5985  5985  5985  5985  7812  8683  8683  8683  8686
+ [23]  9754  8683 11657 11657 11657 11660 13358 11657 16204 16204 16204
+ [34] 16204 16204 17224 17577 17577 17577 17580 18564 17577 18959 18959
+ [45] 18959 18959 18959 19310 20635 20635 20635 20635 20635 21004 22471
+ [56] 22471 22471 22474 22606 22471 22823 22823 22823 22823 22823 25874
+ [67] 26403 26403 26403 26406 28773 26403 28985 28985 28985 28988 30452
+ [78] 28985 30657 30657 30657 30657 30657 31827 32296 32296 32296 32296
+ [89] 32296 33232 33415 33415 33415 33418 33916 33415 34237 34237 34237
+[100] 34240</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="co">## Print the 20 first values of the &quot;feature&quot; field, which indicates the feature type</span></a>
+<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="kw">head</span>(feature.table<span class="op">$</span>feature, <span class="dt">n =</span> <span class="dv">20</span>)</a></code></pre></div>
+<pre><code> [1] gene        transcript  exon        CDS         start_codon
+ [6] stop_codon  gene        transcript  exon        CDS        
+[11] start_codon stop_codon  gene        transcript  exon       
+[16] CDS         start_codon stop_codon  gene        transcript 
+Levels: CDS exon gene start_codon stop_codon transcript</code></pre>
+<p>Selection of several columns based on their names.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="co">## Select the &quot;start&quot; column and print the 100 first results</span></a>
+<a class="sourceLine" id="cb34-2" data-line-number="2">feature.table[<span class="dv">100</span><span class="op">:</span><span class="dv">106</span>, <span class="kw">c</span>(<span class="st">&quot;seqname&quot;</span>, <span class="st">&quot;start&quot;</span>, <span class="st">&quot;end&quot;</span>, <span class="st">&quot;strand&quot;</span>)]</a></code></pre></div>
+<pre><code>    seqname start   end strand
+100      IV 34240 36477      -
+101      IV 36475 36477      -
+102      IV 34237 34239      -
+103      IV 36797 38173      +
+104      IV 36797 38173      +
+105      IV 36797 38173      +
+106      IV 36797 38170      +</code></pre>
+<p><strong>Note</strong>: Selection of several columns based on their names. It is also possible to name the rows of a data.frame but the GTF table does not support this. We will see more examples later.</p>
+</div>
+<div id="selection-of-a-subset-of-rows-based-on-the-content-of-a-column" class="section level3">
+<h3>Selection of a subset of rows based on the content of a column</h3>
+<p>The function <code>subset()</code> allows you to select a subset of the rows of a data.frame based on a condition applied to one or more columns.</p>
+<p>We can apply it to select the subset of rows in the annotation table corresponding to coding sequences (CDS).</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="co">## Select subset of features having &quot;cds&quot; as &quot;feature&quot; attribute</span></a>
+<a class="sourceLine" id="cb36-2" data-line-number="2">cds &lt;-<span class="st"> </span><span class="kw">subset</span>(feature.table, feature <span class="op">==</span><span class="st"> &quot;CDS&quot;</span>)</a>
+<a class="sourceLine" id="cb36-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb36-4" data-line-number="4"><span class="kw">nrow</span>(feature.table) <span class="co">## Count the number of features</span></a></code></pre></div>
+<pre><code>[1] 43028</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">nrow</span>(cds) <span class="co">## Count the number of cds</span></a></code></pre></div>
+<pre><code>[1] 7050</code></pre>
+</div>
+<div id="count-by-value" class="section level3">
+<h3>Count by value</h3>
+<p>The function <code>table()</code> allows you to count the occurrences of each value in a vector or array. Some examples of use below.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="co">## Count the number of featues per chromosome</span></a>
+<a class="sourceLine" id="cb40-2" data-line-number="2"><span class="kw">table</span>(feature.table<span class="op">$</span>seqname)</a></code></pre></div>
+<pre><code>
+   I   II  III   IV   IX Mito    V   VI  VII VIII    X   XI  XII XIII  XIV 
+ 759 2912 1210 5374 1567  327 2159  946 3856 2054 2617 2231 3789 3311 2774 
+  XV  XVI 
+3846 3296 </code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="co">## Count the number of features per type</span></a>
+<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="kw">table</span>(feature.table<span class="op">$</span>feature)</a></code></pre></div>
+<pre><code>
+        CDS        exon        gene start_codon  stop_codon  transcript 
+       7050        7872        7445        6700        6516        7445 </code></pre>
+<p>We can use the <code>knitr::kable()</code> function to include a nicely formatted table in a report. This requires to load the <code>knitr</code> library.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="co">## Count the number of features per type</span></a>
+<a class="sourceLine" id="cb44-2" data-line-number="2"><span class="kw">require</span>(knitr)</a>
+<a class="sourceLine" id="cb44-3" data-line-number="3">features.per.type &lt;-<span class="st"> </span><span class="kw">table</span>(feature.table<span class="op">$</span>feature)</a>
+<a class="sourceLine" id="cb44-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb44-5" data-line-number="5"><span class="kw">kable</span>(features.per.type, <span class="dt">col.names =</span> <span class="kw">c</span>(<span class="st">&quot;feature type&quot;</span>,<span class="st">&quot;Number&quot;</span>), <span class="dt">caption =</span> <span class="st">&quot;Number of features of different types in the GTF annotations of the yest genome. &quot;</span>)</a></code></pre></div>
+<table>
+<caption>Number of features of different types in the GTF annotations of the yest genome.</caption>
+<thead>
+<tr class="header">
+<th align="left">feature type</th>
+<th align="right">Number</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">CDS</td>
+<td align="right">7050</td>
+</tr>
+<tr class="even">
+<td align="left">exon</td>
+<td align="right">7872</td>
+</tr>
+<tr class="odd">
+<td align="left">gene</td>
+<td align="right">7445</td>
+</tr>
+<tr class="even">
+<td align="left">start_codon</td>
+<td align="right">6700</td>
+</tr>
+<tr class="odd">
+<td align="left">stop_codon</td>
+<td align="right">6516</td>
+</tr>
+<tr class="even">
+<td align="left">transcript</td>
+<td align="right">7445</td>
+</tr>
+</tbody>
+</table>
+<p>Contingency tables can be calculated by counting the number of combinations between 2 vectors (or 2 columns of a table).</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="co">##  Table with two vectors</span></a>
+<a class="sourceLine" id="cb45-2" data-line-number="2"><span class="kw">table</span>(feature.table<span class="op">$</span>feature, feature.table<span class="op">$</span>seqname)</a></code></pre></div>
+<pre><code>             
+                I  II III  IV  IX Mito   V  VI VII VIII   X  XI XII XIII
+  CDS         122 492 194 895 255   59 345 151 619  346 422 361 615  544
+  exon        137 525 224 961 288   94 400 180 710  373 480 404 698  610
+  gene        132 494 213 914 274   62 383 167 676  349 458 388 658  573
+  start_codon 119 464 185 853 243   28 328 143 593  325 406 348 586  514
+  stop_codon  117 443 181 837 233   22 320 138 582  312 393 342 574  497
+  transcript  132 494 213 914 274   62 383 167 676  349 458 388 658  573
+             
+              XIV  XV XVI
+  CDS         458 623 549
+  exon        500 689 599
+  gene        475 665 564
+  start_codon 438 607 520
+  stop_codon  428 597 500
+  transcript  475 665 564</code></pre>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="co">## Same result with a 2-column data frame</span></a>
+<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="kw">table</span>(feature.table[, <span class="kw">c</span>(<span class="st">&quot;seqname&quot;</span>, <span class="st">&quot;feature&quot;</span>)])</a></code></pre></div>
+<pre><code>       feature
+seqname CDS exon gene start_codon stop_codon transcript
+   I    122  137  132         119        117        132
+   II   492  525  494         464        443        494
+   III  194  224  213         185        181        213
+   IV   895  961  914         853        837        914
+   IX   255  288  274         243        233        274
+   Mito  59   94   62          28         22         62
+   V    345  400  383         328        320        383
+   VI   151  180  167         143        138        167
+   VII  619  710  676         593        582        676
+   VIII 346  373  349         325        312        349
+   X    422  480  458         406        393        458
+   XI   361  404  388         348        342        388
+   XII  615  698  658         586        574        658
+   XIII 544  610  573         514        497        573
+   XIV  458  500  475         438        428        475
+   XV   623  689  665         607        597        665
+   XVI  549  599  564         520        500        564</code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="co">## The same, nicely formatted</span></a>
+<a class="sourceLine" id="cb49-2" data-line-number="2"><span class="kw">kable</span>(<span class="kw">table</span>(feature.table[, <span class="kw">c</span>(<span class="st">&quot;seqname&quot;</span>, <span class="st">&quot;feature&quot;</span>)]))</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">CDS</th>
+<th align="right">exon</th>
+<th align="right">gene</th>
+<th align="right">start_codon</th>
+<th align="right">stop_codon</th>
+<th align="right">transcript</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>I</td>
+<td align="right">122</td>
+<td align="right">137</td>
+<td align="right">132</td>
+<td align="right">119</td>
+<td align="right">117</td>
+<td align="right">132</td>
+</tr>
+<tr class="even">
+<td>II</td>
+<td align="right">492</td>
+<td align="right">525</td>
+<td align="right">494</td>
+<td align="right">464</td>
+<td align="right">443</td>
+<td align="right">494</td>
+</tr>
+<tr class="odd">
+<td>III</td>
+<td align="right">194</td>
+<td align="right">224</td>
+<td align="right">213</td>
+<td align="right">185</td>
+<td align="right">181</td>
+<td align="right">213</td>
+</tr>
+<tr class="even">
+<td>IV</td>
+<td align="right">895</td>
+<td align="right">961</td>
+<td align="right">914</td>
+<td align="right">853</td>
+<td align="right">837</td>
+<td align="right">914</td>
+</tr>
+<tr class="odd">
+<td>IX</td>
+<td align="right">255</td>
+<td align="right">288</td>
+<td align="right">274</td>
+<td align="right">243</td>
+<td align="right">233</td>
+<td align="right">274</td>
+</tr>
+<tr class="even">
+<td>Mito</td>
+<td align="right">59</td>
+<td align="right">94</td>
+<td align="right">62</td>
+<td align="right">28</td>
+<td align="right">22</td>
+<td align="right">62</td>
+</tr>
+<tr class="odd">
+<td>V</td>
+<td align="right">345</td>
+<td align="right">400</td>
+<td align="right">383</td>
+<td align="right">328</td>
+<td align="right">320</td>
+<td align="right">383</td>
+</tr>
+<tr class="even">
+<td>VI</td>
+<td align="right">151</td>
+<td align="right">180</td>
+<td align="right">167</td>
+<td align="right">143</td>
+<td align="right">138</td>
+<td align="right">167</td>
+</tr>
+<tr class="odd">
+<td>VII</td>
+<td align="right">619</td>
+<td align="right">710</td>
+<td align="right">676</td>
+<td align="right">593</td>
+<td align="right">582</td>
+<td align="right">676</td>
+</tr>
+<tr class="even">
+<td>VIII</td>
+<td align="right">346</td>
+<td align="right">373</td>
+<td align="right">349</td>
+<td align="right">325</td>
+<td align="right">312</td>
+<td align="right">349</td>
+</tr>
+<tr class="odd">
+<td>X</td>
+<td align="right">422</td>
+<td align="right">480</td>
+<td align="right">458</td>
+<td align="right">406</td>
+<td align="right">393</td>
+<td align="right">458</td>
+</tr>
+<tr class="even">
+<td>XI</td>
+<td align="right">361</td>
+<td align="right">404</td>
+<td align="right">388</td>
+<td align="right">348</td>
+<td align="right">342</td>
+<td align="right">388</td>
+</tr>
+<tr class="odd">
+<td>XII</td>
+<td align="right">615</td>
+<td align="right">698</td>
+<td align="right">658</td>
+<td align="right">586</td>
+<td align="right">574</td>
+<td align="right">658</td>
+</tr>
+<tr class="even">
+<td>XIII</td>
+<td align="right">544</td>
+<td align="right">610</td>
+<td align="right">573</td>
+<td align="right">514</td>
+<td align="right">497</td>
+<td align="right">573</td>
+</tr>
+<tr class="odd">
+<td>XIV</td>
+<td align="right">458</td>
+<td align="right">500</td>
+<td align="right">475</td>
+<td align="right">438</td>
+<td align="right">428</td>
+<td align="right">475</td>
+</tr>
+<tr class="even">
+<td>XV</td>
+<td align="right">623</td>
+<td align="right">689</td>
+<td align="right">665</td>
+<td align="right">607</td>
+<td align="right">597</td>
+<td align="right">665</td>
+</tr>
+<tr class="odd">
+<td>XVI</td>
+<td align="right">549</td>
+<td align="right">599</td>
+<td align="right">564</td>
+<td align="right">520</td>
+<td align="right">500</td>
+<td align="right">564</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="exercises" class="section level2">
+<h2>Exercises</h2>
+<div id="gtf-format-specifications" class="section level3">
+<h3>1. GTF format specifications</h3>
+<p>Read the GTF format specifications.</p>
+<ul>
+<li>Ensembl (<a href="http://www.ensembl.org/info/website/upload/gff.html" class="uri">http://www.ensembl.org/info/website/upload/gff.html</a>)</li>
+<li>UCSC (<a href="https://genome.ucsc.edu/FAQ/FAQformat.html#format4" class="uri">https://genome.ucsc.edu/FAQ/FAQformat.html#format4</a>)</li>
+</ul>
+</div>
+<div id="creating-a-local-folder-for-the-tp" class="section level3">
+<h3>2. Creating a local folder for the TP</h3>
+<p>Create a local folder (for example: <code>stat1/TP_yeast</code> from the root of your account). We suggest you to use the following functions.</p>
+<ul>
+<li><code>Sys.getenv(&quot;HOME&quot;)</code> (Linux and Mac OS X), to get the root of your user account;</li>
+<li><code>file.path()</code> to build a path;</li>
+<li><code>dir.create()</code> to create the folder for the TP. Read carefully the options of this function with <code>help(dir.create)</code></li>
+</ul>
+<p>(solution is above)</p>
+</div>
+<div id="locating-the-annotation-file" class="section level3">
+<h3>3. Locating the annotation file</h3>
+<p>Locate the yeast genome annotation file in GTF format in this local folder.</p>
+<ul>
+<li>Site Ensembl Fungi: <a href="http://fungi.ensembl.org/" class="uri">http://fungi.ensembl.org/</a></li>
+<li>Click “Downloads” to access the <a href="http://fungi.ensembl.org/info/website/ftp/">ftp website</a></li>
+<li>In the search box, type <em>“saccharomyces cerevisiae”</em> and follow the link “<a href="ftp://ftp.ensemblgenomes.org/pub/release-37/fungi/gtf/saccharomyces_cerevisiae">GTF</a>”</li>
+<li>Copy the address (URL) of the file <a href="ftp://ftp.ensemblgenomes.org/pub/release-37/fungi/gtf/saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz">Saccharomyces_cerevisiae.R64-1-1.37.gtf.gz</a></li>
+</ul>
+<p>(solution above)</p>
+</div>
+<div id="downloading-a-file-from-an-ftp-website" class="section level3">
+<h3>4. Downloading a file from an ftp website</h3>
+<p>Suggested functions:</p>
+<ul>
+<li><code>download.file()</code> (read the help to know the arguments)</li>
+</ul>
+<p>(solution above)</p>
+</div>
+<div id="loading-a-data-table-in-r" class="section level3">
+<h3>5. Loading a data table in R</h3>
+<p>Write a script that loads the data table into a variable named <code>feature.table</code>, using the function R <code>read.delim()</code>.</p>
+<p>Be sure to ignore the comment lines (which start with a character <code>#</code>).</p>
+<p>(solution above)</p>
+</div>
+<div id="compute-the-length-of-coding-genes" class="section level3">
+<h3>6. Compute the length of coding genes</h3>
+<ul>
+<li>Add to the annotation table (<code>feature.table</code>) a column entitled “length” which indicates the length of each annotated genomic feature.</li>
+</ul>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="co">## Add a colmn with feature lengths</span></a>
+<a class="sourceLine" id="cb50-2" data-line-number="2">feature.table[, <span class="st">&quot;length&quot;</span>] &lt;-<span class="st"> </span>feature.table[, <span class="st">&quot;end&quot;</span>] <span class="op">-</span><span class="st"> </span>feature.table[, <span class="st">&quot;start&quot;</span>] <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb50-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb50-4" data-line-number="4"><span class="co">## Add a colmn with feature lengths: equivalent result with simpler notation</span></a>
+<a class="sourceLine" id="cb50-5" data-line-number="5">feature.table<span class="op">$</span>length &lt;-<span class="st"> </span>feature.table<span class="op">$</span>end <span class="op">-</span><span class="st"> </span>feature.table<span class="op">$</span>start <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a></code></pre></div>
+<ul>
+<li><p>Count the number of rows in the table corresponding to each type of annotation (3rd column of the GTF, “feature”).</p>
+<ul>
+<li>fonction <code>table()</code></li>
+</ul></li>
+</ul>
+<pre><code>
+        CDS        exon        gene start_codon  stop_codon  transcript 
+       7050        7872        7445        6700        6516        7445 </code></pre>
+<ul>
+<li>Print the same result in a nicely formatted table with <code>knitr::kable()</code>./</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Var1</th>
+<th align="right">Freq</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">CDS</td>
+<td align="right">7050</td>
+</tr>
+<tr class="even">
+<td align="left">exon</td>
+<td align="right">7872</td>
+</tr>
+<tr class="odd">
+<td align="left">gene</td>
+<td align="right">7445</td>
+</tr>
+<tr class="even">
+<td align="left">start_codon</td>
+<td align="right">6700</td>
+</tr>
+<tr class="odd">
+<td align="left">stop_codon</td>
+<td align="right">6516</td>
+</tr>
+<tr class="even">
+<td align="left">transcript</td>
+<td align="right">7445</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>Select the lines corresponding to coding regions (“CDS”)</p>
+<ul>
+<li>fonction <code>subset()</code></li>
+</ul></li>
+<li><p>Count the number of CDS per chromosome.</p>
+<ul>
+<li>fonction <code>table()</code></li>
+</ul></li>
+</ul>
+<pre><code>
+   I   II  III   IV   IX Mito    V   VI  VII VIII    X   XI  XII XIII  XIV 
+ 122  492  194  895  255   59  345  151  619  346  422  361  615  544  458 
+  XV  XVI 
+ 623  549 </code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Chromosome</th>
+<th align="right">Number of CDSs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">I</td>
+<td align="right">122</td>
+</tr>
+<tr class="even">
+<td align="left">II</td>
+<td align="right">492</td>
+</tr>
+<tr class="odd">
+<td align="left">III</td>
+<td align="right">194</td>
+</tr>
+<tr class="even">
+<td align="left">IV</td>
+<td align="right">895</td>
+</tr>
+<tr class="odd">
+<td align="left">IX</td>
+<td align="right">255</td>
+</tr>
+<tr class="even">
+<td align="left">Mito</td>
+<td align="right">59</td>
+</tr>
+<tr class="odd">
+<td align="left">V</td>
+<td align="right">345</td>
+</tr>
+<tr class="even">
+<td align="left">VI</td>
+<td align="right">151</td>
+</tr>
+<tr class="odd">
+<td align="left">VII</td>
+<td align="right">619</td>
+</tr>
+<tr class="even">
+<td align="left">VIII</td>
+<td align="right">346</td>
+</tr>
+<tr class="odd">
+<td align="left">X</td>
+<td align="right">422</td>
+</tr>
+<tr class="even">
+<td align="left">XI</td>
+<td align="right">361</td>
+</tr>
+<tr class="odd">
+<td align="left">XII</td>
+<td align="right">615</td>
+</tr>
+<tr class="even">
+<td align="left">XIII</td>
+<td align="right">544</td>
+</tr>
+<tr class="odd">
+<td align="left">XIV</td>
+<td align="right">458</td>
+</tr>
+<tr class="even">
+<td align="left">XV</td>
+<td align="right">623</td>
+</tr>
+<tr class="odd">
+<td align="left">XVI</td>
+<td align="right">549</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Load the chromosome size table <a href="../../data/Saccharomyces_cerevisiae/chrom_sizes.tsv">chrom_sizes.tsv</a>, and compute the density of genes for each chromosome (number of genes per Mb).</li>
+</ul>
+<pre><code>[1] 316617</code></pre>
+<pre><code>[1] 7445</code></pre>
+<pre><code>[1] 7050</code></pre>
+<p><img src="figures/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="histogram-of-gene-length" class="section level3">
+<h3>6. Histogram of gene length</h3>
+<p>By using the function <code>hist()</code>, draw a histogram representing the length distribution of the CDS.</p>
+<p><img src="figures/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Choose the class intervals in a way that the histogram is informative (neither too large nor too few classes).</p>
+<p><img src="figures/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Retrieve the result of <code>hist()</code> in a variable named <code>cds.length.hist</code>.</p>
+<p><img src="figures/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Print the result on the screen (<code>print()</code>) and analyze the structure of the variable <code>cds.length.hist</code> (this is a list variable).</p>
+<p>Useful functions:</p>
+<pre><code>$breaks
+  [1]     0   100   200   300   400   500   600   700   800   900  1000
+ [12]  1100  1200  1300  1400  1500  1600  1700  1800  1900  2000  2100
+ [23]  2200  2300  2400  2500  2600  2700  2800  2900  3000  3100  3200
+ [34]  3300  3400  3500  3600  3700  3800  3900  4000  4100  4200  4300
+ [45]  4400  4500  4600  4700  4800  4900  5000  5100  5200  5300  5400
+ [56]  5500  5600  5700  5800  5900  6000  6100  6200  6300  6400  6500
+ [67]  6600  6700  6800  6900  7000  7100  7200  7300  7400  7500  7600
+ [78]  7700  7800  7900  8000  8100  8200  8300  8400  8500  8600  8700
+ [89]  8800  8900  9000  9100  9200  9300  9400  9500  9600  9700  9800
+[100]  9900 10000 10100 10200 10300 10400 10500 10600 10700 10800 10900
+[111] 11000 11100 11200 11300 11400 11500 11600 11700 11800 11900 12000
+[122] 12100 12200 12300 12400 12500 12600 12700 12800 12900 13000 13100
+[133] 13200 13300 13400 13500 13600 13700 13800 13900 14000 14100 14200
+[144] 14300 14400 14500 14600 14700 14800
+
+$counts
+  [1] 288 236 292 689 394 322 331 282 317 300 295 292 250 316 233 215 194
+ [18] 190 170 128 131 109  99  81  81  72  80  51  53  39  39  38  45  40
+ [35]  27  28  26  14  17  40  27  12  14  17  12  13  11  10   4  11   6
+ [52]   3   3   7   1   4   8   3   2   1   3   2   0   2   3   3   4   0
+ [69]   1   0   0   2   1   0   4   0   0   0   1   0   1   0   1   1   0
+ [86]   0   0   0   1   0   0   0   2   0   1   0   0   0   1   0   0   0
+[103]   0   0   0   0   0   0   0   0   0   0   1   0   0   0   0   0   0
+[120]   0   0   0   1   0   0   0   0   0   0   0   0   0   0   0   0   0
+[137]   0   0   0   0   0   0   0   0   0   0   0   1
+
+$density
+  [1] 4.085106e-04 3.347518e-04 4.141844e-04 9.773050e-04 5.588652e-04
+  [6] 4.567376e-04 4.695035e-04 4.000000e-04 4.496454e-04 4.255319e-04
+ [11] 4.184397e-04 4.141844e-04 3.546099e-04 4.482270e-04 3.304965e-04
+ [16] 3.049645e-04 2.751773e-04 2.695035e-04 2.411348e-04 1.815603e-04
+ [21] 1.858156e-04 1.546099e-04 1.404255e-04 1.148936e-04 1.148936e-04
+ [26] 1.021277e-04 1.134752e-04 7.234043e-05 7.517730e-05 5.531915e-05
+ [31] 5.531915e-05 5.390071e-05 6.382979e-05 5.673759e-05 3.829787e-05
+ [36] 3.971631e-05 3.687943e-05 1.985816e-05 2.411348e-05 5.673759e-05
+ [41] 3.829787e-05 1.702128e-05 1.985816e-05 2.411348e-05 1.702128e-05
+ [46] 1.843972e-05 1.560284e-05 1.418440e-05 5.673759e-06 1.560284e-05
+ [51] 8.510638e-06 4.255319e-06 4.255319e-06 9.929078e-06 1.418440e-06
+ [56] 5.673759e-06 1.134752e-05 4.255319e-06 2.836879e-06 1.418440e-06
+ [61] 4.255319e-06 2.836879e-06 0.000000e+00 2.836879e-06 4.255319e-06
+ [66] 4.255319e-06 5.673759e-06 0.000000e+00 1.418440e-06 0.000000e+00
+ [71] 0.000000e+00 2.836879e-06 1.418440e-06 0.000000e+00 5.673759e-06
+ [76] 0.000000e+00 0.000000e+00 0.000000e+00 1.418440e-06 0.000000e+00
+ [81] 1.418440e-06 0.000000e+00 1.418440e-06 1.418440e-06 0.000000e+00
+ [86] 0.000000e+00 0.000000e+00 0.000000e+00 1.418440e-06 0.000000e+00
+ [91] 0.000000e+00 0.000000e+00 2.836879e-06 0.000000e+00 1.418440e-06
+ [96] 0.000000e+00 0.000000e+00 0.000000e+00 1.418440e-06 0.000000e+00
+[101] 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00
+[106] 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00
+[111] 0.000000e+00 0.000000e+00 1.418440e-06 0.000000e+00 0.000000e+00
+[116] 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00
+[121] 0.000000e+00 0.000000e+00 1.418440e-06 0.000000e+00 0.000000e+00
+[126] 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00
+[131] 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00
+[136] 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00
+[141] 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00
+[146] 0.000000e+00 0.000000e+00 1.418440e-06
+
+$mids
+  [1]    50   150   250   350   450   550   650   750   850   950  1050
+ [12]  1150  1250  1350  1450  1550  1650  1750  1850  1950  2050  2150
+ [23]  2250  2350  2450  2550  2650  2750  2850  2950  3050  3150  3250
+ [34]  3350  3450  3550  3650  3750  3850  3950  4050  4150  4250  4350
+ [45]  4450  4550  4650  4750  4850  4950  5050  5150  5250  5350  5450
+ [56]  5550  5650  5750  5850  5950  6050  6150  6250  6350  6450  6550
+ [67]  6650  6750  6850  6950  7050  7150  7250  7350  7450  7550  7650
+ [78]  7750  7850  7950  8050  8150  8250  8350  8450  8550  8650  8750
+ [89]  8850  8950  9050  9150  9250  9350  9450  9550  9650  9750  9850
+[100]  9950 10050 10150 10250 10350 10450 10550 10650 10750 10850 10950
+[111] 11050 11150 11250 11350 11450 11550 11650 11750 11850 11950 12050
+[122] 12150 12250 12350 12450 12550 12650 12750 12850 12950 13050 13150
+[133] 13250 13350 13450 13550 13650 13750 13850 13950 14050 14150 14250
+[144] 14350 14450 14550 14650 14750
+
+$xname
+[1] &quot;cds$length&quot;
+
+$equidist
+[1] TRUE
+
+attr(,&quot;class&quot;)
+[1] &quot;histogram&quot;</code></pre>
+<ul>
+<li><code>class(cds.length.hist)</code></li>
+<li><code>attributes(cds.length.hist)</code></li>
+</ul>
+<p>Other types of graphs allow you to explore the distribution of a set of data. In particular, box plots display, for a series of data, the median, the quarterfinal range, a confidence interval and outliers.</p>
+<p>In the <code>boxplot()</code> function, we use the formula <code>length ~ seqname</code> in order to group lengths by seqname (i.e. chromosome names).</p>
+<div class="figure" style="text-align: center">
+<img src="figures/unnamed-chunk-26-1.png" alt="Boîte à moustache indiquant la distribution de longueur des gènes par chromosome. " width="672" />
+<p class="caption">
+Boîte à moustache indiquant la distribution de longueur des gènes par chromosome.
+</p>
+</div>
+</div>
+<div id="descriptive-parameters" class="section level3">
+<h3>7. Descriptive parameters</h3>
+<p>Calculate the parameters of central tendency (mean, median, mode) and dispersion (variance, standard deviation, inter-quarterly deviation)</p>
+<ul>
+<li>for the genes of chromosome III;</li>
+<li>for all yeast genes.</li>
+</ul>
+<pre><code>[1] 194   1</code></pre>
+<pre><code>[1] &quot;data.frame&quot;</code></pre>
+<pre><code>[1] &quot;numeric&quot;</code></pre>
+<pre><code>length1 length2 length3 length4 length5 length6 
+    741    1845    1374     780     630     525 </code></pre>
+<pre><code>[1] &quot;Chromosome III contains 194 CDS&quot;</code></pre>
+<pre><code>[1] 1169.521</code></pre>
+<p><strong>Ah ah! (skeptical tone)</strong> The R function <code>sd()</code> does <strong>not</strong> compute the standard deviation of the input numbers (<span class="math inline">\(s\)</span>), but the <strong>estimate of the standard deviaiton of the population</strong> (<span class="math inline">\(\hat{\sigma}\)</span>)</p>
+<p>Display these parameters on the histogram of gene length, using the function <code>arrows()</code></p>
+</div>
+<div id="confidence-interval" class="section level3">
+<h3>8. Confidence interval</h3>
+<p>From genes of chromosome III (considered as the sample available in 1992), calculate a confidence interval around the mean, and formulate the interpretation of this confidence interval. Then evaluate whether or not this confidence interval covered the average population (all genes in the yeast genome, which became available 4 years after chromosome III).</p>
+<p><span class="math display">\[ \bar{x} \pm \frac{\hat{\sigma}}{\sqrt(n)} \cdot t_{1-\alpha/2}^{n-1}\]</span></p>
+<pre><code>[1] -1.972332</code></pre>
+<p>Draw a polygon of frequencies indicating the number of genes per class (class medium).</p>
+<p><img src="figures/unnamed-chunk-29-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="distribution-of-gene-length" class="section level3">
+<h3>9. Distribution of gene length</h3>
+<ul>
+<li><p>From the result of <code>hist()</code>, retrieve an array (in a variable of type <code>data.frame</code>) indicating the absolute frequencies (<code>count</code>) according to the median class size (<code>mids</code>),</p></li>
+<li><p>Add to this table a column indicating the relative frequency of each class of gene length.</p></li>
+<li><p>Add columns to this table indicating the <strong>empirical distribution function</strong> gene lengths (number of genes of a size less than or equal to each observed <span class="math inline">\(x\)</span> value, and relative frequency of this number).</p>
+<ul>
+<li>basic function: <code>cumsum()</code></li>
+<li>advanced function:<code>ecdf()</code></li>
+</ul></li>
+<li><p>by using the functions <code>plot()</code> and <code>lines()</code>, draw a graph representing the absolute frequency per class (medians of classes in <span class="math inline">\(X\)</span>, counts in <span class="math inline">\(Y\)</span>), and the empirical distribution function.</p>
+<ul>
+<li>suggestion: superposez les ??utilisez le type de lignes “h” pour les fréquences de classe, et “l” ou “s” pour la fonction de répartition.</li>
+</ul></li>
+</ul>
+</div>
+<div id="expected-distribution-of-gene-lengths" class="section level3">
+<h3>10. Expected distribution of gene lengths</h3>
+<p>Based on the genome size (<span class="math inline">\(12.156.679\)</span> bp) and genomic frequencies of the codons provided in the table below, calculate the gene length distribution that would be expected by chance, and draw it on top of the graph with the observed distribution of gene lengths.</p>
+<p>Note: the genomic frequencies of all polynucleotides can be downloaded here: <a href="http://jvanheld.github.io/stat1/data/Saccharomyces_cerevisiae/oligo_freq/3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab">3nt_genomic_Saccharomyces_cerevisiae-ovlp-1str.tab</a></p>
+<p>Alternative: create a variable <code>freq.3nt</code> and manually assign the values for the 4? required polynucleotides from the table below.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">sequence</th>
+<th align="right">frequency</th>
+<th align="right">occurrences</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">AAA</td>
+<td align="right">0.0394</td>
+<td align="right">478708</td>
+</tr>
+<tr class="even">
+<td align="left">ATG</td>
+<td align="right">0.0183</td>
+<td align="right">221902</td>
+</tr>
+<tr class="odd">
+<td align="left">TAA</td>
+<td align="right">0.0224</td>
+<td align="right">272041</td>
+</tr>
+<tr class="even">
+<td align="left">TAG</td>
+<td align="right">0.0129</td>
+<td align="right">156668</td>
+</tr>
+<tr class="odd">
+<td align="left">TGA</td>
+<td align="right">0.0201</td>
+<td align="right">244627</td>
+</tr>
+<tr class="even">
+<td align="left">TTT</td>
+<td align="right">0.0391</td>
+<td align="right">475658</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1"><span class="co">## Compute the probabilities of start, stop ,and not-stop codons</span></a>
+<a class="sourceLine" id="cb64-2" data-line-number="2">P &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;start&quot;</span> =<span class="st"> </span>oligo.freq[<span class="st">&quot;ATG&quot;</span>, <span class="st">&quot;frequency&quot;</span>],</a>
+<a class="sourceLine" id="cb64-3" data-line-number="3">       <span class="st">&quot;stop&quot;</span> =<span class="st"> </span><span class="kw">sum</span>(oligo.freq[<span class="kw">c</span>(<span class="st">&quot;TAA&quot;</span>, <span class="st">&quot;TGA&quot;</span>, <span class="st">&quot;TAG&quot;</span>), <span class="st">&quot;frequency&quot;</span>])</a>
+<a class="sourceLine" id="cb64-4" data-line-number="4">       )</a>
+<a class="sourceLine" id="cb64-5" data-line-number="5">P[<span class="st">&quot;not-stop&quot;</span>] &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>P[<span class="st">&quot;stop&quot;</span>]</a>
+<a class="sourceLine" id="cb64-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb64-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb64-8" data-line-number="8"><span class="co">## Rounded number encompassing the number of codons of the longest gene</span></a>
+<a class="sourceLine" id="cb64-9" data-line-number="9">max.n &lt;-<span class="st"> </span><span class="dv">100</span> <span class="op">*</span><span class="st"> </span><span class="kw">ceiling</span>(<span class="kw">max</span>(cds<span class="op">$</span>length) <span class="op">/</span><span class="st"> </span><span class="dv">300</span>) </a>
+<a class="sourceLine" id="cb64-10" data-line-number="10">n &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>max.n <span class="co"># A vector with all relevant length in numbers of codons</span></a>
+<a class="sourceLine" id="cb64-11" data-line-number="11">L &lt;-<span class="st"> </span><span class="dv">3</span><span class="op">*</span>n <span class="co"># Gene lengths in base pairs</span></a>
+<a class="sourceLine" id="cb64-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb64-13" data-line-number="13"><span class="co">## Probability of observing an ORF of exactly n codons</span></a>
+<a class="sourceLine" id="cb64-14" data-line-number="14">length.proba.density &lt;-<span class="st"> </span>P[<span class="st">&quot;start&quot;</span>] <span class="op">*</span><span class="st"> </span>P[<span class="st">&quot;not-stop&quot;</span>]<span class="op">^</span>n <span class="op">*</span><span class="st"> </span>P[<span class="st">&quot;stop&quot;</span>]</a>
+<a class="sourceLine" id="cb64-15" data-line-number="15">length.pvalue &lt;-<span class="st"> </span><span class="kw">rev</span>(<span class="kw">cumsum</span>(<span class="kw">rev</span>(length.proba.density)))</a>
+<a class="sourceLine" id="cb64-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb64-17" data-line-number="17"><span class="co">## Compute the random expectation for the number of genes</span></a>
+<a class="sourceLine" id="cb64-18" data-line-number="18"><span class="co">## Note: genes can be found on both strands -&gt; we multiply by 2</span></a>
+<a class="sourceLine" id="cb64-19" data-line-number="19">G &lt;-<span class="st"> </span><span class="dv">12156679</span> <span class="co">## Genome length</span></a>
+<a class="sourceLine" id="cb64-20" data-line-number="20">exp.genes &lt;-<span class="st"> </span>length.pvalue <span class="op">*</span><span class="st"> </span>G <span class="op">*</span><span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb64-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb64-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb64-23" data-line-number="23"><span class="co">## Plot the open reading frame (ORF) probability as a</span></a>
+<a class="sourceLine" id="cb64-24" data-line-number="24"><span class="co">## function of ORF length (in base pairs)</span></a>
+<a class="sourceLine" id="cb64-25" data-line-number="25"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb64-26" data-line-number="26"><span class="kw">plot</span>(L, length.proba.density, <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>,</a>
+<a class="sourceLine" id="cb64-27" data-line-number="27">     <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>,</a>
+<a class="sourceLine" id="cb64-28" data-line-number="28">     <span class="dt">main =</span> <span class="st">&quot;ORF length probability density (full range)&quot;</span>,</a>
+<a class="sourceLine" id="cb64-29" data-line-number="29">     <span class="dt">xlab =</span> <span class="st">&quot;ORF length (base pairs)&quot;</span>,</a>
+<a class="sourceLine" id="cb64-30" data-line-number="30">     <span class="dt">ylab =</span> <span class="st">&quot;P(X = x)&quot;</span>)</a>
+<a class="sourceLine" id="cb64-31" data-line-number="31"></a>
+<a class="sourceLine" id="cb64-32" data-line-number="32"><span class="kw">plot</span>(L, length.proba.density, <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">600</span>),</a>
+<a class="sourceLine" id="cb64-33" data-line-number="33">     <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>,</a>
+<a class="sourceLine" id="cb64-34" data-line-number="34">     <span class="dt">main =</span> <span class="st">&quot;ORF length probability density (restricted range)&quot;</span>,</a>
+<a class="sourceLine" id="cb64-35" data-line-number="35">     <span class="dt">xlab =</span> <span class="st">&quot;ORF length (base pairs)&quot;</span>,</a>
+<a class="sourceLine" id="cb64-36" data-line-number="36">     <span class="dt">ylab =</span> <span class="st">&quot;P(X = x)&quot;</span>)</a>
+<a class="sourceLine" id="cb64-37" data-line-number="37"></a>
+<a class="sourceLine" id="cb64-38" data-line-number="38"><span class="kw">plot</span>(L, length.pvalue, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">600</span>),</a>
+<a class="sourceLine" id="cb64-39" data-line-number="39">     <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;darkgreen&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">panel.first =</span> <span class="kw">grid</span>(),</a>
+<a class="sourceLine" id="cb64-40" data-line-number="40">     <span class="dt">main =</span> <span class="st">&quot;ORF length P-value&quot;</span>,</a>
+<a class="sourceLine" id="cb64-41" data-line-number="41">     <span class="dt">xlab =</span> <span class="st">&quot;ORF length (base pairs)&quot;</span>,</a>
+<a class="sourceLine" id="cb64-42" data-line-number="42">     <span class="dt">ylab =</span> <span class="st">&quot;P(X &gt;= x)&quot;</span>)</a>
+<a class="sourceLine" id="cb64-43" data-line-number="43"></a>
+<a class="sourceLine" id="cb64-44" data-line-number="44"><span class="kw">plot</span>(L, exp.genes, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">600</span>),</a>
+<a class="sourceLine" id="cb64-45" data-line-number="45">     <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;darkgreen&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">panel.first =</span> <span class="kw">grid</span>(),</a>
+<a class="sourceLine" id="cb64-46" data-line-number="46">     <span class="dt">main =</span> <span class="st">&quot;Expected number of ORFs (restricted range)&quot;</span>,</a>
+<a class="sourceLine" id="cb64-47" data-line-number="47">     <span class="dt">xlab =</span> <span class="st">&quot;ORF length (base pairs)&quot;</span>,</a>
+<a class="sourceLine" id="cb64-48" data-line-number="48">     <span class="dt">ylab =</span> <span class="st">&quot;Expected ORFs&quot;</span>)</a>
+<a class="sourceLine" id="cb64-49" data-line-number="49"></a>
+<a class="sourceLine" id="cb64-50" data-line-number="50"><span class="kw">plot</span>(L, length.pvalue, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, </a>
+<a class="sourceLine" id="cb64-51" data-line-number="51">     <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;darkgreen&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">panel.first =</span> <span class="kw">grid</span>(),</a>
+<a class="sourceLine" id="cb64-52" data-line-number="52">     <span class="dt">log =</span> <span class="st">&quot;y&quot;</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">600</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(length.pvalue[<span class="dv">201</span>], <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb64-53" data-line-number="53">     <span class="dt">main =</span> <span class="st">&quot;ORF length P-value&quot;</span>,</a>
+<a class="sourceLine" id="cb64-54" data-line-number="54">     <span class="dt">xlab =</span> <span class="st">&quot;ORF length (base pairs)&quot;</span>,</a>
+<a class="sourceLine" id="cb64-55" data-line-number="55">     <span class="dt">ylab =</span> <span class="st">&quot;P(X &gt;= x) on a log scale&quot;</span>)</a>
+<a class="sourceLine" id="cb64-56" data-line-number="56"></a>
+<a class="sourceLine" id="cb64-57" data-line-number="57"><span class="kw">plot</span>(L, exp.genes, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, </a>
+<a class="sourceLine" id="cb64-58" data-line-number="58">     <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;darkgreen&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">panel.first =</span> <span class="kw">grid</span>(),</a>
+<a class="sourceLine" id="cb64-59" data-line-number="59">     <span class="dt">log =</span> <span class="st">&quot;y&quot;</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">600</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(exp.genes[<span class="dv">201</span>], exp.genes[<span class="dv">1</span>]),</a>
+<a class="sourceLine" id="cb64-60" data-line-number="60">     <span class="dt">main =</span> <span class="st">&quot;ORF length E-value (restricted range)&quot;</span>,</a>
+<a class="sourceLine" id="cb64-61" data-line-number="61">     <span class="dt">xlab =</span> <span class="st">&quot;ORF length (base pairs)&quot;</span>,</a>
+<a class="sourceLine" id="cb64-62" data-line-number="62">     <span class="dt">ylab =</span> <span class="st">&quot;Expected ORFs (log scale)&quot;</span>)</a></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="figures/exp_orf_length_distrib-1.png" alt="Distribution of the number of ORFs expected by chance in a random genomic sequence having the same codon frequencies as the yeast genome. " width="100%" />
+<p class="caption">
+Distribution of the number of ORFs expected by chance in a random genomic sequence having the same codon frequencies as the yeast genome.
+</p>
+</div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
+<p>The <strong>top-lefth panel</strong> shows the <strong>density of probability</strong> of ORF lengths, i.e. the probability to observe by chance an ORF of exactly <span class="math inline">\(x\)</span> nucleotides: <span class="math inline">\(P(X = x)\)</span>. The shape of the distribution is not very well depicted because the range extends up to <span class="math inline">\(15,000\)</span> base pairs, the length of the longest yeast gene. This gene is an outlier (exceptionally long, not representative of the other yeast genes).</p>
+<p>The <strong>top right panel</strong> shows the same distribution with a range restricted to 0-600 bp.</p>
+<p>The <strong>middle left panel</strong> shows the distribution of <strong>P-value</strong> for ORF lengths <span class="math inline">\(x\)</span> ranging from 0 to 600: <span class="math inline">\(P(X \ge x)\)</span>. This is the probability, for each length <span class="math inline">\(x\)</span>, to find by chance a gene at least as long starting at a given genomic position.</p>
+<p>The <strong>middle right panel</strong> shows the <strong>E-value</strong> <span class="math inline">\(E(X \ge x)\)</span>, i.e. the number of ORFs expected by chance in the whole genome, for length <span class="math inline">\(x\)</span> ranging from 0 to 600.</p>
+<p>The <strong>bottom</strong> panels show the same distributions of P-value (left) and E-value (right) on a logarithmic scale, to better emphasize the very small probabilities.</p>
+<p>Of note, with a threshold <span class="math inline">\(X \ge 300\)</span>, we still expect 1489.6702982 ORFs at random. Since this threshold was used to infer the presence of an ORF in the original annotation of the yeast genome, biologists knew that these annotations would contain an important number of false ORF predictions. Consistently, several hundreds of genes were discarded from the annotations a few years later, based on comparative genomics. Indeed, when the genomes of other fungal species became available, the genes for which no homologs was found in any other fungal genome were considered likely false positives.</p>
+</div>
+<div id="before-finishing-keep-track-of-your-session" class="section level3">
+<h3>11. Before finishing: keep track of your session</h3>
+<p>Tractability is an essential issue in science. The function <strong><em>R</em></strong> <code>sessionInfo()</code> provides a summary of the conditions of a work session: version of R, operator system, libraries of functions used.</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" data-line-number="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
+<pre><code>R version 3.6.1 (2019-07-05)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS Mojave 10.14.6
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] knitr_1.23
+
+loaded via a namespace (and not attached):
+ [1] compiler_3.6.1  magrittr_1.5    tools_3.6.1     htmltools_0.3.6
+ [5] yaml_2.2.0      Rcpp_1.0.2      stringi_1.4.3   rmarkdown_1.14 
+ [9] highr_0.8       stringr_1.4.0   xfun_0.8        digest_0.6.20  
+[13] evaluate_0.14  </code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

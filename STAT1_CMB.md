@@ -1,3 +1,8 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
 ## Probabilities and statistics for modelling 1 (STAT1)
 
 
@@ -31,9 +36,12 @@ The following concepts will be taught :
 
 Applications to biology will include: 
 
-- pattern matching and alignment of genomic sequences,
-- functional enrichment analysis,
-- detection of differentially expressed genes.
+- pattern matching 
+- alignment of next generation sequencing (NGS) short reads on a reference genome
+- annotation of open reading frames (ORFs) in a genome
+- functional enrichment analysis
+- detection of differentially expressed genes
+
 
 ### 2019 calendar
 
@@ -68,8 +76,9 @@ Oct
 |  | | Lecture | Discrete distributions | [[html](slides/04_discrete_distributions_EN.html)] [[pdf](slides/04_discrete_distributions_EN.pdf)] [[Rmd](slides/04_discrete_distributions_EN.Rmd)] |
 |  |  | Exercises | Discrete distributions | [[html](slides/04_discrete_distributions_EN_exercices.html)] [[pdf](slides/04_discrete_distributions_EN_exercices.pdf)] [[Rmd](slides/04_discrete_distributions_EN_exercices.Rmd)] |
 | 13/09 | 14h - 17h | Practicals | First steps with R | [[html](practicals/01_intro_R/01_R-first-steps.html)] [[pdf](practicals/01_intro_R/01_R-first-steps.pdf)] [[Rmd](practicals/01_intro_R/01_R-first-steps.Rmd)] |
+| 20/09 | 14h - 17h | Practicals | Analysis of a genome annotation table | [[html](practicals/02_yeast_annotations/02_yeast_annotations_EN.html)] [[pdf](practicals/02_yeast_annotations/02_yeast_annotations_EN.pdf)] [[Rmd](practicals/02_yeast_annotations/02_yeast_annotations_EN.Rmd)] |
+| 27/09 | 14h - 17h | Practicals | Solutions: analysis of a genome annotation table | [[html](practicals/02_yeast_annotations/02_yeast_annotations_EN_solutions.html)] [[pdf](practicals/02_yeast_annotations/02_yeast_annotations_EN_solutions.pdf)] [[Rmd](practicals/02_yeast_annotations/02_yeast_annotations_EN_solutions.Rmd)] |
 
-****************************************************************
 
 #### Practicals with R
 

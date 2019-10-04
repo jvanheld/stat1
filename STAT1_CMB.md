@@ -75,18 +75,15 @@ Oct
 |  | | Exercises | Concepts of probabilities | [[html](slides/03_concepts_proba_exercices.html)] [[pdf](slides/03_concepts_proba_exercices.pdf)] [[Rmd](slides/03_concepts_proba_exercices.Rmd)] |
 |  | | Lecture | Discrete distributions | [[html](slides/04_discrete_distributions_EN.html)] [[pdf](slides/04_discrete_distributions_EN.pdf)] [[Rmd](slides/04_discrete_distributions_EN.Rmd)] |
 |  |  | Exercises | Discrete distributions | [[html](slides/04_discrete_distributions_EN_exercices.html)] [[pdf](slides/04_discrete_distributions_EN_exercices.pdf)] [[Rmd](slides/04_discrete_distributions_EN_exercices.Rmd)] |
-| 13/09 | 14h - 17h | Practicals | First steps with R | [[html](practicals/01_intro_R/01_R-first-steps.html)] [[pdf](practicals/01_intro_R/01_R-first-steps.pdf)] [[Rmd](practicals/01_intro_R/01_R-first-steps.Rmd)] |
-| 20/09 | 14h - 17h | Practicals | Analysis of a genome annotation table | [[html](practicals/02_yeast_annotations/02_yeast_annotations_EN.html)] [[pdf](practicals/02_yeast_annotations/02_yeast_annotations_EN.pdf)] [[Rmd](practicals/02_yeast_annotations/02_yeast_annotations_EN.Rmd)] |
-| 27/09 | 14h - 17h | Practicals | Solutions: analysis of a genome annotation table | [[html](practicals/02_yeast_annotations/02_yeast_annotations_EN_solutions.html)] [[pdf](practicals/02_yeast_annotations/02_yeast_annotations_EN_solutions.pdf)] [[Rmd](practicals/02_yeast_annotations/02_yeast_annotations_EN_solutions.Rmd)] |
+| 13/09 | 14h - 17h | Practical 1 | First steps with R | [[html](practicals/01_intro_R/01_R-first-steps.html)] [[pdf](practicals/01_intro_R/01_R-first-steps.pdf)] [[Rmd](practicals/01_intro_R/01_R-first-steps.Rmd)] |
+| 20/09 | 9h - 12h | Lecture | Sampling and estimation |  [[html](slides/05_sampling_estimation_EN.html)] [[pdf](slides/05_sampling_estimation_EN.pdf)] [[Rmd](slides/05_sampling_estimation_EN.Rmd)] |
+| 20/09 | 14h - 17h | Practical 2 | Analysis of a genome annotation table | [[html](practicals/02_yeast_annotations/02_yeast_annotations_EN.html)] [[pdf](practicals/02_yeast_annotations/02_yeast_annotations_EN.pdf)] [[Rmd](practicals/02_yeast_annotations/02_yeast_annotations_EN.Rmd)] |
+| 03/10 | 14h - 17h | Practical 2 | Solution: Analysis of a genome annotation table | [[html](practicals/02_yeast_annotations/02_yeast_annotations_EN_solutions.html)] [[pdf](practicals/02_yeast_annotations/02_yeast_annotations_EN_solutions.pdf)] [[Rmd](practicals/02_yeast_annotations/02_yeast_annotations_EN_solutions.Rmd)] |
+|  |  | Practical 2 | Analysis of a genome annotation table | [[html](practicals/02_yeast_annotations/02_yeast_annotations_EN.html)] [[pdf](practicals/02_yeast_annotations/02_yeast_annotations_EN.pdf)] [[Rmd](practicals/02_yeast_annotations/02_yeast_annotations_EN.Rmd)] |
+|  |  | Lecture | Mean comparison tests |  [[html](slides/06_mean_comparison_tests_EN.html)] [[pdf](slides/06_mean_comparison_tests_EN.pdf)] [[Rmd](slides/06_mean_comparison_tests_EN.Rmd)] |
+| | | Practical 3 | Mean comparison tests |  [[html](practicals/03_test_comparaison_moyennes/03_test_comparaison_moyennes.html)] [[pdf](practicals/03_test_comparaison_moyennes/03_test_comparaison_moyennes.pdf)] [[Rmd](practicals/03_test_comparaison_moyennes/03_test_comparaison_moyennes.Rmd)] |
 
 
-#### Practicals with R
-
-| Pradctical | Contents | Teaching material | 
-|------|---------------------------------|--------------------------|
-| TP1 | First steps with R | Slides: [html](practicals/01_intro_R/01_R-first-steps.html) [pdf](practicals/01_intro_R/01_R-first-steps.pdf) [Rmd](practicals/01_intro_R/01_R-first-steps.Rmd) |
-| TP2 | Table d'annotations génomiques | Slides: [html](practicals/02_yeast_annotations/02_yeast_annotations_EN.html) [pdf](practicals/02_yeast_annotations/02_yeast_annotations_EN.pdf) [Rmd](practicals/02_yeast_annotations/02_yeast_annotations_EN.Rmd) |
-| TP3 | Tests de comparaison de moyennes | Slides: [html](practicals/03_test_comparaison_moyennes/03_test_comparaison_moyennes.html) [pdf](practicals/03_test_comparaison_moyennes/03_test_comparaison_moyennes.pdf) [Rmd](practicals/03_test_comparaison_moyennes/03_test_comparaison_moyennes.Rmd) |
 
 
 ****************************************************************

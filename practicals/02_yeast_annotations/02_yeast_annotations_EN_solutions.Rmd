@@ -30,6 +30,7 @@ output:
     toc_depth: 3
     toc_float: yes
   slidy_presentation:
+    self_contained: no
     fig_caption: yes
     fig_height: 6
     fig_width: 7

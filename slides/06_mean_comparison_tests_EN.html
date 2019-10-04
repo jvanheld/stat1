@@ -1,304 +1,189 @@
-<!DOCTYPE html>
-<html>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <title>Mean comparison tests</title>
-
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-
-
-
+  <meta name="author" content="Jacques van Helden" />
   <meta name="date" content="2019-10-04" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-
-  <base target="_blank">
-
-  <script type="text/javascript">
-    var SLIDE_CONFIG = {
-      // Slide settings
-      settings: {
-                title: 'Mean comparison tests',
-                        subtitle: 'Probabilités et statistique pour la biologie (STAT1)',
-                useBuilds: true,
-        usePrettify: true,
-        enableSlideAreas: true,
-        enableTouch: true,
-                      },
-
-      // Author information
-      presenters: [
-            {
-        name:  'Jacques van Helden' ,
-        company: '',
-        gplus: '',
-        twitter: '',
-        www: '',
-        github: ''
-      },
-            ]
-    };
-  </script>
-
-  <link href="06_mean_comparison_tests_EN_files/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
-  <link href="06_mean_comparison_tests_EN_files/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
-  <link href="06_mean_comparison_tests_EN_files/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
-  <script src="06_mean_comparison_tests_EN_files/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
-  <script src="06_mean_comparison_tests_EN_files/ioslides-13.5.1/js/prettify/prettify.js"></script>
-  <script src="06_mean_comparison_tests_EN_files/ioslides-13.5.1/js/prettify/lang-r.js"></script>
-  <script src="06_mean_comparison_tests_EN_files/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
-  <script src="06_mean_comparison_tests_EN_files/ioslides-13.5.1/js/hammer.js"></script>
-  <script src="06_mean_comparison_tests_EN_files/ioslides-13.5.1/js/slide-controller.js"></script>
-  <script src="06_mean_comparison_tests_EN_files/ioslides-13.5.1/js/slide-deck.js"></script>
-
-  <style type="text/css">
-
-    b, strong {
-      font-weight: bold;
-    }
-
-    em {
-      font-style: italic;
-    }
-
-    summary {
-      display: list-item;
-    }
-
-    slides > slide {
-      -webkit-transition: all 0.4s ease-in-out;
-      -moz-transition: all 0.4s ease-in-out;
-      -o-transition: all 0.4s ease-in-out;
-      transition: all 0.4s ease-in-out;
-    }
-
-    .auto-fadein {
-      -webkit-transition: opacity 0.6s ease-in;
-      -webkit-transition-delay: 0.4s;
-      -moz-transition: opacity 0.6s ease-in 0.4s;
-      -o-transition: opacity 0.6s ease-in 0.4s;
-      transition: opacity 0.6s ease-in 0.4s;
-      opacity: 0;
-    }
-/* https://github.com/ropensci/plotly/pull/524#issuecomment-468142578 */
-slide:not(.current) .plotly.html-widget{
-  display: block;
-}
-
-  </style>
-
-  <link rel="stylesheet" href="slides.css" type="text/css" />
-
+  <title>Mean comparison tests</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="06_mean_comparison_tests_EN_files/jquery-1.11.3/jquery.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="06_mean_comparison_tests_EN_files/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+  <script src="06_mean_comparison_tests_EN_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+  <script src="06_mean_comparison_tests_EN_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+  <script src="06_mean_comparison_tests_EN_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+  <link href="06_mean_comparison_tests_EN_files/slidy-2/styles/slidy.css" rel="stylesheet" />
+  <script src="06_mean_comparison_tests_EN_files/slidy-2/scripts/slidy.js"></script>
 </head>
-
-<body style="opacity: 0">
-
-<slides class="layout-widescreen">
-
-  <slide class="title-slide segue nobackground">
-        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
-    <hgroup class="auto-fadein">
-      <h1 data-config-title><!-- populated from slide_config.json --></h1>
-      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
-      <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2019-10-04</p>
-          </hgroup>
-  </slide>
-
-<slide class=""><hgroup><h2>Contents</h2></hgroup><article  id="contents" class="smaller ">
-
+<body>
+<div class="slide titlepage">
+  <h1 class="title">Mean comparison tests</h1>
+  <h1 class="subtitle">Probabilités et statistique pour la biologie (STAT1)</h1>
+  <p class="author">
+Jacques van Helden
+  </p>
+  <p class="date">2019-10-04</p>
+</div>
+<div id="contents" class="slide section level2">
+<h1>Contents</h1>
 <p>We present here one of the most popular applications of statistics: the mean comparison test.</p>
-
 <p>This test is used in a wide variety of contexts, and we will apply it here to two data types:</p>
-
-<ol>
+<ol style="list-style-type: decimal">
 <li><p><strong>Artificial data</strong> generated by drawing samples in two populations following normal distributions, and whose means will be either identical or different, depending on the case. The goal will be to understand how to run the test and how to unterpret the results, in conditions where we control all the parameters (we know whether or not we created populations with equal or different means).</p></li>
 <li><p><strong>Transcriptome data</strong> obtained with microarrays. We will test whether a give gene is expressed differentially between two groups of biological samples (e.g. patients suffering from two different types of cancers).</p>
-
 <p><strong>Note:</strong> the microarray technology has been replaced by NGS, and RNA-seq has now been widely adopted for transcriptome studies. However, differential analysis with RNA-seq data relies on more advanced concepts, which will be introduvced in other courses.</p></li>
 </ol>
-
-</article></slide><slide class=""><hgroup><h2>L’hypothèse à tester</h2></hgroup><article  id="lhypothese-a-tester" class="smaller ">
-
+</div>
+<div id="lhypothese-a-tester" class="slide section level2">
+<h1>L’hypothèse à tester</h1>
 <p><strong>Principe général:</strong></p>
-
 <ul>
 <li>On observe une différence entre les moyennes d’échantillons, et on veut savoir si celle-ci résulte du hasard de l’échantillonnage ou d’une différence réelle entre les populations.</li>
-<li>On pose l’<strong><em>hypothèse nulle</em></strong> (\(H_0\)) selon laquelle il n’existe pas de différence entre les deux populations. L’<strong><em>hypothèse alternative</em></strong> (\(H_1\)) est qu’il existe une différence.</li>
+<li>On pose l’<strong><em>hypothèse nulle</em></strong> (<span class="math inline">\(H_0\)</span>) selon laquelle il n’existe pas de différence entre les deux populations. L’<strong><em>hypothèse alternative</em></strong> (<span class="math inline">\(H_1\)</span>) est qu’il existe une différence.</li>
 <li>On évalue la probabilité que les échantillons aient été générés selon cette hypothèse nulle.</li>
-<li>Si cette probabilité est trop faible, on rejette l’hypothèse nulle (\(RH_0\)).</li>
-<li>Sinon, on accepte (temporairement) l’hypothèse nulle (\(AH_0\)).</li>
+<li>Si cette probabilité est trop faible, on rejette l’hypothèse nulle (<span class="math inline">\(RH_0\)</span>).</li>
+<li>Sinon, on accepte (temporairement) l’hypothèse nulle (<span class="math inline">\(AH_0\)</span>).</li>
 </ul>
-
-</article></slide><slide class=""><hgroup><h2>Test bilatéral (<em>two-tailed test</em>)</h2></hgroup><article  id="test-bilateral-two-tailed-test" class="smaller ">
-
-<p>\[H_0: \mu_1 = \mu_2 \\
-H_1: \mu_1 \neq \mu_2\]</p>
-
+</div>
+<div id="test-bilateral-two-tailed-test" class="slide section level2">
+<h1>Test bilatéral (<em>two-tailed test</em>)</h1>
+<p><span class="math display">\[H_0: \mu_1 = \mu_2 \\
+H_1: \mu_1 \neq \mu_2\]</span></p>
 <p>Il s’agit ici d’un <strong>test bilatéral</strong> (<strong><em>two-tailed test</em></strong>): nous désirons détecter une éventuelle différence indépendamment de son signe.</p>
-
-</article></slide><slide class=""><hgroup><h2>Test unilatéral (<em>one-tailed test</em>)</h2></hgroup><article  id="test-unilateral-one-tailed-test" class="smaller ">
-
+</div>
+<div id="test-unilateral-one-tailed-test" class="slide section level2">
+<h1>Test unilatéral (<em>one-tailed test</em>)</h1>
 <p>Modalité alternative: <strong>test unilatéral</strong> (<strong><em>one-tailed test</em></strong>), où l’on ne s’intéresse qu’à des différences allant dans une direction donnée.</p>
-
 <p>Différences positives (<em>right-tailed test</em>):</p>
-
-<p>\[H_0: \mu_1 \le \mu_2 \\
-H_1: \mu_1 &gt; \mu_2\]</p>
-
+<p><span class="math display">\[H_0: \mu_1 \le \mu_2 \\
+H_1: \mu_1 &gt; \mu_2\]</span></p>
 <p>Différences négatives (<em>left-tailed test</em>):</p>
-
-<p>\[H_0: \mu_1 \ge \mu_2 \\
-H_1: \mu_1 &lt; \mu_2\]</p>
-
-</article></slide><slide class=""><hgroup><h2>Hypothèses de travail</h2></hgroup><article  id="hypotheses-de-travail" class="smaller ">
-
+<p><span class="math display">\[H_0: \mu_1 \ge \mu_2 \\
+H_1: \mu_1 &lt; \mu_2\]</span></p>
+</div>
+<div id="hypotheses-de-travail" class="slide section level2">
+<h1>Hypothèses de travail</h1>
 <ul>
 <li><p>Il existe différentes méthodes pour tester l’égalité entre deux moyennes.</p></li>
 <li><p>Le choix de la méthode dépend de la nature des données.</p></li>
 <li><p>Avant de réaliser le test il est crucial de se poser quelques questions afin de choisir la méthode appropriée.</p></li>
 <li><p>Il s’agit de <strong>vérifier les hypothèses de travail</strong>, c’est-à-dire des hypothèses sur lesquelles reposera l’approche envisagée.</p></li>
 </ul>
-
-</article></slide><slide class=""><hgroup><h2>Hypothèse de normalité</h2></hgroup><article  id="hypothese-de-normalite" class="smaller ">
-
+</div>
+<div id="hypothese-de-normalite" class="slide section level2">
+<h1>Hypothèse de normalité</h1>
 <p><strong>Les populations dont les échantillons sont tirés suivent-elles des distributions normales ?</strong></p>
-
 <ul>
 <li><p>Si oui on peut réaliser des tests paramétriques (ils reposent sur une hypothèse de normalité). Dans le cas contraire il faut recourir à des tests non-paramétriques.</p>
-
 <p><strong>Pourquoi ?</strong> Les tables de probabilités de risques des tests paramétriques ont été établies sur base de modèles mathématiques reposant sur l’hypothèse de normalité.</p></li>
 <li><p>En cas de non-normalité, <strong>les échantillons sont-ils de grande taille ?</strong> Si oui on peut se rabattre sur les méthodes paramétriques</p>
-
 <p><strong>Pourquoi ?</strong> En vertu du <strong>théorème central limite</strong>, les moyennes d’échantillon tendent vers une normale même si les populations-mères ne sont pas normales.</p></li>
 </ul>
-
-</article></slide><slide class=""><hgroup><h2>Hypothèse d’homoscédasticité (égalité des variances)</h2></hgroup><article  id="hypothese-dhomoscedasticite-egalite-des-variances" class="smaller ">
-
+</div>
+<div id="hypothese-dhomoscedasticite-egalite-des-variances" class="slide section level2">
+<h1>Hypothèse d’homoscédasticité (égalité des variances)</h1>
 <p>Pour les tests paramétriques, <strong>les populations ont-elles (vraisemblablement) la même variance ? </strong></p>
-
 <ul>
 <li><p>Si oui on peut appliquer le test de Student.</p></li>
 <li><p>Dans le cas contraire, test de Welch.</p>
-
 <p><strong>Pourquoi ?</strong> La distribution de probabilité de Student a été calculée sur base d’une hypothèse d’<strong>homoscédasticité</strong> (égalité des variances). Le test de Welch effectue une correction en cas d’<strong>hétéroscédasticité</strong> (inégalité des variances), en modifiant le nombre de degrés de liberté en fonction des différences entre variances.</p></li>
 </ul>
-
-</article></slide><slide class=""><hgroup><h2>Schéma du choix d’un test de comparaison de moyenne</h2></hgroup><article  id="schema-du-choix-dun-test-de-comparaison-de-moyenne" class="smaller ">
-
-<p><img src="figures/sampling-estimation_mean_compa_flowchart-1.png" width="672" style="display: block; margin: auto;" /></p>
-
-</article></slide><slide class=""><hgroup><h2>Test de Student</h2></hgroup><article  id="test-de-student" class="smaller ">
-
+</div>
+<div id="schema-du-choix-dun-test-de-comparaison-de-moyenne" class="slide section level2">
+<h1>Schéma du choix d’un test de comparaison de moyenne</h1>
+<p><img src="figures/sampling-estimation_mean_compa_flowchart-1.png" style="display: block; margin: auto;" /></p>
+</div>
+<div id="test-de-student" class="slide section level2">
+<h1>Test de Student</h1>
 <p>Hypothèses de travail: <strong>normalité</strong> (ou bien grands échantillons), <strong>homoscédasticité</strong>.</p>
-
 <p>Statistique:</p>
-
-<p>\[t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} =  \frac{\bar{x}_{2} - \bar{x}_{1}}{\sqrt{\frac{n_1 s_{1}^2 + n_2 s_{2}^2}{n_1+n_2-2} \left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}}\]</p>
-
-<p>Estimation du risque de faux-positif (<strong><em>P-value</em></strong>): probabilité d’obtenir, <strong><em>sous hypothèse nulle</em></strong> une statistiquue au moins aussi extrême que celle observée. Ce qu’on appellera &ldquo;extrême&rdquo; (la ou les queues de distribution à considérer) dépendra du sens du test.</p>
-
+<p><span class="math display">\[t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} =  \frac{\bar{x}_{2} - \bar{x}_{1}}{\sqrt{\frac{n_1 s_{1}^2 + n_2 s_{2}^2}{n_1+n_2-2} \left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}}\]</span></p>
+<p>Estimation du risque de faux-positif (<strong><em>P-value</em></strong>): probabilité d’obtenir, <strong><em>sous hypothèse nulle</em></strong> une statistiquue au moins aussi extrême que celle observée. Ce qu’on appellera “extrême” (la ou les queues de distribution à considérer) dépendra du sens du test.</p>
 <p><strong><em>Décision:</em></strong></p>
-
 <ul>
-<li>si la P-value est plus faible qu’un seuil fixé (\(\alpha\)), on rejette l’hypothèse nulle (\(RH_0\)) et le test est déclaré positif.</li>
-<li>si la P-value est supérieure au seuil fixé (\(\alpha\)), on accepte l’hypothèse nulle (\(AH_0\)) et le test est déclaré négatif.</li>
+<li>si la P-value est plus faible qu’un seuil fixé (<span class="math inline">\(\alpha\)</span>), on rejette l’hypothèse nulle (<span class="math inline">\(RH_0\)</span>) et le test est déclaré positif.</li>
+<li>si la P-value est supérieure au seuil fixé (<span class="math inline">\(\alpha\)</span>), on accepte l’hypothèse nulle (<span class="math inline">\(AH_0\)</span>) et le test est déclaré négatif.</li>
 </ul>
-
-</article></slide><slide class=""><hgroup><h2>Décision en fonction du sens du test</h2></hgroup><article  id="decision-en-fonction-du-sens-du-test" class="smaller ">
-
-<table class = 'rmdtable'>
-<col width="42.424242%" />
-<col width="57.575758%" />
+</div>
+<div id="decision-en-fonction-du-sens-du-test" class="slide section level2">
+<h1>Décision en fonction du sens du test</h1>
+<table>
+<colgroup>
+<col width="42%" />
+<col width="57%" />
+</colgroup>
+<thead>
 <tr class="header">
-<th align="left">Sens du test</th>
-<th align="left">Critère de décision</th>
+<th>Sens du test</th>
+<th>Critère de décision</th>
 </tr>
+</thead>
+<tbody>
 <tr class="odd">
-<td align="left">Bilatéral</td>
-<td align="left">\(RH_0 \quad \text{if} \quad \lvert t_S \rvert &gt; t_{1-\frac{\alpha}{2}}^{n_1 + n_2 -2}\)</td>
+<td>Bilatéral</td>
+<td><span class="math inline">\(RH_0 \quad \text{if} \quad \lvert t_S \rvert &gt; t_{1-\frac{\alpha}{2}}^{n_1 + n_2 -2}\)</span></td>
 </tr>
 <tr class="even">
-<td align="left">Unilatéral à droite</td>
-<td align="left">\(RH_0 \quad \text{if} \quad t_S &gt; t_{1-\alpha}^{n_1 + n_2 -2}\)</td>
+<td>Unilatéral à droite</td>
+<td><span class="math inline">\(RH_0 \quad \text{if} \quad t_S &gt; t_{1-\alpha}^{n_1 + n_2 -2}\)</span></td>
 </tr>
 <tr class="odd">
-<td align="left">Unilatéral à gauche</td>
-<td align="left">\(RH_0 \quad \text{if} \quad t_S &lt; t_{alpha}^{n_1 + n_2 -2} = - t_{1-\alpha}^{n_1 + n_2 -2}\)</td>
+<td>Unilatéral à gauche</td>
+<td><span class="math inline">\(RH_0 \quad \text{if} \quad t_S &lt; t_{alpha}^{n_1 + n_2 -2} = - t_{1-\alpha}^{n_1 + n_2 -2}\)</span></td>
 </tr>
 <tr class="even">
-<td align="left"></td>
-<td align="left"></td>
+<td></td>
+<td></td>
 </tr>
+</tbody>
 </table>
-
-</article></slide><slide class=""><hgroup><h2>Exercice</h2></hgroup><article  id="exercice" class="smaller ">
-
+</div>
+<div id="exercice" class="slide section level2">
+<h1>Exercice</h1>
 <p>Un chercheur a analysé, à l’aide de biopuces, le niveau d’expression de l’ensemble des gènes à partir d’échantillons sanguins prélevés chez 50 patients (np=50) et chez 50 sujets témoins (nt=50). Il s’intéresse particulièrement à un gène qui semble montrer une différence entre les 2 groupes. Ainsi, il ré-analyse l’expression du même gène dans les mêmes échantillons en utilisant une autre technique, la qPCR. Il obtient</p>
-
 <ul>
-<li>pour les patients, une moyenne \(m_p= 21\)</li>
-<li>pour les contrôles, une moyenne \(m_t= 10\)</li>
-<li>des écarts-types identiques pour les 2 groupes \(s_p= s_t= s = 15\)</li>
+<li>pour les patients, une moyenne <span class="math inline">\(m_p= 21\)</span></li>
+<li>pour les contrôles, une moyenne <span class="math inline">\(m_t= 10\)</span></li>
+<li>des écarts-types identiques pour les 2 groupes <span class="math inline">\(s_p= s_t= s = 15\)</span></li>
 </ul>
-
 <p>Afin de tester si la différence observée entre les moyennes est significative, le chercheur décide d’effectuer un test de Student.</p>
-
-<ol>
+<ol style="list-style-type: lower-alpha">
 <li><p>Le choix du test de Student vous semble-t-il approprié ? Justifiez le choix du chercheur. Quelles auraient été les alternatives envisageables ?</p></li>
 <li><p>Sachant qu’a priori on ne sait pas dans quel sens la maladie pourrait affecter le niveau d’expression du gène, préconisez-vous un test uni- ou bilatéral ?</p></li>
 <li><p>Formulez l’hypothèse nulle et expliquez-la en une phrase.</p></li>
-<li><p>Sur base de la formule ci-dessous, calculez la statistique \(t\) de Student.</p></li>
+<li><p>Sur base de la formule ci-dessous, calculez la statistique <span class="math inline">\(t\)</span> de Student.</p></li>
 <li><p>Indiquez, en vous basant sur les tables fournies, la p-valeur correspondante.</p></li>
 <li><p>Interprétez la p-valeur, et aidez le chercheur à tirer les conclusions de son étude.</p></li>
 </ol>
-
-</article></slide><slide class=""><hgroup><h2>Exercice</h2></hgroup><article  id="exercice-1" class="smaller ">
-
+</div>
+<div id="exercice-1" class="slide section level2">
+<h1>Exercice</h1>
 <p>Un groupe de chercheurs a détecté l’association, avec la résistance à la bilharziose, de taux élevés d’IgE spécifiques, une classe particulière d’anticorps. D’autres chercheurs ont cherché à répliquer ce résultat dans une population indépendante exposée à la bilharziose. Les résultats obtenus sont indiqués ci-dessous.</p>
-
 <ul>
-<li>Pour les sujets résistants (\(n_r=32\)), la moyenne \(m_r=10\).</li>
-<li>Pour les sujets susceptibles (\(n_s=32\)), la moyenne \(m_s=7\).</li>
-<li>Les écarts-types des deux groupes sont égaux : \(s_r = s_s = s = 2.8\).</li>
+<li>Pour les sujets résistants (<span class="math inline">\(n_r=32\)</span>), la moyenne <span class="math inline">\(m_r=10\)</span>.</li>
+<li>Pour les sujets susceptibles (<span class="math inline">\(n_s=32\)</span>), la moyenne <span class="math inline">\(m_s=7\)</span>.</li>
+<li>Les écarts-types des deux groupes sont égaux : <span class="math inline">\(s_r = s_s = s = 2.8\)</span>.</li>
 </ul>
-
-<ol>
+<ol style="list-style-type: lower-alpha">
 <li><p>Quelle méthode préconisez-vous pour tester l’égalité des moyennes (justifiez) ? Quelles sont les hypothèses de travail de ce test ?</p></li>
 <li><p>En partant du principe que ces conditions sont remplies dans le cas présent, formulez l’hypothèse nulle et calculez le score t de Student (formule ci-dessous). Enfin, estimez P valeur à partir de la table fournie.</p></li>
 <li><p>A l’issue du test, quelle décision prenez-vous ? Justifiez votre réponse.</p></li>
-</ol></article></slide>
+</ol>
+</div>
 
-
-  <slide class="backdrop"></slide>
-
-</slides>
-
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
-
-<!-- map slide visiblity events into shiny -->
-<script>
-  (function() {
-    if (window.jQuery) {
-       window.jQuery(document).on('slideleave', function(e) {
-         window.jQuery(e.target).trigger('hidden');
-      });
-       window.jQuery(document).on('slideenter', function(e) {
-         window.jQuery(e.target).trigger('shown');
-      });
-    }
-  })();
-</script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
 
 </body>
 </html>

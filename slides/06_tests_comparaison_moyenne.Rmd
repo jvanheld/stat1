@@ -3,11 +3,6 @@ title: "Tests de comparaison de moyenne"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: yes
-    toc_depth: 3
   html_document:
     fig_caption: yes
     highlight: zenburn
@@ -15,6 +10,11 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -96,24 +96,23 @@ Ce test est utilisé dans un grand nombre de contextes, nous l'appliquerons ici 
 **Principe général:** 
 
 - On observe une différence entre les moyennes d'échantillons, et on veut savoir si celle-ci résulte du hasard de l'échantillonnage ou d'une différence réelle entre les populations. 
-- On pose l'***hypothèse nulle*** ($H_0$) selon laquelle il n'existe pas de différence entre les deux populations. L'***hypothèse alternative*** ($H_1$) est qu'il existe une différence. 
-- On évalue la probabilité que les échantillons aient été générés selon cette hypothèse nulle. 
-- Si cette probabilité est trop faible, on rejette l'hypothèse nulle ($RH_0$). 
+- On oppose deux hypothèses : l'***hypothèse nulle*** ($H_0$), selon laquelle il n'existe pas de différence entre les deux populations, et l'***hypothèse alternative*** ($H_1$), selon laquelle il existe une différence. 
+- On évalue la probabilité qu'un échantillonnage aléatoire sous hypothèse nulle produise une entre moyennes d'échantillons au moins aussi grande que celle qu'on observe (valeur $P$). 
+- Si cette probabilité est très faible, on rejette l'hypothèse nulle ($RH_0$). 
 - Sinon, on accepte (temporairement) l'hypothèse nulle ($AH_0$).
-
 
 
 ## Test bilatéral (*two-tailed test*)
 
+Dans le **test bilatéral** (***two-tailed test***), on désire détecter une éventuelle différence indépendamment de son signe ($\mu_1 > \mu_2$ ou $\mu_2 > \mu_2$). 
+
 $$H_0: \mu_1 = \mu_2 \\
 H_1: \mu_1 \neq \mu_2$$
 
-Il s'agit ici d'un **test bilatéral** (***two-tailed test***): nous désirons détecter une éventuelle différence indépendamment de son signe. 
 
 ## Test unilatéral (*one-tailed test*)
 
-Modalité alternative: **test unilatéral** (***one-tailed test***), où l'on ne s'intéresse qu'à des différences allant dans une direction donnée. 
-
+Dans le **test unilatéral** (***one-tailed test***), on s'intéresse spécifiquement à des différences allant dans une direction donnée. L'hypothèse nulle recouvre donc d'une part l'égalité, et d'autre part les différeences de signe opposé à celui qui nous intéresse. 
 
 Différences positives (*right-tailed test*): 
 
@@ -126,14 +125,13 @@ $$H_0: \mu_1 \ge \mu_2 \\
 H_1: \mu_1 < \mu_2$$
 
 ## Hypothèses de travail
-
 - Il existe différentes méthodes pour tester l'égalité entre deux moyennes. 
 
 - Le choix de la méthode dépend de la nature des données. 
 
 - Avant de réaliser le test il est crucial de se poser quelques questions afin de choisir la méthode appropriée. 
 
-- Il s'agit de **vérifier les hypothèses de travail**, c'est-à-dire des hypothèses sur lesquelles reposera l'approche envisagée. 
+- Il s'agit de **vérifier les hypothèses de travail**, c'est-à-dire des hypothèses *a priori*, sur lesquelles reposera l'approche envisagée. On peut les qualifier de *conditions d'applicabilité* du test. 
 
 ## Hypothèse de normalité
 
@@ -161,7 +159,7 @@ Pour les tests paramétriques, **les populations ont-elles (vraisemblablement) l
     **Pourquoi ?** La distribution de probabilité de Student a été calculée sur base d'une hypothèse d'**homoscédasticité** (égalité des variances). Le test de Welch effectue une correction en cas d'**hétéroscédasticité** (inégalité des variances), en modifiant le nombre de degrés de liberté en fonction des différences entre variances. 
 
     
-## Schéma du choix d'un test de comparaison de moyenne
+## Logigramme du choix d'un test de comparaison de moyenne
 
 ```{r mean_compa_flowchart, fig.width=7, fig.height=6}
 # creates an empty plot
@@ -249,30 +247,30 @@ Statistique:
 
 $$t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} =  \frac{\bar{x}_{2} - \bar{x}_{1}}{\sqrt{\frac{n_1 s_{1}^2 + n_2 s_{2}^2}{n_1+n_2-2} \left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}}$$
 
-Estimation du risque de faux-positif (***P-value***): probabilité d'obtenir, ***sous hypothèse nulle*** une statistiquue au moins aussi extrême que celle observée. Ce qu'on appellera "extrême" (la ou les queues de distribution à considérer) dépendra du sens du test. 
+Estimation du risque de faux-positif (***P-value***): probabilité d'obtenir, ***sous hypothèse nulle*** une statistique au moins aussi extrême que celle observée. Ce qu'on appellera "extrême" (la ou les queues de distribution à considérer) dépendra du sens du test. 
 
-***Décision:*** 
+## Décision
 
 - si la P-value est plus faible qu'un seuil fixé ($\alpha$), on rejette l'hypothèse nulle ($RH_0$) et le test est déclaré positif. 
 - si la P-value est supérieure au seuil fixé ($\alpha$), on accepte l'hypothèse nulle ($AH_0$) et le test est déclaré négatif. 
 
-## Décision en fonction du sens du test
-
 
 | Sens du test   | Critère de décision |
 |----------------------------|--------------------------------------|
-| Bilatéral | $RH_0 \quad \text{if} \quad \lvert t_S \rvert > t_{1-\frac{\alpha}{2}}^{n_1 + n_2 -2}$ |
 | Unilatéral à droite | $RH_0 \quad \text{if} \quad t_S > t_{1-\alpha}^{n_1 + n_2 -2}$ |
 | Unilatéral à gauche | $RH_0 \quad \text{if} \quad t_S < t_{alpha}^{n_1 + n_2 -2} = - t_{1-\alpha}^{n_1 + n_2 -2}$ |
-| | |
+| Bilatéral | $RH_0 \quad \text{if} \quad \lvert t_S \rvert > t_{1-\frac{\alpha}{2}}^{n_1 + n_2 -2}$ |
+
+Pour le test bilatéral, on partage le risque de façon symétrique entre les deux queues en associant $\frac{\alpha}{2}$ à chacune.
+
 
 ## Exercice
 
-Un chercheur a analysé, à l’aide de biopuces, le niveau d’expression de l’ensemble des gènes à partir d’échantillons sanguins prélevés chez 50 patients (np=50) et chez 50 sujets témoins (nt=50). Il s’intéresse particulièrement à un gène qui semble montrer une différence entre les 2 groupes. Ainsi, il ré-analyse l’expression du même gène dans les mêmes échantillons en utilisant une autre technique, la qPCR. Il obtient 
+Un chercheur a analysé, à l’aide de biopuces, le niveau d’expression d'un gène d'intérêt à partir d’échantillons sanguins prélevés chez 50 patients ($n_p=50$) et chez 50 sujets témoins ($n_c=50$). Il obtient 
 
 -	pour les patients, une moyenne $m_p= 21$
--	pour les contrôles, une moyenne $m_t= 10$
--	des écarts-types identiques pour les 2 groupes $s_p= s_t= s = 15$
+-	pour les contrôles, une moyenne $m_c= 10$
+-	des écarts-types d'échantillons sont identiques pour les 2 groupes $s_p = s_c = s = 15$
 
 Afin de tester si la différence observée entre les moyennes est significative, le chercheur décide d’effectuer un test de Student.
 
@@ -291,7 +289,7 @@ f.	Interprétez la p-valeur, et aidez le chercheur à tirer les conclusions de s
 
 ## Exercice
 
-Un groupe de chercheurs a détecté l’association, avec la résistance à la bilharziose, de taux élevés d’IgE spécifiques, une classe particulière d’anticorps. D’autres chercheurs ont cherché à répliquer ce résultat dans une population indépendante exposée à la bilharziose. Les résultats obtenus sont indiqués ci-dessous.
+Un groupe de chercheurs a détecté l’association entre la résistance à la bilharziose et un taux élevé d’IgE spécifiques. D’autres chercheurs ont cherché à répliquer ce résultat dans une population indépendante exposée à la bilharziose. Les résultats obtenus sont indiqués ci-dessous.
 
 -	Pour les sujets résistants ($n_r=32$), la moyenne $m_r=10$.
 -	Pour les sujets susceptibles ($n_s=32$), la moyenne $m_s=7$.

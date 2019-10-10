@@ -7,11 +7,12 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 <meta name="author" content="Jacques van Helden" />
 
-<meta name="date" content="2018-11-19" />
+<meta name="date" content="2019-10-10" />
 
 <title>Eléments d’analyse combinatoire - solutions des exercices</title>
 
@@ -58,9 +59,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -85,58 +84,75 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
 
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 <style type="text/css">
 .code-folding-btn { margin-bottom: 4px; }
 </style>
-<script>
-$(document).ready(function () {
-  window.initializeCodeFolding("hide" === "show");
-});
-</script>
 
 
-
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -185,8 +201,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -195,6 +209,16 @@ div.tocify {
 
 
 </style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row-fluid">
@@ -221,9 +245,9 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Eléments d’analyse combinatoire - solutions des exercices</h1>
-<h3 class="subtitle"><em>Probabilités et statistique pour la biologie (STAT1)</em></h3>
-<h4 class="author"><em>Jacques van Helden</em></h4>
-<h4 class="date"><em>2018-11-19</em></h4>
+<h3 class="subtitle">Probabilités et statistique pour la biologie (STAT1)</h3>
+<h4 class="author">Jacques van Helden</h4>
+<h4 class="date">2019-10-10</h4>
 
 </div>
 
@@ -453,11 +477,11 @@ div.tocify {
 </table>
 <pre><code>AAACCCDDDEEEFFFGGGHHHIIIKKKLLLMMMNNNPPPQQQRRRSSSTTTVVVWWWYYY</code></pre>
 <p>Les permutations de ces 60 lettres sont des solutions valudes. En voici trois exemples.</p>
-<pre><code>NEITSRMEKAMQILYRICPNSGDLQWFECNTGSKARYGYKWVWHMDPLVAQCHFTHDFVP</code></pre>
-<pre><code>TFGDLYGVNAWLVHEMKVDAEYPSLCTQTRCWMNGPQIKAMWKSCRSYNDQIFHHIPREF</code></pre>
-<pre><code>TQVEYMCDDAKPPARIKRIKAHINYMLSWLWSFPGVCMGNCTGVQQNHYDSWTEFFEHLR</code></pre>
+<pre><code>KFWNGHYLLSERRFIWTDRAYPIQWYKDAGEMPTEMHNNVMKTCGLVQCSPASHDCVQIF</code></pre>
+<pre><code>TWKNCFEWMLHSLGVTMGQVIYNSAKQSWLHNAPFGCFPEYYQDITDPIRHARKMCREVD</code></pre>
+<pre><code>TWMLCQSRYFWQPPDTDCVIKQYYGNTKIVGSKMNDLHVESCFHGAIPFRLEAAHMNREW</code></pre>
 <pre><code>...</code></pre>
-<pre><code>AFYTMLPISPGDHERQCKLREPDDNNVKYQSCVTCIYEALISVMWHWQFKTGAWGRHNFM</code></pre>
+<pre><code>GEQNAGFSYFYRQKYIKDRRCALPLSMIVCQMWPVKHSWGNEPWVDTHLDTCAINFTHEM</code></pre>
 <p>Le nombre total de permutations possibles parmi 60 éléments est <span class="math inline">\(60! = 8.3209871\times 10^{81}\)</span>. Cependant, cenombre dépasse de loin le nombre de séquences distinctes. En effet, dans chacune des séquences ci-dessus, chaque lettre apparaît 3 fois. Or, des permutations entre les trois positions occupées par des <span class="math inline">\(A\)</span> ne changeront pas la séquence. Il en va de même pour les permutations entre les positions occupées par chacun des acides aminées : <span class="math inline">\(A\)</span>, <span class="math inline">\(C\)</span>, <span class="math inline">\(D\)</span>, <span class="math inline">\(\ldots\)</span></p>
 <p>Il faut donc diviser le nombre total de permutations (<span class="math inline">\(60!\)</span>) par le nombre de permutations qui ne modifient pas la séquence: <span class="math inline">\(3!\)</span> pour <span class="math inline">\(A\)</span>, <span class="math inline">\(3!\)</span> pour <span class="math inline">\(D\)</span>, et ainsi de suite pour chacun des 20 acides aminés.</p>
 <p>La formule finale est donc:</p>
@@ -482,6 +506,54 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

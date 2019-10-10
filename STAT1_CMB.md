@@ -39,8 +39,8 @@ Applications to biology will include:
 - pattern matching 
 - alignment of next generation sequencing (NGS) short reads on a reference genome
 - annotation of open reading frames (ORFs) in a genome
-- functional enrichment analysis
 - detection of differentially expressed genes
+- functional enrichment analysis (reported to course STAT2 of second semester 2019)
 
 
 ### 2019 calendar
@@ -81,8 +81,8 @@ Oct
 | 03/10 | 14h - 17h | Practical 2 | Solution: Analysis of a genome annotation table | [[html](practicals/02_yeast_annotations/02_yeast_annotations_EN_solutions.html)] [[pdf](practicals/02_yeast_annotations/02_yeast_annotations_EN_solutions.pdf)] [[Rmd](practicals/02_yeast_annotations/02_yeast_annotations_EN_solutions.Rmd)] |
 |  |  | Practical 2 | Analysis of a genome annotation table | [[html](practicals/02_yeast_annotations/02_yeast_annotations_EN.html)] [[pdf](practicals/02_yeast_annotations/02_yeast_annotations_EN.pdf)] [[Rmd](practicals/02_yeast_annotations/02_yeast_annotations_EN.Rmd)] |
 | 04/10 | 09h - 12h | Lecture | Mean comparison tests |  [[html](slides/06_mean_comparison_tests_EN.html)] [[pdf](slides/06_mean_comparison_tests_EN.pdf)] [[Rmd](slides/06_mean_comparison_tests_EN.Rmd)] |
-| 04/10 | 09h - 12h | Practical 3 | Mean comparison tests |  [[html](practicals/03_test_comparaison_moyennes/03_test_comparaison_moyennes.html)] [[pdf](practicals/03_test_comparaison_moyennes/03_test_comparaison_moyennes.pdf)] [[Rmd](practicals/03_test_comparaison_moyennes/03_test_comparaison_moyennes.Rmd)] |
-
+| 04/10 | 9h-10h | Practical 4 | Microarray data |  [[html](practicals/Den_Boer_use_case/Den_Boer_use_case.htmll)] [[pdf](practicals/Den_Boer_use_case/Den_Boer_use_case.pdf)] [[Rmd](practicals/Den_Boer_use_case/Den_Boer_use_case.Rmd)] |
+| 10/10 | 14h-17h | Practical 4 | Preparation of the personal work | [[html](practicals/differential_analysis/differential_analysis_exercises.html)] [[pdf](practicals/differential_analysis/differential_analysis_exercises.pdf)] [[Rmd](practicals/differential_analysis/differential_analysis_exercises.Rmd)] |
 
 
 

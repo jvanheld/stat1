@@ -85,7 +85,7 @@ Oct
 | 04/10 | 9h-10h | Practical 4 | Microarray data |  [[html](practicals/Den_Boer_use_case/Den_Boer_use_case.htmll)] [[pdf](practicals/Den_Boer_use_case/Den_Boer_use_case.pdf)] [[Rmd](practicals/Den_Boer_use_case/Den_Boer_use_case.Rmd)] |
 | 10/10 | 14h-17h | Practical 4 | Preparation of the personal work | [[html](practicals/differential_analysis/differential_analysis_exercises.html)] [[pdf](practicals/differential_analysis/differential_analysis_exercises.pdf)] [[Rmd](practicals/differential_analysis/differential_analysis_exercises.Rmd)] |
 
-
+New
 
 ****************************************************************
 ### Access

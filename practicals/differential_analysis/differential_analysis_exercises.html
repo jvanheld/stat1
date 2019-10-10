@@ -29,6 +29,105 @@
 <script src="differential_analysis_exercises_files/navigation-1.1/codefolding.js"></script>
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  { color: #cccccc; background-color: #303030; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ffcfaf; } /* Alert */
+code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #dca3a3; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #f0dfaf; } /* ControlFlow */
+code span.ch { color: #dca3a3; } /* Char */
+code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code span.co { color: #7f9f7f; } /* Comment */
+code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code span.do { color: #7f9f7f; } /* Documentation */
+code span.dt { color: #dfdfbf; } /* DataType */
+code span.dv { color: #dcdccc; } /* DecVal */
+code span.er { color: #c3bf9f; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #c0bed1; } /* Float */
+code span.fu { color: #efef8f; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+code span.kw { color: #f0dfaf; } /* Keyword */
+code span.op { color: #f0efd0; } /* Operator */
+code span.ot { color: #efef8f; } /* Other */
+code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code span.sc { color: #dca3a3; } /* SpecialChar */
+code span.ss { color: #cc9393; } /* SpecialString */
+code span.st { color: #cc9393; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #cc9393; } /* VerbatimString */
+code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
 
 
 <style type="text/css">
@@ -352,7 +451,7 @@ div.tocify {
 </thead>
 <tbody>
 <tr class="odd">
-<td>JvH</td>
+<td>JvH + you</td>
 <td>1. Impact of the difference between the means</td>
 </tr>
 <tr class="even">
@@ -390,6 +489,195 @@ div.tocify {
 <li><p>Results and interpretation: summarize your results with figures and tables, document the figures and tables with detailed legends, and add an interpretation of what we see in the results section.</p></li>
 <li><p>Summary and conclusion: summarize the results in 2-3 sentences and conclude about the effect you wanted to test.</p></li>
 </ul>
+</div>
+<div id="recommendations" class="section level2">
+<h2>Recommendations</h2>
+<div id="coding-recommendations" class="section level3">
+<h3>Coding recommendations</h3>
+<ol style="list-style-type: decimal">
+<li>Choose a consistent coding style, consistent with a reference style guide (e.g. <a href="https://google.github.io/styleguide/Rguide.html">Google R Syle Guide</a>)</li>
+<li>Name each chunk of R code</li>
+<li><p>Define your variables with explicit names (sigma, mu rather than a, b, c, …)</p></li>
+<li><p>Comment your code</p>
+<ul>
+<li>indicate what each variable represents</li>
+<li>before each segment of code, explain what it will do</li>
+</ul></li>
+<li><p>Ensure consistency between the code and the report <span class="math inline">\(\rightarrow\)</span> inject the actual values of the R variables in the markdown.</p></li>
+</ol>
+</div>
+<div id="scientific-recommendations" class="section level3">
+<h3>Scientific recommendations</h3>
+<ol style="list-style-type: decimal">
+<li>Explicitly formulate the statistical hypotheses before running a test.</li>
+<li>Discuss the assumptions underlying the test: are they all fulfilled? If not explain why (e.g. because we want to test the impact of this parameter, …)</li>
+</ol>
+</div>
+</div>
+<div id="tutorial" class="section level2">
+<h2>Tutorial</h2>
+<div id="define-your-parameters" class="section level3">
+<h3>Define your parameters</h3>
+<p>We draw samples from random data generated following normal distributions with the following parameters. For this we use R <code>rnorm()</code> function.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">## Define parameters</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">mu1 &lt;-<span class="st"> </span><span class="dv">0</span> <span class="co"># mean of the first population</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">mu2 &lt;-<span class="st"> </span><span class="dv">0</span> <span class="co"># mean of the second population</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">sigma1 &lt;-<span class="st"> </span><span class="dv">1</span> <span class="co"># standard deviation of the first population</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">sigma2 &lt;-<span class="st"> </span><span class="dv">1</span> <span class="co"># standard deviation of the second population</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">n1 &lt;-<span class="st"> </span><span class="dv">10</span> <span class="co"># sample size for the first group</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">n2 &lt;-<span class="st"> </span><span class="dv">10</span> <span class="co"># ssample size for second group</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">alpha &lt;-<span class="st"> </span><span class="fl">0.05</span> <span class="co"># Probability of the first kind error, used as threshold on p-value</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">r &lt;-<span class="st"> </span><span class="dv">10000</span> <span class="co"># Number of replicates of the test</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">## A trick for this report: let us set an arbitrary seed in order to ensure consistency between the interpretations across subsequent runs of the markdown</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">## </span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">## I take 42, Deep Thought&#39;s Answer to the Ultimate Question of Life, the Universe, and Everything (42)</span></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="kw">set.seed</span>(<span class="dt">seed =</span> <span class="dv">42</span>)</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\mu_1\)</span></td>
+<td>0</td>
+<td>Mean of the first population</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mu_2\)</span></td>
+<td>0</td>
+<td>Mean of the second population</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\sigma_1\)</span></td>
+<td>1</td>
+<td>Standard deviation of the first population</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\sigma_2\)</span></td>
+<td>1</td>
+<td>Standard deviation of the second population</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(n_1\)</span></td>
+<td>10</td>
+<td>Sample size for the first group</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(n_2\)</span></td>
+<td>10</td>
+<td>Sample size for the second group</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="generate-one-test-set-1-sample-from-each-population" class="section level3">
+<h3>Generate one test set (1 sample from each population)</h3>
+<p>The table below shows the values of the two samples (rounded to two decimals for the sake of readability).</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">## Generate two vectors containing the values for sample 1 and sample 2, resp.</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">x1 &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> n1, <span class="dt">mean =</span> mu1, <span class="dt">sd =</span> sigma1) <span class="co">## sample 1 values</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">x2 &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> n2, <span class="dt">mean =</span> mu2, <span class="dt">sd =</span> sigma2) <span class="co">## sample 2 values</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw">kable</span>(<span class="kw">t</span>(<span class="kw">data.frame</span>(<span class="dt">x1 =</span> <span class="kw">round</span>(<span class="dt">digits =</span> <span class="dv">2</span>, x1), </a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">                   <span class="dt">x2 =</span> <span class="kw">round</span>(<span class="dt">digits =</span> <span class="dv">2</span>, x2))),</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">      <span class="dt">col.names =</span> <span class="dv">1</span><span class="op">:</span>n1</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">      )</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">1</th>
+<th align="right">2</th>
+<th align="right">3</th>
+<th align="right">4</th>
+<th align="right">5</th>
+<th align="right">6</th>
+<th align="right">7</th>
+<th align="right">8</th>
+<th align="right">9</th>
+<th align="right">10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>x1</td>
+<td align="right">1.37</td>
+<td align="right">-0.56</td>
+<td align="right">0.36</td>
+<td align="right">0.63</td>
+<td align="right">0.40</td>
+<td align="right">-0.11</td>
+<td align="right">1.51</td>
+<td align="right">-0.09</td>
+<td align="right">2.02</td>
+<td align="right">-0.06</td>
+</tr>
+<tr class="even">
+<td>x2</td>
+<td align="right">1.30</td>
+<td align="right">2.29</td>
+<td align="right">-1.39</td>
+<td align="right">-0.28</td>
+<td align="right">-0.13</td>
+<td align="right">0.64</td>
+<td align="right">-0.28</td>
+<td align="right">-2.66</td>
+<td align="right">-2.44</td>
+<td align="right">1.32</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="run-student-test" class="section level3">
+<h3>Run Student test</h3>
+<p>Since we are interested by differences in either directions, we run a two-tailed test.</p>
+<p>Hypotheses:</p>
+<p><span class="math display">\[H_0: \mu_1 = \mu2\]</span></p>
+<p><span class="math display">\[H_1: \mu_1 \ne \mu2\]</span></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">## Run Sudent t test on one pair of samples</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">t.result &lt;-<span class="st"> </span><span class="kw">t.test</span>(</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">  <span class="dt">x =</span> x1, <span class="dt">y =</span> x2, </a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">  <span class="dt">alternative =</span> <span class="st">&quot;two.sided&quot;</span>, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">## Print the result of the t test</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="kw">print</span>(t.result)</a></code></pre></div>
+<pre><code>
+    Two Sample t-test
+
+data:  x1 and x2
+t = 1.2268, df = 18, p-value = 0.2357
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.506473  1.927980
+sample estimates:
+ mean of x  mean of y 
+ 0.5472968 -0.1634567 </code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co">## Compute some statistics about the samples</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">mean1 &lt;-<span class="st"> </span><span class="kw">mean</span>(x1) <span class="co">## Mean of sample 1</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">mean2 &lt;-<span class="st"> </span><span class="kw">mean</span>(x2) <span class="co">## Mean of sample 2</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">d &lt;-<span class="st"> </span>mean2 <span class="op">-</span><span class="st"> </span>mean1 <span class="co">## Difference between sample means</span></a></code></pre></div>
+</div>
+<div id="interpret-the-result" class="section level3">
+<h3>Interpret the result</h3>
+<p>The difference between sample means was <span class="math inline">\(d = -0.71\)</span>. The <span class="math inline">\(t\)</span> test returned a p-value <span class="math inline">\(p = 0.236\)</span>, which is much higher than our threshold <span class="math inline">\(alpha = 0.05\)</span>.</p>
+<p>bla … bla … bla (to be completed)</p>
+</div>
+<div id="how-to-do-run-10000-tests-efficiently" class="section level3">
+<h3>How to do run <span class="math inline">\(10,000\)</span> tests efficiently?</h3>
+<p>Loops are not very efficient in R. However for this course we will use a loop, for the sake of facility.</p>
+<p>In the second semester we will learn a more efficient way of running replicated tasks: organise the data in a table, then define a function that runs one test, and use <code>apply()</code> to run the test on each line of the table</p>
+<p>Let us generate two data frames</p>
+<ul>
+<li><span class="math inline">\(X_1\)</span> : <span class="math inline">\(r = 10^{4}\)</span> samples drawn from the first population</li>
+<li><span class="math inline">\(X_2\)</span>: <span class="math inline">\(r = 10^{4}\)</span> samples drawn from the second population</li>
+</ul>
+</div>
 </div>
 
 

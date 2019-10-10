@@ -188,10 +188,147 @@ Each student will develop an analysis to test one particular question.
 
 - Summary and conclusion: summarize the results in 2-3 sentences and conclude about the effect you wanted to test. 
 
+## Recommendations
+
+
+### Coding recommendations
+
+1. Choose a consistent coding style, consistent with a reference  style guide (e.g. [Google R Syle Guide](https://google.github.io/styleguide/Rguide.html))
+1. Name each chunk of R code
+2. Define your variables with explicit names (sigma, mu rather than a, b, c, ...)
+
+3. Comment your code
+
+    - indicate what each variable represents
+    - before each segment of code, explain what it will do
+
+4. Ensure consistency between the code and the report $\rightarrow$ inject the actual values of the R variables in the markdown. 
+
+### Scientific recommendations
+
+1. Explicitly formulate the statistical hypotheses before running a test.
+2. Discuss the assumptions underlying the test: are they all fulfilled? If not explain why (e.g. because we want to test the impact of this parameter, ...) 
+
+## Tutorial
+
+
+### Define your parameters
+
+We draw samples from random data generated following normal distributions with the following parameters. For this we use R `rnorm()` function. 
+
+
+```{r parameters}
+## Define parameters
+mu1 <- 0 # mean of the first population
+mu2 <- 0 # mean of the second population
+sigma1 <- 1 # standard deviation of the first population
+sigma2 <- 1 # standard deviation of the second population
+n1 <- 10 # sample size for the first group
+n2 <- 10 # ssample size for second group
+
+alpha <- 0.05 # Probability of the first kind error, used as threshold on p-value
+
+r <- 10000 # Number of replicates of the test
+
+## A trick for this report: let us set an arbitrary seed in order to ensure consistency between the interpretations across subsequent runs of the markdown
+## 
+## I take 42, Deep Thought's Answer to the Ultimate Question of Life, the Universe, and Everything (42)
+set.seed(seed = 42)
+
+```
+
+
+| Parameter | Value | Description | 
+|-----------|-------|-------------------|
+| $\mu_1$ | `r mu1` | Mean of the first population | 
+| $\mu_2$ | `r mu2` | Mean of the second population | 
+| $\sigma_1$ | `r sigma1` | Standard deviation of the first population | 
+| $\sigma_2$ | `r sigma1` | Standard deviation of the second population | 
+| $n_1$ | `r n1` | Sample size for the first group | 
+| $n_2$ | `r n2` | Sample size for the second group | 
+
+
+### Generate one test set (1 sample from each population)
+
+
+The table below shows the values of the two samples (rounded to two decimals for the sake of readability). 
+
+```{r random_data_for_one_test}
+## Generate two vectors containing the values for sample 1 and sample 2, resp.
+x1 <- rnorm(n = n1, mean = mu1, sd = sigma1) ## sample 1 values
+x2 <- rnorm(n = n2, mean = mu2, sd = sigma2) ## sample 2 values
+
+kable(t(data.frame(x1 = round(digits = 2, x1), 
+                   x2 = round(digits = 2, x2))),
+      col.names = 1:n1
+      )
+
+```
+
+
+### Run Student test
+
+Since we are interested by differences in either directions, we run a two-tailed test. 
+
+Hypotheses: 
+
+$$H_0: \mu_1 = \mu2$$
+
+$$H_1: \mu_1 \ne \mu2$$
+
+
+```{r one_t_test}
+
+## Run Sudent t test on one pair of samples
+t.result <- t.test(
+  x = x1, y = x2, 
+  alternative = "two.sided", var.equal = TRUE)
+
+## Print the result of the t test
+print(t.result)
+
+## Compute some statistics about the samples
+mean1 <- mean(x1) ## Mean of sample 1
+mean2 <- mean(x2) ## Mean of sample 2
+d <- mean2 - mean1 ## Difference between sample means
+
+```
 
 
 
+###  Interpret the result
 
+The difference between sample means was $d = `r round(digits = 2, d)`$. 
+The $t$ test returned a p-value  $p = `r signif(digits = 3, t.result$p.value)`$, which is much higher than our threshold $alpha = `r alpha`$. 
+
+
+bla ... bla ... bla (to be completed)
+
+### How to do run $10,000$ tests efficiently?
+
+Loops are not very efficient in R. However for this course we will use a loop, for the sake of facility. 
+
+In the second semester we will learn a more efficient way of running replicated tasks: organise the data in a table, then define a function that runs one test, and use `apply()` to run the test on each line of the table
+
+
+Let us generate two data frames
+
+- $X_1$ : $r = `r r`$ samples drawn from the first population
+- $X_2$: $r = `r r`$ samples drawn from the second population
+
+```{r generate_data_tables}
+
+## Draw r samples of size n1 from the first population
+X1 <- data.frame(
+  matrix(nrow = r, ncol = n1, 
+         data = rnorm(n = r * n1, 
+                      mean = mu1, 
+                      sd = sigma1))
+)
+# dim(X1)
+# View(X1)
+
+```
 
 
 

@@ -264,29 +264,78 @@ div.tocify {
 </ul>
 <p>We will then run different tests and compare their performances by measuring the power and false positive rates.</p>
 </div>
+<div id="performances-of-the-tests" class="section level2">
+<h2>Performances of the tests</h2>
+<p>We will measure the performances of a test by running <span class="math inline">\(r = 10,000\)</span> times under <span class="math inline">\(H_0\)</span>, and <span class="math inline">\(r = 10,000\)</span> times under <span class="math inline">\(H_1\)</span>.</p>
+<ul>
+<li>count the number of <span class="math inline">\(FP\)</span>, <span class="math inline">\(TP\)</span>, <span class="math inline">\(FN\)</span>, <span class="math inline">\(TN\)</span></li>
+<li>summarise the result in a confusion table</li>
+<li>compute the derived statistics: <span class="math inline">\(FPR\)</span>, <span class="math inline">\(FDR\)</span> and <span class="math inline">\(Sn\)</span></li>
+</ul>
+</div>
 <div id="questions" class="section level2">
 <h2>Questions</h2>
-<div id="impact-of-non-normality-on-student-test" class="section level3">
-<h3>1. Impact of non-normality on Student test</h3>
-<p>Generate random numbers following either a normal or a Poisson distribution.</p>
-</div>
-<div id="impact-of-heteroscedasticity" class="section level3">
-<h3>2. Impact of heteroscedasticity</h3>
-<p>Generate random numbers following a normal distribution with either equal or unequal variances (test different values). Run Student and Welch test on both data types, and measure the sensitivity and power of the respective tests.</p>
+<div id="impact-of-the-difference-between-the-means" class="section level3">
+<h3>1. Impact of the difference between the means</h3>
+<p>We test the impact of the actual difference between population means on the performances of the Student test. For this, generate random datasets compliant with the assumptions (normality, homoscedasticity) but with a set of increasing differences between sample means.</p>
+<p>In all cases, we will set the standard deviation to <span class="math inline">\(\sigma = 1\)</span>.</p>
+<table>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(\mu_1\)</span></th>
+<th><span class="math inline">\(\mu_2\)</span></th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td><span class="math inline">\(H_0\)</span></td>
+</tr>
+<tr class="even">
+<td>-0.1</td>
+<td>0.1</td>
+<td><span class="math inline">\(H_1\)</span></td>
+</tr>
+<tr class="odd">
+<td>-1</td>
+<td>1</td>
+<td><span class="math inline">\(H_1\)</span></td>
+</tr>
+<tr class="even">
+<td>-10</td>
+<td>10</td>
+<td><span class="math inline">\(H_1\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Maybe other values if you have time and if it brings additional insight.</p>
 </div>
 <div id="impact-of-sample-size" class="section level3">
 <h3>3. Impact of sample size</h3>
-<p>Generate random numbers following a normal distribution, with equal variances, but with a series of different sample sizes.</p>
+<p>Generate random numbers following a normal distribution, with equal variances, but with a series of different sample sizes (<span class="math inline">\(n = {2, 4, 16, 64}\)</span>).</p>
 <p>Run Student test and evaluate the impact of sample size on the rate of false positive and power of the test.</p>
 </div>
+<div id="impact-of-variance" class="section level3">
+<h3>4. Impact of variance</h3>
+<p>Generate random numbers following a normal distribution, with equal sample sizes (<span class="math inline">\(n_1 = n_2 = 10\)</span>), but with a series of different standard deviations (<span class="math inline">\(\sigma = {0.1, 1, 10, 100}\)</span>).</p>
+<p>Run Student test and evaluate the impact of sample size on the rate of false positive and power of the test.</p>
+</div>
+<div id="impact-of-non-normality-on-student-test" class="section level3">
+<h3>5. Impact of non-normality on Student test</h3>
+<p>Generate random numbers following either a normal or a Poisson distribution.</p>
+<p>1a. Small samples: <span class="math inline">\(n_1 = n_2 = 4\)</span> 1b. Large samples: <span class="math inline">\(n_1 = n_2 = 50\)</span></p>
+</div>
+<div id="impact-of-heteroscedasticity-on-student-test" class="section level3">
+<h3>6. Impact of heteroscedasticity on Student test</h3>
+<p>Generate random numbers following a normal distribution with either equal or unequal variances (test different values). Run Student test on both data types, and measure the sensitivity and power of the respective tests.</p>
+</div>
 <div id="parametric-versus-non-parametric-tests" class="section level3">
-<h3>4. Parametric versus non-parametric tests</h3>
+<h3>7. Parametric versus non-parametric tests</h3>
 <p>Generate random numbers following a normal and some non-normal distribution of your choice (e.g. uniform). Run a parametric and a non-parametric test and compare the performances in terms fo power and false positive rate.</p>
 </div>
 <div id="section" class="section level3">
-<h3>5.</h3>
-</div>
-<div id="section-1" class="section level3">
 <h3>6.</h3>
 <p>Each student will develop an analysis to test one particular question.</p>
 <table>
@@ -313,8 +362,34 @@ div.tocify {
 </table>
 </div>
 </div>
-<div id="section-2" class="section level2">
-<h2></h2>
+<div id="expected-results" class="section level2">
+<h2>Expected results</h2>
+<ul>
+<li><p>Descriptive statistics (explor your data):</p>
+<ul>
+<li>graphical representations of the data (use whatever you like: histograms, boxplots, violin plots, dot plots, …)</li>
+<li>descriptive parameters of your samples (distribution of sample means, sample sd, …)</li>
+</ul></li>
+<li>Histogram of the p-values (20 bins) for all the cases under <span class="math inline">\(H_0\)</span>, and under <span class="math inline">\(H_1\)</span>, resp.</li>
+<li><p>Volcano plot for all the cases under <span class="math inline">\(H_0\)</span>, and under <span class="math inline">\(H_1\)</span>, resp.</p></li>
+<li><p>Indicators: <span class="math inline">\(FPR\)</span>, <span class="math inline">\(FDR\)</span>, <span class="math inline">\(Sn\)</span>, <span class="math inline">\(E-value\)</span> for threshold values <span class="math inline">\(alpha = 0.05\)</span>, <span class="math inline">\(alpha = 0.01\)</span>, , <span class="math inline">\(alpha = 0.001\)</span></p></li>
+</ul>
+</div>
+<div id="report-format" class="section level2">
+<h2>Report format</h2>
+<ul>
+<li>R markdown (must be able to run on my machine)</li>
+<li>either a pdf or a self-contained HTML (preferred because easier to browse tables are better formatted)</li>
+</ul>
+</div>
+<div id="structure-of-the-report" class="section level2">
+<h2>Structure of the report</h2>
+<ul>
+<li><p>Introduction: explain the question addressed in your specific report, and the expected outcome of what you are testing (do you expect an increase of FP ? a loss in sensitivity ? …).</p></li>
+<li><p>Setting of the experiment: write explicitly the configuration of your tests (distributions, parameters)</p></li>
+<li><p>Results and interpretation: summarize your results with figures and tables, document the figures and tables with detailed legends, and add an interpretation of what we see in the results section.</p></li>
+<li><p>Summary and conclusion: summarize the results in 2-3 sentences and conclude about the effect you wanted to test.</p></li>
+</ul>
 </div>
 
 

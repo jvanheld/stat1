@@ -117,28 +117,32 @@ In all cases, we will set the standard deviation to $\sigma = 1$.
  
  Maybe other values if you have time and if it brings additional insight. 
  
-### 3. Impact of sample size
+### 2. Impact of sample size
 
 Generate random numbers following a normal distribution, with equal variances, but with a series of different sample sizes ($n = {2, 4, 16, 64}$). 
 
 Run Student test and evaluate the impact of sample size on the rate of false positive and power of the test. 
 
-### 4. Impact of variance
+### 3. Impact of variance
 
 Generate random numbers following a normal distribution, with equal sample sizes ($n_1 = n_2 = 10$), but with a series of different standard deviations ($\sigma = {0.1, 1, 10, 100}$). 
 
 Run Student test and evaluate the impact of sample size on the rate of false positive and power of the test. 
 
-### 5. Impact of non-normality on Student test
+### 4. Impact of non-normality on Student test
 
 Generate random numbers following either a normal or a Poisson distribution. 
 
 1a. Small samples: $n_1 = n_2 = 4$
 1b. Large samples: $n_1 = n_2 = 50$
 
-### 6. Impact of heteroscedasticity on Student test
+### 5. Impact of heteroscedasticity on Student test
 
 Generate random numbers following a normal distribution with either equal or unequal variances (test different values). Run Student test on both data types, and measure the sensitivity and power of the respective tests. 
+
+### 6. Impact of homoscedasticity on Welch test
+
+Generate random numbers following a normal distribution with either equal or unequal variances (test different values). Run Welch test on both data types, and measure the sensitivity and power of the respective tests. 
 
 
 ### 7. Parametric versus non-parametric tests
@@ -146,16 +150,14 @@ Generate random numbers following a normal distribution with either equal or une
 Generate random numbers following a normal and some non-normal distribution of your choice (e.g. uniform). Run a parametric and a non-parametric test and compare the performances in terms fo power and false positive rate. 
 
 
-### 6. 
-
+## Assignation of the tasks
 
 Each student will develop an analysis to test one particular question. 
 
 | Student | Question |
 |---------|-----------------------------|
-|    | Impact of non-normality  |
-|    | Impact of non-heteorscedasticity  |
-|    | Impact of non-heteorscedasticity  |
+| JvH  + you | 1. Impact of the difference between the means  |
+|    |   |
 
 
 ## Expected results

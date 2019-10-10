@@ -10,6 +10,68 @@
   <meta name="date" content="2019-10-10" />
   <title>Mean comparison tests</title>
   <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { background-color: #f8f8f8; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
   <script src="06_mean_comparison_tests_EN_files/jquery-1.11.3/jquery.min.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="06_mean_comparison_tests_EN_files/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
@@ -51,18 +113,24 @@ Jacques van Helden
 <div id="two-tailed-test" class="slide section level2">
 <h1>Two-tailed test</h1>
 <p>In the <strong><em>two-tailed test</em></strong>, we are a priori interested by a difference in either direction (<span class="math inline">\(\mu_1 &gt; \mu_2\)</span> or <span class="math inline">\(\mu_2 &gt; \mu_2\)</span>).</p>
-<p><span class="math display">\[H_0: \mu_1 = \mu_2 \\
-H_1: \mu_1 \neq \mu_2\]</span></p>
+<p><span class="math display">\[\begin{aligned}
+H_0: \mu_1 = \mu_2 \\
+H_1: \mu_1 \neq \mu_2
+\end{aligned}\]</span></p>
 </div>
 <div id="one-tailed-test" class="slide section level2">
 <h1>One-tailed test</h1>
 <p>In the <strong><em>one–tailed test</em></strong>, we are specifically interested by detecting differences with a given sign. The null hypothesis thus covers both the equality and the differences with the opposite sign.</p>
 <p>Positive difference (<em>right-tailed test</em>):</p>
-<p><span class="math display">\[H_0: \mu_1 \le \mu_2 \\
-H_1: \mu_1 &gt; \mu_2\]</span></p>
+<p><span class="math display">\[\begin{aligned}
+H_0: \mu_1 \le \mu_2 \\
+H_1: \mu_1 &gt; \mu_2
+\end{aligned}\]</span></p>
 <p>Negative difference (<em>left-tailed test</em>):</p>
-<p><span class="math display">\[H_0: \mu_1 \ge \mu_2 \\
-H_1: \mu_1 &lt; \mu_2\]</span></p>
+<p><span class="math display">\[\begin{aligned}
+H_0: \mu_1 \ge \mu_2 \\
+H_1: \mu_1 &lt; \mu_2
+\end{aligned}\]</span></p>
 </div>
 <div id="assumptions" class="slide section level2">
 <h1>Assumptions</h1>
@@ -102,6 +170,119 @@ H_1: \mu_1 &lt; \mu_2\]</span></p>
 <p>Assumptions: <strong>normalité</strong> (or large samples), <strong>homoscedasticity</strong>.</p>
 <p>Student’s statistics:</p>
 <p><span class="math display">\[t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} =  \frac{\bar{x}_{2} - \bar{x}_{1}}{\sqrt{\frac{n_1 s_{1}^2 + n_2 s_{2}^2}{n_1+n_2-2} \left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}}\]</span></p>
+</div>
+<div id="population-and-sample-parameters" class="slide section level2">
+<h1>Population and sample parameters</h1>
+<p>For a finite population, the <strong><em>population parameters</em></strong> are computed as follows.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Population mean</td>
+<td><span class="math inline">\(\mu = \frac{1}{N}\sum_{i=1}^{N} x_i\)</span></td>
+</tr>
+<tr class="even">
+<td>Population variance</td>
+<td><span class="math inline">\(\sigma^2 = \frac{1}{N}\sum_{i=1}^{N} (x_i - \mu)^2\)</span></td>
+</tr>
+<tr class="odd">
+<td>Population standard deviation</td>
+<td><span class="math inline">\(\sigma = \sqrt{\sigma^2}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Where <span class="math inline">\(x_i\)</span> is the <span class="math inline">\(i^{th}\)</span> measurement, and <span class="math inline">\(N\)</span> the population size.</p>
+<p>However, in practice we are generally not in state to measure <span class="math inline">\(x_i\)</span> for all individuals of the population. We thus we have to <strong><em>estimate</em></strong> the population parameters (<span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma^2\)</span>) from a <strong><em>sample</em></strong>.</p>
+<p><strong><em>Sample parameters</em></strong> are computed with the same formulas, restricted to a subset of the population.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sample mean</td>
+<td><span class="math inline">\(\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i\)</span></td>
+</tr>
+<tr class="even">
+<td>Sample variance</td>
+<td><span class="math inline">\(s^2 = \frac{1}{n}\sum_{i=1}^{n} (x_i - \bar{x})^2\)</span></td>
+</tr>
+<tr class="odd">
+<td>Sample standard deviation</td>
+<td><span class="math inline">\(s = \sqrt{s^2}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>where <span class="math inline">\(n\)</span> is the sample size (number of sampled individuals), and <span class="math inline">\(\bar{x}\)</span> the sample mean.</p>
+</div>
+<div id="sampling-issues-why-n-1-and-not-simply-n" class="slide section level2">
+<h1>Sampling issues: why <em>n-1</em> and not simply <em>n</em>?</h1>
+<p>The sample mean is an <strong><em>unbiased estimator</em></strong> of the population mean. Each time we select a sample we should expect some random fluctuations, but if we perform an infinite number of sampling trials, and compute the mean of each of these samples, the mean of all these sample means tends towards the actual mean of the population.</p>
+<p>On the contrary, the sample variance is a <strong><em>biased estimator</em></strong> of the population variance. On the average, the sample variance under-estimates the population variance, but this can be fixed by multiplying it by a simple correcting factor: <span class="math inline">\(n / (n - 1)\)</span>.</p>
+<table>
+<colgroup>
+<col width="55%" />
+<col width="45%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sample-based estimate of the population mean</td>
+<td><span class="math inline">\(\hat{\mu} = \bar{x}\)</span></td>
+</tr>
+<tr class="even">
+<td>Sample-based estimate of the population variance</td>
+<td><span class="math inline">\(\hat{\sigma}^2 = \frac{n}{n-1}s^2 = \frac{1}{n-1}\sum_{i=1}^{n} (x_i - \bar{x})^2\)</span></td>
+</tr>
+<tr class="odd">
+<td>Sample-based estimate of the population standard deviation</td>
+<td><span class="math inline">\(\hat{\sigma} = \sqrt{\hat{s}^2}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Greek symbols (<span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma\)</span>: population parameters; Roman symbols (<span class="math inline">\(\bar{x}\)</span>, <span class="math inline">\(s\)</span>): sample parameters; the “hat” symbol <span class="math inline">\(\hat{ }\)</span> reads “<strong><em>estimation of</em></strong>”.</p>
+</div>
+<div id="r-var-and-sd-functions" class="slide section level2">
+<h1>R <code>var()</code> and <code>sd()</code> functions</h1>
+<p><strong>Beware</strong>: the <strong>R</strong> functions <code>var()</code> and <code>sd()</code> directly compute an estimate of the population variance (<span class="math inline">\(\hat{\sigma}^2\)</span>) and standard deviation (<span class="math inline">\(\hat{\sigma}\)</span>), respectively, instead of computing the variance (<span class="math inline">\(\bar{x}\)</span>) and standard deviation (<span class="math inline">\(s\)</span>) of the input data.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">n &lt;-<span class="st"> </span><span class="kw">length</span>(x) <span class="co"># Gives 2</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">sample.mean &lt;-<span class="st"> </span><span class="kw">mean</span>(x) <span class="co"># Gives 3</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">sample.var &lt;-<span class="st"> </span><span class="kw">sum</span>((x <span class="op">-</span><span class="st"> </span>sample.mean)<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>n <span class="co"># Gives 4</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">pop.var.est &lt;-<span class="st"> </span><span class="kw">sum</span>((x <span class="op">-</span><span class="st"> </span>sample.mean)<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>(n <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="co"># Gives 8</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">r.var &lt;-<span class="st"> </span><span class="kw">var</span>(x) <span class="co"># Gives 8</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="kw">kable</span>(<span class="kw">data.frame</span>(<span class="dt">sample.var =</span> sample.var, <span class="dt">pop.var.est =</span> pop.var.est, <span class="dt">r.var =</span> r.var))</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">sample.var</th>
+<th align="right">pop.var.est</th>
+<th align="right">r.var</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">4</td>
+<td align="right">8</td>
+<td align="right">8</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="p-value" class="slide section level2">
 <h1>P-value</h1>
@@ -155,8 +336,10 @@ Student density (left) and CDF (right) on linear (top) or logarithmic (bottom) s
 </tr>
 </tbody>
 </table>
-<p>The two-tailed test splits the risk symmetrically on the left and right tails ($ on each side).</p>
-<h3 id="welch-t-statistics">Welch <em>t</em> statistics</h3>
+<p>The two-tailed test splits the risk symmetrically on the left and right tails (<span class="math inline">\(\frac{\alpha}{2}\)</span> on each side).</p>
+</div>
+<div id="welch-t-statistics" class="slide section level2">
+<h1>Welch <em>t</em> statistics</h1>
 <p>Welch’s t-test defines the <span class="math inline">\(t\)</span> statistic by the following formula.</p>
 <p><span class="math display">\[t_{W}=\frac{\bar{x}_{2} - \bar{x}_{1}}{\sqrt{\frac {s^2_{1}}{n_1} + \frac{s^2_{2}}{n_2}}}\]</span></p>
 <p>Where:</p>
@@ -166,6 +349,115 @@ Student density (left) and CDF (right) on linear (top) or logarithmic (bottom) s
 <li><span class="math inline">\(s^2_{i}\)</span> the sample variance,</li>
 <li><span class="math inline">\(n_{i}\)</span> the sample size.</li>
 </ul>
+</div>
+<div id="welch-degrees-of-freedom" class="slide section level2">
+<h1>Welch degrees of freedom</h1>
+<p>The Welch test corrects the impact of heteroscedacity by adapting the degrees of freedom (<span class="math inline">\(\nu\)</span>) of the Student distribution according to the respective sample variances.</p>
+<p><span class="math display">\[\nu_W   =
+{{\left( {s_1^2 \over n_1} + {s_2^2 \over n_2}\right)^2 } \over
+ {{s_1^4 \over n_1^2 \cdot \left({n_1-1}\right)}+{s_2^4 \over n_2^2 \cdot \left({n_2-1}\right)}}}
+\]</span></p>
+<ul>
+<li><p>You generally don’t have to compute this by yourselve, it is done automatically in R.</p></li>
+<li><p>Under homoscedasticity, Student and Welch degrees of freedom are equal.</p></li>
+<li><p>Under homoscedasticity, the <strong><em>power of the test</em></strong> (capacity to reject <span class="math inline">\(H_0\)</span> under <span class="math inline">\(H_1\)</span>) is higher for Student than Welch.</p></li>
+</ul>
+</div>
+<div id="summary-table-notations" class="slide section level2">
+<h1>Summary table: notations</h1>
+<p>Greek symbols (<span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma\)</span>) denote population-wide statistics, and roman symbols (<span class="math inline">\(\bar{x}\)</span>, <span class="math inline">\(s\)</span>) sample-based statistics.</p>
+<table>
+<colgroup>
+<col width="12%" />
+<col width="87%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Symbol</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\mu_{1}, \mu_{2}\)</span></td>
+<td>Population means</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\delta = \mu_{2} - \mu_{1}\)</span></td>
+<td>Difference beyween population means</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\sigma_{1}, \sigma_{2}\)</span></td>
+<td>Population standard deviations</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(n_1\)</span>, <span class="math inline">\(n_2\)</span></td>
+<td>Sample sizes</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\bar{x}_{1}, \bar{x}_{2}\)</span></td>
+<td>Sample means</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(d = \bar{x}_{2} - \bar{x}_{2}\)</span></td>
+<td>Effect size, i.e. difference between sample means</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(s^2_{1}, s^2_{2}\)</span></td>
+<td>Sample variances</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(s_{1}, s_{2}\)</span></td>
+<td>Sample standard deviations</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="summary-table-formulas" class="slide section level2">
+<h1>Summary table: formulas</h1>
+<p>The “hat” (<span class="math inline">\(\hat{ }\)</span>) symbol is used to denote sample-based estimates of population parameters.</p>
+<table>
+<colgroup>
+<col width="12%" />
+<col width="87%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Symbol</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(d = \hat{\delta} = \hat{\mu}_2 - \hat{\mu}_1 = \bar{x}_2 - \bar{x}_1\)</span></td>
+<td><span class="math inline">\(d\)</span> = Effect size (difference between sample means), estimator of the difference between population means <span class="math inline">\(\delta\)</span>.</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\hat{\sigma}_p = \sqrt{\frac{n_1 s_1^2 + n_2 s_2^2}{n_1+n_2-2}}\)</span></td>
+<td>Estimate of the pooled standard deviation under variance equality assumption</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\hat{\sigma}_\delta = \hat{\sigma}_p \sqrt{\left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}\)</span></td>
+<td>Standard error about the difference between means of two groups whose variances are assumed equal (Student).</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(t_{S} = \frac{\hat{\delta}}{\hat{\sigma}_\delta} = \frac{\bar{x}_{2} - \bar{x}_{1}}{\sqrt{\frac{n_1 s_{1}^2 + n_2 s_{2}^2}{n_1+n_2-2} \left(\frac{1}{n_1}+ \frac{1}{n_2}\right)}}\)</span></td>
+<td>Student <span class="math inline">\(t\)</span> statistics</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\nu_S = n_1 + n_2 - 2\)</span></td>
+<td>degrees of freedom for Student test</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(t_{W}=\frac{\bar{x}_{1} - \bar{x}_{2}}{\sqrt{\frac {s^2_{1}}{n_1} + \frac{s^2_{2}}{n_2}}}\)</span></td>
+<td>Welch <span class="math inline">\(t\)</span> statistics</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\nu_W = {{\left( {s_1^2 \over n_1} + {s_2^2 \over n_2}\right)^2 } \over  {{s_1^4 \over n_1^2 \cdot \left({n_1-1}\right)}+{s_2^4 \over n_2^2 \cdot \left({n_2-1}\right)}}}\)</span></td>
+<td>degrees of freedom for Welch test</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="exercise-1" class="slide section level2">
 <h1>Exercise 1</h1>
@@ -178,7 +470,7 @@ Student density (left) and CDF (right) on linear (top) or logarithmic (bottom) s
 </ul>
 <p>In order to test whether the observed difference between the means is significant, the researcher decides to run a Student test.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Is the choice of this test appropriate ? Justify. Which alternatives would have been conceivable?</p></li>
+<li><p>Is the choice of this test appropriate? Justify. Which alternatives would have been conceivable?</p></li>
 <li><p>Since we have no prior idea about the sense of a potential effect of the disease on this gene, would you recommend a two-tailed or single-tailed test?</p></li>
 <li><p>Formulate the null hypothesis and explain it in one sentence.</p></li>
 <li><p>Compute (manually) the <span class="math inline">\(t\)</span> statistics.</p></li>

@@ -83,7 +83,7 @@ Oct
 |  |  | Practical 2 | Analysis of a genome annotation table | [[html](practicals/02_yeast_annotations/02_yeast_annotations_EN.html)] [[pdf](practicals/02_yeast_annotations/02_yeast_annotations_EN.pdf)] [[Rmd](practicals/02_yeast_annotations/02_yeast_annotations_EN.Rmd)] |
 | 04/10 | 09h - 12h | Lecture | Mean comparison tests |  [[html](slides/06_mean_comparison_tests_EN.html)] [[pdf](slides/06_mean_comparison_tests_EN.pdf)] [[Rmd](slides/06_mean_comparison_tests_EN.Rmd)] |
 | 04/10 | 9h-10h | Practical 4 | Microarray data |  [[html](practicals/Den_Boer_use_case/Den_Boer_use_case.htmll)] [[pdf](practicals/Den_Boer_use_case/Den_Boer_use_case.pdf)] [[Rmd](practicals/Den_Boer_use_case/Den_Boer_use_case.Rmd)] |
-| 10/10 | 14h-17h | Practical 4 | Preparation of the personal work | [[html](practicals/differential_analysis/differential_analysis_exercises.html)] [[pdf](practicals/differential_analysis/differential_analysis_exercises.pdf)] [[Rmd](practicals/differential_analysis/differential_analysis_exercises.Rmd)] |
+| 10/10 | 14h-17h | Practical 4 | Preparation of the personal work | [[html](practicals/differential_analysis/differential_analysis_exercises.html)] [[pdf](practicals/differential_analysis/differential_analysis_exercises.pdf)] [[Rmd](https://raw.githubusercontent.com/jvanheld/stat1/master/practicals/differential_analysis/differential_analysis_exercises.Rmd)] [[Rmd](practicals/differential_analysis/differential_analysis_exercises.Rmd)] |
 
 New
 

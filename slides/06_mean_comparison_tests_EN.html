@@ -7,7 +7,7 @@
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
   <meta name="author" content="Jacques van Helden" />
-  <meta name="date" content="2019-10-10" />
+  <meta name="date" content="2019-10-12" />
   <title>Mean comparison tests</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -88,7 +88,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   <p class="author">
 Jacques van Helden
   </p>
-  <p class="date">2019-10-10</p>
+  <p class="date">2019-10-12</p>
 </div>
 <div id="contents" class="slide section level2">
 <h1>Contents</h1>
@@ -287,7 +287,10 @@ H_1: \mu_1 &lt; \mu_2
 <div id="p-value" class="slide section level2">
 <h1>P-value</h1>
 <p>This statistics can be used to compute an <strong><em>P-value</em></strong> (<span class="math inline">\(P\)</span>), which measures the probability to obtain, <strong><em>under the null hypothesis</em></strong>, a <span class="math inline">\(t_S\)</span> statistics at least as extreme as the one observed. Extreme refers here to the tail(s) of the distribution depending on the orientation of the test.</p>
-<p>In the case of hypothesis testing, the P-value can be interpreted as an evaluation of the risk of <strong>first kind error</strong>, which corresponds to the risk of rejecting the null hypothesis whereas it is true. ## Degrees of freedom for Student tst</p>
+<p>In the case of hypothesis testing, the P-value can be interpreted as an evaluation of the risk of <strong>first kind error</strong>, which corresponds to the risk of rejecting the null hypothesis whereas it is true.</p>
+</div>
+<div id="degrees-of-freedom-for-student-tst" class="slide section level2">
+<h1>Degrees of freedom for Student tst</h1>
 <p>The shape of the Student distribution depends on a parameter named <strong><em>degrees of freedom</em></strong> (<span class="math inline">\(\nu\)</span>), which represents the number of independent variables used in the equation.</p>
 <p>In a two-sample t-test (as in our case), the degrees of freedom are computed as the total number of elements in the respective samples (<span class="math inline">\(n_1\)</span>, <span class="math inline">\(n_2\)</span>) minus the number of means estimated from these elements (we estimated the means of group 1 and group 2, respectively). Thus:</p>
 <p><span class="math display">\[\nu_S = n_1 + n_2 - 2\]</span></p>

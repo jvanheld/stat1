@@ -81,8 +81,6 @@ setwd(dir.slides)
 
 ## Contents
 
-
-
 We present here one of the most popular applications of statistics: the mean comparison test. 
 
 This test is used in a wide variety of contexts, and we will apply it here to two data types: 

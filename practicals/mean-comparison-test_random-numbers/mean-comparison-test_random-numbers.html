@@ -12,21 +12,21 @@
 
 <meta name="author" content="Jacques van Helden" />
 
-<meta name="date" content="2019-10-10" />
+<meta name="date" content="2019-10-13" />
 
 <title>Personal work – Differential analysis and multiple testing</title>
 
-<script src="differential_analysis_exercises_files/jquery-1.11.3/jquery.min.js"></script>
+<script src="mean-comparison-test_random-numbers_files/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="differential_analysis_exercises_files/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
-<script src="differential_analysis_exercises_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<script src="differential_analysis_exercises_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
-<script src="differential_analysis_exercises_files/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="differential_analysis_exercises_files/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="differential_analysis_exercises_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="differential_analysis_exercises_files/tocify-1.9.1/jquery.tocify.js"></script>
-<script src="differential_analysis_exercises_files/navigation-1.1/tabsets.js"></script>
-<script src="differential_analysis_exercises_files/navigation-1.1/codefolding.js"></script>
+<link href="mean-comparison-test_random-numbers_files/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="mean-comparison-test_random-numbers_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="mean-comparison-test_random-numbers_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="mean-comparison-test_random-numbers_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="mean-comparison-test_random-numbers_files/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="mean-comparison-test_random-numbers_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="mean-comparison-test_random-numbers_files/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="mean-comparison-test_random-numbers_files/navigation-1.1/tabsets.js"></script>
+<script src="mean-comparison-test_random-numbers_files/navigation-1.1/codefolding.js"></script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -346,7 +346,7 @@ div.tocify {
 <h1 class="title toc-ignore">Personal work – Differential analysis and multiple testing</h1>
 <h3 class="subtitle">Probabilities and statistics for modelling 1 (STAT1)</h3>
 <h4 class="author">Jacques van Helden</h4>
-<h4 class="date">2019-10-10</h4>
+<h4 class="date">2019-10-13</h4>
 
 </div>
 
@@ -677,6 +677,15 @@ sample estimates:
 <li><span class="math inline">\(X_1\)</span> : <span class="math inline">\(r = 10^{4}\)</span> samples drawn from the first population</li>
 <li><span class="math inline">\(X_2\)</span>: <span class="math inline">\(r = 10^{4}\)</span> samples drawn from the second population</li>
 </ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co">## Draw r samples of size n1 from the first population</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">X1 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">  <span class="kw">matrix</span>(<span class="dt">nrow =</span> r, <span class="dt">ncol =</span> n1, </a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">         <span class="dt">data =</span> <span class="kw">rnorm</span>(<span class="dt">n =</span> r <span class="op">*</span><span class="st"> </span>n1, </a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">                      <span class="dt">mean =</span> mu1, </a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">                      <span class="dt">sd =</span> sigma1))</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">)</a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co"># dim(X1)</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co"># View(X1)</span></a></code></pre></div>
 </div>
 </div>
 

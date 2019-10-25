@@ -150,7 +150,7 @@ Generate random numbers following a normal distribution with either equal or une
 Generate random numbers following a normal and some non-normal distribution of your choice (e.g. uniform). Run a parametric and a non-parametric test and compare the performances in terms fo power and false positive rate. 
 
 
-## Assignation of the tasks
+## Assignment of the tasks
 
 Each student will develop an analysis to test one particular question. 
 

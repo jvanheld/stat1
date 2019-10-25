@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jacques van Helden" />
 
-<meta name="date" content="2019-10-13" />
+<meta name="date" content="2019-10-25" />
 
 <title>Personal work – Differential analysis and multiple testing</title>
 
@@ -172,7 +172,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -346,7 +345,7 @@ div.tocify {
 <h1 class="title toc-ignore">Personal work – Differential analysis and multiple testing</h1>
 <h3 class="subtitle">Probabilities and statistics for modelling 1 (STAT1)</h3>
 <h4 class="author">Jacques van Helden</h4>
-<h4 class="date">2019-10-13</h4>
+<h4 class="date">2019-10-25</h4>
 
 </div>
 
@@ -658,7 +657,7 @@ alternative hypothesis: true difference in means is not equal to 0
 sample estimates:
  mean of x  mean of y 
  0.5472968 -0.1634567 </code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co">## Compute some statistics about the samples</span></a>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co">## Compute some additional statistics about the samples</span></a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">mean1 &lt;-<span class="st"> </span><span class="kw">mean</span>(x1) <span class="co">## Mean of sample 1</span></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3">mean2 &lt;-<span class="st"> </span><span class="kw">mean</span>(x2) <span class="co">## Mean of sample 2</span></a>
 <a class="sourceLine" id="cb5-4" data-line-number="4">d &lt;-<span class="st"> </span>mean2 <span class="op">-</span><span class="st"> </span>mean1 <span class="co">## Difference between sample means</span></a></code></pre></div>
@@ -668,24 +667,56 @@ sample estimates:
 <p>The difference between sample means was <span class="math inline">\(d = -0.71\)</span>. The <span class="math inline">\(t\)</span> test returned a p-value <span class="math inline">\(p = 0.236\)</span>, which is much higher than our threshold <span class="math inline">\(alpha = 0.05\)</span>.</p>
 <p>bla … bla … bla (to be completed)</p>
 </div>
-<div id="how-to-do-run-10000-tests-efficiently" class="section level3">
-<h3>How to do run <span class="math inline">\(10,000\)</span> tests efficiently?</h3>
-<p>Loops are not very efficient in R. However for this course we will use a loop, for the sake of facility.</p>
-<p>In the second semester we will learn a more efficient way of running replicated tasks: organise the data in a table, then define a function that runs one test, and use <code>apply()</code> to run the test on each line of the table</p>
-<p>Let us generate two data frames</p>
-<ul>
-<li><span class="math inline">\(X_1\)</span> : <span class="math inline">\(r = 10^{4}\)</span> samples drawn from the first population</li>
-<li><span class="math inline">\(X_2\)</span>: <span class="math inline">\(r = 10^{4}\)</span> samples drawn from the second population</li>
-</ul>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co">## Draw r samples of size n1 from the first population</span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">X1 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">  <span class="kw">matrix</span>(<span class="dt">nrow =</span> r, <span class="dt">ncol =</span> n1, </a>
-<a class="sourceLine" id="cb6-4" data-line-number="4">         <span class="dt">data =</span> <span class="kw">rnorm</span>(<span class="dt">n =</span> r <span class="op">*</span><span class="st"> </span>n1, </a>
-<a class="sourceLine" id="cb6-5" data-line-number="5">                      <span class="dt">mean =</span> mu1, </a>
-<a class="sourceLine" id="cb6-6" data-line-number="6">                      <span class="dt">sd =</span> sigma1))</a>
-<a class="sourceLine" id="cb6-7" data-line-number="7">)</a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co"># dim(X1)</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co"># View(X1)</span></a></code></pre></div>
+<div id="replicating-the-test-10000-times-with-a-loop" class="section level3">
+<h3>Replicating the test 10,000 times with a loop</h3>
+<p>In R, loops are quite inefficient, and it is generally recommended to directly run the computations on whole vectors (R has been designed to be efficient for this), or to use specific functions in order to apply a given function each row / column of a table, or to each element of a list.</p>
+<p>For the sake of simplicity, we will first show how to implement a simple but inefficient code with a loop. In the advanced course (STATS2) will see how to optimize the speed with the <code>apply()</code> function.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co">## Define the statistics we want to collect</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">result.columns &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;i&quot;</span>, <span class="st">&quot;m1&quot;</span>, <span class="st">&quot;m2&quot;</span>, <span class="st">&quot;diff&quot;</span>, <span class="st">&quot;statistic&quot;</span>, <span class="st">&quot;p.value&quot;</span>)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">## Instantiate a result table to store the results</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">result.table &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">matrix</span>(<span class="dt">nrow =</span> r, <span class="dt">ncol =</span> <span class="kw">length</span>(result.columns)))</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="kw">colnames</span>(result.table) &lt;-<span class="st"> </span>result.columns <span class="co"># set the column names</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co"># View(result.table) ## Check the table: it contians NA values</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8">  </a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">## Iterate random number sampling followed by t-tests</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>r) {</a>
+<a class="sourceLine" id="cb6-11" data-line-number="11">  <span class="co">## Generate two vectors containing the values for sample 1 and sample 2, resp.</span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12">  x1 &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> n1, <span class="dt">mean =</span> mu1, <span class="dt">sd =</span> sigma1) <span class="co">## sample 1 values</span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13">  x2 &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> n2, <span class="dt">mean =</span> mu2, <span class="dt">sd =</span> sigma2) <span class="co">## sample 2 values</span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14">  </a>
+<a class="sourceLine" id="cb6-15" data-line-number="15">  <span class="co">## Run the t test</span></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16">  t.result &lt;-<span class="st"> </span><span class="kw">t.test</span>(</a>
+<a class="sourceLine" id="cb6-17" data-line-number="17">    <span class="dt">x =</span> x1, <span class="dt">y =</span> x2, </a>
+<a class="sourceLine" id="cb6-18" data-line-number="18">    <span class="dt">alternative =</span> <span class="st">&quot;two.sided&quot;</span>, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb6-19" data-line-number="19">  <span class="co"># names(t.result)</span></a>
+<a class="sourceLine" id="cb6-20" data-line-number="20">  </a>
+<a class="sourceLine" id="cb6-21" data-line-number="21">  <span class="co">## Collect the selected statistics in the result table</span></a>
+<a class="sourceLine" id="cb6-22" data-line-number="22">  result.table[i, <span class="st">&quot;i&quot;</span>] &lt;-<span class="st"> </span>i</a>
+<a class="sourceLine" id="cb6-23" data-line-number="23">  result.table[i, <span class="st">&quot;statistic&quot;</span>] &lt;-<span class="st"> </span>t.result[<span class="st">&quot;statistic&quot;</span>]</a>
+<a class="sourceLine" id="cb6-24" data-line-number="24">  result.table[i, <span class="st">&quot;p.value&quot;</span>] &lt;-<span class="st"> </span>t.result[<span class="st">&quot;p.value&quot;</span>]</a>
+<a class="sourceLine" id="cb6-25" data-line-number="25">  </a>
+<a class="sourceLine" id="cb6-26" data-line-number="26">  <span class="co">## Compute some additional statistics about the samples</span></a>
+<a class="sourceLine" id="cb6-27" data-line-number="27">  result.table[i, <span class="st">&quot;m1&quot;</span>] &lt;-<span class="st"> </span><span class="kw">mean</span>(x1) <span class="co">## Mean of sample 1</span></a>
+<a class="sourceLine" id="cb6-28" data-line-number="28">  result.table[i, <span class="st">&quot;m2&quot;</span>] &lt;-<span class="st"> </span><span class="kw">mean</span>(x2) <span class="co">## Mean of sample 2</span></a>
+<a class="sourceLine" id="cb6-29" data-line-number="29">  result.table[i, <span class="st">&quot;diff&quot;</span>] &lt;-<span class="st"> </span>mean2 <span class="op">-</span><span class="st"> </span>mean1 <span class="co">## Difference between sample means</span></a>
+<a class="sourceLine" id="cb6-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb6-31" data-line-number="31">}</a>
+<a class="sourceLine" id="cb6-32" data-line-number="32"></a>
+<a class="sourceLine" id="cb6-33" data-line-number="33"><span class="co">## View(result.table)</span></a></code></pre></div>
+</div>
+<div id="p-value-histogram" class="section level3">
+<h3>P-value histogram</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co">## Draw an histogram of p-values with 20 bins</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw">hist</span>(result.table<span class="op">$</span>p.value, <span class="dt">breaks =</span> <span class="dv">20</span>,</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">     <span class="dt">col =</span> <span class="st">&quot;#BBFFDD&quot;</span>, <span class="dt">las =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">     <span class="dt">main =</span> <span class="st">&quot;P-value histogram&quot;</span>,</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">     <span class="dt">xlab =</span> <span class="st">&quot;T-test P-value&quot;</span>,</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">     <span class="dt">ylab =</span> <span class="st">&quot;Number of tests&quot;</span>)</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">## Draw a horizontal line indicating the number of tests per bin that would be expected under null hypothesis</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="kw">abline</span>(<span class="dt">h =</span> r <span class="op">/</span><span class="st"> </span><span class="dv">20</span>, <span class="dt">col =</span> <span class="st">&quot;darkgreen&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</a></code></pre></div>
+<p><img src="figures/02_combinatorix_pval_histo-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 

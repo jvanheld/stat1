@@ -357,7 +357,7 @@ for (i in 1:r) {
 
 ```
 
-### Distribution of the observed differences for the $`r`$ iterations of the test
+### Distribution of the observed differences for the $`r r`$ iterations of the test
 
 ```{r diff_histo, fig.width=6, fig.height=8, out.width="50%"}
 par(mfrow = c(2, 1))
@@ -387,7 +387,7 @@ abline(v = 0)
 
 ### P-value histogram
 
-```{r pval_histo}
+```{r pval_histo, fig.width=7, fig.height=5, out.width="50%"}
 ## Draw an histogram of p-values with 20 bins
 hist(result.table$p.value, breaks = 20,
      col = "#BBFFDD", las = 1,
@@ -542,8 +542,9 @@ par(mfrow = c(1, 1)) ## Restore single-panel layout for next figures
 
 We should now write a report of interpretation, which will address the following questions. 
 
-- Based on the experiment under $H_0$, estimate the **false positive rate** (**FPR**). 
+- Based on the experiments under $H_0$, compute the number of false positives and estimate the **false positive rate** (**FPR**). Compare these values with the **E-value** (expected number of false positives) for the `r r` tests,  and with your $alpha$ trheshold. 
 - Based on the experiments under $H_1$, estimate the **sensitivity** (**Sn**) of the test for the different mean differences tested here.
+- Interpret the histograms of P-values obtained with the different parameters ?
 - Draw a **power curve** (i.e. the sensitivity as a function of the actual difference between population means)
 - Discuss about the adequation between the test and the conditions of our simulations. 
 - Do these observations correspond to what would be expected? 

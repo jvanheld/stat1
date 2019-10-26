@@ -349,11 +349,38 @@ for (i in 1:r) {
   ## Compute some additional statistics about the samples
   result.table[i, "m1"] <- mean(x1) ## Mean of sample 1
   result.table[i, "m2"] <- mean(x2) ## Mean of sample 2
-  result.table[i, "diff"] <- mean2 - mean1 ## Difference between sample means
+  result.table[i, "diff"] <- mean(x2) - mean(x1)  ## Difference between sample means
 
 }
 
 ## View(result.table)
+
+```
+
+### Distribution of the observed differences for the $`r`$ iterations of the test
+
+```{r diff_histo, fig.width=6, fig.height=8, out.width="50%"}
+par(mfrow = c(2, 1))
+## Draw an histogram of the observed differences
+
+max.diff <- max(abs(result.table$diff))
+hist(result.table$diff, breaks = 100, 
+     col = "#BBFFDD", las = 1, 
+     xlim = c(-max.diff, max.diff), ## Make sure that the graph is centered on 0
+     main = "Differences between means",
+     xlab = "Difference between means",
+     ylab = "Number of tests")
+abline(v = 0)
+
+max.t <- max(abs(result.table$statistic))
+hist(result.table$statistic, breaks = 100, 
+     col = "#BBFFDD", las = 1,
+     xlim = c(-max.t, max.t), ## Make sure that the graph is centered on 0
+     main = "T statistics",
+     xlab = "T-test statistic",
+     ylab = "Number of tests")
+par(mfrow = c(1, 1))
+abline(v = 0)
 
 ```
 
@@ -434,7 +461,7 @@ iterate.t.test <- function(mu1 = -0.5, ## Mean of the first population
     ## Compute some additional statistics about the samples
     result.table[i, "m1"] <- mean(x1) ## Mean of sample 1
     result.table[i, "m2"] <- mean(x2) ## Mean of sample 2
-    result.table[i, "diff"] <- mean2 - mean1 ## Difference between sample means
+    result.table[i, "diff"] <- mean(x2) - mean(x1) ## Difference between sample means
   }
   
   return(result.table) ## This function returns the result table
@@ -490,7 +517,7 @@ pvalHistogram <- function(
   percent.neg <- 100 * nb.neg / r
   
   ## Add a legend indicating the percent of iterations declaed positive and negative, resp. 
-  legend("topright", 
+  legend("topright", bty = "o", bg = "white",
          legend = c(
            paste("% pos =", round(digits = 2, percent.pos)),
            paste("% neg =", round(digits = 2, percent.neg))
@@ -510,4 +537,16 @@ pvalHistogram(d2, main = "mu1 - mu2 = 2", col = "#FF4422")
 par(mfrow = c(1, 1)) ## Restore single-panel layout for next figures
 
 ```
+
+## Interpretation of the results
+
+We should now write a report of interpretation, which will address the following questions. 
+
+- Based on the experiment under $H_0$, estimate the **false positive rate** (**FPR**). 
+- Based on the experiments under $H_1$, estimate the **sensitivity** (**Sn**) of the test for the different mean differences tested here.
+- Draw a **power curve** (i.e. the sensitivity as a function of the actual difference between population means)
+- Discuss about the adequation between the test and the conditions of our simulations. 
+- Do these observations correspond to what would be expected? 
+
+The same kind of questions will be asked for the 6 other questions above (impact of sample size,  variance,  non-normality, heteroscadicity, parametric vs non-parametric test). 
 

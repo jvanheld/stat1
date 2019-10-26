@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jacques van Helden" />
 
-<meta name="date" content="2019-10-25" />
+<meta name="date" content="2019-10-26" />
 
 <title>Personal work – Differential analysis and multiple testing</title>
 
@@ -345,7 +345,7 @@ div.tocify {
 <h1 class="title toc-ignore">Personal work – Differential analysis and multiple testing</h1>
 <h3 class="subtitle">Probabilities and statistics for modelling 1 (STAT1)</h3>
 <h4 class="author">Jacques van Helden</h4>
-<h4 class="date">2019-10-25</h4>
+<h4 class="date">2019-10-26</h4>
 
 </div>
 
@@ -664,8 +664,10 @@ sample estimates:
 </div>
 <div id="interpret-the-result" class="section level3">
 <h3>Interpret the result</h3>
-<p>The difference between sample means was <span class="math inline">\(d = -0.71\)</span>. The <span class="math inline">\(t\)</span> test returned a p-value <span class="math inline">\(p = 0.236\)</span>, which is much higher than our threshold <span class="math inline">\(alpha = 0.05\)</span>.</p>
-<p>bla … bla … bla (to be completed)</p>
+<p>The difference between sample means was <span class="math inline">\(d = -0.71\)</span>.</p>
+<p>The <span class="math inline">\(t\)</span> test computed the <span class="math inline">\(t\)</span> statistics, which standardizes this observed distance between sample means relative to the estimated variance of the population, and to the sample sizes. With the random numbers generated above, the value is <span class="math inline">\(t_{obs} = 1.2268\)</span>.</p>
+<p>The corresponding p-value is computed as the sum of the area of the left and right tails of the Student distribution, with <span class="math inline">\(\nu = n_1 + n_2 - 2 = 18\)</span> degrees of freedom. It indicates the probability of obtaining by chance – under th null hypothesis – a result at least as extreme as the one we observed.</p>
+<p>In our case, we obtain <span class="math inline">\(p = P(T &gt; |t_{obs}| = P(T &gt; 1.2268) = 0.236\)</span>. This is higher than our threshold <span class="math inline">\(alpha = 0.05\)</span>. We thus accept the null hypothesis.</p>
 </div>
 <div id="replicating-the-test-10000-times-with-a-loop" class="section level3">
 <h3>Replicating the test 10,000 times with a loop</h3>
@@ -718,6 +720,110 @@ sample estimates:
 <a class="sourceLine" id="cb7-9" data-line-number="9"><span class="kw">abline</span>(<span class="dt">h =</span> r <span class="op">/</span><span class="st"> </span><span class="dv">20</span>, <span class="dt">col =</span> <span class="st">&quot;darkgreen&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="figures/02_combinatorix_pval_histo-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
+</div>
+<div id="creating-a-function-to-reuse-the-same-code-with-different-parameters" class="section level2">
+<h2>Creating a function to reuse the same code with different parameters</h2>
+<p>Depending on the selected task in the assignments above, we will run different tests with different parameters and compare the results. The most rudimentary way to do this is top copy-paste the chunk of code above for each test and set of parameters required for the assigned tasks.</p>
+<p>However, having several copies of an almost identical block of code is a very bad pracrice in programming, for several reasons</p>
+<ul>
+<li>lack of readability: the code rapidly becomes very heavy;</li>
+<li>difficulty to maintain: any modification has to be done on each copy of the chunk of code;</li>
+<li>risk for consistency: this is a source of inconsistency, because at some moment we will modify one copy and forget another one.</li>
+</ul>
+<p>A better practice is to define a <strong>function</strong> that encapsulates the code, and enables to modify the parameters by passing them as **arguments*. Hereafter we define a function that</p>
+<ul>
+<li><p>takes the parameters of the analysis as arguments</p>
+<ul>
+<li>population means <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span>,</li>
+<li>population standard deviations <span class="math inline">\(\sigma_1\)</span> and <span class="math inline">\(\sigma_2\)</span>,</li>
+<li>sample sizes <span class="math inline">\(n_1\)</span> and <span class="math inline">\(n_2\)</span>,</li>
+<li>number of iterations <span class="math inline">\(r\)</span>.</li>
+</ul></li>
+<li>runs <span class="math inline">\(r\)</span> iterations of the t-test with 2 random samples,</li>
+<li><p>returns the results in a table with one row per iteration, and one column per resulting statistics (observed <span class="math inline">\(t\)</span> score, p-value, difference between means, …);</p></li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co">## Define a function that runs r iterations of the t-test.</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">iterate.t.test &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">mu1 =</span> <span class="fl">-0.5</span>, <span class="co">## Mean of the first population</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">                           <span class="dt">mu2 =</span> <span class="fl">0.5</span>,  <span class="co">## Mean of the second population</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">                           <span class="dt">sigma1 =</span> <span class="dv">1</span>, <span class="co">## Standard deviation of the first population</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">                           <span class="dt">sigma2 =</span> <span class="dv">1</span>,  <span class="co">## Standard deviation of the second population</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">                           <span class="dt">n1 =</span> <span class="dv">10</span>,    <span class="co">## First sample size</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7">                           <span class="dt">n2 =</span> <span class="dv">10</span>,    <span class="co">## Second sample size</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8">                           <span class="dt">r =</span> <span class="dv">10000</span>  <span class="co">## Iterations</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9">                           ) {</a>
+<a class="sourceLine" id="cb8-10" data-line-number="10">  </a>
+<a class="sourceLine" id="cb8-11" data-line-number="11">  <span class="co">## Define the statistics we want to collect</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12">  result.columns &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;i&quot;</span>, <span class="st">&quot;m1&quot;</span>, <span class="st">&quot;m2&quot;</span>, <span class="st">&quot;diff&quot;</span>, <span class="st">&quot;statistic&quot;</span>, <span class="st">&quot;p.value&quot;</span>)</a>
+<a class="sourceLine" id="cb8-13" data-line-number="13">  </a>
+<a class="sourceLine" id="cb8-14" data-line-number="14">  <span class="co">## Instantiate a result table to store the results</span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15">  result.table &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">matrix</span>(<span class="dt">nrow =</span> r, <span class="dt">ncol =</span> <span class="kw">length</span>(result.columns)))</a>
+<a class="sourceLine" id="cb8-16" data-line-number="16">  <span class="kw">colnames</span>(result.table) &lt;-<span class="st"> </span>result.columns <span class="co"># set the column names</span></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17">  <span class="co"># View(result.table) ## Check the table: it contians NA values</span></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18">  </a>
+<a class="sourceLine" id="cb8-19" data-line-number="19">  <span class="co">## Iterate random number sampling followed by t-tests</span></a>
+<a class="sourceLine" id="cb8-20" data-line-number="20">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>r) {</a>
+<a class="sourceLine" id="cb8-21" data-line-number="21">    <span class="co">## Generate two vectors containing the values for sample 1 and sample 2, resp.</span></a>
+<a class="sourceLine" id="cb8-22" data-line-number="22">    x1 &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> n1, <span class="dt">mean =</span> mu1, <span class="dt">sd =</span> sigma1) <span class="co">## sample 1 values</span></a>
+<a class="sourceLine" id="cb8-23" data-line-number="23">    x2 &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> n2, <span class="dt">mean =</span> mu2, <span class="dt">sd =</span> sigma2) <span class="co">## sample 2 values</span></a>
+<a class="sourceLine" id="cb8-24" data-line-number="24">    </a>
+<a class="sourceLine" id="cb8-25" data-line-number="25">    <span class="co">## Run the t test</span></a>
+<a class="sourceLine" id="cb8-26" data-line-number="26">    t.result &lt;-<span class="st"> </span><span class="kw">t.test</span>(</a>
+<a class="sourceLine" id="cb8-27" data-line-number="27">      <span class="dt">x =</span> x1, <span class="dt">y =</span> x2, </a>
+<a class="sourceLine" id="cb8-28" data-line-number="28">      <span class="dt">alternative =</span> <span class="st">&quot;two.sided&quot;</span>, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb8-29" data-line-number="29">    <span class="co"># names(t.result)</span></a>
+<a class="sourceLine" id="cb8-30" data-line-number="30">    </a>
+<a class="sourceLine" id="cb8-31" data-line-number="31">    <span class="co">## Collect the selected statistics in the result table</span></a>
+<a class="sourceLine" id="cb8-32" data-line-number="32">    result.table[i, <span class="st">&quot;i&quot;</span>] &lt;-<span class="st"> </span>i</a>
+<a class="sourceLine" id="cb8-33" data-line-number="33">    result.table[i, <span class="st">&quot;statistic&quot;</span>] &lt;-<span class="st"> </span>t.result[<span class="st">&quot;statistic&quot;</span>]</a>
+<a class="sourceLine" id="cb8-34" data-line-number="34">    result.table[i, <span class="st">&quot;p.value&quot;</span>] &lt;-<span class="st"> </span>t.result[<span class="st">&quot;p.value&quot;</span>]</a>
+<a class="sourceLine" id="cb8-35" data-line-number="35">    </a>
+<a class="sourceLine" id="cb8-36" data-line-number="36">    <span class="co">## Compute some additional statistics about the samples</span></a>
+<a class="sourceLine" id="cb8-37" data-line-number="37">    result.table[i, <span class="st">&quot;m1&quot;</span>] &lt;-<span class="st"> </span><span class="kw">mean</span>(x1) <span class="co">## Mean of sample 1</span></a>
+<a class="sourceLine" id="cb8-38" data-line-number="38">    result.table[i, <span class="st">&quot;m2&quot;</span>] &lt;-<span class="st"> </span><span class="kw">mean</span>(x2) <span class="co">## Mean of sample 2</span></a>
+<a class="sourceLine" id="cb8-39" data-line-number="39">    result.table[i, <span class="st">&quot;diff&quot;</span>] &lt;-<span class="st"> </span>mean2 <span class="op">-</span><span class="st"> </span>mean1 <span class="co">## Difference between sample means</span></a>
+<a class="sourceLine" id="cb8-40" data-line-number="40">  }</a>
+<a class="sourceLine" id="cb8-41" data-line-number="41">  </a>
+<a class="sourceLine" id="cb8-42" data-line-number="42">  <span class="kw">return</span>(result.table) <span class="co">## This function returns the result table</span></a>
+<a class="sourceLine" id="cb8-43" data-line-number="43">}</a></code></pre></div>
+<p>This function can then be used several times, with different values of the parameters.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co">## What happens when  the two means are equal (under the null hypothesis)</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">d00 &lt;-<span class="st"> </span><span class="kw">iterate.t.test</span>(<span class="dt">mu1 =</span> <span class="dv">0</span>, <span class="dt">mu2 =</span> <span class="dv">0</span>)  <span class="co">## Iterations</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">## Test increasing values of the difference between means</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">d0<span class="fl">.1</span> &lt;-<span class="st"> </span><span class="kw">iterate.t.test</span>(<span class="dt">mu1 =</span> <span class="fl">-0.05</span>, <span class="dt">mu2 =</span> <span class="fl">0.05</span>)  <span class="co">## Iterations</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">d0<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">iterate.t.test</span>(<span class="dt">mu1 =</span> <span class="fl">-0.1</span>, <span class="dt">mu2 =</span> <span class="fl">0.1</span>)  <span class="co">## Iterations</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7">d0<span class="fl">.5</span> &lt;-<span class="st"> </span><span class="kw">iterate.t.test</span>(<span class="dt">mu1 =</span> <span class="fl">-0.25</span>, <span class="dt">mu2 =</span> <span class="fl">0.25</span>)  <span class="co">## Iterations</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8">d01 &lt;-<span class="st"> </span><span class="kw">iterate.t.test</span>(<span class="dt">mu1 =</span> <span class="fl">-0.5</span>, <span class="dt">mu2 =</span> <span class="fl">0.5</span>)  <span class="co">## Iterations</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9">d10 &lt;-<span class="st"> </span><span class="kw">iterate.t.test</span>(<span class="dt">mu1 =</span> <span class="dv">-5</span>, <span class="dt">mu2 =</span> <span class="dv">5</span>)  <span class="co">## Iterations</span></a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co">## Define a function that rdraws the p-value histogram </span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">## based on the result table of t-test iterations</span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">## as produced by the iterate.t.test() function.</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">pvalHistogram &lt;-<span class="st"> </span><span class="cf">function</span>(</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">  result.table, <span class="co">## required input (no default value): the result table from iterate.t.test()</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">  <span class="dt">main =</span> <span class="st">&quot;P-value histogram&quot;</span>,  <span class="co">## main title (with default value)</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7">  ... <span class="co">## Additional parameters, which will be passed to hist()</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8">  ) {</a>
+<a class="sourceLine" id="cb10-9" data-line-number="9">  </a>
+<a class="sourceLine" id="cb10-10" data-line-number="10">  <span class="co">## Plot the histogram</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11">  <span class="kw">hist</span>(result.table<span class="op">$</span>p.value, </a>
+<a class="sourceLine" id="cb10-12" data-line-number="12">       <span class="dt">breaks =</span> <span class="dv">20</span>,</a>
+<a class="sourceLine" id="cb10-13" data-line-number="13">       <span class="dt">las =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb10-14" data-line-number="14">       <span class="dt">main =</span> main,</a>
+<a class="sourceLine" id="cb10-15" data-line-number="15">       <span class="dt">xlab =</span> <span class="st">&quot;T-test P-value&quot;</span>,</a>
+<a class="sourceLine" id="cb10-16" data-line-number="16">       <span class="dt">ylab =</span> <span class="st">&quot;Number of tests&quot;</span>, ...)</a>
+<a class="sourceLine" id="cb10-17" data-line-number="17">  </a>
+<a class="sourceLine" id="cb10-18" data-line-number="18">  <span class="co">## Draw a horizontal line indicating the number of tests per bin that would be expected under null hypothesis</span></a>
+<a class="sourceLine" id="cb10-19" data-line-number="19">  <span class="kw">abline</span>(<span class="dt">h =</span> r <span class="op">/</span><span class="st"> </span><span class="dv">20</span>, <span class="dt">col =</span> <span class="st">&quot;darkgreen&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb10-20" data-line-number="20">}</a>
+<a class="sourceLine" id="cb10-21" data-line-number="21"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">2</span>)) <span class="co">## Prepare 2 x 2 panels figure</span></a>
+<a class="sourceLine" id="cb10-22" data-line-number="22"><span class="kw">pvalHistogram</span>(d00, <span class="dt">main =</span> <span class="st">&quot;under H0 (mu1 = mu2)&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#BBFFDD&quot;</span>)</a>
+<a class="sourceLine" id="cb10-23" data-line-number="23"><span class="kw">pvalHistogram</span>(d0<span class="fl">.1</span>, <span class="dt">main =</span> <span class="st">&quot;mu1 - mu2 = 0.1&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#FFDDBB&quot;</span>)</a>
+<a class="sourceLine" id="cb10-24" data-line-number="24"><span class="kw">pvalHistogram</span>(d0<span class="fl">.2</span>, <span class="dt">main =</span> <span class="st">&quot;mu1 - mu2 = 0.2&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#FFBBAA&quot;</span>)</a>
+<a class="sourceLine" id="cb10-25" data-line-number="25"><span class="kw">pvalHistogram</span>(d0<span class="fl">.5</span>, <span class="dt">main =</span> <span class="st">&quot;mu1 - mu2 = 0.5&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#FF8866&quot;</span>)</a>
+<a class="sourceLine" id="cb10-26" data-line-number="26"><span class="kw">pvalHistogram</span>(d01, <span class="dt">main =</span> <span class="st">&quot;mu1 - mu2 = 1&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#FF6633&quot;</span>)</a>
+<a class="sourceLine" id="cb10-27" data-line-number="27"><span class="kw">pvalHistogram</span>(d10, <span class="dt">main =</span> <span class="st">&quot;mu1 - mu2 = 1&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#FF4422&quot;</span>)</a></code></pre></div>
+<p><img src="figures/02_combinatorix_pval_histograms-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)) <span class="co">## Restore single-panel layout for next figures</span></a></code></pre></div>
 </div>
 
 

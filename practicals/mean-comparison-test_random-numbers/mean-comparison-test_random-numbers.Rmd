@@ -299,10 +299,16 @@ d <- mean2 - mean1 ## Difference between sample means
 ###  Interpret the result
 
 The difference between sample means was $d = `r round(digits = 2, d)`$. 
-The $t$ test returned a p-value  $p = `r signif(digits = 3, t.result$p.value)`$, which is much higher than our threshold $alpha = `r alpha`$. 
 
 
-bla ... bla ... bla (to be completed)
+The $t$ test computed the $t$ statistics, which standardizes this observed distance between sample means relative to the estimated variance of the population, and to the sample sizes. With the random numbers generated above, the value is $t_{obs} = `r round(digits = 4, t.result$statistic)`$. 
+
+The corresponding p-value is computed as the sum of the area of the left and right tails of the Student distribution, with $\nu = n_1 + n_2 - 2 = `r t.result$parameter`$ degrees of freedom. It  indicates the probability of obtaining by chance -- under th null hypothesis -- a result at least as extreme as the one we observed.
+
+
+In our case, we obtain $p = P(T > |t_{obs}| = P(T > `r round(digits=4, abs(t.result$statistic))`) = `r signif(digits = 3, t.result$p.value)`$. This is higher than our threshold $alpha = `r alpha`$. We thus accept the null hypothesis. 
+
+
 
 ### Replicating the test 10,000 times with a loop
 
@@ -364,7 +370,124 @@ hist(result.table$p.value, breaks = 20,
 abline(h = r / 20, col = "darkgreen", lwd = 2)
 ```
 
+## Creating a function to reuse the same code with different parameters
+
+Depending on the selected task in the assignments above, we will run different tests with different parameters and compare the results. The most rudimentary way to do this is top copy-paste the chunk of code above for each test and set of parameters required for the assigned tasks. 
+
+However, having several copies of an almost identical block of code is a very bad pracrice in programming, for several reasons
+
+- lack of readability: the code rapidly becomes very heavy;
+- difficulty to maintain: any modification has to be done on each copy of the chunk of code;
+- risk for consistency: this is a source of inconsistency, because at some moment we will modify one copy and forget another one.
+
+A better practice is to define a **function** that encapsulates the code, and enables to modify the parameters by passing them as **arguments*. Hereafter we define a function that 
+
+- takes the parameters of the analysis as arguments
+
+    - population means $\mu_1$ and $\mu_2$, 
+    - population standard deviations $\sigma_1$ and $\sigma_2$, 
+    - sample sizes $n_1$ and $n_2$,
+    - number of iterations $r$.
+    
+- runs $r$ iterations of the t-test with 2 random samples, 
+- returns the results in a table with one row per iteration, and one column per resulting statistics (observed $t$ score, p-value, difference between means, ...);
 
 
+```{r itrerate_t_test_function}
+## Define a function that runs r iterations of the t-test.
+iterate.t.test <- function(mu1 = -0.5, ## Mean of the first population
+                           mu2 = 0.5,  ## Mean of the second population
+                           sigma1 = 1, ## Standard deviation of the first population
+                           sigma2 = 1,  ## Standard deviation of the second population
+                           n1 = 10,    ## First sample size
+                           n2 = 10,    ## Second sample size
+                           r = 10000  ## Iterations
+                           ) {
+  
+  ## Define the statistics we want to collect
+  result.columns <- c("i", "m1", "m2", "diff", "statistic", "p.value")
+  
+  ## Instantiate a result table to store the results
+  result.table <- data.frame(matrix(nrow = r, ncol = length(result.columns)))
+  colnames(result.table) <- result.columns # set the column names
+  # View(result.table) ## Check the table: it contians NA values
+  
+  ## Iterate random number sampling followed by t-tests
+  for (i in 1:r) {
+    ## Generate two vectors containing the values for sample 1 and sample 2, resp.
+    x1 <- rnorm(n = n1, mean = mu1, sd = sigma1) ## sample 1 values
+    x2 <- rnorm(n = n2, mean = mu2, sd = sigma2) ## sample 2 values
+    
+    ## Run the t test
+    t.result <- t.test(
+      x = x1, y = x2, 
+      alternative = "two.sided", var.equal = TRUE)
+    # names(t.result)
+    
+    ## Collect the selected statistics in the result table
+    result.table[i, "i"] <- i
+    result.table[i, "statistic"] <- t.result["statistic"]
+    result.table[i, "p.value"] <- t.result["p.value"]
+    
+    ## Compute some additional statistics about the samples
+    result.table[i, "m1"] <- mean(x1) ## Mean of sample 1
+    result.table[i, "m2"] <- mean(x2) ## Mean of sample 2
+    result.table[i, "diff"] <- mean2 - mean1 ## Difference between sample means
+  }
+  
+  return(result.table) ## This function returns the result table
+}
 
+```
+
+This function can then be used several times, with different values of the parameters. 
+
+```{r itrerate_t_test_runs}
+
+## What happens when  the two means are equal (under the null hypothesis)
+d00 <- iterate.t.test(mu1 = 0, mu2 = 0)  ## Iterations
+
+## Test increasing values of the difference between means
+d0.1 <- iterate.t.test(mu1 = -0.05, mu2 = 0.05)  ## Iterations
+d0.2 <- iterate.t.test(mu1 = -0.1, mu2 = 0.1)  ## Iterations
+d0.5 <- iterate.t.test(mu1 = -0.25, mu2 = 0.25)  ## Iterations
+d01 <- iterate.t.test(mu1 = -0.5, mu2 = 0.5)  ## Iterations
+d10 <- iterate.t.test(mu1 = -5, mu2 = 5)  ## Iterations
+
+```
+
+
+```{r pval_histograms}
+
+
+## Define a function that rdraws the p-value histogram 
+## based on the result table of t-test iterations
+## as produced by the iterate.t.test() function.
+pvalHistogram <- function(
+  result.table, ## required input (no default value): the result table from iterate.t.test()
+  main = "P-value histogram",  ## main title (with default value)
+  ... ## Additional parameters, which will be passed to hist()
+  ) {
+  
+  ## Plot the histogram
+  hist(result.table$p.value, 
+       breaks = 20,
+       las = 1,
+       main = main,
+       xlab = "T-test P-value",
+       ylab = "Number of tests", ...)
+  
+  ## Draw a horizontal line indicating the number of tests per bin that would be expected under null hypothesis
+  abline(h = r / 20, col = "darkgreen", lwd = 2)
+}
+par(mfrow = c(3, 2)) ## Prepare 2 x 2 panels figure
+pvalHistogram(d00, main = "under H0 (mu1 = mu2)", col = "#BBFFDD")
+pvalHistogram(d0.1, main = "mu1 - mu2 = 0.1", col = "#FFDDBB")
+pvalHistogram(d0.2, main = "mu1 - mu2 = 0.2", col = "#FFBBAA")
+pvalHistogram(d0.5, main = "mu1 - mu2 = 0.5", col = "#FF8866")
+pvalHistogram(d01, main = "mu1 - mu2 = 1", col = "#FF6633")
+pvalHistogram(d10, main = "mu1 - mu2 = 1", col = "#FF4422")
+par(mfrow = c(1, 1)) ## Restore single-panel layout for next figures
+
+```
 

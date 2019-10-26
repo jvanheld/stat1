@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jacques van Helden" />
 
-<meta name="date" content="2019-10-04" />
+<meta name="date" content="2019-10-26" />
 
 <title>Analysis of a genome annotation table</title>
 
@@ -172,7 +172,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -346,7 +345,7 @@ div.tocify {
 <h1 class="title toc-ignore">Analysis of a genome annotation table</h1>
 <h3 class="subtitle">Probabilities and statistics for biology (STAT1)</h3>
 <h4 class="author">Jacques van Helden</h4>
-<h4 class="date">2019-10-04</h4>
+<h4 class="date">2019-10-26</h4>
 
 </div>
 
@@ -1369,7 +1368,7 @@ Distribution of the number of ORFs expected by chance in a random genomic sequen
 </p>
 </div>
 <div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
-<p>The <strong>top-lefth panel</strong> shows the <strong>density of probability</strong> of ORF lengths, i.e. the probability to observe by chance an ORF of exactly <span class="math inline">\(x\)</span> nucleotides: <span class="math inline">\(P(X = x)\)</span>. The shape of the distribution is not very well depicted because the range extends up to <span class="math inline">\(15,000\)</span> base pairs, the length of the longest yeast gene. This gene is an outlier (exceptionally long, not representative of the other yeast genes).</p>
+<p>The <strong>top-left panel</strong> shows the <strong>density of probability</strong> of ORF lengths, i.e. the probability to observe by chance an ORF of exactly <span class="math inline">\(x\)</span> nucleotides: <span class="math inline">\(P(X = x)\)</span>. The shape of the distribution is not very well depicted because the range extends up to <span class="math inline">\(15,000\)</span> base pairs, the length of the longest yeast gene. This gene is an outlier (exceptionally long, not representative of the other yeast genes).</p>
 <p>The <strong>top right panel</strong> shows the same distribution with a range restricted to 0-600 bp.</p>
 <p>The <strong>middle left panel</strong> shows the distribution of <strong>P-value</strong> for ORF lengths <span class="math inline">\(x\)</span> ranging from 0 to 600: <span class="math inline">\(P(X \ge x)\)</span>. This is the probability, for each length <span class="math inline">\(x\)</span>, to find by chance a gene at least as long starting at a given genomic position.</p>
 <p>The <strong>middle right panel</strong> shows the <strong>E-value</strong> <span class="math inline">\(E(X \ge x)\)</span>, i.e. the number of ORFs expected by chance in the whole genome, for length <span class="math inline">\(x\)</span> ranging from 0 to 600.</p>
@@ -1395,13 +1394,13 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] knitr_1.23
+[1] knitr_1.25
 
 loaded via a namespace (and not attached):
- [1] compiler_3.6.1  magrittr_1.5    tools_3.6.1     htmltools_0.3.6
- [5] yaml_2.2.0      Rcpp_1.0.2      stringi_1.4.3   rmarkdown_1.14 
- [9] highr_0.8       stringr_1.4.0   xfun_0.8        digest_0.6.20  
-[13] evaluate_0.14  </code></pre>
+ [1] compiler_3.6.1  magrittr_1.5    tools_3.6.1     htmltools_0.4.0
+ [5] yaml_2.2.0      Rcpp_1.0.2      stringi_1.4.3   rmarkdown_1.16 
+ [9] highr_0.8       stringr_1.4.0   xfun_0.10       digest_0.6.21  
+[13] rlang_0.4.0     evaluate_0.14  </code></pre>
 </div>
 </div>
 

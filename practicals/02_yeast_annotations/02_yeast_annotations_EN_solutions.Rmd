@@ -3,15 +3,11 @@ title: "Analysis of a genome annotation table"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  html_document:
-    self_contained: no
-    code_folding: show
+  pdf_document:
     fig_caption: yes
     highlight: zenburn
-    theme: cerulean
     toc: yes
     toc_depth: 3
-    toc_float: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -24,11 +20,15 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
-  pdf_document:
+  html_document:
+    self_contained: no
+    code_folding: show
     fig_caption: yes
     highlight: zenburn
+    theme: cerulean
     toc: yes
     toc_depth: 3
+    toc_float: yes
   slidy_presentation:
     self_contained: no
     fig_caption: yes
@@ -899,7 +899,7 @@ par(mfrow = c(1,1))
 ```
 
 
-The **top-lefth panel** shows the **density of probability** of ORF lengths, i.e. the probability to observe by chance an ORF of exactly $x$ nucleotides: $P(X = x)$. The shape of the distribution is not very well depicted because the range extends up to $15,000$ base pairs, the length of the longest yeast gene. This gene is an outlier (exceptionally long, not representative of the other yeast genes). 
+The **top-left panel** shows the **density of probability** of ORF lengths, i.e. the probability to observe by chance an ORF of exactly $x$ nucleotides: $P(X = x)$. The shape of the distribution is not very well depicted because the range extends up to $15,000$ base pairs, the length of the longest yeast gene. This gene is an outlier (exceptionally long, not representative of the other yeast genes). 
 
 The **top right panel** shows the same distribution with a range restricted to 0-600 bp. 
 

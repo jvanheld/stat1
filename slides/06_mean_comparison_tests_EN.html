@@ -7,7 +7,7 @@
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
   <meta name="author" content="Jacques van Helden" />
-  <meta name="date" content="2019-10-12" />
+  <meta name="date" content="2019-10-26" />
   <title>Mean comparison tests</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -88,7 +88,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   <p class="author">
 Jacques van Helden
   </p>
-  <p class="date">2019-10-12</p>
+  <p class="date">2019-10-26</p>
 </div>
 <div id="contents" class="slide section level2">
 <h1>Contents</h1>
@@ -287,10 +287,7 @@ H_1: \mu_1 &lt; \mu_2
 <div id="p-value" class="slide section level2">
 <h1>P-value</h1>
 <p>This statistics can be used to compute an <strong><em>P-value</em></strong> (<span class="math inline">\(P\)</span>), which measures the probability to obtain, <strong><em>under the null hypothesis</em></strong>, a <span class="math inline">\(t_S\)</span> statistics at least as extreme as the one observed. Extreme refers here to the tail(s) of the distribution depending on the orientation of the test.</p>
-<p>In the case of hypothesis testing, the P-value can be interpreted as an evaluation of the risk of <strong>first kind error</strong>, which corresponds to the risk of rejecting the null hypothesis whereas it is true.</p>
-</div>
-<div id="degrees-of-freedom-for-student-tst" class="slide section level2">
-<h1>Degrees of freedom for Student tst</h1>
+<p>In the case of hypothesis testing, the P-value can be interpreted as an evaluation of the risk of <strong>first kind error</strong>, which corresponds to the risk of rejecting the null hypothesis whereas it is true. ## Degrees of freedom for Student tst</p>
 <p>The shape of the Student distribution depends on a parameter named <strong><em>degrees of freedom</em></strong> (<span class="math inline">\(\nu\)</span>), which represents the number of independent variables used in the equation.</p>
 <p>In a two-sample t-test (as in our case), the degrees of freedom are computed as the total number of elements in the respective samples (<span class="math inline">\(n_1\)</span>, <span class="math inline">\(n_2\)</span>) minus the number of means estimated from these elements (we estimated the means of group 1 and group 2, respectively). Thus:</p>
 <p><span class="math display">\[\nu_S = n_1 + n_2 - 2\]</span></p>
@@ -356,9 +353,9 @@ Student density (left) and CDF (right) on linear (top) or logarithmic (bottom) s
 <div id="welch-degrees-of-freedom" class="slide section level2">
 <h1>Welch degrees of freedom</h1>
 <p>The Welch test corrects the impact of heteroscedacity by adapting the degrees of freedom (<span class="math inline">\(\nu\)</span>) of the Student distribution according to the respective sample variances.</p>
-<p><span class="math display">\[TO BE ADDED\]</span></p>
+<p><span class="math display">\[\nu = \frac{\left( \frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}\right)^2}{\frac{s_1^4}{n_1^2(n_1-1)} + \frac{s_2^4}{n_2^2(n_2-1)}}\]</span></p>
 <ul>
-<li><p>You generally don’t have to compute this by yourselve, it is done automatically in R.</p></li>
+<li><p>You generally don’t have to compute this by yourself, it is done automatically in R.</p></li>
 <li><p>Under homoscedasticity, Student and Welch degrees of freedom are equal.</p></li>
 <li><p>Under homoscedasticity, the <strong><em>power of the test</em></strong> (capacity to reject <span class="math inline">\(H_0\)</span> under <span class="math inline">\(H_1\)</span>) is higher for Student than Welch.</p></li>
 </ul>
@@ -453,7 +450,7 @@ Student density (left) and CDF (right) on linear (top) or logarithmic (bottom) s
 <td>Welch <span class="math inline">\(t\)</span> statistics</td>
 </tr>
 <tr class="odd">
-<td><span class="math inline">\(\nu_W = {{\left( {s_1^2 \over n_1} + {s_2^2 \over n_2}\right)^2 } \over  {{s_1^4 \over n_1^2 \cdot \left({n_1-1}\right)}+{s_2^4 \over n_2^2 \cdot \left({n_2-1}\right)}}}\)</span></td>
+<td><span class="math inline">\(\nu_W = TOBEADDED\)</span></td>
 <td>degrees of freedom for Welch test</td>
 </tr>
 </tbody>

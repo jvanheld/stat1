@@ -3,11 +3,19 @@ title: "First steps with R"
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  pdf_document:
+  slidy_presentation:
+    self_contained: no
     fig_caption: yes
-    highlight: zenburn
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: no
+    smaller: yes
+    theme: cerulean
     toc: yes
-    toc_depth: 3
+    toc_float: yes
+    widescreen: yes
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -33,19 +41,11 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
-  slidy_presentation:
-    self_contained: no
+  pdf_document:
     fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    incremental: no
-    keep_md: no
-    smaller: yes
-    theme: cerulean
+    highlight: zenburn
     toc: yes
-    toc_float: yes
-    widescreen: yes
+    toc_depth: 3
   html_document:
     code_folding: show
     self_contained: no
@@ -176,16 +176,13 @@ print(b)
 print(c)
 ```
 
-## Assignation $\neq$ equality
-
-### Exercise
+## Assignation $\neq$ equality - Exercise
 
 - Replace the value of $a$ by $3$
 - Print out the value of $c$
 - Is-it still true that $c = a + b$? Why?
 
-### Solution
-
+## Assignation $\neq$ equality - Solution
 
 ```{r}
 a <- 3 ## Change the value of a
@@ -588,8 +585,7 @@ par(mfrow=c(1,1))
 
 ## Before finishing: keep a trace of your session!
 
-Traceabilityand reproducibility of the analyses are crucial issues for sciences. 
-The  ***R*** function `sessionInfo()` summarises the software environment used for the current a working session: R version, operating system, loaded libraries/packages and their versions.
+Traceability and reproducibility of the analyses are crucial issues for sciences. The  ***R*** function `sessionInfo()` summarises the software environment used for the current a working session: R version, operating system, loaded libraries/packages and their versions.
 
 
 ```{r}

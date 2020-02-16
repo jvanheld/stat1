@@ -4,8 +4,7 @@
 
 - Master en Bioinformatique, parcours **Développement Logiciel et Analyse des Données** (**DLAD**). 
 
-    - **[Probabilités et statistiques pour la bioinformatique](STAT1_DLAD.html)** (**STAT1**) 
-
+    - **[Probabilités et statistiques pour la bioinformatique](STAT1_DLAD.html)** (**STAT1**)
 
 - Inter-disciplinary Master **Computational and Mathematical Biology** (**CMB**). 
 

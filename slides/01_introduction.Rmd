@@ -14,6 +14,7 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
+    self_contained: no
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes

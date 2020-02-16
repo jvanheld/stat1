@@ -9,17 +9,22 @@ output:
 
 ### General info
 
-- AMU code: [SCMA07AL](https://formations.univ-amu.fr/ME5SBI-S53MA1Z1A-en.html)
+- AMU code: [S53MA1Z1A](https://formations.univ-amu.fr/ME5SBI-S53MA1Z1A-en.html)
 - 6h lectures + 6h exercises + 6h practicals
 - Teachers
 
     - 2019-2020: **Jacques van Helden** & **Lucie Khamvongsa-Charbonnier**
-    
+
+- Students
+
+    - M1 Computational and Mathematical Biology, Master Bioinformatique [https://formations.univ-amu.fr/ME5SBI-PRSBI5AA.html]
+
 - Links
 
     - Web site: <https://jvanheld.github.io/stat1/>
     - Github repository: <https://github.com/jvanheld/stat1>
     - Ametice: <https://ametice.univ-amu.fr/course/view.php?id=50334>
+    
 
 ### Course contents
 

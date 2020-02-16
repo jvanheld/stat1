@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jacques van Helden" />
 
-<meta name="date" content="2019-10-26" />
+<meta name="date" content="2020-02-02" />
 
 <title>Personal work – Differential analysis and multiple testing</title>
 
@@ -345,7 +345,7 @@ div.tocify {
 <h1 class="title toc-ignore">Personal work – Differential analysis and multiple testing</h1>
 <h3 class="subtitle">Probabilities and statistics for modelling 1 (STAT1)</h3>
 <h4 class="author">Jacques van Helden</h4>
-<h4 class="date">2019-10-26</h4>
+<h4 class="date">2020-02-02</h4>
 
 </div>
 
@@ -435,7 +435,7 @@ div.tocify {
 <div id="impact-of-variance" class="section level3">
 <h3>3. Impact of variance</h3>
 <p>Generate random numbers following a normal distribution, with equal sample sizes (<span class="math inline">\(n_1 = n_2 = 10\)</span>), but with a series of different standard deviations (<span class="math inline">\(\sigma = {0.1, 1, 10, 100}\)</span>).</p>
-<p>Run Student test and evaluate the impact of sample size on the rate of false positive and power of the test.</p>
+<p>Run Student test and evaluate the impact of dispersion standard deviation on the rate of false positive and power of the test.</p>
 </div>
 <div id="impact-of-non-normality-on-student-test" class="section level3">
 <h3>4. Impact of non-normality on Student test</h3>
@@ -887,8 +887,9 @@ sample estimates:
 <h2>Interpretation of the results</h2>
 <p>We should now write a report of interpretation, which will address the following questions.</p>
 <ul>
-<li>Based on the experiment under <span class="math inline">\(H_0\)</span>, estimate the <strong>false positive rate</strong> (<strong>FPR</strong>).</li>
+<li>Based on the experiments under <span class="math inline">\(H_0\)</span>, compute the number of false positives and estimate the <strong>false positive rate</strong> (<strong>FPR</strong>). Compare these values with the <strong>E-value</strong> (expected number of false positives) for the 10^{4} tests, and with your <span class="math inline">\(alpha\)</span> trheshold.</li>
 <li>Based on the experiments under <span class="math inline">\(H_1\)</span>, estimate the <strong>sensitivity</strong> (<strong>Sn</strong>) of the test for the different mean differences tested here.</li>
+<li>Interpret the histograms of P-values obtained with the different parameters ?</li>
 <li>Draw a <strong>power curve</strong> (i.e. the sensitivity as a function of the actual difference between population means)</li>
 <li>Discuss about the adequation between the test and the conditions of our simulations.</li>
 <li>Do these observations correspond to what would be expected?</li>

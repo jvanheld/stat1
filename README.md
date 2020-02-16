@@ -1,9 +1,17 @@
-Ce site Web contient  / this Web site contains: 
+### Cours / Courses
 
-- les supports du cours **[Probabilités et statistiques pour la bioinformatique](STAT1_DLAD.html)** (**STAT1**) du Master en Bioinformatique, parcours **Développement Loficiel et Analyse des Données** (**DLAD**). 
 
-- teaching material for the course **[Probabilities and statistics for modelling](STAT1_CMB.html)** (**STAT1**) of the Inter-disciplinary Master **Computational and Mathematical Biology** (**CMB**)/. 
 
+- Master en Bioinformatique, parcours **Développement Logiciel et Analyse des Données** (**DLAD**). 
+
+    - **[Probabilités et statistiques pour la bioinformatique](STAT1_DLAD.html)** (**STAT1**) 
+
+
+- Inter-disciplinary Master **Computational and Mathematical Biology** (**CMB**). 
+
+    - **[Probabilities and statistics for modelling](STAT1_CMB.html)** (**STAT1**)
+    
+    - **[Statistics for Biology](STAT2_CMB.html)** (**STAT2**)
 
 
 

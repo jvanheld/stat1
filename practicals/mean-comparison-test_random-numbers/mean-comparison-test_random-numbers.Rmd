@@ -3,11 +3,15 @@ title: "Personal work -- Differential analysis and multiple testing"
 author: "Jacques van Helden"
 date: "`r Sys.Date()`"
 output:
-  pdf_document:
+  html_document:
+    code_folding: hide
     fig_caption: yes
     highlight: zenburn
+    self_contained: no
+    theme: cerulean
     toc: yes
     toc_depth: 3
+    toc_float: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -33,15 +37,11 @@ output:
   word_document:
     toc: yes
     toc_depth: '3'
-  html_document:
-    code_folding: hide
+  pdf_document:
     fig_caption: yes
     highlight: zenburn
-    self_contained: no
-    theme: cerulean
     toc: yes
     toc_depth: 3
-    toc_float: yes
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -129,7 +129,7 @@ Run Student test and evaluate the impact of sample size on the rate of false pos
 
 Generate random numbers following a normal distribution, with equal sample sizes ($n_1 = n_2 = 10$), but with a series of different standard deviations ($\sigma = {0.1, 1, 10, 100}$). 
 
-Run Student test and evaluate the impact of sample size on the rate of false positive and power of the test. 
+Run Student test and evaluate the impact of dispersion standard deviation on the rate of false positive and power of the test. 
 
 ### 4. Impact of non-normality on Student test
 
@@ -543,10 +543,15 @@ par(mfrow = c(1, 1)) ## Restore single-panel layout for next figures
 We should now write a report of interpretation, which will address the following questions. 
 
 - Based on the experiments under $H_0$, compute the number of false positives and estimate the **false positive rate** (**FPR**). Compare these values with the **E-value** (expected number of false positives) for the `r r` tests,  and with your $alpha$ trheshold. 
+
 - Based on the experiments under $H_1$, estimate the **sensitivity** (**Sn**) of the test for the different mean differences tested here.
+
 - Interpret the histograms of P-values obtained with the different parameters ?
+
 - Draw a **power curve** (i.e. the sensitivity as a function of the actual difference between population means)
+
 - Discuss about the adequation between the test and the conditions of our simulations. 
+
 - Do these observations correspond to what would be expected? 
 
 The same kind of questions will be asked for the 6 other questions above (impact of sample size,  variance,  non-normality, heteroscadicity, parametric vs non-parametric test). 

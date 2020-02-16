@@ -7,7 +7,7 @@
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
   <meta name="author" content="Jacques van Helden" />
-  <meta name="date" content="2019-09-13" />
+  <meta name="date" content="2020-02-16" />
   <title>First steps with R</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -88,7 +88,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   <p class="author">
 Jacques van Helden
   </p>
-  <p class="date">2019-09-13</p>
+  <p class="date">2020-02-16</p>
 </div>
 <div id="goal-of-this-tutorial" class="slide section level2">
 <h1>Goal of this tutorial</h1>
@@ -156,15 +156,16 @@ Jacques van Helden
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">print</span>(c)</a></code></pre></div>
 <pre><code>[1] 7</code></pre>
 </div>
-<div id="assignation-neq-equality" class="slide section level2">
-<h1>Assignation <span class="math inline">\(\neq\)</span> equality</h1>
-<h3 id="exercise">Exercise</h3>
+<div id="assignation-neq-equality---exercise" class="slide section level2">
+<h1>Assignation <span class="math inline">\(\neq\)</span> equality - Exercise</h1>
 <ul>
 <li>Replace the value of <span class="math inline">\(a\)</span> by <span class="math inline">\(3\)</span></li>
 <li>Print out the value of <span class="math inline">\(c\)</span></li>
 <li>Is-it still true that <span class="math inline">\(c = a + b\)</span>? Why?</li>
 </ul>
-<h3 id="solution">Solution</h3>
+</div>
+<div id="assignation-neq-equality---solution" class="slide section level2">
+<h1>Assignation <span class="math inline">\(\neq\)</span> equality - Solution</h1>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="dv">3</span> <span class="co">## Change the value of a</span></a>
 <a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw">print</span>(a)</a></code></pre></div>
 <pre><code>[1] 3</code></pre>
@@ -311,7 +312,7 @@ Jacques van Helden
 </ul>
 <p>An example of solution is shown in the next section (don’t look before having done the exercise!).</p>
 </div>
-<div id="solution-1" class="slide section level2">
+<div id="solution" class="slide section level2">
 <h1>Solution</h1>
 <p>Run the following chunk of code to generate the improved figure.</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">-10</span>, <span class="dt">to =</span> <span class="dv">10</span>, <span class="dt">by =</span> <span class="fl">0.1</span>)</a>
@@ -424,11 +425,11 @@ Jacques van Helden
 </div>
 <div id="before-finishing-keep-a-trace-of-your-session" class="slide section level2">
 <h1>Before finishing: keep a trace of your session!</h1>
-<p>Traceabilityand reproducibility of the analyses are crucial issues for sciences. The <strong><em>R</em></strong> function <code>sessionInfo()</code> summarises the software environment used for the current a working session: R version, operating system, loaded libraries/packages and their versions.</p>
+<p>Traceability and reproducibility of the analyses are crucial issues for sciences. The <strong><em>R</em></strong> function <code>sessionInfo()</code> summarises the software environment used for the current a working session: R version, operating system, loaded libraries/packages and their versions.</p>
 <div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
 <pre><code>R version 3.6.1 (2019-07-05)
 Platform: x86_64-apple-darwin15.6.0 (64-bit)
-Running under: macOS High Sierra 10.13.6
+Running under: macOS Mojave 10.14.6
 
 Matrix products: default
 BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
@@ -441,12 +442,13 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] knitr_1.23
+[1] knitr_1.25
 
 loaded via a namespace (and not attached):
- [1] compiler_3.6.1  magrittr_1.5    tools_3.6.1     htmltools_0.3.6
- [5] yaml_2.2.0      Rcpp_1.0.2      stringi_1.4.3   rmarkdown_1.14 
- [9] stringr_1.4.0   xfun_0.8        digest_0.6.20   evaluate_0.14  </code></pre>
+ [1] compiler_3.6.1  magrittr_1.5    tools_3.6.1     htmltools_0.4.0
+ [5] yaml_2.2.0      Rcpp_1.0.2      stringi_1.4.3   rmarkdown_1.16 
+ [9] stringr_1.4.0   xfun_0.10       digest_0.6.21   rlang_0.4.0    
+[13] evaluate_0.14  </code></pre>
 </div>
 <div class="slide section level2">
 

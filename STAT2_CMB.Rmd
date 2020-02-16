@@ -1,0 +1,123 @@
+---
+title: 'CMB-STAT2 : Statistics for Biology'
+author: "Jacques van Helden"
+date: '`r Sys.Date()`'
+output:
+  html_document:
+    fig_caption: yes
+    highlight: zenburn
+    theme: cerulean
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  beamer_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
+  slidy_presentation:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
+    self_contained: no
+  ioslides_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: yes
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
+font-import: http://fonts.googleapis.com/css?family=Risque
+font-family: Garamond
+transition: linear
+---
+
+```{r include=FALSE, echo=FALSE, eval=TRUE}
+options(width = 300)
+knitr::opts_chunk$set(
+  fig.width = 7, fig.height = 5, 
+  fig.path = 'figures/01_intro_',
+  fig.align = "center", 
+  size = "tiny", 
+  echo = TRUE, eval = TRUE, 
+  warning = FALSE, message = FALSE, 
+  results = TRUE, comment = "")
+```
+
+
+## General info
+
+- AMU code: [S53MA2Z2B](https://formations.univ-amu.fr/ME5SBI-S53MA2Z2B-en.html)
+- 6h lectures + 6h exercises + 6h practicals
+- Teachers
+
+    - 2019-2020: **Jacques van Helden**
+    
+- Students
+
+    - [M1 Computational and Mathematical Biology, Master Bioinformatique](https://formations.univ-amu.fr/ME5SBI-PRSBI5AA.html)
+    - [M1 Computational and Mathematical Biology, Master Master Mathématiques et applications](https://formations.univ-amu.fr/ME5SMA-PRSMA5AF.html)
+    - [M1 Computational and Mathematical Biology, Master Mathématiques appliquées, statistique](https://formations.univ-amu.fr/ME5SMS-PRSMS5AD.html)
+
+- Links
+
+    - Web site: <https://jvanheld.github.io/stat1/CMB-STAT2.md>
+    - Github repository: <https://github.com/jvanheld/stat1>
+    - Ametice: <https://ametice.univ-amu.fr/course/view.php?id=50334>
+
+## Course contents
+
+This course aims at providing students with a practical approach of the analysis of biological data with R, based on the concepts acquired in the course “Probabilities and statistics for modelling 1”. The associated mathematical foundations will be developed in the course “Advanced statistics”. 
+
+The following notions will be investigated :
+
+- Sampling and estimation (moments, robust estimators, confidence intervals)
+- Fitting
+- Additional distributions
+- Hypothesis testing (mean comparison, goodness of fit,…)
+
+
+## 2020 calendar
+
+
+
+## Course support
+
+
+
+****************************************************************
+## Access
+
+- Web site: <https://jvanheld.github.io/stat1/STAT2_CMB.html>
+- [**GitHub** repository](https://github.com/jvanheld/stat1) (same repo for STAT1 and STAT2)
+- Shell command to get a git clone: 
+
+    `git clone git@github.com:jvanheld/stat1.git`
+
+
+****************************************************************

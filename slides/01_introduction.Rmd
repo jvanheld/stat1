@@ -3,18 +3,11 @@ title: 'STAT1 : Introduction au cours'
 author: "Jacques van Helden"
 date: '`r Sys.Date()`'
 output:
-  slidy_presentation:
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    highlight: tango
-    incremental: no
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
-    toc: yes
-    widescreen: yes
-    self_contained: no
+  revealjs::revealjs_presentation:
+    theme: night
+    transition: none
+    self_contained: true
+    css: ../slides.css
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -52,6 +45,19 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
+  slidy_presentation:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    highlight: tango
+    incremental: no
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
+    toc: yes
+    widescreen: yes
+    self_contained: no
+subtitle: CMB-STAT1 2019
 font-import: http://fonts.googleapis.com/css?family=Risque
 font-family: Garamond
 transition: linear

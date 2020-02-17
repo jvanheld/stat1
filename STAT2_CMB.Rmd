@@ -52,9 +52,11 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
-font-import: http://fonts.googleapis.com/css?family=Risque
-font-family: Garamond
-transition: linear
+  revealjs::revealjs_presentation:
+    theme: night
+    transition: none
+    self_contained: true
+    css: ../slides.css
 ---
 
 ```{r include=FALSE, echo=FALSE, eval=TRUE}
@@ -90,6 +92,12 @@ knitr::opts_chunk$set(
     - Github repository: <https://github.com/jvanheld/stat1>
     - Ametice: <https://ametice.univ-amu.fr/course/view.php?id=50334>
 
+
+## Prerequisites
+
+- Students are supposd to have followed general courses of statistics and be familiar with the main concepts usually treated
+- For students of the [M1 Computational and Mathematical Biology, Master Master Mathématiques et applications](https://formations.univ-amu.fr/ME5SMA-PRSMA5AF.html), this course follows the course Probabillities and statistics applied to modelling 1 (STAT1)
+
 ## Course contents
 
 This course aims at providing students with a practical approach of the analysis of biological data with R, based on the concepts acquired in the course “Probabilities and statistics for modelling 1”. The associated mathematical foundations will be developed in the course “Advanced statistics”. 
@@ -101,12 +109,113 @@ The following notions will be investigated :
 - Additional distributions
 - Hypothesis testing (mean comparison, goodness of fit,…)
 
+## Study cases
+
+- Distribution of k-mers (oligonucleotides) in DNA sequences
+- Analysis of omics data
+
+## Skills expected to be acquired at the end of this course
+
+### Practical experience of statistical concepts
+
+- Fitting
+- Convergence between distributions
+- Impact of sample size
+- Estimators: moments versus robust estimators
+- Multiple testing
+
+
+### R programming 
+
+- Data structures
+
+    - vector
+    - factor
+    - matrix
+    - data.frame
+    - list
+    
+- Functions related to the main data structures
+    
+    - class()
+    - is.numeric(), is.integer(), is.na(), is.xxxx()
+    - c()
+    - vector(), matrix(), data.frame()
+    - as.vector(), as.matrix(), as.data.frame()
+    - unlist()
+    - nrow(), ncol(), dim()
+    - append(), sort(), unique()
+
+- Handling strings
+
+    - sub()
+    - split()
+    - grep()
+
+- Getting help
+
+    - help()
+    - ?
+    - ??
+
+- Handling files and directories
+
+    - getwd()
+    - setwd()
+    - dir.create()
+    - list.files()
+
+- Handling distributions of probabilities
+
+    - The four functions for a distribution X: dX, pX, qX, rX
+    - Binomial
+    - Poisson
+    - Hypergeometric
+    - Normal
+    - Student
+    - Chi2
+
+- Descriptive statistics
+
+    - mean(), median(), mode()
+    - sd(), var(), cor()
+    - quantile(), IQR()
+
+- Drawing graphs
+
+    - plot()
+    - barplot()
+    - boxplot()
+    - hist()
+
+- Installing and loading R packages
+
+    - cran
+    - bioconductor
+    - github
+
+- Implementing a function
+
+- Documenting a function
+
+- Using the apply and related functions
+
+- Using R classes and objects
+
+
+
+
 
 ## 2020 calendar
 
+| Day | Contents | Type | Supports | 
+|------|-------------------------------------|-------------|-----------|
+| 2020-02-17 | Fitting theoretical distributions on k-mer counts | Practical | [html](practicals/kmer_distributions/kmer_distributions.html)  |
 
 
 ## Course support
+
+### Slides
 
 
 

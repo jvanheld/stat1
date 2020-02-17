@@ -129,7 +129,7 @@ message("Result directory\t", dir.results)
 
     - click *Mandatory inputs*, enter the name your organism of interest, and check the option *all genes of this organism*;
     - in *Mandatory options*, select *upstream*, and set the sequence limits from -1 to -500
-    - in *Advanced options*, *make sure that this option is checked**uncheck** the following option: *Prevent overlap with neighbour genes (noorf)* ^[Note: normally it is recommended to check this option, but we intently inactivate it in order to get sequences of the same sizes. ]
+    - in *Advanced options*, *make sure that this option is **unchecked**: *Prevent overlap with neighbour genes (noorf)* ^[Note: normally it is recommended to check this option, but we intently inactivate it in order to get sequences of the same sizes. ]
     - click *Run analysis* and *GO*.
     
 After a few seconds (or minutes) the result is displayed. Right-click on the sequence file (extension fasta) and open it in a separate tab to check its content. 

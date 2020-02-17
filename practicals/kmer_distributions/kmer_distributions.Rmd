@@ -98,7 +98,10 @@ Each student will choose one organism of interest among the following ones.
 | Plant | Zea mays.AGPv3.29 |
 | Apicomplexa |  |
 
-## Working directory
+
+## Solutions
+
+### Working directory
 
 On your computer, create a directory for this practical. I suggest to use a consistent naming for the different practicals of this course. 
 
@@ -117,6 +120,20 @@ message("Result directory\t", dir.results)
 
 ```
 
+
+### Download the count table from RSAT
+
+```{r}
+temp.url <- "http://pedagogix-tagc.univ-mrs.fr/rsat//tmp/www-data/2020/02/17/oligo-analysis_2020-02-17.140412_P1eS3Q_2nt.tab"
+```
+
+
+### Load the k-mer count table in R
+
+
+### Compute marginal statistics
+
+### Draw the distributions
 
 
 ## Counting k-mer occurrences in each promoter of a model organism
@@ -141,6 +158,7 @@ After a few seconds (or minutes) the result is displayed. Right-click on the seq
     - Select *Count on single strand*.
     - For *oligomer lengths*, select 2 and **uncheck the other lengths**.
     - In *Results*, check the option *Occurrence table*.
+    - Type your email address and select the mail output. 
     - Click *GO*. 
 
 5. Store the result table in your results directory. 

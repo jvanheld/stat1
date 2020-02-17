@@ -211,6 +211,7 @@ The following notions will be investigated :
 | Day | Contents | Type | Supports | 
 |------|-------------------------------------|-------------|-----------|
 | 2020-02-17 | Fitting theoretical distributions on k-mer counts | Practical | [html](practicals/kmer_distributions/kmer_distributions.html)  |
+|  |  | Live demo starting script | [R](practicals/kmer_distributions/live-demo_solutions_kmer-distributions.R)  |
 
 
 ## Course support

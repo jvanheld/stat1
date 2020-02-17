@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jacques van Helden" />
 
-<meta name="date" content="2020-02-16" />
+<meta name="date" content="2020-02-17" />
 
 <title>CMB-STAT2 : Statistics for Biology</title>
 
@@ -1472,7 +1472,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">CMB-STAT2 : Statistics for Biology</h1>
 <h4 class="author">Jacques van Helden</h4>
-<h4 class="date">2020-02-16</h4>
+<h4 class="date">2020-02-17</h4>
 
 </div>
 
@@ -1500,6 +1500,13 @@ div.tocify {
 </ul></li>
 </ul>
 </div>
+<div id="prerequisites" class="section level2">
+<h2>Prerequisites</h2>
+<ul>
+<li>Students are supposd to have followed general courses of statistics and be familiar with the main concepts usually treated</li>
+<li>For students of the <a href="https://formations.univ-amu.fr/ME5SMA-PRSMA5AF.html">M1 Computational and Mathematical Biology, Master Master Mathématiques et applications</a>, this course follows the course Probabillities and statistics applied to modelling 1 (STAT1)</li>
+</ul>
+</div>
 <div id="course-contents" class="section level2">
 <h2>Course contents</h2>
 <p>This course aims at providing students with a practical approach of the analysis of biological data with R, based on the concepts acquired in the course “Probabilities and statistics for modelling 1”. The associated mathematical foundations will be developed in the course “Advanced statistics”.</p>
@@ -1511,12 +1518,129 @@ div.tocify {
 <li>Hypothesis testing (mean comparison, goodness of fit,…)</li>
 </ul>
 </div>
+<div id="study-cases" class="section level2">
+<h2>Study cases</h2>
+<ul>
+<li>Distribution of k-mers (oligonucleotides) in DNA sequences</li>
+<li>Analysis of omics data</li>
+</ul>
+</div>
+<div id="skills-expected-to-be-acquired-at-the-end-of-this-course" class="section level2">
+<h2>Skills expected to be acquired at the end of this course</h2>
+<div id="practical-experience-of-statistical-concepts" class="section level3">
+<h3>Practical experience of statistical concepts</h3>
+<ul>
+<li>Fitting</li>
+<li>Convergence between distributions</li>
+<li>Impact of sample size</li>
+<li>Estimators: moments versus robust estimators</li>
+<li>Multiple testing</li>
+</ul>
+</div>
+<div id="r-programming" class="section level3">
+<h3>R programming</h3>
+<ul>
+<li><p>Data structures</p>
+<ul>
+<li>vector</li>
+<li>factor</li>
+<li>matrix</li>
+<li>data.frame</li>
+<li>list</li>
+</ul></li>
+<li><p>Functions related to the main data structures</p>
+<ul>
+<li>class()</li>
+<li>is.numeric(), is.integer(), is.na(), is.xxxx()</li>
+<li>c()</li>
+<li>vector(), matrix(), data.frame()</li>
+<li>as.vector(), as.matrix(), as.data.frame()</li>
+<li>unlist()</li>
+<li>nrow(), ncol(), dim()</li>
+<li>append(), sort(), unique()</li>
+</ul></li>
+<li><p>Handling strings</p>
+<ul>
+<li>sub()</li>
+<li>split()</li>
+<li>grep()</li>
+</ul></li>
+<li><p>Getting help</p>
+<ul>
+<li>help()</li>
+<li>?</li>
+<li>??</li>
+</ul></li>
+<li><p>Handling files and directories</p>
+<ul>
+<li>getwd()</li>
+<li>setwd()</li>
+<li>dir.create()</li>
+<li>list.files()</li>
+</ul></li>
+<li><p>Handling distributions of probabilities</p>
+<ul>
+<li>The four functions for a distribution X: dX, pX, qX, rX</li>
+<li>Binomial</li>
+<li>Poisson</li>
+<li>Hypergeometric</li>
+<li>Normal</li>
+<li>Student</li>
+<li>Chi2</li>
+</ul></li>
+<li><p>Descriptive statistics</p>
+<ul>
+<li>mean(), median(), mode()</li>
+<li>sd(), var(), cor()</li>
+<li>quantile(), IQR()</li>
+</ul></li>
+<li><p>Drawing graphs</p>
+<ul>
+<li>plot()</li>
+<li>barplot()</li>
+<li>boxplot()</li>
+<li>hist()</li>
+</ul></li>
+<li><p>Installing and loading R packages</p>
+<ul>
+<li>cran</li>
+<li>bioconductor</li>
+<li>github</li>
+</ul></li>
+<li><p>Implementing a function</p></li>
+<li><p>Documenting a function</p></li>
+<li><p>Using the apply and related functions</p></li>
+<li><p>Using R classes and objects</p></li>
+</ul>
+</div>
+</div>
 <div id="calendar" class="section level2">
 <h2>2020 calendar</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Day</th>
+<th>Contents</th>
+<th>Type</th>
+<th>Supports</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2020-02-17</td>
+<td>Fitting theoretical distributions on k-mer counts</td>
+<td>Practical</td>
+<td><a href="practicals/kmer_distributions/kmer_distributions.html">html</a></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="course-support" class="section level2">
 <h2>Course support</h2>
+<div id="slides" class="section level3">
+<h3>Slides</h3>
 <hr />
+</div>
 </div>
 <div id="access" class="section level2">
 <h2>Access</h2>

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Jacques van Helden" />
+
+<meta name="date" content="2020-02-17" />
+
+<title>Practical – k-mer distributions</title>
+
+<script src="kmer_distributions_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="kmer_distributions_files/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="kmer_distributions_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="kmer_distributions_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="kmer_distributions_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="kmer_distributions_files/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="kmer_distributions_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="kmer_distributions_files/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="kmer_distributions_files/navigation-1.1/tabsets.js"></script>
+<script src="kmer_distributions_files/navigation-1.1/codefolding.js"></script>
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Practical – k-mer distributions</h1>
+<h3 class="subtitle">Probabilities and statistics for modelling 1 (STAT1)</h3>
+<h4 class="author">Jacques van Helden</h4>
+<h4 class="date">2020-02-17</h4>
+
+</div>
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>In this practical, we will count k-mer occurrences in DNA sequences of different organisms (one organism per sutdent), fit different theoretical distributions of probabilities onto the empirical distributions of counts, and test the goodness of fit for these alternative distributions.</p>
+</div>
+<div id="organisms" class="section level2">
+<h2>Organisms</h2>
+<p>Each student will choose one organism of interest among the following ones.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Taxon</th>
+<th>Organism</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Fungi</td>
+<td>Saccharomyces_cerevisiae</td>
+</tr>
+<tr class="even">
+<td>Bacteria</td>
+<td>Escherichia coli GCF 000005845.2 ASM584v2</td>
+</tr>
+<tr class="odd">
+<td>Mammalian</td>
+<td>Homo sapiens GRCh38</td>
+</tr>
+<tr class="even">
+<td>Mammalian</td>
+<td>Mus musculus GRCm38</td>
+</tr>
+<tr class="odd">
+<td>Bird</td>
+<td>Gallus gallus EnsEMBL</td>
+</tr>
+<tr class="even">
+<td>Fish</td>
+<td>Danio_rerio_EnsEMBL</td>
+</tr>
+<tr class="odd">
+<td>Insect</td>
+<td>Drosophila melanogaster</td>
+</tr>
+<tr class="even">
+<td>Worm</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Plant</td>
+<td>Arabidopsis thaliana.TAIR10.29</td>
+</tr>
+<tr class="even">
+<td>Plant</td>
+<td>Zea mays.AGPv3.29</td>
+</tr>
+<tr class="odd">
+<td>Apicomplexa</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="counting-k-mer-occurrences-in-each-promoter-of-a-model-organism" class="section level2">
+<h2>Counting k-mer occurrences in each promoter of a model organism</h2>
+<ol style="list-style-type: decimal">
+<li><p>Open a connection to the Regulatory Sequence Analysis Tools (RSAT) teaching server : <a href="http://teaching.rsat.eu/" class="uri">http://teaching.rsat.eu/</a></p></li>
+<li><p>In the tool search box, type “retrieve sequence” and click on the corresponding tool.</p></li>
+<li><p>In the <a href="http://pedagogix-tagc.univ-mrs.fr/rsat/retrieve-seq_form.cgi"><em>retrieve-sequence</em></a> form,</p>
+<ul>
+<li>click <em>Mandatory inputs</em>, enter the name your organism of interest, and check the option <em>all genes of this organism</em>;</li>
+<li>in <em>Mandatory options</em>, select <em>upstream</em>, and set the sequence limits from -1 to -500</li>
+<li>in <em>Advanced options</em>, make sure that this option is checked: <em>Prevent overlap with neighbour genes (noorf)</em></li>
+<li>click <em>Run analysis</em> and <em>GO</em>.</li>
+</ul></li>
+</ol>
+<p>After a few seconds (or minutes) the result is displayed. Right-click on the sequence file (extension fasta) and open it in a separate tab to check its content.</p>
+<ol start="4" style="list-style-type: decimal">
+<li><p>Come back to the result page of retrieve-sequence. In the <em>Next Step</em> box below the result, click on the link to <em>oligo-analysis</em>. This will transfer your sequences to the oligo-analysis form.</p>
+<ul>
+<li>In the <em>Sequence</em> section, inactivate the option <em>purge sequence</em>.</li>
+<li>In the <em>Oligmer counting mode</em>, <strong>uncheck</strong> the option <em>prevent overlapping matches</em>.</li>
+<li>Select <em>Count on single strand</em>.</li>
+<li>For <em>oligomer lengths</em>, select 2 and <strong>uncheck the other lengths</strong>.</li>
+<li>In <em>Results</em>, check the option <em>Occurrence table</em>.</li>
+<li>Click <em>GO</em>.</li>
+</ul></li>
+</ol>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

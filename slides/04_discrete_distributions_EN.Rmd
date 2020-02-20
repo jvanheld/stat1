@@ -3,18 +3,17 @@ title: "Discrete distributions"
 author: "Jacques van Helden"
 date: "`r Sys.Date()`"
 output:
-  beamer_presentation:
-    colortheme: dolphin
+  slidy_presentation:
     fig_caption: yes
     fig_height: 6
     fig_width: 7
-    fonttheme: structurebold
     highlight: tango
     incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
+    keep_md: yes
+    smaller: yes
+    theme: cerulean
     toc: yes
+    widescreen: yes
   revealjs::revealjs_presentation:
     theme: night
     transition: none
@@ -47,19 +46,20 @@ output:
     highlight: zenburn
     toc: yes
     toc_depth: 3
-  slidy_presentation:
+  beamer_presentation:
+    colortheme: dolphin
     fig_caption: yes
     fig_height: 6
     fig_width: 7
+    fonttheme: structurebold
     highlight: tango
     incremental: no
-    keep_md: yes
-    smaller: yes
-    theme: cerulean
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
     toc: yes
-    widescreen: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
-subtitle: Probabilités et statistique pour la biologie (STAT1)
+subtitle: Probabilities and statistics for biology (CMB STAT1 - STAT2)
 font-family: Garamond
 transition: linear
 ---
@@ -244,7 +244,7 @@ The ***tails*** of a distribution are the areas comprised under the density curv
 
 ## Distribution tails and cumulative distribution function
 
-```{r goemetric_CDF, fig.width=7, fig.height=5.5, out.width="90%", echo=FALSE, fig.cap="**Queues et fonction de répartition de probabilité géométrique**. "}
+```{r goemetric_CDF, fig.width=7, fig.height=5.5, out.width="60%", echo=FALSE, fig.cap="**Tails and Cumulative Density Function of the geometric distribution**. "}
 
 par(mfrow = c(2,2))
 
@@ -640,46 +640,142 @@ par(mfrow=c(1,1))
 
 ## Poisson law
 
-La loi de Poisson décrit la probabilité du nombre d'occurrences d'un événement pendant un intervalle de temps fixé, en supposant que le nombre moyen d'événements par unité de temps est constant, et que les événements sont indépendants (les réalisations précédentes n'affectement pas la probabilité des occurrences suivantes).
+The Poisson law describes the probability of the number of realisations of an event during a fixed time interval, assuming that the average number of events is constant, and that the events are independent (previous realisations do not affect the probabilities of future realisations). 
 
-### Fonction de masse
+
+### Poisson Probability Mass Function
 
 $$P(X = x) = \frac{\lambda^x}{x!}e^{-\lambda}$$
 
-- $x$ est le nombre d'événements observés;
-- $\lambda$ (lettre grècque "lambda") représente l'espérance, autrement dit la moyenne attendue pour le nombre d'événements;
-- $e$ est la base de l'exponentielle ($e = `r round(digits=3, exp(1))`$).
+- $x$ is the number of event realisations
+- $\lambda$ (Greek letter "lambda") represents the expectation, i.e. the average number of occurrences that would be obtained by running the same test an infinite number of times;
+- $e$ is the exponential base ($e = `r round(digits=3, exp(1))`$).
 
-## Propriétés de la distribution de Poisson
+## Properties of the Poisson distribution
 
-- **Espérance** (nombre de succès attendus au hasard): $<X> = \lambda$ (par construction)
+- **Expectation** (number of realisations expected by chnace): $<X> = \lambda$ (by construction)
 
-- **variance**: $\sigma^2 = lambda$ (***variance égale à la moyenne!***)
+- **variance**: $\sigma^2 = lambda$ (***the variance equals the mean!***)
     
-- **Ecart-type**: $\sigma = \sqrt{\lambda}$
+- **Standard deviation**: $\sigma = \sqrt{\lambda}$
 
 
 
-## Application : mutagenèse
+## Application: mutagenesis
 
-- On soumet une population à un mutagène (agent chimique, irratiations). Chaque individu subit un certain nombre  de mutations. 
+- A bacterial population is submitted to a mutagen (chemical agent, irradiations). Each cell is affected by a particular number of mutations. 
 
-- En tenant compte de la dose de mutagène (temps d'exposition, intensité/concentration), on peut estimer empiriquement le nombre moyen de mutations par individu (*espérance*, $\lambda$).
+- Taking into account the dosis of the mutagen (exposure time, intensity, concentration) one could take an empirical measure of the mean number of mutations by individual (expectation, $\lambda$).
 
-- La loi de Poisson peut être utilisée pour décrire la probabilité d'observer un nombre donné de mutations ($x=0, 1, 2, ...$).
+- The Poisson law can be used to describe the probability for a given cell to have a given number of mutations ($x=0, 1, 2, ...$).
 
-## Expérience historique de Luria-Delbruck (1943)
+### Historical experiment by Luria-Delbruck (1943)
 
-En 1943, Salvador Luria et Max Delbruck démontrent que les mutations ne sont pas induites par l'agent mutagène,  ([Luria & Delbruck, 1943, Genetics 28:491–511](https://www.ncbi.nlm.nih.gov/pubmed/17247100)).
+In 1943, Salvador Luria and Max Delbruck demonstrated that when cultured bacteria are treated by an antibiotic, 
+the mutations that confer resistance are not induced by the antibiotic itself, but preexist. Their demonstration relies on the fact that the number of antibiotic-resistant cells follows a Poisson law ([Luria & Delbruck, 1943, Genetics 28:491–511](https://www.ncbi.nlm.nih.gov/pubmed/17247100)).
+
+## Convergence of the binomial towards the Poisson
+
+Under some circumstances, the binmial law converges towards a Poisson. 
+
+- very small probability of success ($p \ll 1$)
+- large number of trials ($n$)
+
+<font color="red">TO DO</font>
 
 
+## Netative binomial: number of successes before the $r^{th}$ failure
 
-## Convergence de la loi binomiale vers la Poisson
+The **negative binomial** distribution (also called **Pascal distribution**) indicates the probability of the number of successes ($k$) before the $r^{th}$ failure, in a Bernoulli schema with success probability $p$.
 
-<font color="red">A FAIRE</font>
+$$\mathcal{NB}(k|r, p) = \binom{k+r-1}{k}p^k(1-p)^r$$
+
+This formula is a simple adaptation of the binomial, with the difference that we know that the last trial must be a failure. The binomial coefficient is thus reduced to choose the $k$ successes among the $n-1 = k+r-1$ trials preceding the $r^{th}$ failure. 
+
+## Negative binomial: alternative formulations
+
+It can also be adapted to indicate related probabilities. 
+
+- Number of **failures** ($r$) before the $k^{th}$ **success**.
+
+$$\mathcal{NB}(r|k, p) = \binom{k+r-1}{r}p^k(1-p)^r$$
+
+- Number of **trials** ($n=k+r-1$) before the $r^{th}$ **failure**.
+
+$$\mathcal{NB}(n|r, p) = \binom{n-1}{r-1}p^{n-r}(1-p)^r$$
 
 
-## Exercices
+## Properties of the negative binomial
+
+The variance of the negative binomial is higher than its mean. 
+It is therefore sometimes used to model distributions that are over-dispersed by comparisong with a Poisson. 
+
+## Negative binomial density
+
+```{r negbin, echo=FALSE, fig.width=8, fig.height=4, fig.cap="Negative binomial. "}
+k <- 0:25    # Number of successes
+
+par(mfrow=c(2,2))
+par(mar=c(4,4,1,1))
+for (r in c(1, 2, 5, 10)) {
+  P.k <- dnbinom(k, size = r, prob = 0.75)
+  plot(k, P.k, type="h", panel.first = grid(), lwd=3, ylim=c(0,1), las=1, xlab="Number of successes (k)", ylab="P(K=k)", col="darkblue")
+  legend("topright", legend=paste("Last failure: r = ", r))
+}
+par(mfrow=c(1,1))
+```
+
+
+## Exercise -- Negative binomial
+
+Each student chooses a value for the maximal number of failures ($r$). 
+
+1. Read carefully the help of the negative binomial functions: `help(NegBinomial)`
+2. **Random sampling**: draw of $rep=100000$ random numbers from a negative binomial distribution (`rndbinom()`) to compute the distribution of the number of successes ($k$) before the $r^{th}$ failure. 
+3. Compute the expected mean and variance of the negative binomial. 
+4. Compute the mean and variance from your sampling distribution. 
+5. Draw an histogram with the number of successes before the $r^{th}$ failure. 
+6. Fill up the form on the [collective result table](https://docs.google.com/spreadsheets/d/1Kl_0ln0_dZycK17Nqyu44kw9R0dtVp5lflXRtN7pAhA/edit#gid=0)
+
+## Solution to the exercise -- negative binomial
+
+```{r out.width="50%"}
+r <- 6       # Number of failures
+p <- 0.75     # Failure probability
+rep <- 100000
+k <- rnbinom(n = rep, size = r, prob = p)
+max.k <- max(k)
+exp.mean <- r*(1 - p)/p
+rand.mean <- mean(k)
+exp.var <- r*(1 - p)/p^2
+rand.var <- var(k)
+hist(k, breaks = -0.5:(max.k + 0.5), col = "grey", xlab = "Number of successes (k)",
+     las = 1, ylab = "", main = "Random sampling from negative binomial")
+abline(v = rand.mean, col = "darkgreen", lwd = 2)
+abline(v = exp.mean, col = "green", lty = "dashed")
+arrows(rand.mean, rep/20, rand.mean + sqrt(rand.var), rep/20, 
+       angle = 20, length = 0.1, col = "purple", lwd = 2)
+text(x = rand.mean, y = rep/15, col = "purple",
+     labels = paste("sd =", signif(digits = 2, sqrt(rand.var))), pos = 4)
+legend("topright", legend = c(
+  paste("r =", r), 
+  paste("exp.mean =", signif(digits = 4, exp.mean)), 
+  paste("mean =", signif(digits = 4, rand.mean)), 
+  paste("exp.var =", signif(digits = 4, exp.var)),
+  paste("var =", signif(digits = 4, rand.var))
+  ))
+kable(data.frame(r = r, 
+                 exp.mean = exp.mean, 
+                 mean = rand.mean,
+                 exp.var = exp.var,
+                 var = rand.var), digits = 4)
+```
+
+****************************************************************
+# Negative binomial for over-dispersed counts
+
+
+## Exercises
 
 - [html](04_distributions_discretes_exercices.html)
 - [pdf](04_distributions_discretes_exercices.pdf)

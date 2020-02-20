@@ -652,7 +652,7 @@ $$P(X = x) = \frac{\lambda^x}{x!}e^{-\lambda}$$
 
 
 
-## Application : mutagenèse
+## Application : mutagenèse
 
 - On soumet une population à un mutagène (agent chimique, irratiations). Chaque individu subit un certain nombre  de mutations. 
 
@@ -662,8 +662,7 @@ $$P(X = x) = \frac{\lambda^x}{x!}e^{-\lambda}$$
 
 ## Expérience historique de Luria-Delbruck (1943)
 
-En 1943, Salvador Luria et Max Delbruck démontrent que les mutations ne sont pas induites par l'agent mutagène,  ([Luria & Delbruck, 1943, Genetics 28:491–511](https://www.ncbi.nlm.nih.gov/pubmed/17247100)).
-
+En 1943, Salvador Luria et Max Delbruck démontrent que quand on soumet des bactéries en culture à un antibiotique, les mutations qui confèrent la résistance ne sont pas induites par l'antibiotique, mais pré-existent. Leur démonstration repose sur le fait que le nombre de cellules résistantes suit une loi de Poisson ([Luria & Delbruck, 1943, Genetics 28:491–511](https://www.ncbi.nlm.nih.gov/pubmed/17247100)).
 
 
 ## Convergence de la loi binomiale vers la Poisson

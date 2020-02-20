@@ -725,6 +725,18 @@ for (r in c(1, 2, 5, 10)) {
 par(mfrow=c(1,1))
 ```
 
+## Properties of the negative binomial
+
+$$\mathcal{NB}(r|k, p) = \binom{k+r-1}{r}p^k(1-p)^r$$
+
+- Parameters: 
+    - $p$: probability of success at each trial
+    - $r$: number of failures
+    - $k$: number of successes before the $r^{th}$ failure
+
+- Mean: $\frac{pr}{1-p}$
+- Variance: $\frac{pr}{(1-p)^2}$
+
 
 ## Exercise -- Negative binomial
 

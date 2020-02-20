@@ -317,7 +317,12 @@ Tips: use the R function `apply()`.
 1. Fit a Poisson distribution on each empirical distribution of k-mer counts. 
 
     - How do you choose the parameters?
-    - Draw the fitted Poisson distribution (as a frequency polygon) over the histogram of k-mer occur
+    - Draw the fitted Poisson distribution over the histogram of empirical distribution (observed k-mer occurences)
+    
+        **Tips:** 
+        
+        - in order to add some plot over an existing plot, you can use the `lines()` function
+        - you can also use specific options to draw histogram-like lines: `lines(x, y, type = "h"). 
 
 2. Do the same with the following distributions : 
 

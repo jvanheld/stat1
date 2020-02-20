@@ -98,7 +98,7 @@ knitr::opts_chunk$set(
 - Students are supposd to have followed general courses of statistics and be familiar with the main concepts usually treated
 - For students of the [M1 Computational and Mathematical Biology, Master Master Mathématiques et applications](https://formations.univ-amu.fr/ME5SMA-PRSMA5AF.html), this course follows the course Probabillities and statistics applied to modelling 1 (STAT1)
 
-## Course contents
+## Scope of the course
 
 This course aims at providing students with a practical approach of the analysis of biological data with R, based on the concepts acquired in the course “Probabilities and statistics for modelling 1”. The associated mathematical foundations will be developed in the course “Advanced statistics”. 
 
@@ -113,6 +113,29 @@ The following notions will be investigated :
 
 - Distribution of k-mers (oligonucleotides) in DNA sequences
 - Analysis of omics data
+
+
+****************************************************************
+## Access
+
+- Web site: <https://jvanheld.github.io/stat1/STAT2_CMB.html>
+- [**GitHub** repository](https://github.com/jvanheld/stat1) (same repo for STAT1 and STAT2)
+- Shell command to get a git clone: 
+
+    `git clone git@github.com:jvanheld/stat1.git`
+
+
+****************************************************************
+
+## Course content and supports
+
+| Day | Contents | Type | Supports | 
+|---------|----------------------------------|-------------|-----------|
+| 2020-02-17 | Fitting theoretical distributions on k-mer counts | Practical | [html](practicals/kmer_distributions/kmer_distributions.html) [pdf](practicals/kmer_distributions/kmer_distributions.pdf) [Rmd](https://raw.githubusercontent.com/jvanheld/stat1/master/practicals/kmer_distributions/kmer_distributions.Rmd)  |
+|  |  | Live demo starting script | [R](practicals/kmer_distributions/live-demo_solutions_kmer-distributions.R)  |
+| 2020-02-20 |  K-mer count distributions in promoters | Solutions | [html](practicals/kmer_distributions/kmer_distributions_solutions.html) [pdf](practicals/kmer_distributions/kmer_distributions_solutions.pdf) [Rmd](https://raw.githubusercontent.com/jvanheld/stat1/master/practicals/kmer_distributions/kmer_distributions_solutions.Rmd)  |
+
+
 
 ## Skills expected to be acquired at the end of this course
 
@@ -201,33 +224,6 @@ The following notions will be investigated :
 - Using the apply and related functions
 
 - Using R classes and objects
-
-
-
-
-
-## 2020 calendar
-
-| Day | Contents | Type | Supports | 
-|------|-------------------------------------|-------------|-----------|
-| 2020-02-17 | Fitting theoretical distributions on k-mer counts | Practical | [html](practicals/kmer_distributions/kmer_distributions.html)  |
-|  |  | Live demo starting script | [R](practicals/kmer_distributions/live-demo_solutions_kmer-distributions.R)  |
-
-
-## Course support
-
-### Slides
-
-
-
-****************************************************************
-## Access
-
-- Web site: <https://jvanheld.github.io/stat1/STAT2_CMB.html>
-- [**GitHub** repository](https://github.com/jvanheld/stat1) (same repo for STAT1 and STAT2)
-- Shell command to get a git clone: 
-
-    `git clone git@github.com:jvanheld/stat1.git`
 
 
 ****************************************************************

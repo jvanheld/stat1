@@ -30,7 +30,7 @@
 ### Ressources / Resources 
 
 | Name | Description | URL |
-|---------|------------------------|------------------------------------|
+|---------|---------------------------------|------------------------------------|
 | R poject  | Home page of the R statistical project | <https://www.r-project.org/> |
 | CRAN | Distribution of the R software + libraries | <https://cran.r-project.org/> |
 | RStudio | Environment to develop R code | <https://www.rstudio.com/> |

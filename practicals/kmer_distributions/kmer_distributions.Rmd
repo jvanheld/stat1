@@ -287,11 +287,11 @@ Tips: use the R function `apply()`.
 
 
 
-## Exploring k-mer count distributions in promoter
+## Exploring k-mer count distributions in promoter sequences
 
 1. Load the k-mer count table generated in the previous step.
 
-2. Draw a figure with 4 x 4 panels to depict the histograms of the 16 k-mers
+2. Draw an histogram with the distribution of counts for a given k-mer. After having fine-tuned the representation, generate a pdf file with 4 x 4 panels to depict the histograms of the 16 k-mers.
 
 3. Use other graphical representations to get an insight of the k-mer count distributions (boxplots, violin plots)
 

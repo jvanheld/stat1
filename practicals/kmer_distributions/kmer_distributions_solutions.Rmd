@@ -1,4 +1,3 @@
----
 title: "Practical -- k-mer distributions"
 author: "Jacques van Helden"
 date: "`r Sys.Date()`"
@@ -218,6 +217,9 @@ kmer.table <- read.table(
   sep = "\t" ## column separator is the tabulation
   )
 
+## We set uppercases for the dinucleotide sequences, which were in lowercases in the original count table
+names(kmer.table) <- toupper(names(kmer.table))
+
 ```
 
 Check the dimensions of this table.
@@ -324,15 +326,107 @@ $$\frac{n}{n-1} =  `r round(digits = 7, n/(n-1))`$$
 
 
 
-### Draw the distributions
+## Drawing empirical distributions of counts
 
 
+### Draw an histogram with the distribution of counts for a given k-mer. 
 
-## Exploring k-mer count distributions in promoter
+The simplest way to generate a histogram is to use the `hist()` function. Here is the result with the default parameters.
 
-1. Load the k-mer count table generated in the previous step.
+```{r one_kmer_hist, fig.width=7, fig.height=4, out.width="60%", fig.cap="Counts per sequence in all human promoters. "}
+kmer <- "AG" # Select a k-mer
+counts <- kmer.table[, kmer] # select the counts for this k-mer
+range(counts)
 
-2. Draw a figure with 4 x 4 panels to depict the histograms of the 16 k-mers
+## Draw an histogram with default parameters (not very beautiful)
+hist(x = counts)
+```
+
+We can fine-tune the parameters in order to get a more informative representation, by specifying custom breaks. 
+
+```{r one_kmer_hist_pretty, fig.width=7, fig.height=4, out.width="60%", fig.cap="Counts per sequence in all human promoters. "}
+## Draw a nice and informative histogram
+hist(x = counts, 
+     breaks = 0:max(counts + 1),
+     col = "#44DDFF", border = "#44DDFF",
+     las = 1,
+     ylab = "Number of promoters",   
+     xlab = "K-mer counts",
+     main = paste0(kmer, " counts in promoters"))
+
+```
+
+### Generate a figure with 4 x 4 panels to depict the histograms of the 16 k-mers
+
+
+```{r all_kmer_hist_pretty, fig.width=12, fig.height=8, out.width="100%", fig.cap="Dinucleotide counts per sequence in all human promoters. "}
+
+par(mfrow = c(4,4))
+par(mar = c(4.1, 5.1, 4.1, 1.1))
+for (i in 1:16) {
+  kmer <- names(kmer.table)[i]
+  counts <- kmer.table[, i] # select the ith column of the k-mer table
+  ## Draw a nice and informative histogram
+  hist(x = counts, 
+       breaks = 0:max(counts + 1),
+       col = "#44DDFF", border = "#44DDFF",
+       las = 1,
+       ylab = "Number of promoters",   
+       xlab = "K-mer counts",
+       main = paste0(toupper(kmer), " counts in promoters"))
+}
+
+par(mfrow = c(1,1))
+par(mar = c(4.1, 5.1, 4.1, 2.1))
+
+```
+
+
+### Use other graphical representations to get an insight of the k-mer count distributions (boxplots, violin plots)
+
+#### Boxplot
+
+The funciton `boxplot()` provides an informative summary of the data. 
+
+```{r kmer_count_boxplot, fig.width=7, fig.height=5, out.width="60%", fig.cap="Boxplot of dinucleotide counts in all promoters. "}
+boxplot(x = kmer.table)
+```
+
+We can fine-tue the parameters to enhance the readability
+
+```{r kmer_count_boxplot_pretty, fig.height=10, fig.width=7, out.width="60%", fig.cap="Boxplot of dinucleotide counts in all promoters. "}
+boxplot(x = kmer.table, horizontal = TRUE, las = 1, col = "#44DDFF", main = "Dinucleotide distributions", xlab = "Counts")
+```
+
+
+#### Violin plot
+
+We can use the R function `vioplot()` to generate a violin plot. This requires to install the R package `vioplot`, if it is not already done. 
+
+```{r violin_plot, fig.width=7, fig.height=5, out.width="60%", fig.cap="Violin plot of dinucleotide counts in promoter sequences"}
+## Check if the vioplot package is already installed
+if (!require(vioplot)) {
+  ## Install the vioplot package
+  install.packages("vioplot")
+}
+library(vioplot) ## Load the vioplot package
+# help(package = vioplot) # Get help on the package
+# help(vioplot) # Get help on the vioplot function
+
+vioplot(kmer.table)
+
+```
+
+Let us fine-tune the parameters to get a pretty violin plot. 
+
+```{r violin_plot_pretty, fig.width=7, fig.height=5, out.width="60%", fig.cap="Violin plot of dinucleotide counts in promoter sequences"}
+vioplot(kmer.table, horizontal = TRUE, col = "#44DDFF", las = 1, main = "Violin plot of dinucleotide counts in promoters", xlab = "Counts", )
+
+```
+
+
+## Exploring k-mer count distributions in promoter sequences
+
 
 3. Use other graphical representations to get an insight of the k-mer count distributions (boxplots, violin plots)
 

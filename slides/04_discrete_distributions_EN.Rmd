@@ -231,10 +231,10 @@ par(mfrow=c(1,1))
 
 ## Distribution tails and cumulative distribution function
 
-The ***tails*** of a distribution are the areas comprised under the density curve up to a given value (***left tail***) or staring from a given value (***right queue***).
+The ***tails*** of a distribution are the areas comprised under the density curve up to a given value (***left tail***) or staring from a given value (***right tail***).
 
 
-- The ***right queue*** indicates the probability to observe a result ($X$) **smaller than or equal to** a given value ($x$): $\operatorname{P}(X \le x$). 
+- The ***right tail*** indicates the probability to observe a result ($X$) **smaller than or equal to** a given value ($x$): $\operatorname{P}(X \le x$). 
 
     - **Definition: ** the ***Cumulative Density Function*** (***CDF***) $\operatorname{P}(X \le x)$ indicates the probability for a random variable  $X$ to take a value smaller than or equal to a given value ($x$). It corresponds to the left tail of the distribution (including the $x$ value). 
 

@@ -705,10 +705,6 @@ $$\mathcal{NB}(r|k, p) = \binom{k+r-1}{r}p^k(1-p)^r$$
 $$\mathcal{NB}(n|r, p) = \binom{n-1}{r-1}p^{n-r}(1-p)^r$$
 
 
-## Properties of the negative binomial
-
-The variance of the negative binomial is higher than its mean. 
-It is therefore sometimes used to model distributions that are over-dispersed by comparisong with a Poisson. 
 
 ## Negative binomial density
 
@@ -727,6 +723,9 @@ par(mfrow=c(1,1))
 
 ## Properties of the negative binomial
 
+The variance of the negative binomial is higher than its mean. 
+It is therefore sometimes used to model distributions that are over-dispersed by comparisong with a Poisson. 
+
 $$\mathcal{NB}(r|k, p) = \binom{k+r-1}{r}p^k(1-p)^r$$
 
 - Parameters: 
@@ -735,7 +734,7 @@ $$\mathcal{NB}(r|k, p) = \binom{k+r-1}{r}p^k(1-p)^r$$
     - $k$: number of successes before the $r^{th}$ failure
 
 - Mean: $\frac{pr}{1-p}$
-- Variance: $\frac{pr}{(1-p)^2}$
+- Variance: $\frac{p(1-p)}{p^2}$
 
 
 ## Exercise -- Negative binomial

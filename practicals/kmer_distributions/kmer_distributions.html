@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jacques van Helden" />
 
-<meta name="date" content="2020-02-17" />
+<meta name="date" content="2020-02-20" />
 
 <title>Practical – k-mer distributions</title>
 
@@ -345,7 +345,7 @@ div.tocify {
 <h1 class="title toc-ignore">Practical – k-mer distributions</h1>
 <h3 class="subtitle">Probabilities and statistics for modelling 1 (STAT1)</h3>
 <h4 class="author">Jacques van Helden</h4>
-<h4 class="date">2020-02-17</h4>
+<h4 class="date">2020-02-20</h4>
 
 </div>
 
@@ -353,6 +353,13 @@ div.tocify {
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>In this practical, we will count k-mer occurrences in DNA sequences of different organisms (one organism per sutdent), fit different theoretical distributions of probabilities onto the empirical distributions of counts, and test the goodness of fit for these alternative distributions.</p>
+<p>We will run the beginning of this practical in tutorial mode, by providing the solutions for</p>
+<ul>
+<li>computing k-mer distributions in the upstream sequences of all the genes of an organism of interest on the <a href="http://teaching.rsat.eu">RSAT server</a>;</li>
+<li>downloading the resulting k-mer count table;</li>
+<li>loading this table in and R data frame.</li>
+</ul>
+<p>We will then pursue with exercises to - explore the data (descriptive statistics) - fit different theoretical distributions on the observed k-mer counts - assess the goodness of the fit.</p>
 </div>
 <div id="organisms" class="section level2">
 <h2>Organisms</h2>
@@ -412,18 +419,23 @@ div.tocify {
 </tbody>
 </table>
 </div>
-<div id="working-directory" class="section level2">
-<h2>Working directory</h2>
+<div id="tutorial-for-the-first-steps" class="section level2">
+<h2>Tutorial for the first steps</h2>
+<div id="working-directory" class="section level3">
+<h3>Working directory</h3>
 <p>On your computer, create a directory for this practical. I suggest to use a consistent naming for the different practicals of this course.</p>
 <p>We will further create a sub-folder with the name of our organism of interest.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">## Define your organism of interest</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">org &lt;-<span class="st"> &quot;Saccharomyces_cerevisiae&quot;</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">org &lt;-<span class="st"> &quot;Homo_sapiens&quot;</span></a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">## Define a working directory</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">dir.results &lt;-<span class="st"> </span><span class="kw">file.path</span>(<span class="st">&quot;~&quot;</span>, <span class="st">&quot;CMB-STAT2_practicals&quot;</span>, <span class="st">&quot;kmer_distributions&quot;</span>, org)</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">dir.create</span>(dir.results, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">work.dir &lt;-<span class="st"> </span><span class="kw">file.path</span>(<span class="st">&quot;~&quot;</span>, <span class="st">&quot;CMB-STAT2_practicals&quot;</span>, <span class="st">&quot;kmer_distrib&quot;</span>, org)</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">dir.create</span>(work.dir, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb1-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw">message</span>(<span class="st">&quot;Result directory</span><span class="ch">\t</span><span class="st">&quot;</span>, dir.results)</a></code></pre></div>
+<a class="sourceLine" id="cb1-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">## Print a message with the result directory</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw">message</span>(<span class="st">&quot;Result directory</span><span class="ch">\t</span><span class="st">&quot;</span>, work.dir)</a></code></pre></div>
+</div>
 </div>
 <div id="counting-k-mer-occurrences-in-each-promoter-of-a-model-organism" class="section level2">
 <h2>Counting k-mer occurrences in each promoter of a model organism</h2>
@@ -447,10 +459,105 @@ div.tocify {
 <li>Select <em>Count on single strand</em>.</li>
 <li>For <em>oligomer lengths</em>, select 2 and <strong>uncheck the other lengths</strong>.</li>
 <li>In <em>Results</em>, check the option <em>Occurrence table</em>.</li>
+<li>Type your email address and select the mail output.</li>
 <li>Click <em>GO</em>.</li>
 </ul></li>
-<li><p>Store the result table in your results directory.</p></li>
 </ol>
+<p>After a few seconds (minutes), the RSAT server should display the result page, with links to the k-mer count table. Copy the URL of the result file.</p>
+<div id="download-the-count-table-from-rsat" class="section level3">
+<h3>Download the count table from RSAT</h3>
+<p>Let us define the name we will give to the local copy of the k-mer count table generated on the RSAT server in the previous steps.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">## Define the path and the name of the local file</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">kmer.file &lt;-<span class="st"> </span><span class="kw">file.path</span>(work.dir, <span class="st">&quot;2nt-ovlp-1str_Homo_sapiens.tab&quot;</span>)</a></code></pre></div>
+<p>One solution is to download manually the k-mer count table generated on the RSAT server, move it to the work directory, and rename it <code>2nt-ovlp-1str_Homo_sapiens.tab</code> (to be adapted depending on your organism of interest).</p>
+<p>Another possiblity is to use R command <code>download.file()</code> download it from the URL of the result file on the RSAT server.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">## Note: this will only work for a few days, because the temporary files are removed from the server</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">temp.url &lt;-<span class="st"> &quot;http://pedagogix-tagc.univ-mrs.fr/rsat/tmp/www-data/2020/02/17/oligo-analysis_2020-02-17.155035_zZ4IA4&quot;</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">## Provide the arguments in the order of the function definition</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw">download.file</span>(temp.url, kmer.file)</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">## Equivalent : name the arguments</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co"># download.file(url = temp.url, destfile = kmer.file)</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">## Note: named arguments can be provided in a different order without problem</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co"># download.file(destfile = kmer.file, url = temp.url)</span></a></code></pre></div>
+<p>Whichever method was chosen, check that the file is at the right place on your computed.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co">## List the files in the working directory</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">list.files</span>(work.dir)</a></code></pre></div>
+<pre><code>[1] &quot;2nt-ovlp-1str_Homo_sapiens.tab&quot;</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co">## Send a message with the k-mer file location</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">message</span>(<span class="st">&quot;K-mer count table file:</span><span class="ch">\t</span><span class="st">&quot;</span>, kmer.file)</a></code></pre></div>
+</div>
+<div id="load-the-k-mer-count-table-in-r" class="section level3">
+<h3>Load the k-mer count table in R</h3>
+<p>Use the finction <code>read.table()</code> to load the k-mer count table in a variable named <code>kmer.table</code>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co">## Call the help for read.table()</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co"># ?read.table</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">## Load the k-mer count table in a variable</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">kmer.table &lt;-<span class="st"> </span><span class="kw">read.table</span>(</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">  <span class="dt">file =</span> kmer.file, </a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">  <span class="dt">comment.char =</span> <span class="st">&quot;;&quot;</span>, <span class="co">## comment lines start with &quot;;&quot; in RSAT</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8">  <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="co"># the first row (after the comments) contain the column headers</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9">  <span class="dt">row.names =</span> <span class="dv">1</span>, <span class="co">## the first column contains row names but there might be homonyms</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10">  <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span> <span class="co">## column separator is the tabulation</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11">  )</a></code></pre></div>
+<p>Check the dimensions of this table.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co">## Check the dimensions of the k-mer count table</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw">dim</span>(kmer.table)</a></code></pre></div>
+<pre><code>[1] 60675    16</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co">## Number of k-mers</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">m &lt;-<span class="st"> </span><span class="kw">ncol</span>(kmer.table)</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">## Number of genes</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">n &lt;-<span class="st"> </span><span class="kw">nrow</span>(kmer.table)</a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">## Print the result</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;Number of rows: &quot;</span>, n))</a></code></pre></div>
+<pre><code>[1] &quot;Number of rows: 60675&quot;</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;Number of columns: &quot;</span>, m))</a></code></pre></div>
+<pre><code>[1] &quot;Number of columns: 16&quot;</code></pre>
+<p>Check the column names</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="co">## Check the column names</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw">names</span>(kmer.table)</a></code></pre></div>
+<pre><code> [1] &quot;aa&quot; &quot;ac&quot; &quot;ag&quot; &quot;at&quot; &quot;ca&quot; &quot;cc&quot; &quot;cg&quot; &quot;ct&quot; &quot;ga&quot; &quot;gc&quot; &quot;gg&quot; &quot;gt&quot; &quot;ta&quot; &quot;tc&quot; &quot;tg&quot; &quot;tt&quot;</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">colnames</span>(kmer.table) <span class="co"># equivalent</span></a></code></pre></div>
+<pre><code> [1] &quot;aa&quot; &quot;ac&quot; &quot;ag&quot; &quot;at&quot; &quot;ca&quot; &quot;cc&quot; &quot;cg&quot; &quot;ct&quot; &quot;ga&quot; &quot;gc&quot; &quot;gg&quot; &quot;gt&quot; &quot;ta&quot; &quot;tc&quot; &quot;tg&quot; &quot;tt&quot;</code></pre>
+<p>Display the first and last 10 lines of the k-mer count table.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="co">## Show the first 10 lines of the k-mer count table</span></a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="kw">head</span>(kmer.table)</a></code></pre></div>
+<pre><code>                                            aa ac ag at ca cc cg ct ga gc gg gt ta tc tg tt
+ENSG00000210049|Homo_sapiens_GRCh38|MT-TF   48 54 17 36 58 69 14 32 14 24  7 11 35 26 18 36
+ENSG00000211459|Homo_sapiens_GRCh38|MT-RNR1 56 58 16 36 62 69  9 31 10 19  7 11 38 25 15 37
+ENSG00000210077|Homo_sapiens_GRCh38|MT-TV   57 42 41 22 37 38 18 35 28 26 22 27 39 23 22 22
+ENSG00000210082|Homo_sapiens_GRCh38|MT-RNR2 48 42 42 22 35 39 17 36 30 25 22 28 41 21 24 27
+ENSG00000209082|Homo_sapiens_GRCh38|MT-TL1  52 41 32 34 40 40 19 29 28 16 23 23 38 32 16 34
+ENSG00000198888|Homo_sapiens_GRCh38|MT-ND1  48 38 35 32 39 37 21 29 30 16 24 25 36 37 15 35</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">tail</span>(kmer.table)</a></code></pre></div>
+<pre><code>                                                   aa ac ag at ca cc cg ct ga gc gg gt ta tc tg tt
+ENSG00000128973|Homo_sapiens_GRCh38|CLN6           55 24 34 31 31 31 15 36 30 34 29 19 27 24 34 45
+ENSG00000272269|Homo_sapiens_GRCh38|RP11-500C11.3  41 29 33 14 43 90 25 33 21 38 32 15 11 35 16 23
+ENSG00000267091|Homo_sapiens_GRCh38|CTBP2P7        21 22 38 25 40 34  9 37 30 35 28 32 15 29 50 54
+ENSG00000151655|Homo_sapiens_GRCh38|ITIH2          62 30 35 33 48 23  2 41 27 22 17 19 23 39 30 48
+ENSG00000234159|Homo_sapiens_GRCh38|RBPMSLP       112 30 39 36 41 34  4 24 32 20 18 14 33 19 23 20
+ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21 19 16 35 22 37 45</code></pre>
+</div>
+</div>
+<div id="homework" class="section level2">
+<h2>Homework</h2>
+<ul>
+<li><p>Read the tutorial <a href="https://jvanheld.github.io/stat1/practicals/01_intro_R/01_R-first-steps.html">first steps wit R</a></p></li>
+<li>Compute marginal statistics</li>
+<li><p>Draw histograms of a given k-mer of your choice</p></li>
+</ul>
+<div id="compute-marginal-statistics" class="section level3">
+<h3>Compute marginal statistics</h3>
+<p>Tips: use the R function <code>apply()</code>.</p>
+</div>
+<div id="draw-the-distributions" class="section level3">
+<h3>Draw the distributions</h3>
+</div>
 </div>
 <div id="exploring-k-mer-count-distributions-in-promoter" class="section level2">
 <h2>Exploring k-mer count distributions in promoter</h2>
@@ -474,11 +581,19 @@ div.tocify {
 <div id="fitting-distributions" class="section level2">
 <h2>Fitting distributions</h2>
 <ol style="list-style-type: decimal">
-<li><p>Fit a Poisson distribution on each k-mer distribution.</p>
+<li><p>Fit a Poisson distribution on each empirical distribution of k-mer counts.</p>
 <ul>
 <li>How do you choose the parameters?</li>
 <li>Draw the fitted Poisson distribution (as a frequency polygon) over the histogram of k-mer occur</li>
 </ul></li>
+<li><p>Do the same with the following distributions :</p>
+<ol style="list-style-type: lower-alpha">
+<li>binomial</li>
+<li>hypergeometric</li>
+<li>normal</li>
+<li>negative binomial</li>
+</ol></li>
+<li><p>Estimate the goodness of fit for these distributions.</p></li>
 </ol>
 </div>
 <div class="footnotes">

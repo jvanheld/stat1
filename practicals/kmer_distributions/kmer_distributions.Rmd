@@ -24,24 +24,6 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
-  ioslides_presentation:
-    colortheme: dolphin
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    smaller: yes
-    toc: yes
-    widescreen: yes
-  word_document:
-    toc: yes
-    toc_depth: '3'
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: yes
-    toc_depth: 3
   slidy_presentation:
     fig_caption: yes
     fig_height: 6
@@ -53,6 +35,24 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
+  word_document:
+    toc: yes
+    toc_depth: '3'
+  ioslides_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    smaller: yes
+    toc: yes
+    widescreen: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
 font-import: http://fonts.googleapis.com/css?family=Risque
 subtitle: Probabilities and statistics for modelling 1 (STAT1)
 font-family: Garamond
@@ -79,6 +79,17 @@ knitr::opts_chunk$set(
 
 In this practical, we will count k-mer occurrences in DNA sequences of different organisms (one organism per sutdent), fit different theoretical distributions of probabilities onto the empirical distributions of counts, and test the goodness of fit for these alternative distributions. 
 
+We will run the beginning of this practical in tutorial mode, by providing the solutions for
+
+- computing k-mer distributions in the upstream sequences of all the genes of an organism of interest on the [RSAT server](http://teaching.rsat.eu);
+- downloading the resulting k-mer count table;
+- loading this table in and R data frame.
+
+We will then pursue with exercises to 
+- explore the data (descriptive statistics)
+- fit different theoretical distributions on the observed k-mer counts
+- assess the goodness of the fit.
+
 
 ## Organisms
 
@@ -99,7 +110,8 @@ Each student will choose one organism of interest among the following ones.
 | Apicomplexa |  |
 
 
-## Solutions
+## Tutorial for the first steps
+
 
 ### Working directory
 
@@ -110,30 +122,18 @@ We will further create a sub-folder with the name of our organism of interest.
 
 ```{r working_dir}
 ## Define your organism of interest
-org <- "Saccharomyces_cerevisiae"
+org <- "Homo_sapiens"
 
 ## Define a working directory
-dir.results <- file.path("~", "CMB-STAT2_practicals", "kmer_distributions", org)
-dir.create(dir.results, recursive = TRUE, showWarnings = FALSE)
+work.dir <- file.path("~", "CMB-STAT2_practicals", "kmer_distrib", org)
+dir.create(work.dir, recursive = TRUE, showWarnings = FALSE)
 
-message("Result directory\t", dir.results)
+
+## Print a message with the result directory
+message("Result directory\t", work.dir)
 
 ```
 
-
-### Download the count table from RSAT
-
-```{r}
-temp.url <- "http://pedagogix-tagc.univ-mrs.fr/rsat//tmp/www-data/2020/02/17/oligo-analysis_2020-02-17.140412_P1eS3Q_2nt.tab"
-```
-
-
-### Load the k-mer count table in R
-
-
-### Compute marginal statistics
-
-### Draw the distributions
 
 
 ## Counting k-mer occurrences in each promoter of a model organism
@@ -161,7 +161,131 @@ After a few seconds (or minutes) the result is displayed. Right-click on the seq
     - Type your email address and select the mail output. 
     - Click *GO*. 
 
-5. Store the result table in your results directory. 
+After a few seconds (minutes), the RSAT server should display the result page, with links to the k-mer count table. Copy the URL of the result file. 
+
+### Download the count table from RSAT
+
+
+Let us define the name we will give to the local copy of the k-mer count table generated on the RSAT server in the previous steps.
+
+```{r kmer_table_name}
+## Define the path and the name of the local file
+kmer.file <- file.path(work.dir, "2nt-ovlp-1str_Homo_sapiens.tab")
+
+```
+
+
+One solution is to download manually the k-mer count table generated on the RSAT server, move it to the work directory, and rename it `2nt-ovlp-1str_Homo_sapiens.tab` (to be adapted depending on your organism of interest). 
+
+Another possiblity is to use R command `download.file()` download it from the URL of the result file on the RSAT server. 
+
+
+```{r eval=FALSE}
+
+## Note: this will only work for a few days, because the temporary files are removed from the server
+temp.url <- "http://pedagogix-tagc.univ-mrs.fr/rsat/tmp/www-data/2020/02/17/oligo-analysis_2020-02-17.155035_zZ4IA4"
+
+## Provide the arguments in the order of the function definition
+download.file(temp.url, kmer.file)
+
+## Equivalent : name the arguments
+# download.file(url = temp.url, destfile = kmer.file)
+
+## Note: named arguments can be provided in a different order without problem
+# download.file(destfile = kmer.file, url = temp.url)
+
+```
+
+
+Whichever method was chosen, check that the file is at the right place on your computed. 
+
+```{r}
+
+## List the files in the working directory
+list.files(work.dir)
+
+## Send a message with the k-mer file location
+message("K-mer count table file:\t", kmer.file)
+
+```
+
+
+### Load the k-mer count table in R
+
+Use the finction `read.table()` to load the k-mer count table in a variable named `kmer.table`.
+
+```{r}
+
+## Call the help for read.table()
+# ?read.table
+
+## Load the k-mer count table in a variable
+kmer.table <- read.table(
+  file = kmer.file, 
+  comment.char = ";", ## comment lines start with ";" in RSAT
+  header = TRUE, # the first row (after the comments) contain the column headers
+  row.names = 1, ## the first column contains row names but there might be homonyms
+  sep = "\t" ## column separator is the tabulation
+  )
+
+```
+
+Check the dimensions of this table.
+
+```{r}
+
+## Check the dimensions of the k-mer count table
+dim(kmer.table)
+
+## Number of k-mers
+m <- ncol(kmer.table)
+
+## Number of genes
+n <- nrow(kmer.table)
+
+## Print the result
+print(paste0("Number of rows: ", n))
+print(paste0("Number of columns: ", m))
+```
+
+
+
+Check the column names
+
+```{r}
+## Check the column names
+names(kmer.table)
+colnames(kmer.table) # equivalent
+```
+
+Display the first and last 10 lines of the k-mer count table. 
+
+```{r}
+## Show the first 10 lines of the k-mer count table
+head(kmer.table)
+tail(kmer.table)
+
+```
+
+
+
+## Homework
+
+- Read the tutorial [first steps wit R](https://jvanheld.github.io/stat1/practicals/01_intro_R/01_R-first-steps.html)
+
+- Compute marginal statistics
+- Draw histograms of a given k-mer of your choice
+
+
+### Compute marginal statistics
+
+
+Tips: use the R function `apply()`. 
+
+
+### Draw the distributions
+
+
 
 ## Exploring k-mer count distributions in promoter
 
@@ -186,11 +310,24 @@ After a few seconds (or minutes) the result is displayed. Right-click on the seq
 7. Write a brief interpretation of the results. 
 
 
+
+
 ## Fitting distributions
 
-1. Fit a Poisson distribution on each k-mer distribution. 
+1. Fit a Poisson distribution on each empirical distribution of k-mer counts. 
 
     - How do you choose the parameters?
     - Draw the fitted Poisson distribution (as a frequency polygon) over the histogram of k-mer occur
+
+2. Do the same with the following distributions : 
+
+    a. binomial
+    b. hypergeometric
+    c. normal
+    d. negative binomial
+
+3. Estimate the goodness of fit for these distributions. 
+
+
 
 

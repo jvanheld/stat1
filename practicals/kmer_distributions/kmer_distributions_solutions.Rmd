@@ -3,11 +3,15 @@ title: "Practical -- k-mer distributions"
 author: "Jacques van Helden"
 date: "`r Sys.Date()`"
 output:
-  pdf_document:
+  html_document:
+    code_folding: hide
     fig_caption: yes
     highlight: zenburn
+    self_contained: no
+    theme: cerulean
     toc: yes
     toc_depth: 3
+    toc_float: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -44,15 +48,11 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
-  html_document:
-    code_folding: hide
+  pdf_document:
     fig_caption: yes
     highlight: zenburn
-    self_contained: no
-    theme: cerulean
     toc: yes
     toc_depth: 3
-    toc_float: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
 subtitle: Probabilities and statistics for modelling 1 (STAT1)
 font-family: Garamond
@@ -395,7 +395,13 @@ boxplot(x = kmer.table)
 We can fine-tue the parameters to enhance the readability
 
 ```{r kmer_count_boxplot_pretty, fig.height=10, fig.width=7, out.width="60%", fig.cap="Boxplot of dinucleotide counts in all promoters. "}
-boxplot(x = kmer.table, horizontal = TRUE, las = 1, col = "#44DDFF", main = "Dinucleotide distributions", xlab = "Counts")
+boxplot(x = kmer.table[,order(col.stats$median)], horizontal = TRUE, las = 1, col = "#44DDFF", main = "Dinucleotide distributions", xlab = "Counts")
+```
+
+Alternative: sort by variance. 
+
+```{r kmer_count_boxplot_pretty_var, fig.height=10, fig.width=7, out.width="60%", fig.cap="Boxplot of dinucleotide counts in all promoters. "}
+boxplot(x = kmer.table[,order(col.stats$var)], horizontal = TRUE, las = 1, col = "#44DDFF", main = "Dinucleotide distributions", xlab = "Counts")
 ```
 
 
@@ -419,8 +425,27 @@ vioplot(kmer.table)
 
 Let us fine-tune the parameters to get a pretty violin plot. 
 
-```{r violin_plot_pretty, fig.width=7, fig.height=5, out.width="60%", fig.cap="Violin plot of dinucleotide counts in promoter sequences"}
-vioplot(kmer.table, horizontal = TRUE, col = "#44DDFF", las = 1, main = "Violin plot of dinucleotide counts in promoters", xlab = "Counts", )
+```{r violin_plot_pretty, fig.height=10, fig.width=7, out.width="60%", fig.cap="Violin plot of dinucleotide counts in promoter sequences"}
+vioplot(kmer.table[, order(col.stats$mean)], horizontal = TRUE, col = "#44DDFF", las = 1, main = "Violin plot of dinucleotide counts in promoters", xlab = "Counts", )
+
+```
+
+```{r violin_plot_pretty_var, fig.height=10, fig.width=7, out.width="60%", fig.cap="Violin plot of dinucleotide counts in promoter sequences"}
+vioplot(kmer.table[, order(col.stats$var)], horizontal = TRUE, col = "#44DDFF", las = 1, main = "Violin plot of dinucleotide counts in promoters", xlab = "Counts", )
+
+```
+
+## Analyse the relationships between the mean and the variance
+
+Poisson: variance = mean
+Binomial: variance < mean
+XXX: variance > mean
+
+
+```{r}
+plot(col.stats$mean, col.stats$var,
+     xlim = c(0,100), ylim=c(0,500))
+abline(a = 0, b = 1)
 
 ```
 
@@ -450,7 +475,12 @@ vioplot(kmer.table, horizontal = TRUE, col = "#44DDFF", las = 1, main = "Violin 
 1. Fit a Poisson distribution on each empirical distribution of k-mer counts. 
 
     - How do you choose the parameters?
-    - Draw the fitted Poisson distribution (as a frequency polygon) over the histogram of k-mer occur
+    - Draw the fitted Poisson distribution over the histogram of empirical distribution (observed k-mer occurences)
+    
+        **Tips:** 
+        
+        - in order to add some plot over an existing plot, you can use the `lines()` function
+        - you can also use specific options to draw histogram-like lines: `lines(x, y, type = "h"). 
 
 2. Do the same with the following distributions : 
 

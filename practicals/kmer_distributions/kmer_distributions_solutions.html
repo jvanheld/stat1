@@ -883,9 +883,17 @@ Boxplot of dinucleotide counts in all promoters.
 </p>
 </div>
 <p>We can fine-tue the parameters to enhance the readability</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">boxplot</span>(<span class="dt">x =</span> kmer.table, <span class="dt">horizontal =</span> <span class="ot">TRUE</span>, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;#44DDFF&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Dinucleotide distributions&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Counts&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">boxplot</span>(<span class="dt">x =</span> kmer.table[,<span class="kw">order</span>(col.stats<span class="op">$</span>median)], <span class="dt">horizontal =</span> <span class="ot">TRUE</span>, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;#44DDFF&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Dinucleotide distributions&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Counts&quot;</span>)</a></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figures/02_combinatorix_kmer_count_boxplot_pretty-1.png" alt="Boxplot of dinucleotide counts in all promoters. " width="60%" />
+<p class="caption">
+Boxplot of dinucleotide counts in all promoters.
+</p>
+</div>
+<p>Alternative: sort by variance.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw">boxplot</span>(<span class="dt">x =</span> kmer.table[,<span class="kw">order</span>(col.stats<span class="op">$</span>var)], <span class="dt">horizontal =</span> <span class="ot">TRUE</span>, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;#44DDFF&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Dinucleotide distributions&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Counts&quot;</span>)</a></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="figures/02_combinatorix_kmer_count_boxplot_pretty_var-1.png" alt="Boxplot of dinucleotide counts in all promoters. " width="60%" />
 <p class="caption">
 Boxplot of dinucleotide counts in all promoters.
 </p>
@@ -894,16 +902,16 @@ Boxplot of dinucleotide counts in all promoters.
 <div id="violin-plot" class="section level4">
 <h4>Violin plot</h4>
 <p>We can use the R function <code>vioplot()</code> to generate a violin plot. This requires to install the R package <code>vioplot</code>, if it is not already done.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="co">## Check if the vioplot package is already installed</span></a>
-<a class="sourceLine" id="cb35-2" data-line-number="2"><span class="cf">if</span> (<span class="op">!</span><span class="kw">require</span>(vioplot)) {</a>
-<a class="sourceLine" id="cb35-3" data-line-number="3">  <span class="co">## Install the vioplot package</span></a>
-<a class="sourceLine" id="cb35-4" data-line-number="4">  <span class="kw">install.packages</span>(<span class="st">&quot;vioplot&quot;</span>)</a>
-<a class="sourceLine" id="cb35-5" data-line-number="5">}</a>
-<a class="sourceLine" id="cb35-6" data-line-number="6"><span class="kw">library</span>(vioplot) <span class="co">## Load the vioplot package</span></a>
-<a class="sourceLine" id="cb35-7" data-line-number="7"><span class="co"># help(package = vioplot) # Get help on the package</span></a>
-<a class="sourceLine" id="cb35-8" data-line-number="8"><span class="co"># help(vioplot) # Get help on the vioplot function</span></a>
-<a class="sourceLine" id="cb35-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb35-10" data-line-number="10"><span class="kw">vioplot</span>(kmer.table)</a></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="co">## Check if the vioplot package is already installed</span></a>
+<a class="sourceLine" id="cb36-2" data-line-number="2"><span class="cf">if</span> (<span class="op">!</span><span class="kw">require</span>(vioplot)) {</a>
+<a class="sourceLine" id="cb36-3" data-line-number="3">  <span class="co">## Install the vioplot package</span></a>
+<a class="sourceLine" id="cb36-4" data-line-number="4">  <span class="kw">install.packages</span>(<span class="st">&quot;vioplot&quot;</span>)</a>
+<a class="sourceLine" id="cb36-5" data-line-number="5">}</a>
+<a class="sourceLine" id="cb36-6" data-line-number="6"><span class="kw">library</span>(vioplot) <span class="co">## Load the vioplot package</span></a>
+<a class="sourceLine" id="cb36-7" data-line-number="7"><span class="co"># help(package = vioplot) # Get help on the package</span></a>
+<a class="sourceLine" id="cb36-8" data-line-number="8"><span class="co"># help(vioplot) # Get help on the vioplot function</span></a>
+<a class="sourceLine" id="cb36-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb36-10" data-line-number="10"><span class="kw">vioplot</span>(kmer.table)</a></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figures/02_combinatorix_violin_plot-1.png" alt="Violin plot of dinucleotide counts in promoter sequences" width="60%" />
 <p class="caption">
@@ -911,9 +919,16 @@ Violin plot of dinucleotide counts in promoter sequences
 </p>
 </div>
 <p>Let us fine-tune the parameters to get a pretty violin plot.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw">vioplot</span>(kmer.table, <span class="dt">horizontal =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="st">&quot;#44DDFF&quot;</span>, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">main =</span> <span class="st">&quot;Violin plot of dinucleotide counts in promoters&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Counts&quot;</span>, )</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">vioplot</span>(kmer.table[, <span class="kw">order</span>(col.stats<span class="op">$</span>mean)], <span class="dt">horizontal =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="st">&quot;#44DDFF&quot;</span>, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">main =</span> <span class="st">&quot;Violin plot of dinucleotide counts in promoters&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Counts&quot;</span>, )</a></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figures/02_combinatorix_violin_plot_pretty-1.png" alt="Violin plot of dinucleotide counts in promoter sequences" width="60%" />
+<p class="caption">
+Violin plot of dinucleotide counts in promoter sequences
+</p>
+</div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">vioplot</span>(kmer.table[, <span class="kw">order</span>(col.stats<span class="op">$</span>var)], <span class="dt">horizontal =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="st">&quot;#44DDFF&quot;</span>, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">main =</span> <span class="st">&quot;Violin plot of dinucleotide counts in promoters&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Counts&quot;</span>, )</a></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="figures/02_combinatorix_violin_plot_pretty_var-1.png" alt="Violin plot of dinucleotide counts in promoter sequences" width="60%" />
 <p class="caption">
 Violin plot of dinucleotide counts in promoter sequences
 </p>
@@ -944,7 +959,12 @@ Violin plot of dinucleotide counts in promoter sequences
 <li><p>Fit a Poisson distribution on each empirical distribution of k-mer counts.</p>
 <ul>
 <li>How do you choose the parameters?</li>
-<li>Draw the fitted Poisson distribution (as a frequency polygon) over the histogram of k-mer occur</li>
+<li><p>Draw the fitted Poisson distribution over the histogram of empirical distribution (observed k-mer occurences)</p>
+<p><strong>Tips:</strong></p>
+<ul>
+<li>in order to add some plot over an existing plot, you can use the <code>lines()</code> function</li>
+<li>you can also use specific options to draw histogram-like lines: `lines(x, y, type = “h”).</li>
+</ul></li>
 </ul></li>
 <li><p>Do the same with the following distributions :</p>
 <ol style="list-style-type: lower-alpha">

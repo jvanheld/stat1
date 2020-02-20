@@ -288,17 +288,16 @@ We can run the `apply()`function in the same way to compute the other descriptiv
 ```{r}
 ## Compute a table summarising the column-wide statistics of the k-mer count table
 col.stats <- data.frame(
-  min = apply(kmer.table, 2, min),
   mean = apply(kmer.table, 2, mean),
+  sd = apply(kmer.table, 2, sd),
+  var = apply(kmer.table, 2, var),
   min = apply(kmer.table, 2, min),
   p05 = apply(kmer.table, 2, quantile, 0.05),
   Q1 = apply(kmer.table, 2, quantile, 0.25),
   median = apply(kmer.table, 2, median),
   Q3 = apply(kmer.table, 2, quantile, 0.75),
   p95 = apply(kmer.table, 2, quantile, 0.95),
-  max = apply(kmer.table, 2, max),
-  sd = apply(kmer.table, 2, sd),
-  var = apply(kmer.table, 2, var)
+  max = apply(kmer.table, 2, max)
 )
 
 

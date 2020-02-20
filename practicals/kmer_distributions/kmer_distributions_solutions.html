@@ -558,44 +558,43 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <p>We can run the <code>apply()</code>function in the same way to compute the other descriptive statistics (median, variance, …) and store each result in a separate vector. However, it would be more convenient to dispose of a single structure containing all the statistics for each column. For this, we use <code>data.frame()</code> to create a data frame with one column per column per computed statistics, and one row per k-mer.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="co">## Compute a table summarising the column-wide statistics of the k-mer count table</span></a>
 <a class="sourceLine" id="cb26-2" data-line-number="2">col.stats &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
-<a class="sourceLine" id="cb26-3" data-line-number="3">  <span class="dt">min =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, min),</a>
-<a class="sourceLine" id="cb26-4" data-line-number="4">  <span class="dt">mean =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, mean),</a>
-<a class="sourceLine" id="cb26-5" data-line-number="5">  <span class="dt">min =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, min),</a>
-<a class="sourceLine" id="cb26-6" data-line-number="6">  <span class="dt">p05 =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, quantile, <span class="fl">0.05</span>),</a>
-<a class="sourceLine" id="cb26-7" data-line-number="7">  <span class="dt">Q1 =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, quantile, <span class="fl">0.25</span>),</a>
-<a class="sourceLine" id="cb26-8" data-line-number="8">  <span class="dt">median =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, median),</a>
-<a class="sourceLine" id="cb26-9" data-line-number="9">  <span class="dt">Q3 =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, quantile, <span class="fl">0.75</span>),</a>
-<a class="sourceLine" id="cb26-10" data-line-number="10">  <span class="dt">p95 =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, quantile, <span class="fl">0.95</span>),</a>
-<a class="sourceLine" id="cb26-11" data-line-number="11">  <span class="dt">max =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, max),</a>
-<a class="sourceLine" id="cb26-12" data-line-number="12">  <span class="dt">sd =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, sd),</a>
-<a class="sourceLine" id="cb26-13" data-line-number="13">  <span class="dt">var =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, var)</a>
-<a class="sourceLine" id="cb26-14" data-line-number="14">)</a>
+<a class="sourceLine" id="cb26-3" data-line-number="3">  <span class="dt">mean =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, mean),</a>
+<a class="sourceLine" id="cb26-4" data-line-number="4">  <span class="dt">sd =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, sd),</a>
+<a class="sourceLine" id="cb26-5" data-line-number="5">  <span class="dt">var =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, var),</a>
+<a class="sourceLine" id="cb26-6" data-line-number="6">  <span class="dt">min =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, min),</a>
+<a class="sourceLine" id="cb26-7" data-line-number="7">  <span class="dt">p05 =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, quantile, <span class="fl">0.05</span>),</a>
+<a class="sourceLine" id="cb26-8" data-line-number="8">  <span class="dt">Q1 =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, quantile, <span class="fl">0.25</span>),</a>
+<a class="sourceLine" id="cb26-9" data-line-number="9">  <span class="dt">median =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, median),</a>
+<a class="sourceLine" id="cb26-10" data-line-number="10">  <span class="dt">Q3 =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, quantile, <span class="fl">0.75</span>),</a>
+<a class="sourceLine" id="cb26-11" data-line-number="11">  <span class="dt">p95 =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, quantile, <span class="fl">0.95</span>),</a>
+<a class="sourceLine" id="cb26-12" data-line-number="12">  <span class="dt">max =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, max)</a>
+<a class="sourceLine" id="cb26-13" data-line-number="13">)</a>
+<a class="sourceLine" id="cb26-14" data-line-number="14"></a>
 <a class="sourceLine" id="cb26-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb26-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb26-17" data-line-number="17"><span class="kw">kable</span>(col.stats, <span class="dt">caption =</span> <span class="st">&quot;Column-wise means of the k-mer count table. &quot;</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb26-16" data-line-number="16"><span class="kw">kable</span>(col.stats, <span class="dt">caption =</span> <span class="st">&quot;Column-wise means of the k-mer count table. &quot;</span>)</a></code></pre></div>
 <table>
 <caption>Column-wise means of the k-mer count table.</caption>
 <thead>
 <tr class="header">
 <th></th>
-<th align="right">min</th>
 <th align="right">mean</th>
-<th align="right">min.1</th>
+<th align="right">sd</th>
+<th align="right">var</th>
+<th align="right">min</th>
 <th align="right">p05</th>
 <th align="right">Q1</th>
 <th align="right">median</th>
 <th align="right">Q3</th>
 <th align="right">p95</th>
 <th align="right">max</th>
-<th align="right">sd</th>
-<th align="right">var</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>AA</td>
-<td align="right">0</td>
 <td align="right">40.51309</td>
+<td align="right">20.706267</td>
+<td align="right">428.74949</td>
 <td align="right">0</td>
 <td align="right">10</td>
 <td align="right">25</td>
@@ -603,13 +602,12 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">54</td>
 <td align="right">77</td>
 <td align="right">186</td>
-<td align="right">20.706267</td>
-<td align="right">428.74949</td>
 </tr>
 <tr class="even">
 <td>AC</td>
-<td align="right">0</td>
 <td align="right">24.69333</td>
+<td align="right">6.860027</td>
+<td align="right">47.05997</td>
 <td align="right">0</td>
 <td align="right">14</td>
 <td align="right">20</td>
@@ -617,13 +615,12 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">29</td>
 <td align="right">36</td>
 <td align="right">161</td>
-<td align="right">6.860027</td>
-<td align="right">47.05997</td>
 </tr>
 <tr class="odd">
 <td>AG</td>
-<td align="right">0</td>
 <td align="right">36.14415</td>
+<td align="right">9.103262</td>
+<td align="right">82.86939</td>
 <td align="right">0</td>
 <td align="right">23</td>
 <td align="right">30</td>
@@ -631,13 +628,12 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">42</td>
 <td align="right">51</td>
 <td align="right">139</td>
-<td align="right">9.103262</td>
-<td align="right">82.86939</td>
 </tr>
 <tr class="even">
 <td>AT</td>
-<td align="right">0</td>
 <td align="right">28.82729</td>
+<td align="right">14.821645</td>
+<td align="right">219.68117</td>
 <td align="right">0</td>
 <td align="right">7</td>
 <td align="right">17</td>
@@ -645,13 +641,12 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">39</td>
 <td align="right">54</td>
 <td align="right">186</td>
-<td align="right">14.821645</td>
-<td align="right">219.68117</td>
 </tr>
 <tr class="odd">
 <td>CA</td>
-<td align="right">0</td>
 <td align="right">35.02548</td>
+<td align="right">8.344418</td>
+<td align="right">69.62931</td>
 <td align="right">0</td>
 <td align="right">22</td>
 <td align="right">30</td>
@@ -659,13 +654,12 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">40</td>
 <td align="right">48</td>
 <td align="right">173</td>
-<td align="right">8.344418</td>
-<td align="right">69.62931</td>
 </tr>
 <tr class="even">
 <td>CC</td>
-<td align="right">0</td>
 <td align="right">36.94124</td>
+<td align="right">20.350163</td>
+<td align="right">414.12914</td>
 <td align="right">0</td>
 <td align="right">12</td>
 <td align="right">22</td>
@@ -673,13 +667,12 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">47</td>
 <td align="right">76</td>
 <td align="right">208</td>
-<td align="right">20.350163</td>
-<td align="right">414.12914</td>
 </tr>
 <tr class="odd">
 <td>CG</td>
-<td align="right">0</td>
 <td align="right">14.57330</td>
+<td align="right">16.515726</td>
+<td align="right">272.76920</td>
 <td align="right">0</td>
 <td align="right">1</td>
 <td align="right">3</td>
@@ -687,13 +680,12 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">20</td>
 <td align="right">51</td>
 <td align="right">113</td>
-<td align="right">16.515726</td>
-<td align="right">272.76920</td>
 </tr>
 <tr class="even">
 <td>CT</td>
-<td align="right">0</td>
 <td align="right">35.30629</td>
+<td align="right">8.887525</td>
+<td align="right">78.98810</td>
 <td align="right">0</td>
 <td align="right">22</td>
 <td align="right">29</td>
@@ -701,13 +693,12 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">41</td>
 <td align="right">50</td>
 <td align="right">137</td>
-<td align="right">8.887525</td>
-<td align="right">78.98810</td>
 </tr>
 <tr class="odd">
 <td>GA</td>
-<td align="right">0</td>
 <td align="right">30.15806</td>
+<td align="right">8.455523</td>
+<td align="right">71.49587</td>
 <td align="right">0</td>
 <td align="right">18</td>
 <td align="right">25</td>
@@ -715,13 +706,12 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">35</td>
 <td align="right">44</td>
 <td align="right">139</td>
-<td align="right">8.455523</td>
-<td align="right">71.49587</td>
 </tr>
 <tr class="even">
 <td>GC</td>
-<td align="right">0</td>
 <td align="right">30.75028</td>
+<td align="right">15.779050</td>
+<td align="right">248.97841</td>
 <td align="right">0</td>
 <td align="right">12</td>
 <td align="right">19</td>
@@ -729,13 +719,12 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">38</td>
 <td align="right">63</td>
 <td align="right">113</td>
-<td align="right">15.779050</td>
-<td align="right">248.97841</td>
 </tr>
 <tr class="odd">
 <td>GG</td>
-<td align="right">0</td>
 <td align="right">36.17958</td>
+<td align="right">19.283920</td>
+<td align="right">371.86955</td>
 <td align="right">0</td>
 <td align="right">12</td>
 <td align="right">22</td>
@@ -743,13 +732,12 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">46</td>
 <td align="right">73</td>
 <td align="right">208</td>
-<td align="right">19.283920</td>
-<td align="right">371.86955</td>
 </tr>
 <tr class="even">
 <td>GT</td>
-<td align="right">0</td>
 <td align="right">24.01994</td>
+<td align="right">6.850075</td>
+<td align="right">46.92352</td>
 <td align="right">0</td>
 <td align="right">14</td>
 <td align="right">20</td>
@@ -757,13 +745,12 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">28</td>
 <td align="right">35</td>
 <td align="right">130</td>
-<td align="right">6.850075</td>
-<td align="right">46.92352</td>
 </tr>
 <tr class="odd">
 <td>TA</td>
-<td align="right">0</td>
 <td align="right">24.42770</td>
+<td align="right">13.962177</td>
+<td align="right">194.94237</td>
 <td align="right">0</td>
 <td align="right">5</td>
 <td align="right">13</td>
@@ -771,13 +758,12 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">34</td>
 <td align="right">49</td>
 <td align="right">184</td>
-<td align="right">13.962177</td>
-<td align="right">194.94237</td>
 </tr>
 <tr class="even">
 <td>TC</td>
-<td align="right">0</td>
 <td align="right">29.55186</td>
+<td align="right">8.177379</td>
+<td align="right">66.86953</td>
 <td align="right">0</td>
 <td align="right">17</td>
 <td align="right">24</td>
@@ -785,13 +771,12 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">34</td>
 <td align="right">43</td>
 <td align="right">139</td>
-<td align="right">8.177379</td>
-<td align="right">66.86953</td>
 </tr>
 <tr class="odd">
 <td>TG</td>
-<td align="right">0</td>
 <td align="right">34.20470</td>
+<td align="right">8.940656</td>
+<td align="right">79.93532</td>
 <td align="right">0</td>
 <td align="right">20</td>
 <td align="right">28</td>
@@ -799,13 +784,12 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">40</td>
 <td align="right">48</td>
 <td align="right">144</td>
-<td align="right">8.940656</td>
-<td align="right">79.93532</td>
 </tr>
 <tr class="even">
 <td>TT</td>
-<td align="right">0</td>
 <td align="right">37.63466</td>
+<td align="right">19.433749</td>
+<td align="right">377.67061</td>
 <td align="right">0</td>
 <td align="right">10</td>
 <td align="right">23</td>
@@ -813,8 +797,6 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">50</td>
 <td align="right">72</td>
 <td align="right">163</td>
-<td align="right">19.433749</td>
-<td align="right">377.67061</td>
 </tr>
 </tbody>
 </table>

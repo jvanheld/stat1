@@ -262,7 +262,9 @@ tail(kmer.table)
 
 
 
-### Compute marginal statistics
+## Compute marginal statistics
+
+### Statistics per column (k-mer)
 
 Tips: use the R function `apply()`. 
 
@@ -286,8 +288,9 @@ print(col.means)
 We can run the `apply()`function in the same way to compute the other descriptive statistics (median, variance, ...) and store each result in a separate vector. However, it would be more convenient to dispose of a single structure containing all the statistics for each column. For this, we use `data.frame()` to create a data frame with one column per column per computed statistics, and one row per k-mer. 
 
 ```{r}
-## Compute a table summarising the column-wide statistics of the k-mer count table
-col.stats <- data.frame(
+## Compute a table summarising the statistics per k-mer 
+## (marginal stats on the columns)
+stats.per.kmer <- data.frame(
   mean = apply(kmer.table, 2, mean),
   sd = apply(kmer.table, 2, sd),
   var = apply(kmer.table, 2, var),
@@ -297,16 +300,17 @@ col.stats <- data.frame(
   median = apply(kmer.table, 2, median),
   Q3 = apply(kmer.table, 2, quantile, 0.75),
   p95 = apply(kmer.table, 2, quantile, 0.95),
-  max = apply(kmer.table, 2, max)
+  max = apply(kmer.table, 2, max),
+  sum = apply(kmer.table, 2, sum)
 )
 
 
-kable(col.stats, caption = "Column-wise means of the k-mer count table. ")
+kable(stats.per.kmer, caption = "Column-wise means of the k-mer count table. ")
 
 ```
 
 
-## Warning about R sd() and var() functions
+### Warning about R sd() and var() functions
 
 **Beware:** the R functions `sd` and `var` do not compute the standard deviation and variance of the numbers provded! Instead, they consider that the data provided are a sample drawed from a population, and the return an estimate of the standard deviation or variance of this population. 
 
@@ -323,6 +327,73 @@ For this exercise, this is actually what we want, since we can consider that the
 
 $$\frac{n}{n-1} =  `r round(digits = 7, n/(n-1))`$$
 
+
+### Analyse the relationships between the mean and the variance
+
+Poisson: variance = mean
+Binomial: variance < mean
+XXX: variance > mean
+
+
+```{r mean_vs_var, fig.width=7, fig.height=4, out.width="60%", fig.cap="Mean-variance plot for dinucleotide counts in all human promoters. The line indicates the variance/mean relationship in Poisson. distributions. "}
+plot(stats.per.kmer$mean, stats.per.kmer$var, 
+     xlab = "Mean of the counts per promoters", 
+     ylab = "Variance of the counts per promoters", 
+     las = 1, panel.first = grid(),
+     main = "Dinucleotide counts in human promoters\nVariance versus mean plot",
+     xlim = c(10,50), ylim = c(0,500), cex = 0)
+text(x = stats.per.kmer$mean, y = stats.per.kmer$var, labels = rownames(stats.per.kmer))
+abline(a = 0, b = 1)
+
+```
+
+
+### Statistics per gene (row)
+
+```{r stats_per_gene}
+## Compute a table summarising the gene-wise (row-wise) statistics of the k-mer count table
+stats.per.gene <- data.frame(
+  mean = apply(kmer.table, 1, mean),
+  sd = apply(kmer.table, 1, sd),
+  var = apply(kmer.table, 1, var),
+  min = apply(kmer.table, 1, min),
+  Q1 = apply(kmer.table, 1, quantile, 0.25),
+  median = apply(kmer.table, 1, median),
+  Q3 = apply(kmer.table, 1, quantile, 0.75),
+  max = apply(kmer.table, 1, max),
+  sum = apply(kmer.table, 1, sum)
+)
+
+```
+
+We can inspect the sum of counts per gene. 
+
+```{r sum_per_gene}
+kable(rev(table(stats.per.gene$sum)))
+```
+
+For almost all genes, the sum of k-mer counts is $n = L -1$, where $L$ is the sequence length. This is logical since there is no dinucleotide starting at the last position of a sequence. More generally, for a k-mer of size $k$, the number of possible positions is $n = L - k + 1$. 
+
+The very few cases of sequences having a smaller sums of counts result from the presence of ambiguous nucleotides (represented by the symbol `N`) in the genome sequence. For this exercise, we will suppress these genes because our models rely on the hypothesis that the sum of counts per gene is constant. 
+
+```{r gene_filtering}
+## Filter out the genes having an incorrect sum of counts
+n <- max(stats.per.gene$sum)
+
+## Count the number of genes with the correct sum of counts
+sum(stats.per.gene$sum == n)
+
+## Count the number of genes with an incorrect sum of counts
+sum(stats.per.gene$sum != n)
+
+## Filter out the genes with incorrect sums of counts
+kmer.table <- kmer.table[stats.per.gene$sum == n, ]
+dim(kmer.table)
+
+## Count the remaining number of genes
+nb.genes <- nrow(kmer.table)
+
+```
 
 
 
@@ -355,6 +426,7 @@ hist(x = counts,
      main = paste0(kmer, " counts in promoters"))
 
 ```
+
 
 ### Generate a figure with 4 x 4 panels to depict the histograms of the 16 k-mers
 
@@ -395,13 +467,23 @@ boxplot(x = kmer.table)
 We can fine-tue the parameters to enhance the readability
 
 ```{r kmer_count_boxplot_pretty, fig.height=10, fig.width=7, out.width="60%", fig.cap="Boxplot of dinucleotide counts in all promoters. "}
-boxplot(x = kmer.table[,order(col.stats$median)], horizontal = TRUE, las = 1, col = "#44DDFF", main = "Dinucleotide distributions", xlab = "Counts")
+boxplot(x = kmer.table[,order(stats.per.kmer$median)], 
+        horizontal = TRUE, 
+        las = 1, 
+        col = "#44DDFF", 
+        main = "Dinucleotide distributions", 
+        xlab = "Counts")
 ```
 
 Alternative: sort by variance. 
 
 ```{r kmer_count_boxplot_pretty_var, fig.height=10, fig.width=7, out.width="60%", fig.cap="Boxplot of dinucleotide counts in all promoters. "}
-boxplot(x = kmer.table[,order(col.stats$var)], horizontal = TRUE, las = 1, col = "#44DDFF", main = "Dinucleotide distributions", xlab = "Counts")
+boxplot(x = kmer.table[,order(stats.per.kmer$var)], 
+        horizontal = TRUE, 
+        las = 1, 
+        col = "#44DDFF", 
+        main = "Dinucleotide distributions", 
+        xlab = "Counts")
 ```
 
 
@@ -426,42 +508,18 @@ vioplot(kmer.table)
 Let us fine-tune the parameters to get a pretty violin plot. 
 
 ```{r violin_plot_pretty, fig.height=10, fig.width=7, out.width="60%", fig.cap="Violin plot of dinucleotide counts in promoter sequences"}
-vioplot(kmer.table[, order(col.stats$mean)], horizontal = TRUE, col = "#44DDFF", las = 1, main = "Violin plot of dinucleotide counts in promoters", xlab = "Counts", )
+vioplot(kmer.table[, order(stats.per.kmer$mean)], horizontal = TRUE, col = "#44DDFF", las = 1, main = "Violin plot of dinucleotide counts in promoters", xlab = "Counts", )
 
 ```
 
 ```{r violin_plot_pretty_var, fig.height=10, fig.width=7, out.width="60%", fig.cap="Violin plot of dinucleotide counts in promoter sequences"}
-vioplot(kmer.table[, order(col.stats$var)], horizontal = TRUE, col = "#44DDFF", las = 1, main = "Violin plot of dinucleotide counts in promoters", xlab = "Counts", )
-
-```
-
-## Analyse the relationships between the mean and the variance
-
-Poisson: variance = mean
-Binomial: variance < mean
-XXX: variance > mean
-
-
-```{r}
-plot(col.stats$mean, col.stats$var,
-     xlim = c(0,100), ylim=c(0,500))
-abline(a = 0, b = 1)
+vioplot(kmer.table[, order(stats.per.kmer$var)], horizontal = TRUE, col = "#44DDFF", las = 1, main = "Violin plot of dinucleotide counts in promoters", xlab = "Counts", )
 
 ```
 
 
 ## Exploring k-mer count distributions in promoter sequences
 
-
-3. Use other graphical representations to get an insight of the k-mer count distributions (boxplots, violin plots)
-
-4. Compute summary statistics for each column of the count table, including the following estimators
-
-    - min and max
-    - mean
-    - percentiles 05, 25 (=Q1), 50 (=median), 75 (=Q3), 95
-    - variance and standard deviation
-    - sum
     
 5. Compute a vector with the relative frequency of each k-mer in all the sequences. 
 
@@ -470,9 +528,112 @@ abline(a = 0, b = 1)
 7. Write a brief interpretation of the results. 
 
 
-## Fitting distributions
+## Fitting
 
-1. Fit a Poisson distribution on each empirical distribution of k-mer counts. 
+
+### Encapsulate the pretty histogram in an R function
+
+For the rest of this tutorial, we will have to draw several histograms of k-mer count distributions. Since we are satisfied of the fine-tuned histogram above, one possibility is to include it in a function, that we will be able to recall later rather than having to re-type the full code for each usage. 
+
+We will properly document this function with the roxygen2 standard. This will enable us to incorporate this function in a custom R package if we wish. 
+
+We can also include parameters (defined in the signature of the function) in order to make its use more flexible. 
+
+Moreover, this function will return an object (of class "histogram") with the  numerical values of the histogram (breaks, frequencies, counts, ...). 
+
+```{r count_histogram, collapse=FALSE}
+#' @title K-mer count histogram
+#' @author Jacques van Helden
+#' @description Draw an histogram with the distribution of a vector of counts for a given k-mer.
+#' @param counts a vector of counts
+#' @param kmer the sequence of the oligonucleotide (k-mer) to be displayed in the title
+#' @param class.interval=1 class interval (breaks are automatically computed)
+#' @param col="#44DDFF" fill color for the histogram rectangles
+#' @param border="#22BBFF" border color for the histogram rectangles
+#' @param main=paste0(kmer, " counts in promoters")
+#' @param ... all the other arguments are passed to the hist function
+#' @return an object of type histogram returned by the hist() function
+#' @export 
+kmer.hist <- function(counts, 
+                      kmer, 
+                      class.interval = 1,
+                      col = "#44DDFF", 
+                      border = "#44DDFF",
+                      main = paste0(kmer, " counts in promoters"),
+                      ...) {
+  h <- hist(x = counts, 
+            breaks = seq(from = 0, 
+                         to = max(counts + class.interval), 
+                         by = class.interval),
+            col = col, 
+            border = border,
+            las = 1,
+            ylab = "Number of promoters",   
+            xlab = "K-mer counts",
+            main = main,
+            ...)
+  
+  ## Return the histogram values
+  return(h)
+}
+```
+
+We can then call this function with a given k-mer.
+
+```{r another_kmer, fig.width=7, fig.height=4, out.width="60%", fig.cap="Distribution of k-mer counts in promoter generated with our custom funciton kmer.hist(). "}
+
+hist.values <- kmer.hist(counts = kmer.table[, "TT"], kmer = "TT")
+
+```
+
+We can then re-use it with wider breaks.
+
+```{r another_kmer_ci5, fig.width=7, fig.height=4, out.width="60%", fig.cap="Distribution of k-mer counts in promoter generated with our custom funciton kmer.hist() with class intervals of size 5. "}
+kmer <- "TT"
+counts <- kmer.table[, kmer]
+hist.values.ci5 <- kmer.hist(counts = counts, 
+                             kmer = kmer, 
+                             border = "#0088FF",
+                             class.interval = 5)
+```
+
+We can now extract the values of the histogram, for example the class midpoints and the counts per class. 
+
+```{r hist_values}
+class(hist.values)
+names(hist.values)
+# View(hist.values)
+```
+
+We can print the midpoints of the class intervals.
+
+```{r hist_mids}
+print(hist.values$mids)
+```
+
+And the corresponding counts. 
+
+```{r hist_counts}
+print(hist.values$counts)
+
+```
+
+We can also use this information to draw a custom plot of the distribution (for example a frequency polygon). 
+
+```{r frequency_polygon, fig.width=7, fig.height=4, out.width="60%", fig.cap="Distribution of counts for the TT dinucleotide in Human promoter sequences. Representation. as frequency polygon. "}
+plot(hist.values$mids, hist.values$counts, 
+     las = 1, xlab = "Number of sequences", 
+     ylab = "Counts per sequence",
+     type = "l", col = "#008800", 
+     lwd = 3,
+     main = paste0(kmer, " counts\nFrequency polygon"))
+grid() # Add a grid to the plot
+```
+
+
+
+
+### Fit a Poisson distribution on each empirical distribution of k-mer counts. 
 
     - How do you choose the parameters?
     - Draw the fitted Poisson distribution over the histogram of empirical distribution (observed k-mer occurences)
@@ -481,15 +642,109 @@ abline(a = 0, b = 1)
         
         - in order to add some plot over an existing plot, you can use the `lines()` function
         - you can also use specific options to draw histogram-like lines: `lines(x, y, type = "h"). 
+        
+        
+The Poisson distribution is defined by a single parameter: the expected mean $\lambda$ (the Greek letter "lambda"). Noteworth, the variance of a Poisson distribution equals its mean. 
 
-2. Do the same with the following distributions : 
+```{r fit_poisson}
+## Select a kmer and its counts
+kmer <- "GA" ## Select an arbitrary k-mer
+counts <- kmer.table[, kmer]
+ci <- 2
 
-    a. binomial
-    b. hypergeometric
-    c. normal
-    d. negative binomial
+## Estimate lambda (mean of the Poisson) as the mean of the counts
+lambda <- mean(counts)
+
+## Compute the Poisson Probability Mass Function
+X <- 0:max(counts) ## Compute the values covered by the k-mer counts
+# length(X)
+poisson.pmf <- dpois(x = X, lambda = lambda)
+# sum(poisson.pmf) # Validation : this should approximte 1
+
+## Compute expected number of genes for each count value
+poisson.exp <- poisson.pmf * nb.genes
+# sum(poisson.exp) # Validation: this should approximate n
+
+```
+
+
+
+```{r fitting_plot_fp, fig.width=7, fig.height=5, out.width="60%", fig.cap="Fitting of a Poisson distribution on dinucleotide counts"}
+
+## plot the histogram
+h <- kmer.hist(counts, kmer, 
+               ylim = c(0, max(poisson.exp)), 
+               class.interval = 1, col = "#BBBBBB", border = "#BBBBBB",
+               main = paste0("Poisson fit on ", kmer, " counts"))
+lines(X, poisson.exp, col = "red", lwd = 2)
+
+```
+
+An alternative is to draw the lines as a histogram rather than a polygon frequency. 
+
+```{r fitting_plot_h, fig.width=7, fig.height=5, out.width="60%", fig.cap="Fitting of a Poisson distribution on dinucleotide counts"}
+
+## plot the histogram
+h <- kmer.hist(counts, kmer, 
+               ylim = c(0, max(poisson.exp)), 
+               class.interval = 1, col = "#BBBBBB", border = "#BBBBBB",
+               main = paste0("Poisson fit on ", kmer, " counts"))
+lines(X, poisson.exp, col = "red", lwd = 1, type = "h")
+
+```
+
+We can now generate the same drawing for each k-mer. 
+
+```{r poisson_fit_all_kmers, fig.width=12, fig.height=8, out.width="100%", fig.cap="Poisson fit on dinucleotide counts from Human promoter sequences. "}
+
+par(mfrow = c(4, 4))
+for (i in 1:m) {
+  kmer <- names(kmer.table)[i]
+  counts <- kmer.table[, kmer]
+  ## plot the histogram
+  h <- kmer.hist(counts, kmer, 
+                 ylim = c(0, max(poisson.exp)), 
+                 class.interval = 1, col = "#BBBBBB", border = "#BBBBBB",
+                 main = paste0("Poisson fit on ", kmer, " counts"))
+  lines(X, poisson.exp, col = "red", lwd = 0.5, type = "h")
+
+}
+par(mfrow = c(1, 1))
+
+```
+
+### Q-Q plots
+
+```{r}
+kmer <- "TT"
+counts <- kmer.table[, kmer]
+lambda <- mean(counts)
+X <- 0:(max(counts))
+
+## Generate random counts that follow a Poisson loaw
+rcounts <-  rpois(n = length(counts), lambda = lambda)
+
+## Draw a Q-Q plot with the random counts versus actual counts
+qqplot(x = counts, y = rcounts, 
+       main = "QQplot - counts vs random Poisson",
+       col = "#88AABB",
+       xlab = "Counts",
+       ylab = "Random counts (rpois)")
+grid()
+abline(a = 0, b = 1)
+
+```
+
+
+### Fitting a binomial distribution
+
+### Fitting a normal distribution
+
+### Fitting a negative binomial
+
 
 3. Estimate the goodness of fit for these distributions. 
+
 
 
 

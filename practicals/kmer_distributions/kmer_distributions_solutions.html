@@ -539,8 +539,11 @@ ENSG00000151655|Homo_sapiens_GRCh38|ITIH2          62 30 35 33 48 23  2 41 27 22
 ENSG00000234159|Homo_sapiens_GRCh38|RBPMSLP       112 30 39 36 41 34  4 24 32 20 18 14 33 19 23 20
 ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21 19 16 35 22 37 45</code></pre>
 </div>
-<div id="compute-marginal-statistics" class="section level3">
-<h3>Compute marginal statistics</h3>
+</div>
+<div id="compute-marginal-statistics" class="section level2">
+<h2>Compute marginal statistics</h2>
+<div id="statistics-per-column-k-mer" class="section level3">
+<h3>Statistics per column (k-mer)</h3>
 <p>Tips: use the R function <code>apply()</code>.</p>
 <p>We will compute marginal statistics on the rows and columns of the count table. One possibility is to add columns and rows on this table, but this would not be very convenient for the subsequent computations to be performed on the counts. We will thus create two separate tables: one with the row-wise statistics, and another one with the column-wise statistics.</p>
 <p>Rather than looping over each row or column of the count table, we can use the function <code>apply()</code>in order to compute a chosen statistics on each row (margin = 1) or column (margin = 2) of the table.</p>
@@ -556,22 +559,24 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <pre><code>      AA       AC       AG       AT       CA       CC       CG       CT       GA       GC       GG       GT       TA       TC       TG       TT 
 40.51309 24.69333 36.14415 28.82729 35.02548 36.94124 14.57330 35.30629 30.15806 30.75028 36.17958 24.01994 24.42770 29.55186 34.20470 37.63466 </code></pre>
 <p>We can run the <code>apply()</code>function in the same way to compute the other descriptive statistics (median, variance, …) and store each result in a separate vector. However, it would be more convenient to dispose of a single structure containing all the statistics for each column. For this, we use <code>data.frame()</code> to create a data frame with one column per column per computed statistics, and one row per k-mer.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="co">## Compute a table summarising the column-wide statistics of the k-mer count table</span></a>
-<a class="sourceLine" id="cb26-2" data-line-number="2">col.stats &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
-<a class="sourceLine" id="cb26-3" data-line-number="3">  <span class="dt">mean =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, mean),</a>
-<a class="sourceLine" id="cb26-4" data-line-number="4">  <span class="dt">sd =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, sd),</a>
-<a class="sourceLine" id="cb26-5" data-line-number="5">  <span class="dt">var =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, var),</a>
-<a class="sourceLine" id="cb26-6" data-line-number="6">  <span class="dt">min =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, min),</a>
-<a class="sourceLine" id="cb26-7" data-line-number="7">  <span class="dt">p05 =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, quantile, <span class="fl">0.05</span>),</a>
-<a class="sourceLine" id="cb26-8" data-line-number="8">  <span class="dt">Q1 =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, quantile, <span class="fl">0.25</span>),</a>
-<a class="sourceLine" id="cb26-9" data-line-number="9">  <span class="dt">median =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, median),</a>
-<a class="sourceLine" id="cb26-10" data-line-number="10">  <span class="dt">Q3 =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, quantile, <span class="fl">0.75</span>),</a>
-<a class="sourceLine" id="cb26-11" data-line-number="11">  <span class="dt">p95 =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, quantile, <span class="fl">0.95</span>),</a>
-<a class="sourceLine" id="cb26-12" data-line-number="12">  <span class="dt">max =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, max)</a>
-<a class="sourceLine" id="cb26-13" data-line-number="13">)</a>
-<a class="sourceLine" id="cb26-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb26-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb26-16" data-line-number="16"><span class="kw">kable</span>(col.stats, <span class="dt">caption =</span> <span class="st">&quot;Column-wise means of the k-mer count table. &quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="co">## Compute a table summarising the statistics per k-mer </span></a>
+<a class="sourceLine" id="cb26-2" data-line-number="2"><span class="co">## (marginal stats on the columns)</span></a>
+<a class="sourceLine" id="cb26-3" data-line-number="3">stats.per.kmer &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
+<a class="sourceLine" id="cb26-4" data-line-number="4">  <span class="dt">mean =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, mean),</a>
+<a class="sourceLine" id="cb26-5" data-line-number="5">  <span class="dt">sd =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, sd),</a>
+<a class="sourceLine" id="cb26-6" data-line-number="6">  <span class="dt">var =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, var),</a>
+<a class="sourceLine" id="cb26-7" data-line-number="7">  <span class="dt">min =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, min),</a>
+<a class="sourceLine" id="cb26-8" data-line-number="8">  <span class="dt">p05 =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, quantile, <span class="fl">0.05</span>),</a>
+<a class="sourceLine" id="cb26-9" data-line-number="9">  <span class="dt">Q1 =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, quantile, <span class="fl">0.25</span>),</a>
+<a class="sourceLine" id="cb26-10" data-line-number="10">  <span class="dt">median =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, median),</a>
+<a class="sourceLine" id="cb26-11" data-line-number="11">  <span class="dt">Q3 =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, quantile, <span class="fl">0.75</span>),</a>
+<a class="sourceLine" id="cb26-12" data-line-number="12">  <span class="dt">p95 =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, quantile, <span class="fl">0.95</span>),</a>
+<a class="sourceLine" id="cb26-13" data-line-number="13">  <span class="dt">max =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, max),</a>
+<a class="sourceLine" id="cb26-14" data-line-number="14">  <span class="dt">sum =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, sum)</a>
+<a class="sourceLine" id="cb26-15" data-line-number="15">)</a>
+<a class="sourceLine" id="cb26-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb26-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb26-18" data-line-number="18"><span class="kw">kable</span>(stats.per.kmer, <span class="dt">caption =</span> <span class="st">&quot;Column-wise means of the k-mer count table. &quot;</span>)</a></code></pre></div>
 <table>
 <caption>Column-wise means of the k-mer count table.</caption>
 <thead>
@@ -587,6 +592,7 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <th align="right">Q3</th>
 <th align="right">p95</th>
 <th align="right">max</th>
+<th align="right">sum</th>
 </tr>
 </thead>
 <tbody>
@@ -602,6 +608,7 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">54</td>
 <td align="right">77</td>
 <td align="right">186</td>
+<td align="right">2458132</td>
 </tr>
 <tr class="even">
 <td>AC</td>
@@ -615,6 +622,7 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">29</td>
 <td align="right">36</td>
 <td align="right">161</td>
+<td align="right">1498268</td>
 </tr>
 <tr class="odd">
 <td>AG</td>
@@ -628,6 +636,7 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">42</td>
 <td align="right">51</td>
 <td align="right">139</td>
+<td align="right">2193046</td>
 </tr>
 <tr class="even">
 <td>AT</td>
@@ -641,6 +650,7 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">39</td>
 <td align="right">54</td>
 <td align="right">186</td>
+<td align="right">1749096</td>
 </tr>
 <tr class="odd">
 <td>CA</td>
@@ -654,6 +664,7 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">40</td>
 <td align="right">48</td>
 <td align="right">173</td>
+<td align="right">2125171</td>
 </tr>
 <tr class="even">
 <td>CC</td>
@@ -667,6 +678,7 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">47</td>
 <td align="right">76</td>
 <td align="right">208</td>
+<td align="right">2241410</td>
 </tr>
 <tr class="odd">
 <td>CG</td>
@@ -680,6 +692,7 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">20</td>
 <td align="right">51</td>
 <td align="right">113</td>
+<td align="right">884235</td>
 </tr>
 <tr class="even">
 <td>CT</td>
@@ -693,6 +706,7 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">41</td>
 <td align="right">50</td>
 <td align="right">137</td>
+<td align="right">2142209</td>
 </tr>
 <tr class="odd">
 <td>GA</td>
@@ -706,6 +720,7 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">35</td>
 <td align="right">44</td>
 <td align="right">139</td>
+<td align="right">1829840</td>
 </tr>
 <tr class="even">
 <td>GC</td>
@@ -719,6 +734,7 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">38</td>
 <td align="right">63</td>
 <td align="right">113</td>
+<td align="right">1865773</td>
 </tr>
 <tr class="odd">
 <td>GG</td>
@@ -732,6 +748,7 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">46</td>
 <td align="right">73</td>
 <td align="right">208</td>
+<td align="right">2195196</td>
 </tr>
 <tr class="even">
 <td>GT</td>
@@ -745,6 +762,7 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">28</td>
 <td align="right">35</td>
 <td align="right">130</td>
+<td align="right">1457410</td>
 </tr>
 <tr class="odd">
 <td>TA</td>
@@ -758,6 +776,7 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">34</td>
 <td align="right">49</td>
 <td align="right">184</td>
+<td align="right">1482151</td>
 </tr>
 <tr class="even">
 <td>TC</td>
@@ -771,6 +790,7 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">34</td>
 <td align="right">43</td>
 <td align="right">139</td>
+<td align="right">1793059</td>
 </tr>
 <tr class="odd">
 <td>TG</td>
@@ -784,6 +804,7 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">40</td>
 <td align="right">48</td>
 <td align="right">144</td>
+<td align="right">2075370</td>
 </tr>
 <tr class="even">
 <td>TT</td>
@@ -797,13 +818,13 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <td align="right">50</td>
 <td align="right">72</td>
 <td align="right">163</td>
+<td align="right">2283483</td>
 </tr>
 </tbody>
 </table>
 </div>
-</div>
-<div id="warning-about-r-sd-and-var-functions" class="section level2">
-<h2>Warning about R sd() and var() functions</h2>
+<div id="warning-about-r-sd-and-var-functions" class="section level3">
+<h3>Warning about R sd() and var() functions</h3>
 <p><strong>Beware:</strong> the R functions <code>sd</code> and <code>var</code> do not compute the standard deviation and variance of the numbers provded! Instead, they consider that the data provided are a sample drawed from a population, and the return an estimate of the standard deviation or variance of this population.</p>
 <p>So, instead of the sample variance</p>
 <p><span class="math display">\[s^2 = \sum_{i=1}^n \frac{1}{n}(x - \bar{x})^2\]</span></p>
@@ -812,17 +833,140 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <p>For this exercise, this is actually what we want, since we can consider that the 60675 genes of our organism of interest are a sampling of all the genes that might be found in organisms of the same taxon. In any case, the impact of the correction is negligible with such a large number of genes (<span class="math inline">\(n = 60675\)</span>).</p>
 <p><span class="math display">\[\frac{n}{n-1} =  1.0000165\]</span></p>
 </div>
+<div id="analyse-the-relationships-between-the-mean-and-the-variance" class="section level3">
+<h3>Analyse the relationships between the mean and the variance</h3>
+<p>Poisson: variance = mean Binomial: variance &lt; mean XXX: variance &gt; mean</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">plot</span>(stats.per.kmer<span class="op">$</span>mean, stats.per.kmer<span class="op">$</span>var, </a>
+<a class="sourceLine" id="cb27-2" data-line-number="2">     <span class="dt">xlab =</span> <span class="st">&quot;Mean of the counts per promoters&quot;</span>, </a>
+<a class="sourceLine" id="cb27-3" data-line-number="3">     <span class="dt">ylab =</span> <span class="st">&quot;Variance of the counts per promoters&quot;</span>, </a>
+<a class="sourceLine" id="cb27-4" data-line-number="4">     <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">panel.first =</span> <span class="kw">grid</span>(),</a>
+<a class="sourceLine" id="cb27-5" data-line-number="5">     <span class="dt">main =</span> <span class="st">&quot;Dinucleotide counts in human promoters</span><span class="ch">\n</span><span class="st">Variance versus mean plot&quot;</span>,</a>
+<a class="sourceLine" id="cb27-6" data-line-number="6">     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">50</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">500</span>), <span class="dt">cex =</span> <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb27-7" data-line-number="7"><span class="kw">text</span>(<span class="dt">x =</span> stats.per.kmer<span class="op">$</span>mean, <span class="dt">y =</span> stats.per.kmer<span class="op">$</span>var, <span class="dt">labels =</span> <span class="kw">rownames</span>(stats.per.kmer))</a>
+<a class="sourceLine" id="cb27-8" data-line-number="8"><span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>)</a></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="figures/02_combinatorix_mean_vs_var-1.png" alt="Mean-variance plot for dinucleotide counts in all human promoters. The line indicates the variance/mean relationship in Poisson. distributions. " width="60%" />
+<p class="caption">
+Mean-variance plot for dinucleotide counts in all human promoters. The line indicates the variance/mean relationship in Poisson. distributions.
+</p>
+</div>
+</div>
+<div id="statistics-per-gene-row" class="section level3">
+<h3>Statistics per gene (row)</h3>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="co">## Compute a table summarising the gene-wise (row-wise) statistics of the k-mer count table</span></a>
+<a class="sourceLine" id="cb28-2" data-line-number="2">stats.per.gene &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
+<a class="sourceLine" id="cb28-3" data-line-number="3">  <span class="dt">mean =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">1</span>, mean),</a>
+<a class="sourceLine" id="cb28-4" data-line-number="4">  <span class="dt">sd =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">1</span>, sd),</a>
+<a class="sourceLine" id="cb28-5" data-line-number="5">  <span class="dt">var =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">1</span>, var),</a>
+<a class="sourceLine" id="cb28-6" data-line-number="6">  <span class="dt">min =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">1</span>, min),</a>
+<a class="sourceLine" id="cb28-7" data-line-number="7">  <span class="dt">Q1 =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">1</span>, quantile, <span class="fl">0.25</span>),</a>
+<a class="sourceLine" id="cb28-8" data-line-number="8">  <span class="dt">median =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">1</span>, median),</a>
+<a class="sourceLine" id="cb28-9" data-line-number="9">  <span class="dt">Q3 =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">1</span>, quantile, <span class="fl">0.75</span>),</a>
+<a class="sourceLine" id="cb28-10" data-line-number="10">  <span class="dt">max =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">1</span>, max),</a>
+<a class="sourceLine" id="cb28-11" data-line-number="11">  <span class="dt">sum =</span> <span class="kw">apply</span>(kmer.table, <span class="dv">1</span>, sum)</a>
+<a class="sourceLine" id="cb28-12" data-line-number="12">)</a></code></pre></div>
+<p>We can inspect the sum of counts per gene.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">kable</span>(<span class="kw">rev</span>(<span class="kw">table</span>(stats.per.gene<span class="op">$</span>sum)))</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Var1</th>
+<th align="right">Freq</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">499</td>
+<td align="right">60658</td>
+</tr>
+<tr class="even">
+<td align="left">497</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">482</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">476</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">465</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">456</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">398</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">393</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">249</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">194</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">142</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">138</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">102</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">24</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">0</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+<p>For almost all genes, the sum of k-mer counts is <span class="math inline">\(n = L -1\)</span>, where <span class="math inline">\(L\)</span> is the sequence length. This is logical since there is no dinucleotide starting at the last position of a sequence. More generally, for a k-mer of size <span class="math inline">\(k\)</span>, the number of possible positions is <span class="math inline">\(n = L - k + 1\)</span>.</p>
+<p>The very few cases of sequences having a smaller sums of counts result from the presence of ambiguous nucleotides (represented by the symbol <code>N</code>) in the genome sequence. For this exercise, we will suppress these genes because our models rely on the hypothesis that the sum of counts per gene is constant.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="co">## Filter out the genes having an incorrect sum of counts</span></a>
+<a class="sourceLine" id="cb30-2" data-line-number="2">n &lt;-<span class="st"> </span><span class="kw">max</span>(stats.per.gene<span class="op">$</span>sum)</a>
+<a class="sourceLine" id="cb30-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb30-4" data-line-number="4"><span class="co">## Count the number of genes with the correct sum of counts</span></a>
+<a class="sourceLine" id="cb30-5" data-line-number="5"><span class="kw">sum</span>(stats.per.gene<span class="op">$</span>sum <span class="op">==</span><span class="st"> </span>n)</a></code></pre></div>
+<pre><code>[1] 60658</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="co">## Count the number of genes with an incorrect sum of counts</span></a>
+<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="kw">sum</span>(stats.per.gene<span class="op">$</span>sum <span class="op">!=</span><span class="st"> </span>n)</a></code></pre></div>
+<pre><code>[1] 17</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="co">## Filter out the genes with incorrect sums of counts</span></a>
+<a class="sourceLine" id="cb34-2" data-line-number="2">kmer.table &lt;-<span class="st"> </span>kmer.table[stats.per.gene<span class="op">$</span>sum <span class="op">==</span><span class="st"> </span>n, ]</a>
+<a class="sourceLine" id="cb34-3" data-line-number="3"><span class="kw">dim</span>(kmer.table)</a></code></pre></div>
+<pre><code>[1] 60658    16</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="co">## Count the remaining number of genes</span></a>
+<a class="sourceLine" id="cb36-2" data-line-number="2">nb.genes &lt;-<span class="st"> </span><span class="kw">nrow</span>(kmer.table)</a></code></pre></div>
+</div>
+</div>
 <div id="drawing-empirical-distributions-of-counts" class="section level2">
 <h2>Drawing empirical distributions of counts</h2>
 <div id="draw-an-histogram-with-the-distribution-of-counts-for-a-given-k-mer." class="section level3">
 <h3>Draw an histogram with the distribution of counts for a given k-mer.</h3>
 <p>The simplest way to generate a histogram is to use the <code>hist()</code> function. Here is the result with the default parameters.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">kmer &lt;-<span class="st"> &quot;AG&quot;</span> <span class="co"># Select a k-mer</span></a>
-<a class="sourceLine" id="cb27-2" data-line-number="2">counts &lt;-<span class="st"> </span>kmer.table[, kmer] <span class="co"># select the counts for this k-mer</span></a>
-<a class="sourceLine" id="cb27-3" data-line-number="3"><span class="kw">range</span>(counts)</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">kmer &lt;-<span class="st"> &quot;AG&quot;</span> <span class="co"># Select a k-mer</span></a>
+<a class="sourceLine" id="cb37-2" data-line-number="2">counts &lt;-<span class="st"> </span>kmer.table[, kmer] <span class="co"># select the counts for this k-mer</span></a>
+<a class="sourceLine" id="cb37-3" data-line-number="3"><span class="kw">range</span>(counts)</a></code></pre></div>
 <pre><code>[1]   0 139</code></pre>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="co">## Draw an histogram with default parameters (not very beautiful)</span></a>
-<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="kw">hist</span>(<span class="dt">x =</span> counts)</a></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="co">## Draw an histogram with default parameters (not very beautiful)</span></a>
+<a class="sourceLine" id="cb39-2" data-line-number="2"><span class="kw">hist</span>(<span class="dt">x =</span> counts)</a></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figures/02_combinatorix_one_kmer_hist-1.png" alt="Counts per sequence in all human promoters. " width="60%" />
 <p class="caption">
@@ -830,14 +974,14 @@ Counts per sequence in all human promoters.
 </p>
 </div>
 <p>We can fine-tune the parameters in order to get a more informative representation, by specifying custom breaks.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="co">## Draw a nice and informative histogram</span></a>
-<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="kw">hist</span>(<span class="dt">x =</span> counts, </a>
-<a class="sourceLine" id="cb30-3" data-line-number="3">     <span class="dt">breaks =</span> <span class="dv">0</span><span class="op">:</span><span class="kw">max</span>(counts <span class="op">+</span><span class="st"> </span><span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb30-4" data-line-number="4">     <span class="dt">col =</span> <span class="st">&quot;#44DDFF&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;#44DDFF&quot;</span>,</a>
-<a class="sourceLine" id="cb30-5" data-line-number="5">     <span class="dt">las =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb30-6" data-line-number="6">     <span class="dt">ylab =</span> <span class="st">&quot;Number of promoters&quot;</span>,   </a>
-<a class="sourceLine" id="cb30-7" data-line-number="7">     <span class="dt">xlab =</span> <span class="st">&quot;K-mer counts&quot;</span>,</a>
-<a class="sourceLine" id="cb30-8" data-line-number="8">     <span class="dt">main =</span> <span class="kw">paste0</span>(kmer, <span class="st">&quot; counts in promoters&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="co">## Draw a nice and informative histogram</span></a>
+<a class="sourceLine" id="cb40-2" data-line-number="2"><span class="kw">hist</span>(<span class="dt">x =</span> counts, </a>
+<a class="sourceLine" id="cb40-3" data-line-number="3">     <span class="dt">breaks =</span> <span class="dv">0</span><span class="op">:</span><span class="kw">max</span>(counts <span class="op">+</span><span class="st"> </span><span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb40-4" data-line-number="4">     <span class="dt">col =</span> <span class="st">&quot;#44DDFF&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;#44DDFF&quot;</span>,</a>
+<a class="sourceLine" id="cb40-5" data-line-number="5">     <span class="dt">las =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb40-6" data-line-number="6">     <span class="dt">ylab =</span> <span class="st">&quot;Number of promoters&quot;</span>,   </a>
+<a class="sourceLine" id="cb40-7" data-line-number="7">     <span class="dt">xlab =</span> <span class="st">&quot;K-mer counts&quot;</span>,</a>
+<a class="sourceLine" id="cb40-8" data-line-number="8">     <span class="dt">main =</span> <span class="kw">paste0</span>(kmer, <span class="st">&quot; counts in promoters&quot;</span>))</a></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figures/02_combinatorix_one_kmer_hist_pretty-1.png" alt="Counts per sequence in all human promoters. " width="60%" />
 <p class="caption">
@@ -847,35 +991,35 @@ Counts per sequence in all human promoters.
 </div>
 <div id="generate-a-figure-with-4-x-4-panels-to-depict-the-histograms-of-the-16-k-mers" class="section level3">
 <h3>Generate a figure with 4 x 4 panels to depict the histograms of the 16 k-mers</h3>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">4</span>))</a>
-<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">4.1</span>, <span class="fl">5.1</span>, <span class="fl">4.1</span>, <span class="fl">1.1</span>))</a>
-<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">16</span>) {</a>
-<a class="sourceLine" id="cb31-4" data-line-number="4">  kmer &lt;-<span class="st"> </span><span class="kw">names</span>(kmer.table)[i]</a>
-<a class="sourceLine" id="cb31-5" data-line-number="5">  counts &lt;-<span class="st"> </span>kmer.table[, i] <span class="co"># select the ith column of the k-mer table</span></a>
-<a class="sourceLine" id="cb31-6" data-line-number="6">  <span class="co">## Draw a nice and informative histogram</span></a>
-<a class="sourceLine" id="cb31-7" data-line-number="7">  <span class="kw">hist</span>(<span class="dt">x =</span> counts, </a>
-<a class="sourceLine" id="cb31-8" data-line-number="8">       <span class="dt">breaks =</span> <span class="dv">0</span><span class="op">:</span><span class="kw">max</span>(counts <span class="op">+</span><span class="st"> </span><span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb31-9" data-line-number="9">       <span class="dt">col =</span> <span class="st">&quot;#44DDFF&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;#44DDFF&quot;</span>,</a>
-<a class="sourceLine" id="cb31-10" data-line-number="10">       <span class="dt">las =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb31-11" data-line-number="11">       <span class="dt">ylab =</span> <span class="st">&quot;Number of promoters&quot;</span>,   </a>
-<a class="sourceLine" id="cb31-12" data-line-number="12">       <span class="dt">xlab =</span> <span class="st">&quot;K-mer counts&quot;</span>,</a>
-<a class="sourceLine" id="cb31-13" data-line-number="13">       <span class="dt">main =</span> <span class="kw">paste0</span>(<span class="kw">toupper</span>(kmer), <span class="st">&quot; counts in promoters&quot;</span>))</a>
-<a class="sourceLine" id="cb31-14" data-line-number="14">}</a></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">4</span>))</a>
+<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">4.1</span>, <span class="fl">5.1</span>, <span class="fl">4.1</span>, <span class="fl">1.1</span>))</a>
+<a class="sourceLine" id="cb41-3" data-line-number="3"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">16</span>) {</a>
+<a class="sourceLine" id="cb41-4" data-line-number="4">  kmer &lt;-<span class="st"> </span><span class="kw">names</span>(kmer.table)[i]</a>
+<a class="sourceLine" id="cb41-5" data-line-number="5">  counts &lt;-<span class="st"> </span>kmer.table[, i] <span class="co"># select the ith column of the k-mer table</span></a>
+<a class="sourceLine" id="cb41-6" data-line-number="6">  <span class="co">## Draw a nice and informative histogram</span></a>
+<a class="sourceLine" id="cb41-7" data-line-number="7">  <span class="kw">hist</span>(<span class="dt">x =</span> counts, </a>
+<a class="sourceLine" id="cb41-8" data-line-number="8">       <span class="dt">breaks =</span> <span class="dv">0</span><span class="op">:</span><span class="kw">max</span>(counts <span class="op">+</span><span class="st"> </span><span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb41-9" data-line-number="9">       <span class="dt">col =</span> <span class="st">&quot;#44DDFF&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;#44DDFF&quot;</span>,</a>
+<a class="sourceLine" id="cb41-10" data-line-number="10">       <span class="dt">las =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb41-11" data-line-number="11">       <span class="dt">ylab =</span> <span class="st">&quot;Number of promoters&quot;</span>,   </a>
+<a class="sourceLine" id="cb41-12" data-line-number="12">       <span class="dt">xlab =</span> <span class="st">&quot;K-mer counts&quot;</span>,</a>
+<a class="sourceLine" id="cb41-13" data-line-number="13">       <span class="dt">main =</span> <span class="kw">paste0</span>(<span class="kw">toupper</span>(kmer), <span class="st">&quot; counts in promoters&quot;</span>))</a>
+<a class="sourceLine" id="cb41-14" data-line-number="14">}</a></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figures/02_combinatorix_all_kmer_hist_pretty-1.png" alt="Dinucleotide counts per sequence in all human promoters. " width="100%" />
 <p class="caption">
 Dinucleotide counts per sequence in all human promoters.
 </p>
 </div>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">4.1</span>, <span class="fl">5.1</span>, <span class="fl">4.1</span>, <span class="fl">2.1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">4.1</span>, <span class="fl">5.1</span>, <span class="fl">4.1</span>, <span class="fl">2.1</span>))</a></code></pre></div>
 </div>
 <div id="use-other-graphical-representations-to-get-an-insight-of-the-k-mer-count-distributions-boxplots-violin-plots" class="section level3">
 <h3>Use other graphical representations to get an insight of the k-mer count distributions (boxplots, violin plots)</h3>
 <div id="boxplot" class="section level4">
 <h4>Boxplot</h4>
 <p>The funciton <code>boxplot()</code> provides an informative summary of the data.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw">boxplot</span>(<span class="dt">x =</span> kmer.table)</a></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw">boxplot</span>(<span class="dt">x =</span> kmer.table)</a></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figures/02_combinatorix_kmer_count_boxplot-1.png" alt="Boxplot of dinucleotide counts in all promoters. " width="60%" />
 <p class="caption">
@@ -883,7 +1027,12 @@ Boxplot of dinucleotide counts in all promoters.
 </p>
 </div>
 <p>We can fine-tue the parameters to enhance the readability</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">boxplot</span>(<span class="dt">x =</span> kmer.table[,<span class="kw">order</span>(col.stats<span class="op">$</span>median)], <span class="dt">horizontal =</span> <span class="ot">TRUE</span>, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;#44DDFF&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Dinucleotide distributions&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Counts&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="kw">boxplot</span>(<span class="dt">x =</span> kmer.table[,<span class="kw">order</span>(stats.per.kmer<span class="op">$</span>median)], </a>
+<a class="sourceLine" id="cb44-2" data-line-number="2">        <span class="dt">horizontal =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb44-3" data-line-number="3">        <span class="dt">las =</span> <span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb44-4" data-line-number="4">        <span class="dt">col =</span> <span class="st">&quot;#44DDFF&quot;</span>, </a>
+<a class="sourceLine" id="cb44-5" data-line-number="5">        <span class="dt">main =</span> <span class="st">&quot;Dinucleotide distributions&quot;</span>, </a>
+<a class="sourceLine" id="cb44-6" data-line-number="6">        <span class="dt">xlab =</span> <span class="st">&quot;Counts&quot;</span>)</a></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figures/02_combinatorix_kmer_count_boxplot_pretty-1.png" alt="Boxplot of dinucleotide counts in all promoters. " width="60%" />
 <p class="caption">
@@ -891,7 +1040,12 @@ Boxplot of dinucleotide counts in all promoters.
 </p>
 </div>
 <p>Alternative: sort by variance.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw">boxplot</span>(<span class="dt">x =</span> kmer.table[,<span class="kw">order</span>(col.stats<span class="op">$</span>var)], <span class="dt">horizontal =</span> <span class="ot">TRUE</span>, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;#44DDFF&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Dinucleotide distributions&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Counts&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw">boxplot</span>(<span class="dt">x =</span> kmer.table[,<span class="kw">order</span>(stats.per.kmer<span class="op">$</span>var)], </a>
+<a class="sourceLine" id="cb45-2" data-line-number="2">        <span class="dt">horizontal =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb45-3" data-line-number="3">        <span class="dt">las =</span> <span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb45-4" data-line-number="4">        <span class="dt">col =</span> <span class="st">&quot;#44DDFF&quot;</span>, </a>
+<a class="sourceLine" id="cb45-5" data-line-number="5">        <span class="dt">main =</span> <span class="st">&quot;Dinucleotide distributions&quot;</span>, </a>
+<a class="sourceLine" id="cb45-6" data-line-number="6">        <span class="dt">xlab =</span> <span class="st">&quot;Counts&quot;</span>)</a></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figures/02_combinatorix_kmer_count_boxplot_pretty_var-1.png" alt="Boxplot of dinucleotide counts in all promoters. " width="60%" />
 <p class="caption">
@@ -902,16 +1056,16 @@ Boxplot of dinucleotide counts in all promoters.
 <div id="violin-plot" class="section level4">
 <h4>Violin plot</h4>
 <p>We can use the R function <code>vioplot()</code> to generate a violin plot. This requires to install the R package <code>vioplot</code>, if it is not already done.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="co">## Check if the vioplot package is already installed</span></a>
-<a class="sourceLine" id="cb36-2" data-line-number="2"><span class="cf">if</span> (<span class="op">!</span><span class="kw">require</span>(vioplot)) {</a>
-<a class="sourceLine" id="cb36-3" data-line-number="3">  <span class="co">## Install the vioplot package</span></a>
-<a class="sourceLine" id="cb36-4" data-line-number="4">  <span class="kw">install.packages</span>(<span class="st">&quot;vioplot&quot;</span>)</a>
-<a class="sourceLine" id="cb36-5" data-line-number="5">}</a>
-<a class="sourceLine" id="cb36-6" data-line-number="6"><span class="kw">library</span>(vioplot) <span class="co">## Load the vioplot package</span></a>
-<a class="sourceLine" id="cb36-7" data-line-number="7"><span class="co"># help(package = vioplot) # Get help on the package</span></a>
-<a class="sourceLine" id="cb36-8" data-line-number="8"><span class="co"># help(vioplot) # Get help on the vioplot function</span></a>
-<a class="sourceLine" id="cb36-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb36-10" data-line-number="10"><span class="kw">vioplot</span>(kmer.table)</a></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="co">## Check if the vioplot package is already installed</span></a>
+<a class="sourceLine" id="cb46-2" data-line-number="2"><span class="cf">if</span> (<span class="op">!</span><span class="kw">require</span>(vioplot)) {</a>
+<a class="sourceLine" id="cb46-3" data-line-number="3">  <span class="co">## Install the vioplot package</span></a>
+<a class="sourceLine" id="cb46-4" data-line-number="4">  <span class="kw">install.packages</span>(<span class="st">&quot;vioplot&quot;</span>)</a>
+<a class="sourceLine" id="cb46-5" data-line-number="5">}</a>
+<a class="sourceLine" id="cb46-6" data-line-number="6"><span class="kw">library</span>(vioplot) <span class="co">## Load the vioplot package</span></a>
+<a class="sourceLine" id="cb46-7" data-line-number="7"><span class="co"># help(package = vioplot) # Get help on the package</span></a>
+<a class="sourceLine" id="cb46-8" data-line-number="8"><span class="co"># help(vioplot) # Get help on the vioplot function</span></a>
+<a class="sourceLine" id="cb46-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb46-10" data-line-number="10"><span class="kw">vioplot</span>(kmer.table)</a></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figures/02_combinatorix_violin_plot-1.png" alt="Violin plot of dinucleotide counts in promoter sequences" width="60%" />
 <p class="caption">
@@ -919,14 +1073,14 @@ Violin plot of dinucleotide counts in promoter sequences
 </p>
 </div>
 <p>Let us fine-tune the parameters to get a pretty violin plot.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">vioplot</span>(kmer.table[, <span class="kw">order</span>(col.stats<span class="op">$</span>mean)], <span class="dt">horizontal =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="st">&quot;#44DDFF&quot;</span>, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">main =</span> <span class="st">&quot;Violin plot of dinucleotide counts in promoters&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Counts&quot;</span>, )</a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">vioplot</span>(kmer.table[, <span class="kw">order</span>(stats.per.kmer<span class="op">$</span>mean)], <span class="dt">horizontal =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="st">&quot;#44DDFF&quot;</span>, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">main =</span> <span class="st">&quot;Violin plot of dinucleotide counts in promoters&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Counts&quot;</span>, )</a></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figures/02_combinatorix_violin_plot_pretty-1.png" alt="Violin plot of dinucleotide counts in promoter sequences" width="60%" />
 <p class="caption">
 Violin plot of dinucleotide counts in promoter sequences
 </p>
 </div>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">vioplot</span>(kmer.table[, <span class="kw">order</span>(col.stats<span class="op">$</span>var)], <span class="dt">horizontal =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="st">&quot;#44DDFF&quot;</span>, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">main =</span> <span class="st">&quot;Violin plot of dinucleotide counts in promoters&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Counts&quot;</span>, )</a></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="kw">vioplot</span>(kmer.table[, <span class="kw">order</span>(stats.per.kmer<span class="op">$</span>var)], <span class="dt">horizontal =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="st">&quot;#44DDFF&quot;</span>, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">main =</span> <span class="st">&quot;Violin plot of dinucleotide counts in promoters&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Counts&quot;</span>, )</a></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figures/02_combinatorix_violin_plot_pretty_var-1.png" alt="Violin plot of dinucleotide counts in promoter sequences" width="60%" />
 <p class="caption">
@@ -938,43 +1092,214 @@ Violin plot of dinucleotide counts in promoter sequences
 </div>
 <div id="exploring-k-mer-count-distributions-in-promoter-sequences" class="section level2">
 <h2>Exploring k-mer count distributions in promoter sequences</h2>
-<ol start="3" style="list-style-type: decimal">
-<li><p>Use other graphical representations to get an insight of the k-mer count distributions (boxplots, violin plots)</p></li>
-<li><p>Compute summary statistics for each column of the count table, including the following estimators</p>
-<ul>
-<li>min and max</li>
-<li>mean</li>
-<li>percentiles 05, 25 (=Q1), 50 (=median), 75 (=Q3), 95</li>
-<li>variance and standard deviation</li>
-<li>sum</li>
-</ul></li>
+<ol start="5" style="list-style-type: decimal">
 <li><p>Compute a vector with the relative frequency of each k-mer in all the sequences.</p></li>
 <li><p>Compute a table with the relative frequencies of k-mers per sequence, and compute similar summary statistics per column on this relative frequency table.</p></li>
 <li><p>Write a brief interpretation of the results.</p></li>
 </ol>
 </div>
-<div id="fitting-distributions" class="section level2">
-<h2>Fitting distributions</h2>
-<ol style="list-style-type: decimal">
-<li><p>Fit a Poisson distribution on each empirical distribution of k-mer counts.</p>
-<ul>
-<li>How do you choose the parameters?</li>
-<li><p>Draw the fitted Poisson distribution over the histogram of empirical distribution (observed k-mer occurences)</p>
-<p><strong>Tips:</strong></p>
-<ul>
-<li>in order to add some plot over an existing plot, you can use the <code>lines()</code> function</li>
-<li>you can also use specific options to draw histogram-like lines: `lines(x, y, type = “h”).</li>
-</ul></li>
-</ul></li>
-<li><p>Do the same with the following distributions :</p>
-<ol style="list-style-type: lower-alpha">
-<li>binomial</li>
-<li>hypergeometric</li>
-<li>normal</li>
-<li>negative binomial</li>
-</ol></li>
-<li><p>Estimate the goodness of fit for these distributions.</p></li>
+<div id="fitting" class="section level2">
+<h2>Fitting</h2>
+<div id="encapsulate-the-pretty-histogram-in-an-r-function" class="section level3">
+<h3>Encapsulate the pretty histogram in an R function</h3>
+<p>For the rest of this tutorial, we will have to draw several histograms of k-mer count distributions. Since we are satisfied of the fine-tuned histogram above, one possibility is to include it in a function, that we will be able to recall later rather than having to re-type the full code for each usage.</p>
+<p>We will properly document this function with the roxygen2 standard. This will enable us to incorporate this function in a custom R package if we wish.</p>
+<p>We can also include parameters (defined in the signature of the function) in order to make its use more flexible.</p>
+<p>Moreover, this function will return an object (of class “histogram”) with the numerical values of the histogram (breaks, frequencies, counts, …).</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="co">#&#39; @title K-mer count histogram</span></a>
+<a class="sourceLine" id="cb49-2" data-line-number="2"><span class="co">#&#39; @author Jacques van Helden</span></a>
+<a class="sourceLine" id="cb49-3" data-line-number="3"><span class="co">#&#39; @description Draw an histogram with the distribution of a vector of counts for a given k-mer.</span></a>
+<a class="sourceLine" id="cb49-4" data-line-number="4"><span class="co">#&#39; @param counts a vector of counts</span></a>
+<a class="sourceLine" id="cb49-5" data-line-number="5"><span class="co">#&#39; @param kmer the sequence of the oligonucleotide (k-mer) to be displayed in the title</span></a>
+<a class="sourceLine" id="cb49-6" data-line-number="6"><span class="co">#&#39; @param class.interval=1 class interval (breaks are automatically computed)</span></a>
+<a class="sourceLine" id="cb49-7" data-line-number="7"><span class="co">#&#39; @param col=&quot;#44DDFF&quot; fill color for the histogram rectangles</span></a>
+<a class="sourceLine" id="cb49-8" data-line-number="8"><span class="co">#&#39; @param border=&quot;#22BBFF&quot; border color for the histogram rectangles</span></a>
+<a class="sourceLine" id="cb49-9" data-line-number="9"><span class="co">#&#39; @param main=paste0(kmer, &quot; counts in promoters&quot;)</span></a>
+<a class="sourceLine" id="cb49-10" data-line-number="10"><span class="co">#&#39; @param ... all the other arguments are passed to the hist function</span></a>
+<a class="sourceLine" id="cb49-11" data-line-number="11"><span class="co">#&#39; @return an object of type histogram returned by the hist() function</span></a>
+<a class="sourceLine" id="cb49-12" data-line-number="12"><span class="co">#&#39; @export </span></a>
+<a class="sourceLine" id="cb49-13" data-line-number="13">kmer.hist &lt;-<span class="st"> </span><span class="cf">function</span>(counts, </a>
+<a class="sourceLine" id="cb49-14" data-line-number="14">                      kmer, </a>
+<a class="sourceLine" id="cb49-15" data-line-number="15">                      <span class="dt">class.interval =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb49-16" data-line-number="16">                      <span class="dt">col =</span> <span class="st">&quot;#44DDFF&quot;</span>, </a>
+<a class="sourceLine" id="cb49-17" data-line-number="17">                      <span class="dt">border =</span> <span class="st">&quot;#44DDFF&quot;</span>,</a>
+<a class="sourceLine" id="cb49-18" data-line-number="18">                      <span class="dt">main =</span> <span class="kw">paste0</span>(kmer, <span class="st">&quot; counts in promoters&quot;</span>),</a>
+<a class="sourceLine" id="cb49-19" data-line-number="19">                      ...) {</a>
+<a class="sourceLine" id="cb49-20" data-line-number="20">  h &lt;-<span class="st"> </span><span class="kw">hist</span>(<span class="dt">x =</span> counts, </a>
+<a class="sourceLine" id="cb49-21" data-line-number="21">            <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">0</span>, </a>
+<a class="sourceLine" id="cb49-22" data-line-number="22">                         <span class="dt">to =</span> <span class="kw">max</span>(counts <span class="op">+</span><span class="st"> </span>class.interval), </a>
+<a class="sourceLine" id="cb49-23" data-line-number="23">                         <span class="dt">by =</span> class.interval),</a>
+<a class="sourceLine" id="cb49-24" data-line-number="24">            <span class="dt">col =</span> col, </a>
+<a class="sourceLine" id="cb49-25" data-line-number="25">            <span class="dt">border =</span> border,</a>
+<a class="sourceLine" id="cb49-26" data-line-number="26">            <span class="dt">las =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb49-27" data-line-number="27">            <span class="dt">ylab =</span> <span class="st">&quot;Number of promoters&quot;</span>,   </a>
+<a class="sourceLine" id="cb49-28" data-line-number="28">            <span class="dt">xlab =</span> <span class="st">&quot;K-mer counts&quot;</span>,</a>
+<a class="sourceLine" id="cb49-29" data-line-number="29">            <span class="dt">main =</span> main,</a>
+<a class="sourceLine" id="cb49-30" data-line-number="30">            ...)</a>
+<a class="sourceLine" id="cb49-31" data-line-number="31">  </a>
+<a class="sourceLine" id="cb49-32" data-line-number="32">  <span class="co">## Return the histogram values</span></a>
+<a class="sourceLine" id="cb49-33" data-line-number="33">  <span class="kw">return</span>(h)</a>
+<a class="sourceLine" id="cb49-34" data-line-number="34">}</a></code></pre></div>
+<p>We can then call this function with a given k-mer.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">hist.values &lt;-<span class="st"> </span><span class="kw">kmer.hist</span>(<span class="dt">counts =</span> kmer.table[, <span class="st">&quot;TT&quot;</span>], <span class="dt">kmer =</span> <span class="st">&quot;TT&quot;</span>)</a></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="figures/02_combinatorix_another_kmer-1.png" alt="Distribution of k-mer counts in promoter generated with our custom funciton kmer.hist(). " width="60%" />
+<p class="caption">
+Distribution of k-mer counts in promoter generated with our custom funciton kmer.hist().
+</p>
+</div>
+<p>We can then re-use it with wider breaks.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">kmer &lt;-<span class="st"> &quot;TT&quot;</span></a>
+<a class="sourceLine" id="cb51-2" data-line-number="2">counts &lt;-<span class="st"> </span>kmer.table[, kmer]</a>
+<a class="sourceLine" id="cb51-3" data-line-number="3">hist.values.ci5 &lt;-<span class="st"> </span><span class="kw">kmer.hist</span>(<span class="dt">counts =</span> counts, </a>
+<a class="sourceLine" id="cb51-4" data-line-number="4">                             <span class="dt">kmer =</span> kmer, </a>
+<a class="sourceLine" id="cb51-5" data-line-number="5">                             <span class="dt">border =</span> <span class="st">&quot;#0088FF&quot;</span>,</a>
+<a class="sourceLine" id="cb51-6" data-line-number="6">                             <span class="dt">class.interval =</span> <span class="dv">5</span>)</a></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="figures/02_combinatorix_another_kmer_ci5-1.png" alt="Distribution of k-mer counts in promoter generated with our custom funciton kmer.hist() with class intervals of size 5. " width="60%" />
+<p class="caption">
+Distribution of k-mer counts in promoter generated with our custom funciton kmer.hist() with class intervals of size 5.
+</p>
+</div>
+<p>We can now extract the values of the histogram, for example the class midpoints and the counts per class.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="kw">class</span>(hist.values)</a></code></pre></div>
+<pre><code>[1] &quot;histogram&quot;</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1"><span class="kw">names</span>(hist.values)</a></code></pre></div>
+<pre><code>[1] &quot;breaks&quot;   &quot;counts&quot;   &quot;density&quot;  &quot;mids&quot;     &quot;xname&quot;    &quot;equidist&quot;</code></pre>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="co"># View(hist.values)</span></a></code></pre></div>
+<p>We can print the midpoints of the class intervals.</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="kw">print</span>(hist.values<span class="op">$</span>mids)</a></code></pre></div>
+<pre><code>  [1]   0.5   1.5   2.5   3.5   4.5   5.5   6.5   7.5   8.5   9.5  10.5  11.5  12.5  13.5  14.5  15.5  16.5  17.5  18.5  19.5  20.5  21.5  22.5  23.5  24.5  25.5  26.5  27.5  28.5  29.5  30.5  31.5  32.5  33.5  34.5  35.5  36.5  37.5  38.5  39.5  40.5  41.5  42.5  43.5  44.5  45.5  46.5  47.5  48.5
+ [50]  49.5  50.5  51.5  52.5  53.5  54.5  55.5  56.5  57.5  58.5  59.5  60.5  61.5  62.5  63.5  64.5  65.5  66.5  67.5  68.5  69.5  70.5  71.5  72.5  73.5  74.5  75.5  76.5  77.5  78.5  79.5  80.5  81.5  82.5  83.5  84.5  85.5  86.5  87.5  88.5  89.5  90.5  91.5  92.5  93.5  94.5  95.5  96.5  97.5
+ [99]  98.5  99.5 100.5 101.5 102.5 103.5 104.5 105.5 106.5 107.5 108.5 109.5 110.5 111.5 112.5 113.5 114.5 115.5 116.5 117.5 118.5 119.5 120.5 121.5 122.5 123.5 124.5 125.5 126.5 127.5 128.5 129.5 130.5 131.5 132.5 133.5 134.5 135.5 136.5 137.5 138.5 139.5 140.5 141.5 142.5 143.5 144.5 145.5 146.5
+[148] 147.5 148.5 149.5 150.5 151.5 152.5 153.5 154.5 155.5 156.5 157.5 158.5 159.5 160.5 161.5 162.5 163.5</code></pre>
+<p>And the corresponding counts.</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="kw">print</span>(hist.values<span class="op">$</span>counts)</a></code></pre></div>
+<pre><code>  [1]   92  100  161  232  298  377  457  481  582  684  721  765  818  874  872  996  988 1031 1043 1092 1097 1156 1113 1150 1145 1128 1203 1170 1205 1182 1221 1120 1182 1133 1145 1204 1187 1126 1130 1143 1074 1067 1097 1037 1052  976  959  955  907  867  887  817  827  720  717  698  635  661  635
+ [60]  570  568  519  501  486  406  379  361  343  338  317  293  273  223  225  212  187  166  161  140  132  120  116   99   94  104   85   77   76   50   66   48   51   44   35   30   39   27   29   21   21   10   21   19   23   12   10   14   12   15   10    3   11   13    4    4    9    4    2
+[119]    3    2    3    2    1    1    0    1    7    0    1    3    3    0    1    2    2    0    0    1    0    1    0    0    0    0    0    0    0    1    0    0    1    0    0    0    0    0    0    0    0    1    0    0    1    0</code></pre>
+<p>We can also use this information to draw a custom plot of the distribution (for example a frequency polygon).</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1"><span class="kw">plot</span>(hist.values<span class="op">$</span>mids, hist.values<span class="op">$</span>counts, </a>
+<a class="sourceLine" id="cb61-2" data-line-number="2">     <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">xlab =</span> <span class="st">&quot;Number of sequences&quot;</span>, </a>
+<a class="sourceLine" id="cb61-3" data-line-number="3">     <span class="dt">ylab =</span> <span class="st">&quot;Counts per sequence&quot;</span>,</a>
+<a class="sourceLine" id="cb61-4" data-line-number="4">     <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#008800&quot;</span>, </a>
+<a class="sourceLine" id="cb61-5" data-line-number="5">     <span class="dt">lwd =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb61-6" data-line-number="6">     <span class="dt">main =</span> <span class="kw">paste0</span>(kmer, <span class="st">&quot; counts</span><span class="ch">\n</span><span class="st">Frequency polygon&quot;</span>))</a>
+<a class="sourceLine" id="cb61-7" data-line-number="7"><span class="kw">grid</span>() <span class="co"># Add a grid to the plot</span></a></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="figures/02_combinatorix_frequency_polygon-1.png" alt="Distribution of counts for the TT dinucleotide in Human promoter sequences. Representation. as frequency polygon. " width="60%" />
+<p class="caption">
+Distribution of counts for the TT dinucleotide in Human promoter sequences. Representation. as frequency polygon.
+</p>
+</div>
+</div>
+<div id="fit-a-poisson-distribution-on-each-empirical-distribution-of-k-mer-counts." class="section level3">
+<h3>Fit a Poisson distribution on each empirical distribution of k-mer counts.</h3>
+<pre><code>- How do you choose the parameters?
+- Draw the fitted Poisson distribution over the histogram of empirical distribution (observed k-mer occurences)
+
+    **Tips:** 
+    
+    - in order to add some plot over an existing plot, you can use the `lines()` function
+    - you can also use specific options to draw histogram-like lines: `lines(x, y, type = &quot;h&quot;). 
+    
+    </code></pre>
+<p>The Poisson distribution is defined by a single parameter: the expected mean <span class="math inline">\(\lambda\)</span> (the Greek letter “lambda”). Noteworth, the variance of a Poisson distribution equals its mean.</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="co">## Select a kmer and its counts</span></a>
+<a class="sourceLine" id="cb63-2" data-line-number="2">kmer &lt;-<span class="st"> &quot;GA&quot;</span> <span class="co">## Select an arbitrary k-mer</span></a>
+<a class="sourceLine" id="cb63-3" data-line-number="3">counts &lt;-<span class="st"> </span>kmer.table[, kmer]</a>
+<a class="sourceLine" id="cb63-4" data-line-number="4">ci &lt;-<span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb63-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb63-6" data-line-number="6"><span class="co">## Estimate lambda (mean of the Poisson) as the mean of the counts</span></a>
+<a class="sourceLine" id="cb63-7" data-line-number="7">lambda &lt;-<span class="st"> </span><span class="kw">mean</span>(counts)</a>
+<a class="sourceLine" id="cb63-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb63-9" data-line-number="9"><span class="co">## Compute the Poisson Probability Mass Function</span></a>
+<a class="sourceLine" id="cb63-10" data-line-number="10">X &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span><span class="kw">max</span>(counts) <span class="co">## Compute the values covered by the k-mer counts</span></a>
+<a class="sourceLine" id="cb63-11" data-line-number="11"><span class="co"># length(X)</span></a>
+<a class="sourceLine" id="cb63-12" data-line-number="12">poisson.pmf &lt;-<span class="st"> </span><span class="kw">dpois</span>(<span class="dt">x =</span> X, <span class="dt">lambda =</span> lambda)</a>
+<a class="sourceLine" id="cb63-13" data-line-number="13"><span class="co"># sum(poisson.pmf) # Validation : this should approximte 1</span></a>
+<a class="sourceLine" id="cb63-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb63-15" data-line-number="15"><span class="co">## Compute expected number of genes for each count value</span></a>
+<a class="sourceLine" id="cb63-16" data-line-number="16">poisson.exp &lt;-<span class="st"> </span>poisson.pmf <span class="op">*</span><span class="st"> </span>nb.genes</a>
+<a class="sourceLine" id="cb63-17" data-line-number="17"><span class="co"># sum(poisson.exp) # Validation: this should approximate n</span></a></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1"><span class="co">## plot the histogram</span></a>
+<a class="sourceLine" id="cb64-2" data-line-number="2">h &lt;-<span class="st"> </span><span class="kw">kmer.hist</span>(counts, kmer, </a>
+<a class="sourceLine" id="cb64-3" data-line-number="3">               <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(poisson.exp)), </a>
+<a class="sourceLine" id="cb64-4" data-line-number="4">               <span class="dt">class.interval =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;#BBBBBB&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;#BBBBBB&quot;</span>,</a>
+<a class="sourceLine" id="cb64-5" data-line-number="5">               <span class="dt">main =</span> <span class="kw">paste0</span>(<span class="st">&quot;Poisson fit on &quot;</span>, kmer, <span class="st">&quot; counts&quot;</span>))</a>
+<a class="sourceLine" id="cb64-6" data-line-number="6"><span class="kw">lines</span>(X, poisson.exp, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</a></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="figures/02_combinatorix_fitting_plot_fp-1.png" alt="Fitting of a Poisson distribution on dinucleotide counts" width="60%" />
+<p class="caption">
+Fitting of a Poisson distribution on dinucleotide counts
+</p>
+</div>
+<p>An alternative is to draw the lines as a histogram rather than a polygon frequency.</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="co">## plot the histogram</span></a>
+<a class="sourceLine" id="cb65-2" data-line-number="2">h &lt;-<span class="st"> </span><span class="kw">kmer.hist</span>(counts, kmer, </a>
+<a class="sourceLine" id="cb65-3" data-line-number="3">               <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(poisson.exp)), </a>
+<a class="sourceLine" id="cb65-4" data-line-number="4">               <span class="dt">class.interval =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;#BBBBBB&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;#BBBBBB&quot;</span>,</a>
+<a class="sourceLine" id="cb65-5" data-line-number="5">               <span class="dt">main =</span> <span class="kw">paste0</span>(<span class="st">&quot;Poisson fit on &quot;</span>, kmer, <span class="st">&quot; counts&quot;</span>))</a>
+<a class="sourceLine" id="cb65-6" data-line-number="6"><span class="kw">lines</span>(X, poisson.exp, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">1</span>, <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>)</a></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="figures/02_combinatorix_fitting_plot_h-1.png" alt="Fitting of a Poisson distribution on dinucleotide counts" width="60%" />
+<p class="caption">
+Fitting of a Poisson distribution on dinucleotide counts
+</p>
+</div>
+<p>We can now generate the same drawing for each k-mer.</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">4</span>))</a>
+<a class="sourceLine" id="cb66-2" data-line-number="2"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>m) {</a>
+<a class="sourceLine" id="cb66-3" data-line-number="3">  kmer &lt;-<span class="st"> </span><span class="kw">names</span>(kmer.table)[i]</a>
+<a class="sourceLine" id="cb66-4" data-line-number="4">  counts &lt;-<span class="st"> </span>kmer.table[, kmer]</a>
+<a class="sourceLine" id="cb66-5" data-line-number="5">  <span class="co">## plot the histogram</span></a>
+<a class="sourceLine" id="cb66-6" data-line-number="6">  h &lt;-<span class="st"> </span><span class="kw">kmer.hist</span>(counts, kmer, </a>
+<a class="sourceLine" id="cb66-7" data-line-number="7">                 <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(poisson.exp)), </a>
+<a class="sourceLine" id="cb66-8" data-line-number="8">                 <span class="dt">class.interval =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;#BBBBBB&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;#BBBBBB&quot;</span>,</a>
+<a class="sourceLine" id="cb66-9" data-line-number="9">                 <span class="dt">main =</span> <span class="kw">paste0</span>(<span class="st">&quot;Poisson fit on &quot;</span>, kmer, <span class="st">&quot; counts&quot;</span>))</a>
+<a class="sourceLine" id="cb66-10" data-line-number="10">  <span class="kw">lines</span>(X, poisson.exp, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="fl">0.5</span>, <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>)</a>
+<a class="sourceLine" id="cb66-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb66-12" data-line-number="12">}</a></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="figures/02_combinatorix_poisson_fit_all_kmers-1.png" alt="Poisson fit on dinucleotide counts from Human promoter sequences. " width="100%" />
+<p class="caption">
+Poisson fit on dinucleotide counts from Human promoter sequences.
+</p>
+</div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</a></code></pre></div>
+</div>
+<div id="q-q-plots" class="section level3">
+<h3>Q-Q plots</h3>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" data-line-number="1">kmer &lt;-<span class="st"> &quot;TT&quot;</span></a>
+<a class="sourceLine" id="cb68-2" data-line-number="2">counts &lt;-<span class="st"> </span>kmer.table[, kmer]</a>
+<a class="sourceLine" id="cb68-3" data-line-number="3">lambda &lt;-<span class="st"> </span><span class="kw">mean</span>(counts)</a>
+<a class="sourceLine" id="cb68-4" data-line-number="4">X &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span>(<span class="kw">max</span>(counts))</a>
+<a class="sourceLine" id="cb68-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb68-6" data-line-number="6"><span class="co">## Generate random counts that follow a Poisson loaw</span></a>
+<a class="sourceLine" id="cb68-7" data-line-number="7">rcounts &lt;-<span class="st">  </span><span class="kw">rpois</span>(<span class="dt">n =</span> <span class="kw">length</span>(counts), <span class="dt">lambda =</span> lambda)</a>
+<a class="sourceLine" id="cb68-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb68-9" data-line-number="9"><span class="co">## Draw a Q-Q plot with the random counts versus actual counts</span></a>
+<a class="sourceLine" id="cb68-10" data-line-number="10"><span class="kw">qqplot</span>(<span class="dt">x =</span> counts, <span class="dt">y =</span> rcounts, </a>
+<a class="sourceLine" id="cb68-11" data-line-number="11">       <span class="dt">main =</span> <span class="st">&quot;QQplot - counts vs random Poisson&quot;</span>,</a>
+<a class="sourceLine" id="cb68-12" data-line-number="12">       <span class="dt">col =</span> <span class="st">&quot;#88AABB&quot;</span>,</a>
+<a class="sourceLine" id="cb68-13" data-line-number="13">       <span class="dt">xlab =</span> <span class="st">&quot;Counts&quot;</span>,</a>
+<a class="sourceLine" id="cb68-14" data-line-number="14">       <span class="dt">ylab =</span> <span class="st">&quot;Random counts (rpois)&quot;</span>)</a>
+<a class="sourceLine" id="cb68-15" data-line-number="15"><span class="kw">grid</span>()</a>
+<a class="sourceLine" id="cb68-16" data-line-number="16"><span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>)</a></code></pre></div>
+<p><img src="figures/02_combinatorix_unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="fitting-a-binomial-distribution" class="section level3">
+<h3>Fitting a binomial distribution</h3>
+</div>
+<div id="fitting-a-normal-distribution" class="section level3">
+<h3>Fitting a normal distribution</h3>
+</div>
+<div id="fitting-a-negative-binomial" class="section level3">
+<h3>Fitting a negative binomial</h3>
+<ol start="3" style="list-style-type: decimal">
+<li>Estimate the goodness of fit for these distributions.</li>
 </ol>
+</div>
 </div>
 <div class="footnotes">
 <hr />

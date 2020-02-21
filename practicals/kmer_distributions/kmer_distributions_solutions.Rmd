@@ -716,7 +716,8 @@ par(mfrow = c(1, 1))
 ### Q-Q plots
 
 ```{r}
-kmer <- "TT"
+## Selevct a k-mer
+kmer <- "AC"
 counts <- kmer.table[, kmer]
 lambda <- mean(counts)
 X <- 0:(max(counts))
@@ -735,15 +736,47 @@ abline(a = 0, b = 1)
 
 ```
 
+## Goodness of fit
 
-### Fitting a binomial distribution
+### Using R built-in chisq.test() function
 
-### Fitting a normal distribution
+1. Assess the goodness of the fit using the R `chisq.test()` function.
 
-### Fitting a negative binomial
+    - How significant is the result?
+    - How good is the fit?
+    - Did the test issue some warning message? If so, how do you interpret it?
+    - Check if the assumptions are met for the validity of the chi2 test. 
+
+### With a custom chisquare.test() function
+    
+2. Implement a properly documented function that 
+
+    - Takes as input a vector of observed values (counts per class) + a vector of expected values (counts per class), 
+     - Checks that the expected values are compliant with the applicability conditions.
+     - If not, groups the tails of the vectors in order to ensur this condition.
+     - Runs the chi2 test
+     - Returns the following values
+
+          - chi2 statistics
+          - number of initial classes
+          - number of classes after tail grouping
+          - degrees of freedom
+          - p-value
 
 
-3. Estimate the goodness of fit for these distributions. 
+**Tips**
+
+- **Beware**, the input  vector should not be the counts of vector per sequences, but a vector of counts per class (e.g. how many genes had between 0 and 4 k-mer occurrences, betwen 5 and 9, betwen 10 and 14, ...) returned by the histogram
+
+
+## Fitting a binomial distribution
+
+## Fitting a normal distribution
+
+## Fitting a negative binomial
+
+
+
 
 
 

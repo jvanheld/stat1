@@ -331,7 +331,29 @@ Tips: use the R function `apply()`.
     c. normal
     d. negative binomial
 
-3. Estimate the goodness of fit for these distributions. 
+## Goodness of fit
+
+
+1. Assess the goodness of the fit using the R `chisq.test()` function.
+
+    - How significant is the result?
+    - How good is the fit?
+    - Did the test issue some warning message? If so, how do you interpret it?
+    - Check if the assumptions are met for the validity of the chi2 test. 
+    
+2. Implement a function that 
+
+    - Takes as input a vector of observed values + a vector of expected values, 
+     - Checks that the expected values are compliant with the applicability conditions.
+     - If not, groups the tails of the vectors in order to ensur this condition.
+     - Runs the chi2 test
+     - Returns the following values
+
+          - chi2 statistics
+          - number of initial classes
+          - number of classes after tail grouping
+          - degrees of freedom
+          - p-value
 
 
 

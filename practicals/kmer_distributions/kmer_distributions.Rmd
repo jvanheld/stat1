@@ -305,6 +305,8 @@ Tips: use the R function `apply()`.
     
 5. Compute a vector with the relative frequency of each k-mer in all the sequences. 
 
+> **Tip: ** for this exercise you will need to divide each count by the marginal counts of the row (the sum of k-mer counts of the considered sequence). This could in principle be done by implementing two embedded loops, one that iterates on the rows (sequences) and the other one on the columns (k-mers). This would however be quite inefficient. Instead, you can immediately divide the whole count matrix by the vector containing the sum of k-mr counts per gene. 
+
 6. Compute a table with the relative frequencies of k-mers per sequence, and compute similar summary statistics per column on this relative frequency table. 
 
 7. Write a brief interpretation of the results. 

@@ -60,7 +60,11 @@ transition: linear
 ---
 
 ```{r include=FALSE, echo=FALSE, eval=TRUE}
+if (!require(knitr)) {
+  install.packages("knitr")
+}
 library(knitr)
+
 options(width = 300)
 knitr::opts_chunk$set(
   fig.width = 7, fig.height = 5, 
@@ -512,22 +516,19 @@ vioplot(kmer.table[, order(stats.per.kmer$mean)], horizontal = TRUE, col = "#44D
 
 ```
 
+
 ```{r violin_plot_pretty_var, fig.height=10, fig.width=7, out.width="60%", fig.cap="Violin plot of dinucleotide counts in promoter sequences"}
 vioplot(kmer.table[, order(stats.per.kmer$var)], horizontal = TRUE, col = "#44DDFF", las = 1, main = "Violin plot of dinucleotide counts in promoters", xlab = "Counts", )
-
 ```
 
 
 ## Exploring k-mer count distributions in promoter sequences
-
     
 5. Compute a vector with the relative frequency of each k-mer in all the sequences. 
 
 6. Compute a table with the relative frequencies of k-mers per sequence, and compute similar summary statistics per column on this relative frequency table. 
 
 7. Write a brief interpretation of the results. 
-
-
 ## Fitting
 
 
@@ -746,6 +747,35 @@ abline(a = 0, b = 1)
     - How good is the fit?
     - Did the test issue some warning message? If so, how do you interpret it?
     - Check if the assumptions are met for the validity of the chi2 test. 
+    
+    
+```{r chisq_test}
+## Choose a k-mer and select its counts
+kmer <- "TC"
+counts <- kmer.table[, kmer]
+max.count <- max(counts)
+X <- 0:max.count # all possible values of X
+
+## Get the number of genes per k-mer counts with hist() 
+## but do not plot the histogram
+h <- hist(counts, 
+          breaks = seq(from = 0, 
+                       to = max.count + 1, 
+                       by = 1), 
+          plot = FALSE)
+obs <- h$counts ## Observed counts
+
+## Compute the probabilities from a  Poisson distribution
+poisson.p <- dpois(X, lambda = mean(counts))
+
+## Run the chi2 test
+chi2.result <- chisq.test(x = obs, p = poisson.p)
+print(chi2.result)
+
+pval <- chi2.result$p.value
+
+```
+    
 
 ### With a custom chisquare.test() function
     
@@ -767,6 +797,16 @@ abline(a = 0, b = 1)
 **Tips**
 
 - **Beware**, the input  vector should not be the counts of vector per sequences, but a vector of counts per class (e.g. how many genes had between 0 and 4 k-mer occurrences, betwen 5 and 9, betwen 10 and 14, ...) returned by the histogram
+
+```{r chi2_test_function}
+#' @title chi-squared test
+#' @author Jacques van Helden
+#' @description Run a chi2 test with convenient options enabling to automatically group the tails of the input vector if the expected values are too small
+#' @param obs a vector of observed values. These must be absolut e counts and not relative frequncies. 
+#' @param exp a vector of expected values. Should have the same length and same sum as the observed values
+#'
+
+```
 
 
 ## Fitting a binomial distribution

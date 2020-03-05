@@ -237,7 +237,6 @@ dim(kmer.table)
 ## Number of k-mers
 m <- ncol(kmer.table)
 
-## Number of genes
 n <- nrow(kmer.table)
 
 ## Print the result
@@ -804,12 +803,161 @@ pval <- chi2.result$p.value
 #' @description Run a chi2 test with convenient options enabling to automatically group the tails of the input vector if the expected values are too small
 #' @param obs a vector of observed values. These must be absolut e counts and not relative frequncies. 
 #' @param exp a vector of expected values. Should have the same length and same sum as the observed values
-#'
+#' @param X X values for the histogram
+#' @param main main title for the histogram
+#'@return a vector of statistics related to the chi2 test: chi2 statistics, number of classes of the input vectors, numnber of classes after tail grouping, degrees of freedom, p-value
+chisq.test.grouped.tails <- function(obs, 
+                                     exp,
+                                     X,
+                                     main = "chi2 test") {
+  ## Group the left tail
+  first.ok <- head(which(exp >= 5), n = 1)
+  last.ok <- tail(which(exp >= 5), n = 1)
+  if (first.ok > 1) {
+    exp.grouped <-   c(sum(exp[1:(first.ok - 1)]), 
+                       exp[first.ok:last.ok])
+    obs.grouped <-   c(sum(obs[1:(first.ok - 1)]), 
+                       obs[first.ok:last.ok])
+    X.grouped <-   c(X[first.ok - 1], 
+                     X[first.ok:last.ok])
+  } else {
+    exp.grouped <- exp[first.ok:last.ok]
+    obs.grouped <- obs[first.ok:last.ok]
+    X.grouped <- X[first.ok:last.ok]
+  }
+  
+  if (last.ok < length(exp)) {
+    exp.grouped <- c(exp.grouped, sum(exp[(last.ok + 1):length(exp)]))
+    obs.grouped <- c(obs.grouped, sum(obs[(last.ok + 1):length(obs)]))
+    X.grouped <- c(X.grouped, X[last.ok + 1])
+  }
+  test <- chisq.test(x = obs.grouped, p = exp.grouped, rescale.p = TRUE)
+  
+  ## Collect the result
+  result <- data.frame(
+    chi2.stat = test$statistic, 
+    nclasses.input = length(obs),  
+    nclasses.grouped = length(obs.grouped),
+    df = test$parameter,
+    p.value = test$p.value)
+  
+  
+  ## Plot the distributions before and after grouping
+  
+  if (class(X) == "numeric") {
+    par(mfrow = c(2,1))
+    
+    ## Plot distrib before grouping
+    ymax = ceiling(max(obs.grouped, exp.grouped)) ## Compute max value for Y axis
+    plot(x = X, y = obs, type = "h", col = "grey", lwd = 2, 
+         ylim = c(0, ymax),
+         xlim = range(X),
+         ylab = "Number of sequences", 
+         xlab = "K-mer occurrences",
+         las = 1, 
+         main = main)
+    lines(x = X, y = exp, type = "l", col = "red")
+    legend("topright", legend = paste0(sum(exp < 5), " counts with exp < 5"))
+
+    ## Plot distrib after grouping
+    plot(x = X.grouped, y = obs.grouped, 
+         type = "h", col = "grey", lwd = 2, 
+         ylim = c(0, ymax),
+         xlim = range(X),
+         ylab = "Number of sequences", 
+         xlab = "K-mer occurrences",
+         las = 1, main = paste0(main, "\ngrouped tails"))
+    lines(x = X.grouped, y = exp.grouped, type = "l", col = "darkgreen")
+    legend("topright", cex = 0.7,
+           legend = paste0(names(result), 
+                           " = ", 
+                           signif(result, digits = 3))
+    )
+
+    par(mfrow = c(1,1))
+
+  }  
+
+  return(result)
+}
+
+
+
+
+```
+
+```{r TC_fitting, fig.width=7, fig.height=7, out.width="80%"}
+
+#' @title Poisson fit
+#' @description Compute the distribution of counts and fit a Poisson distribution
+#' @param counts 
+#' @param kmer="k-mer"
+poisson.fit <- function(counts, kmer = "k-mer") {
+
+  ## Compute the number of occurrences for each count value
+  h <- hist(counts, 
+            breaks = seq(
+              from = min(counts) - 0.5,
+              to = max(counts) + 0.5, 
+              by = 1), plot = FALSE)
+  obs <- h$counts # note: the right tail contains many zeros
+  X <- h$mids
+  mean.counts <- mean(counts)
+  
+  ## Compute expected counts
+  exp <- dpois(x = X, lambda = mean.counts) * sum(obs)
+  chi2.result <- chisq.test.grouped.tails(obs = obs, exp = exp, X = X, kmer = kmer)
+  return(chi2.result)
+}
+
+## Run the chi2 test with tail grouping
+kmer <- "CT"
+counts <- kmer.table[, kmer]
+poisson.fit(counts, kmer = kmer)
 
 ```
 
 
+As a matter of control we will fit a Poisson distribution on a vector of random numbers generated according to a Poisson distribution.
+
+```{r}
+## Run the chi2 test with random numbers following a Poisson distribution
+poisson.fit(rpois(n = length(counts), lambda = mean(counts)), kmer = "rpois")
+```
+
+
 ## Fitting a binomial distribution
+
+```{r}
+kmer <- "TC"
+counts <- kmer.table[, kmer]
+
+h <- hist(counts,
+          breaks = seq(
+            from = min(counts - 0.5),
+            to = max(counts + 0.5),
+            by = 1), plot = FALSE)
+obs <- h$counts
+X <- h$mids
+
+## Estimate prior k-mer probabilities by computing their
+## frequency in the whole data set
+total.per.kmer <- apply(kmer.table, 2, sum)
+freq.per.kmer <- total.per.kmer / sum(total.per.kmer)
+n <- max(stats.per.gene$sum) # number of k-mer positions per sequence
+
+exp <- sum(obs) * dbinom(x = X, 
+                         size = n, 
+                         prob = freq.per.kmer[kmer])
+length(exp)
+length(obs)
+length(X)
+chi2.result <- chisq.test.grouped.tails(
+  obs = obs, exp = exp, 
+  X = X, main = paste0(kmer, "; binomial fitting"))
+ 
+```
+
 
 ## Fitting a normal distribution
 

@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jacques van Helden" />
 
-<meta name="date" content="2020-02-20" />
+<meta name="date" content="2020-03-05" />
 
 <title>Practical – k-mer distributions</title>
 
@@ -345,7 +345,7 @@ div.tocify {
 <h1 class="title toc-ignore">Practical – k-mer distributions</h1>
 <h3 class="subtitle">Probabilities and statistics for modelling 1 (STAT1)</h3>
 <h4 class="author">Jacques van Helden</h4>
-<h4 class="date">2020-02-20</h4>
+<h4 class="date">2020-03-05</h4>
 
 </div>
 
@@ -574,6 +574,11 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <li>sum</li>
 </ul></li>
 <li><p>Compute a vector with the relative frequency of each k-mer in all the sequences.</p></li>
+</ol>
+<blockquote>
+<p><strong>Tip: </strong> for this exercise you will need to divide each count by the marginal counts of the row (the sum of k-mer counts of the considered sequence). This could in principle be done by implementing two embedded loops, one that iterates on the rows (sequences) and the other one on the columns (k-mers). This would however be quite inefficient. Instead, you can immediately divide the whole count matrix by the vector containing the sum of k-mr counts per gene.</p>
+</blockquote>
+<ol start="6" style="list-style-type: decimal">
 <li><p>Compute a table with the relative frequencies of k-mers per sequence, and compute similar summary statistics per column on this relative frequency table.</p></li>
 <li><p>Write a brief interpretation of the results.</p></li>
 </ol>
@@ -584,7 +589,12 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <li><p>Fit a Poisson distribution on each empirical distribution of k-mer counts.</p>
 <ul>
 <li>How do you choose the parameters?</li>
-<li>Draw the fitted Poisson distribution (as a frequency polygon) over the histogram of k-mer occur</li>
+<li><p>Draw the fitted Poisson distribution over the histogram of empirical distribution (observed k-mer occurences)</p>
+<p><strong>Tips:</strong></p>
+<ul>
+<li>in order to add some plot over an existing plot, you can use the <code>lines()</code> function</li>
+<li>you can also use specific options to draw histogram-like lines: `lines(x, y, type = “h”).</li>
+</ul></li>
 </ul></li>
 <li><p>Do the same with the following distributions :</p>
 <ol style="list-style-type: lower-alpha">
@@ -593,7 +603,34 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <li>normal</li>
 <li>negative binomial</li>
 </ol></li>
-<li><p>Estimate the goodness of fit for these distributions.</p></li>
+</ol>
+</div>
+<div id="goodness-of-fit" class="section level2">
+<h2>Goodness of fit</h2>
+<ol style="list-style-type: decimal">
+<li><p>Assess the goodness of the fit using the R <code>chisq.test()</code> function.</p>
+<ul>
+<li>How significant is the result?</li>
+<li>How good is the fit?</li>
+<li>Did the test issue some warning message? If so, how do you interpret it?</li>
+<li>Check if the assumptions are met for the validity of the chi2 test.</li>
+</ul></li>
+<li><p>Implement a function that</p>
+<ul>
+<li>Takes as input a vector of observed values + a vector of expected values,</li>
+<li>Checks that the expected values are compliant with the applicability conditions.</li>
+<li>If not, groups the tails of the vectors in order to ensur this condition.</li>
+<li>Runs the chi2 test</li>
+<li><p>Returns the following values</p>
+<ul>
+<li>chi2 statistics</li>
+<li>number of initial classes</li>
+<li>number of classes after tail grouping</li>
+<li>degrees of freedom</li>
+<li>p-value</li>
+</ul></li>
+</ul></li>
+<li><p>Apply this function to each k-mer for each distribution, and evaluate which one gives the best fit to the data.</p></li>
 </ol>
 </div>
 <div class="footnotes">

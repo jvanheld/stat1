@@ -892,7 +892,7 @@ chisq.test.grouped.tails <- function(obs,
 #' @description Compute the distribution of counts and fit a Poisson distribution
 #' @param counts 
 #' @param kmer="k-mer"
-poisson.fit <- function(counts, kmer = "k-mer") {
+poisson.fit <- function(counts, main = "Poisson fit") {
 
   ## Compute the number of occurrences for each count value
   h <- hist(counts, 
@@ -906,14 +906,14 @@ poisson.fit <- function(counts, kmer = "k-mer") {
   
   ## Compute expected counts
   exp <- dpois(x = X, lambda = mean.counts) * sum(obs)
-  chi2.result <- chisq.test.grouped.tails(obs = obs, exp = exp, X = X, kmer = kmer)
+  chi2.result <- chisq.test.grouped.tails(obs = obs, exp = exp, X = X, main = main)
   return(chi2.result)
 }
 
 ## Run the chi2 test with tail grouping
 kmer <- "CT"
 counts <- kmer.table[, kmer]
-poisson.fit(counts, kmer = kmer)
+poisson.fit(counts, main = "CT poisson fit")
 
 ```
 
@@ -922,13 +922,13 @@ As a matter of control we will fit a Poisson distribution on a vector of random 
 
 ```{r}
 ## Run the chi2 test with random numbers following a Poisson distribution
-poisson.fit(rpois(n = length(counts), lambda = mean(counts)), kmer = "rpois")
+poisson.fit(rpois(n = length(counts), lambda = mean(counts)), main = "Random Poisson numbers")
 ```
 
 
 ## Fitting a binomial distribution
 
-```{r}
+```{r eval=FALSE}
 kmer <- "TC"
 counts <- kmer.table[, kmer]
 

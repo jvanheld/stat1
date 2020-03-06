@@ -141,7 +141,7 @@ The following notions will be investigated :
 |  |  K-mer count distributions in promoters | Solutions of the practical | [[html](practicals/kmer_distributions/kmer_distributions_solutions.html)] [[pdf](practicals/kmer_distributions/kmer_distributions_solutions.pdf)] [[Rmd](https://raw.githubusercontent.com/jvanheld/stat1/master/practicals/kmer_distributions/kmer_distributions_solutions.Rmd)]  |
 | |**Multivariate analysis** |  | |
 | 2020-03-05 | Study case: the DenBoer 2009 dataset | Slides | [[html](practicals/multivariate-analysis_DenBoer2009/Den_Boer_use_case.html)] [[pdf](practicals/multivariate-analysis_DenBoer2009/Den_Boer_use_case.pdf)] [[Rmd](https://raw.githubusercontent.com/jvanheld/stat1/master/practicals/multivariate-analysis_DenBoer2009/Den_Boer_use_case.Rmd)] |
-| | | |
+|  |  Den Boer (2009): data loading and exploring | Practical | [[html](practicals/multivariate-analysis_DenBoer2009/DenBoer_2009_load-and-explore.html)] [[pdf](practicals/practicals/multivariate-analysis_DenBoer2009/DenBoer_2009_load-and-explore.pdf)] [[Rmd](https://raw.githubusercontent.com/jvanheld/stat1/master/practicals/multivariate-analysis_DenBoer2009/DenBoer_2009_load-and-explore.Rmd)]  |
 
 
 ## Skills expected to be acquired at the end of this course

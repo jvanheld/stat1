@@ -14,30 +14,6 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
-  beamer_presentation:
-    colortheme: dolphin
-    fig_caption: yes
-    fig_height: 6
-    fig_width: 7
-    fonttheme: structurebold
-    highlight: tango
-    incremental: no
-    keep_tex: no
-    slide_level: 2
-    theme: Montpellier
-    toc: yes
-  html_document:
-    code_folding: hide
-    fig_caption: yes
-    highlight: zenburn
-    self_contained: no
-    theme: cerulean
-    toc: yes
-    toc_depth: 3
-    toc_float: yes
-  word_document:
-    toc: yes
-    toc_depth: '3'
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -53,6 +29,30 @@ output:
     highlight: zenburn
     toc: yes
     toc_depth: 3
+  word_document:
+    toc: yes
+    toc_depth: '3'
+  html_document:
+    code_folding: hide
+    fig_caption: yes
+    highlight: zenburn
+    self_contained: no
+    theme: cerulean
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  beamer_presentation:
+    colortheme: dolphin
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 7
+    fonttheme: structurebold
+    highlight: tango
+    incremental: no
+    keep_tex: no
+    slide_level: 2
+    theme: Montpellier
+    toc: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
 subtitle:  (STAT2)
 font-family: Garamond
@@ -74,8 +74,12 @@ In this practical, we will load a dataset that will be used as study case to app
 
 ## Study case
 
-**Reference:** Den Boer ML *et al.* (2009). A subtype of childhood acute lymphoblastic leukaemia with poor treatment outcome: a genome-wide classification study. Lancet Oncol. 2009 10:125-34. [[doi: 10.1016/S1470-2045(08)70339-5](http://doi.org/10.1016/S1470-2045(08)70339-5)], 
-[[PMID 19138562](https://www.ncbi.nlm.nih.gov/pubmed/19138562)]. Data available at Gene Expression Omnibus, series [[GSE13425](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE13425)]
+**Reference:** Den Boer ML *et al.* (2009). A subtype of childhood acute lymphoblastic leukaemia with poor treatment outcome: a genome-wide classification study. Lancet Oncol. 2009 10:125-34. 
+
+- **DOI**: [[doi: 10.1016/S1470-2045(08)70339-5](http://doi.org/10.1016/S1470-2045(08)70339-5)]
+- **Pubmed**: [[PMID 19138562](https://www.ncbi.nlm.nih.gov/pubmed/19138562)]. 
+- **Raw data** available at Gene Expression Omnibus, series [[GSE13425](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE13425)]
+- **Preprocessed data**: <https://github.com/jvanheld/stat1/data/DenBoer_2009>
 
 ## Data pre-processing
 
@@ -94,4 +98,44 @@ It contains the following files.
 
 | File | Contents | Structure |
 |--|--|--|
-| [GSE13425_AMP_Whole.tsv.gz](GSE13425_AMP_Whole.tsv.gz) | Normalised microarray data | Tab-delimited file with one row per gene and one column per patient |
+| [GSE13425_group_descriptions.tsv.gz](../../data/DenBoer_2009/GSE13425_group_descriptions.tsv.gz) | Description of the patient groups | Tab-delimited file with one row per group and one column per type of description (group name, label) |
+| [phenoData_GSE13425.tsv.gz](../../data/DenBoer_2009/phenoData_GSE13425.tsv.gz) | Metadata (sample descriptions) | Tab-delimited file with one row per biological sample (one per patient) and one column per type of information about the biological sample |
+| [GSE13425_AMP_Whole.tsv.gz](../../data/DenBoer_2009/GSE13425_AMP_Whole.tsv.gz) | Normalised microarray data | Tab-delimited file with one row per gene and one column per patient |
+| [GSE13425_AMP_Whole.tsv.gz](../../data/DenBoer_2009/GSE13425_AMP_Whole.tsv.gz) | Detection status of each gene in each sample (Absent, Marginal, Present) | Tab-delimited file with one row per gene and one column per patient|
+
+## Data download
+
+Write an R script that perform the following operations
+
+- creates a directory to store a local copy for this practical on your computer (`~/STAT2_CMB_practicals/den-boer-2009/`).
+- creates a sub-directory for the data  (`~/STAT2_CMB_practicals/den-boer-2009/data/`).
+- lists the files available on the data Web site (<https://github.com/jvanheld/stat1/data/DenBoer_2009>)
+- For each of these files, check if it is already present in your local local data directory, and download it if it is not already there. 
+
+## Data loading
+
+Write an R script that loads the data tables from your local data directory. 
+
+## Marginal statistics
+
+Write an R script that computes marginal statistics (mean, sd, min, percentiles 5, 10, 25, 50, 75, 90, 95, max, IQR) on each row of the normalised data table (one row corresponds to one gene). 
+
+Do the same for each column (patient). 
+
+## Empirical distributions
+
+Draw a plot that displays the empirical distribution of normalised expression values in the whole data table.
+
+Draw another plot that displays the empirical distribution of normalised expression values in the different samples (one polygon frequency per sample).
+
+## Sample classes
+
+Load the pheno table. We will use the three following columns: 
+
+- `Sample.GEO.ID`: the identifier of the sample in the Gene Expression Omnibus (GEO) database.
+- `Sample.title`:  cancer type of each sample. 
+- `sample.labels`: A short label (1 or 2 letters) for each cancer type
+
+Cound the number of samples per group and draw a barplot with the result.
+
+

@@ -54,7 +54,7 @@ output:
     toc: yes
     toc_depth: 3
 font-import: http://fonts.googleapis.com/css?family=Risque
-subtitle: Probabilities and statistics for modelling 1 (STAT1)
+subtitle: Statistics for Biology (STAT2)
 font-family: Garamond
 transition: linear
 ---

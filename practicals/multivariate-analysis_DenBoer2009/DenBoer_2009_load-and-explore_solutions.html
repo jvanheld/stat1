@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Jacques van Helden" />
+
+<meta name="date" content="2020-03-06" />
+
+<title>Practical – Microarray analysis – Data loading and exploration</title>
+
+<script src="DenBoer_2009_load-and-explore_solutions_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="DenBoer_2009_load-and-explore_solutions_files/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="DenBoer_2009_load-and-explore_solutions_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="DenBoer_2009_load-and-explore_solutions_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="DenBoer_2009_load-and-explore_solutions_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="DenBoer_2009_load-and-explore_solutions_files/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="DenBoer_2009_load-and-explore_solutions_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="DenBoer_2009_load-and-explore_solutions_files/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="DenBoer_2009_load-and-explore_solutions_files/navigation-1.1/tabsets.js"></script>
+<script src="DenBoer_2009_load-and-explore_solutions_files/navigation-1.1/codefolding.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  { color: #cccccc; background-color: #303030; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ffcfaf; } /* Alert */
+code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #dca3a3; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #f0dfaf; } /* ControlFlow */
+code span.ch { color: #dca3a3; } /* Char */
+code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code span.co { color: #7f9f7f; } /* Comment */
+code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code span.do { color: #7f9f7f; } /* Documentation */
+code span.dt { color: #dfdfbf; } /* DataType */
+code span.dv { color: #dcdccc; } /* DecVal */
+code span.er { color: #c3bf9f; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #c0bed1; } /* Float */
+code span.fu { color: #efef8f; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+code span.kw { color: #f0dfaf; } /* Keyword */
+code span.op { color: #f0efd0; } /* Operator */
+code span.ot { color: #efef8f; } /* Other */
+code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code span.sc { color: #dca3a3; } /* SpecialChar */
+code span.ss { color: #cc9393; } /* SpecialString */
+code span.st { color: #cc9393; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #cc9393; } /* VerbatimString */
+code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Practical – Microarray analysis – Data loading and exploration</h1>
+<h3 class="subtitle">(STAT2)</h3>
+<h4 class="author">Jacques van Helden</h4>
+<h4 class="date">2020-03-06</h4>
+
+</div>
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>In this practical, we will load a dataset that will be used as study case to apply different approaches of multivariate analysis:</p>
+<ul>
+<li>data exploration</li>
+<li>multidimensional scaling</li>
+<li>differential analysis</li>
+<li>clustering (unsupervised classification)</li>
+<li>supervised classification</li>
+</ul>
+</div>
+<div id="study-case" class="section level2">
+<h2>Study case</h2>
+<p><strong>Reference:</strong> Den Boer ML <em>et al.</em> (2009). A subtype of childhood acute lymphoblastic leukaemia with poor treatment outcome: a genome-wide classification study. Lancet Oncol. 2009 10:125-34.</p>
+<ul>
+<li><strong>DOI</strong>: [<a href="http://doi.org/10.1016/S1470-2045(08)70339-5">doi: 10.1016/S1470-2045(08)70339-5</a>]</li>
+<li><strong>Pubmed</strong>: [<a href="https://www.ncbi.nlm.nih.gov/pubmed/19138562">PMID 19138562</a>].</li>
+<li><strong>Raw data</strong> available at Gene Expression Omnibus, series [<a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE13425">GSE13425</a>]</li>
+<li><strong>Preprocessed data</strong>: <a href="https://github.com/jvanheld/stat1/raw/master/data/DenBoer_2009/" class="uri">https://github.com/jvanheld/stat1/raw/master/data/DenBoer_2009/</a>.</li>
+</ul>
+</div>
+<div id="data-pre-processing" class="section level2">
+<h2>Data pre-processing</h2>
+<p>The raw microarray data has been pre-processed in order to dispose of a ready-to-use dataset. pre-processing included</p>
+<ul>
+<li>filtering of barely detected or poorly expressed genes,</li>
+<li>log2 transformation to normalise the raw measurements</li>
+<li>between-sample standardisation to enable comparison between the different samples.</li>
+</ul>
+</div>
+<div id="availability-of-the-pre-processed-data" class="section level2">
+<h2>Availability of the pre-processed data</h2>
+<p>The preprocessed data is available here: <a href="https://github.com/jvanheld/stat1/raw/master/data/DenBoer_2009/" class="uri">https://github.com/jvanheld/stat1/raw/master/data/DenBoer_2009/</a>.</p>
+<p>It contains the following files.</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>File</th>
+<th>Contents</th>
+<th>Structure</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="../../data/DenBoer_2009/GSE13425_group_descriptions.tsv.gz">GSE13425_group_descriptions.tsv.gz</a></td>
+<td>Description of the patient groups</td>
+<td>Tab-delimited file with one row per group and one column per type of description (group name, label)</td>
+</tr>
+<tr class="even">
+<td><a href="../../data/DenBoer_2009/phenoData_GSE13425.tsv.gz">phenoData_GSE13425.tsv.gz</a></td>
+<td>Metadata (sample descriptions)</td>
+<td>Tab-delimited file with one row per biological sample (one per patient) and one column per type of information about the biological sample</td>
+</tr>
+<tr class="odd">
+<td><a href="../../data/DenBoer_2009/GSE13425_Norm_Whole.tsv.gz">GSE13425_Norm_Whole.tsv.gz</a></td>
+<td>Normalised microarray data</td>
+<td>Tab-delimited file with one row per gene and one column per patient</td>
+</tr>
+<tr class="even">
+<td><a href="../../data/DenBoer_2009/GSE13425_AMP_Whole.tsv.gz">GSE13425_AMP_Whole.tsv.gz</a></td>
+<td>Detection status of each gene in each sample (Absent, Marginal, Present)</td>
+<td>Tab-delimited file with one row per gene and one column per patient</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="data-download" class="section level2">
+<h2>Data download</h2>
+<p>Write an R script that perform the following operations</p>
+<ol style="list-style-type: decimal">
+<li>Creates a directory to store a local copy for this practical on your computer. (<code>~/STAT2_CMB_practicals/den-boer-2009/</code>).</li>
+<li>Creates a sub-directory for the data (<code>~/STAT2_CMB_practicals/den-boer-2009/data/</code>).</li>
+<li>Lists the files available on the data Web site (<a href="https://github.com/jvanheld/stat1/raw/master/data/DenBoer_2009/" class="uri">https://github.com/jvanheld/stat1/raw/master/data/DenBoer_2009/</a>).</li>
+<li>For each of these files, checkS if it is already present in your local local data directory, and downloads it if it is not the case.</li>
+</ol>
+<p>Try to make your code re-usable, in the perspective to apply it soon in order to download data sets from other web sites.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">#&#39; @title Download a set of files from a Web site</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&#39; @author Jacques van Helden</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&#39; @description Download a set of files from a Web site and store them in a destination directory if they do not exist yet there. </span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&#39; @param files a vector with the file names</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&#39; @param dataURL the URL of the folder containing the files to download</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&#39; @param destDir local destination directory. Will be created if it does not exist. </span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&#39; @return no return value</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&#39; @export</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">DownloadMyFiles &lt;-<span class="st"> </span><span class="cf">function</span>(files, </a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">                            dataURL,</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">                            destDir) {</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12">  </a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">  <span class="co">## Create local directory</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">  <span class="kw">dir.create</span>(destDir, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb1-15" data-line-number="15">  </a>
+<a class="sourceLine" id="cb1-16" data-line-number="16">  <span class="cf">for</span> (f <span class="cf">in</span> files) {</a>
+<a class="sourceLine" id="cb1-17" data-line-number="17">    </a>
+<a class="sourceLine" id="cb1-18" data-line-number="18">    <span class="co">## Destination file</span></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19">    destFile &lt;-<span class="st"> </span><span class="kw">file.path</span>(destDir, f)</a>
+<a class="sourceLine" id="cb1-20" data-line-number="20">    </a>
+<a class="sourceLine" id="cb1-21" data-line-number="21">    <span class="co">## Check if file exists</span></a>
+<a class="sourceLine" id="cb1-22" data-line-number="22">    <span class="cf">if</span> (<span class="kw">file.exists</span>(destFile)) {</a>
+<a class="sourceLine" id="cb1-23" data-line-number="23">      <span class="kw">message</span>(<span class="st">&quot;skipping download because file exists: &quot;</span>, destFile)</a>
+<a class="sourceLine" id="cb1-24" data-line-number="24">    } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb1-25" data-line-number="25">      sourceURL &lt;-<span class="st"> </span><span class="kw">file.path</span>(dataURL, f)</a>
+<a class="sourceLine" id="cb1-26" data-line-number="26">      <span class="kw">download.file</span>(<span class="dt">url =</span> sourceURL, <span class="dt">destfile =</span> destFile)</a>
+<a class="sourceLine" id="cb1-27" data-line-number="27">    }</a>
+<a class="sourceLine" id="cb1-28" data-line-number="28">  }</a>
+<a class="sourceLine" id="cb1-29" data-line-number="29">}</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">## URL fo the folder containing the data fle</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">dataURL &lt;-<span class="st"> &quot;https://github.com/jvanheld/stat1/raw/master/data/DenBoer_2009/&quot;</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">files &lt;-<span class="st"> </span><span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">  <span class="dt">expr =</span> <span class="st">&quot;GSE13425_Norm_Whole.tsv.gz&quot;</span>,</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">  <span class="dt">pheno =</span> <span class="st">&quot;phenoData_GSE13425.tsv.gz&quot;</span>,</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">  <span class="dt">groups =</span> <span class="st">&quot;GSE13425_group_descriptions.tsv.gz&quot;</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">)</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">## Local data dir</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">destDir &lt;-<span class="st"> &quot;~/STAT2_CMB_practicals/den-boer-2009/data/&quot;</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">## Call the function to download the files</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="kw">DownloadMyFiles</span>(<span class="dt">files =</span> files, <span class="dt">dataURL =</span> dataURL, <span class="dt">destDir =</span> destDir)</a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="kw">kable</span>(<span class="kw">data.frame</span>(<span class="kw">list.files</span>(destDir)), <span class="dt">caption =</span> <span class="st">&quot;Content of the destination directory after file download. &quot;</span>)</a></code></pre></div>
+<table>
+<caption>Content of the destination directory after file download.</caption>
+<thead>
+<tr class="header">
+<th align="left">list.files.destDir.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">GSE13425_group_descriptions.tsv.gz</td>
+</tr>
+<tr class="even">
+<td align="left">GSE13425_Norm_Whole.tsv.gz</td>
+</tr>
+<tr class="odd">
+<td align="left">phenoData_GSE13425.tsv.gz</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="data-loading" class="section level2">
+<h2>Data loading</h2>
+<p>Write an R script that loads the data tables from your local data directory.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">exprTable &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">file.path</span>(destDir, files[<span class="st">&quot;expr&quot;</span>]))</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">dim</span>(exprTable)</a></code></pre></div>
+<pre><code>[1] 22283   190</code></pre>
+</div>
+<div id="marginal-statistics" class="section level2">
+<h2>Marginal statistics</h2>
+<p>Write an R script that computes marginal statistics (mean, sd, min, percentiles 5, 10, 25, 50, 75, 90, 95, max, IQR) on each row of the normalised data table (one row corresponds to one gene).</p>
+<p>Do the same for each column (patient).</p>
+</div>
+<div id="empirical-distributions" class="section level2">
+<h2>Empirical distributions</h2>
+<p>Draw a plot that displays the empirical distribution of normalised expression values in the whole data table.</p>
+<p>Draw another plot that displays the empirical distribution of normalised expression values in the different samples (one polygon frequency per sample).</p>
+<p>Compute a table with the mean expression profile per cancer type (one row per gene, one column per cancer type) and draw them with box plots.</p>
+</div>
+<div id="sample-classes" class="section level2">
+<h2>Sample classes</h2>
+<p>Load the pheno table. We will use the three following columns:</p>
+<ul>
+<li><code>Sample.GEO.ID</code>: the identifier of the sample in the Gene Expression Omnibus (GEO) database.</li>
+<li><code>Sample.title</code>: cancer type of each sample.</li>
+<li><code>sample.labels</code>: A short label (1 or 2 letters) for each cancer type</li>
+</ul>
+<p>Cound the number of samples per group and draw a barplot with the result.</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

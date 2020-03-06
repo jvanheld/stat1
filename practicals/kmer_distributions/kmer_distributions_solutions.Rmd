@@ -68,7 +68,7 @@ library(knitr)
 options(width = 300)
 knitr::opts_chunk$set(
   fig.width = 7, fig.height = 5, 
-  fig.path = 'figures/02_combinatorix_',
+  fig.path = 'figures/kmer_distrib_',
   fig.align = "center", 
   size = "tiny", 
   echo = TRUE, eval = TRUE, 
@@ -674,9 +674,13 @@ poisson.exp <- poisson.pmf * nb.genes
 ## plot the histogram
 h <- kmer.hist(counts, kmer, 
                ylim = c(0, max(poisson.exp)), 
-               class.interval = 1, col = "#BBBBBB", border = "#BBBBBB",
+               class.interval = 1, 
+               col = "#BBBBBB", border = "#BBBBBB",
                main = paste0("Poisson fit on ", kmer, " counts"))
 lines(X, poisson.exp, col = "red", lwd = 2)
+
+obs <- h$counts
+
 
 ```
 
@@ -706,12 +710,43 @@ for (i in 1:m) {
                  ylim = c(0, max(poisson.exp)), 
                  class.interval = 1, col = "#BBBBBB", border = "#BBBBBB",
                  main = paste0("Poisson fit on ", kmer, " counts"))
+  
+  lambda <- mean(counts)
+  poisson.exp <- dpois(x = X, lambda = lambda) * nb.genes
   lines(X, poisson.exp, col = "red", lwd = 0.5, type = "h")
 
 }
 par(mfrow = c(1, 1))
 
 ```
+
+### Using the sample median as estimator of the population mean
+
+
+```{r poisson_fit_all_kmers_median, fig.width=12, fig.height=8, out.width="100%", fig.cap="Poisson fit on dinucleotide counts from Human promoter sequences. "}
+
+par(mfrow = c(4, 4))
+for (i in 1:m) {
+  kmer <- names(kmer.table)[i]
+  counts <- kmer.table[, kmer]
+  ## plot the histogram
+  h <- kmer.hist(counts, kmer, 
+                 ylim = c(0, max(poisson.exp)), 
+                 class.interval = 1, col = "#BBBBBB", border = "#BBBBBB",
+                 main = paste0("Poisson fit on ", kmer, " counts"))
+
+  lambda <- median(counts)
+  poisson.exp <- dpois(x = X, lambda = lambda) * nb.genes
+  lines(X, poisson.exp, col = "red", lwd = 0.5, type = "h")
+  
+  lines(X, poisson.exp, col = "red", lwd = 0.5, type = "h")
+  
+}
+par(mfrow = c(1, 1))
+
+```
+
+
 
 ### Q-Q plots
 
@@ -920,7 +955,7 @@ poisson.fit(counts, main = "CT poisson fit")
 
 As a matter of control we will fit a Poisson distribution on a vector of random numbers generated according to a Poisson distribution.
 
-```{r}
+```{r rpois_fitting, fig.width=7, fig.height=7, out.width="80%"}
 ## Run the chi2 test with random numbers following a Poisson distribution
 poisson.fit(rpois(n = length(counts), lambda = mean(counts)), main = "Random Poisson numbers")
 ```

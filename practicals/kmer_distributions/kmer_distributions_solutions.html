@@ -844,7 +844,7 @@ ENSG00000141338|Homo_sapiens_GRCh38|ABCA8          74 22 39 48 31 13  4 30 43 21
 <a class="sourceLine" id="cb27-7" data-line-number="7"><span class="kw">text</span>(<span class="dt">x =</span> stats.per.kmer<span class="op">$</span>mean, <span class="dt">y =</span> stats.per.kmer<span class="op">$</span>var, <span class="dt">labels =</span> <span class="kw">rownames</span>(stats.per.kmer))</a>
 <a class="sourceLine" id="cb27-8" data-line-number="8"><span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>)</a></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="figures/02_combinatorix_mean_vs_var-1.png" alt="Mean-variance plot for dinucleotide counts in all human promoters. The line indicates the variance/mean relationship in Poisson. distributions. " width="60%" />
+<img src="figures/kmer_distrib_mean_vs_var-1.png" alt="Mean-variance plot for dinucleotide counts in all human promoters. The line indicates the variance/mean relationship in Poisson. distributions. " width="60%" />
 <p class="caption">
 Mean-variance plot for dinucleotide counts in all human promoters. The line indicates the variance/mean relationship in Poisson. distributions.
 </p>
@@ -967,7 +967,7 @@ Mean-variance plot for dinucleotide counts in all human promoters. The line indi
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="co">## Draw an histogram with default parameters (not very beautiful)</span></a>
 <a class="sourceLine" id="cb39-2" data-line-number="2"><span class="kw">hist</span>(<span class="dt">x =</span> counts)</a></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="figures/02_combinatorix_one_kmer_hist-1.png" alt="Counts per sequence in all human promoters. " width="60%" />
+<img src="figures/kmer_distrib_one_kmer_hist-1.png" alt="Counts per sequence in all human promoters. " width="60%" />
 <p class="caption">
 Counts per sequence in all human promoters.
 </p>
@@ -982,7 +982,7 @@ Counts per sequence in all human promoters.
 <a class="sourceLine" id="cb40-7" data-line-number="7">     <span class="dt">xlab =</span> <span class="st">&quot;K-mer counts&quot;</span>,</a>
 <a class="sourceLine" id="cb40-8" data-line-number="8">     <span class="dt">main =</span> <span class="kw">paste0</span>(kmer, <span class="st">&quot; counts in promoters&quot;</span>))</a></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="figures/02_combinatorix_one_kmer_hist_pretty-1.png" alt="Counts per sequence in all human promoters. " width="60%" />
+<img src="figures/kmer_distrib_one_kmer_hist_pretty-1.png" alt="Counts per sequence in all human promoters. " width="60%" />
 <p class="caption">
 Counts per sequence in all human promoters.
 </p>
@@ -1005,7 +1005,7 @@ Counts per sequence in all human promoters.
 <a class="sourceLine" id="cb41-13" data-line-number="13">       <span class="dt">main =</span> <span class="kw">paste0</span>(<span class="kw">toupper</span>(kmer), <span class="st">&quot; counts in promoters&quot;</span>))</a>
 <a class="sourceLine" id="cb41-14" data-line-number="14">}</a></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="figures/02_combinatorix_all_kmer_hist_pretty-1.png" alt="Dinucleotide counts per sequence in all human promoters. " width="100%" />
+<img src="figures/kmer_distrib_all_kmer_hist_pretty-1.png" alt="Dinucleotide counts per sequence in all human promoters. " width="100%" />
 <p class="caption">
 Dinucleotide counts per sequence in all human promoters.
 </p>
@@ -1020,7 +1020,7 @@ Dinucleotide counts per sequence in all human promoters.
 <p>The funciton <code>boxplot()</code> provides an informative summary of the data.</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw">boxplot</span>(<span class="dt">x =</span> kmer.table)</a></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="figures/02_combinatorix_kmer_count_boxplot-1.png" alt="Boxplot of dinucleotide counts in all promoters. " width="60%" />
+<img src="figures/kmer_distrib_kmer_count_boxplot-1.png" alt="Boxplot of dinucleotide counts in all promoters. " width="60%" />
 <p class="caption">
 Boxplot of dinucleotide counts in all promoters.
 </p>
@@ -1033,7 +1033,7 @@ Boxplot of dinucleotide counts in all promoters.
 <a class="sourceLine" id="cb44-5" data-line-number="5">        <span class="dt">main =</span> <span class="st">&quot;Dinucleotide distributions&quot;</span>, </a>
 <a class="sourceLine" id="cb44-6" data-line-number="6">        <span class="dt">xlab =</span> <span class="st">&quot;Counts&quot;</span>)</a></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="figures/02_combinatorix_kmer_count_boxplot_pretty-1.png" alt="Boxplot of dinucleotide counts in all promoters. " width="60%" />
+<img src="figures/kmer_distrib_kmer_count_boxplot_pretty-1.png" alt="Boxplot of dinucleotide counts in all promoters. " width="60%" />
 <p class="caption">
 Boxplot of dinucleotide counts in all promoters.
 </p>
@@ -1046,7 +1046,7 @@ Boxplot of dinucleotide counts in all promoters.
 <a class="sourceLine" id="cb45-5" data-line-number="5">        <span class="dt">main =</span> <span class="st">&quot;Dinucleotide distributions&quot;</span>, </a>
 <a class="sourceLine" id="cb45-6" data-line-number="6">        <span class="dt">xlab =</span> <span class="st">&quot;Counts&quot;</span>)</a></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="figures/02_combinatorix_kmer_count_boxplot_pretty_var-1.png" alt="Boxplot of dinucleotide counts in all promoters. " width="60%" />
+<img src="figures/kmer_distrib_kmer_count_boxplot_pretty_var-1.png" alt="Boxplot of dinucleotide counts in all promoters. " width="60%" />
 <p class="caption">
 Boxplot of dinucleotide counts in all promoters.
 </p>
@@ -1066,7 +1066,7 @@ Boxplot of dinucleotide counts in all promoters.
 <a class="sourceLine" id="cb46-9" data-line-number="9"></a>
 <a class="sourceLine" id="cb46-10" data-line-number="10"><span class="kw">vioplot</span>(kmer.table)</a></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="figures/02_combinatorix_violin_plot-1.png" alt="Violin plot of dinucleotide counts in promoter sequences" width="60%" />
+<img src="figures/kmer_distrib_violin_plot-1.png" alt="Violin plot of dinucleotide counts in promoter sequences" width="60%" />
 <p class="caption">
 Violin plot of dinucleotide counts in promoter sequences
 </p>
@@ -1074,14 +1074,14 @@ Violin plot of dinucleotide counts in promoter sequences
 <p>Let us fine-tune the parameters to get a pretty violin plot.</p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">vioplot</span>(kmer.table[, <span class="kw">order</span>(stats.per.kmer<span class="op">$</span>mean)], <span class="dt">horizontal =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="st">&quot;#44DDFF&quot;</span>, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">main =</span> <span class="st">&quot;Violin plot of dinucleotide counts in promoters&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Counts&quot;</span>, )</a></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="figures/02_combinatorix_violin_plot_pretty-1.png" alt="Violin plot of dinucleotide counts in promoter sequences" width="60%" />
+<img src="figures/kmer_distrib_violin_plot_pretty-1.png" alt="Violin plot of dinucleotide counts in promoter sequences" width="60%" />
 <p class="caption">
 Violin plot of dinucleotide counts in promoter sequences
 </p>
 </div>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="kw">vioplot</span>(kmer.table[, <span class="kw">order</span>(stats.per.kmer<span class="op">$</span>var)], <span class="dt">horizontal =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="st">&quot;#44DDFF&quot;</span>, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">main =</span> <span class="st">&quot;Violin plot of dinucleotide counts in promoters&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Counts&quot;</span>, )</a></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="figures/02_combinatorix_violin_plot_pretty_var-1.png" alt="Violin plot of dinucleotide counts in promoter sequences" width="60%" />
+<img src="figures/kmer_distrib_violin_plot_pretty_var-1.png" alt="Violin plot of dinucleotide counts in promoter sequences" width="60%" />
 <p class="caption">
 Violin plot of dinucleotide counts in promoter sequences
 </p>
@@ -1139,7 +1139,7 @@ Violin plot of dinucleotide counts in promoter sequences
 <p>We can then call this function with a given k-mer.</p>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">hist.values &lt;-<span class="st"> </span><span class="kw">kmer.hist</span>(<span class="dt">counts =</span> kmer.table[, <span class="st">&quot;TT&quot;</span>], <span class="dt">kmer =</span> <span class="st">&quot;TT&quot;</span>)</a></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="figures/02_combinatorix_another_kmer-1.png" alt="Distribution of k-mer counts in promoter generated with our custom funciton kmer.hist(). " width="60%" />
+<img src="figures/kmer_distrib_another_kmer-1.png" alt="Distribution of k-mer counts in promoter generated with our custom funciton kmer.hist(). " width="60%" />
 <p class="caption">
 Distribution of k-mer counts in promoter generated with our custom funciton kmer.hist().
 </p>
@@ -1152,7 +1152,7 @@ Distribution of k-mer counts in promoter generated with our custom funciton kmer
 <a class="sourceLine" id="cb51-5" data-line-number="5">                             <span class="dt">border =</span> <span class="st">&quot;#0088FF&quot;</span>,</a>
 <a class="sourceLine" id="cb51-6" data-line-number="6">                             <span class="dt">class.interval =</span> <span class="dv">5</span>)</a></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="figures/02_combinatorix_another_kmer_ci5-1.png" alt="Distribution of k-mer counts in promoter generated with our custom funciton kmer.hist() with class intervals of size 5. " width="60%" />
+<img src="figures/kmer_distrib_another_kmer_ci5-1.png" alt="Distribution of k-mer counts in promoter generated with our custom funciton kmer.hist() with class intervals of size 5. " width="60%" />
 <p class="caption">
 Distribution of k-mer counts in promoter generated with our custom funciton kmer.hist() with class intervals of size 5.
 </p>
@@ -1183,7 +1183,7 @@ Distribution of k-mer counts in promoter generated with our custom funciton kmer
 <a class="sourceLine" id="cb61-6" data-line-number="6">     <span class="dt">main =</span> <span class="kw">paste0</span>(kmer, <span class="st">&quot; counts</span><span class="ch">\n</span><span class="st">Frequency polygon&quot;</span>))</a>
 <a class="sourceLine" id="cb61-7" data-line-number="7"><span class="kw">grid</span>() <span class="co"># Add a grid to the plot</span></a></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="figures/02_combinatorix_frequency_polygon-1.png" alt="Distribution of counts for the TT dinucleotide in Human promoter sequences. Representation. as frequency polygon. " width="60%" />
+<img src="figures/kmer_distrib_frequency_polygon-1.png" alt="Distribution of counts for the TT dinucleotide in Human promoter sequences. Representation. as frequency polygon. " width="60%" />
 <p class="caption">
 Distribution of counts for the TT dinucleotide in Human promoter sequences. Representation. as frequency polygon.
 </p>
@@ -1221,69 +1221,101 @@ Distribution of counts for the TT dinucleotide in Human promoter sequences. Repr
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1"><span class="co">## plot the histogram</span></a>
 <a class="sourceLine" id="cb64-2" data-line-number="2">h &lt;-<span class="st"> </span><span class="kw">kmer.hist</span>(counts, kmer, </a>
 <a class="sourceLine" id="cb64-3" data-line-number="3">               <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(poisson.exp)), </a>
-<a class="sourceLine" id="cb64-4" data-line-number="4">               <span class="dt">class.interval =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;#BBBBBB&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;#BBBBBB&quot;</span>,</a>
-<a class="sourceLine" id="cb64-5" data-line-number="5">               <span class="dt">main =</span> <span class="kw">paste0</span>(<span class="st">&quot;Poisson fit on &quot;</span>, kmer, <span class="st">&quot; counts&quot;</span>))</a>
-<a class="sourceLine" id="cb64-6" data-line-number="6"><span class="kw">lines</span>(X, poisson.exp, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb64-4" data-line-number="4">               <span class="dt">class.interval =</span> <span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb64-5" data-line-number="5">               <span class="dt">col =</span> <span class="st">&quot;#BBBBBB&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;#BBBBBB&quot;</span>,</a>
+<a class="sourceLine" id="cb64-6" data-line-number="6">               <span class="dt">main =</span> <span class="kw">paste0</span>(<span class="st">&quot;Poisson fit on &quot;</span>, kmer, <span class="st">&quot; counts&quot;</span>))</a>
+<a class="sourceLine" id="cb64-7" data-line-number="7"><span class="kw">lines</span>(X, poisson.exp, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</a></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="figures/02_combinatorix_fitting_plot_fp-1.png" alt="Fitting of a Poisson distribution on dinucleotide counts" width="60%" />
+<img src="figures/kmer_distrib_fitting_plot_fp-1.png" alt="Fitting of a Poisson distribution on dinucleotide counts" width="60%" />
 <p class="caption">
 Fitting of a Poisson distribution on dinucleotide counts
 </p>
 </div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1">obs &lt;-<span class="st"> </span>h<span class="op">$</span>counts</a></code></pre></div>
 <p>An alternative is to draw the lines as a histogram rather than a polygon frequency.</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="co">## plot the histogram</span></a>
-<a class="sourceLine" id="cb65-2" data-line-number="2">h &lt;-<span class="st"> </span><span class="kw">kmer.hist</span>(counts, kmer, </a>
-<a class="sourceLine" id="cb65-3" data-line-number="3">               <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(poisson.exp)), </a>
-<a class="sourceLine" id="cb65-4" data-line-number="4">               <span class="dt">class.interval =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;#BBBBBB&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;#BBBBBB&quot;</span>,</a>
-<a class="sourceLine" id="cb65-5" data-line-number="5">               <span class="dt">main =</span> <span class="kw">paste0</span>(<span class="st">&quot;Poisson fit on &quot;</span>, kmer, <span class="st">&quot; counts&quot;</span>))</a>
-<a class="sourceLine" id="cb65-6" data-line-number="6"><span class="kw">lines</span>(X, poisson.exp, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">1</span>, <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" data-line-number="1"><span class="co">## plot the histogram</span></a>
+<a class="sourceLine" id="cb66-2" data-line-number="2">h &lt;-<span class="st"> </span><span class="kw">kmer.hist</span>(counts, kmer, </a>
+<a class="sourceLine" id="cb66-3" data-line-number="3">               <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(poisson.exp)), </a>
+<a class="sourceLine" id="cb66-4" data-line-number="4">               <span class="dt">class.interval =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;#BBBBBB&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;#BBBBBB&quot;</span>,</a>
+<a class="sourceLine" id="cb66-5" data-line-number="5">               <span class="dt">main =</span> <span class="kw">paste0</span>(<span class="st">&quot;Poisson fit on &quot;</span>, kmer, <span class="st">&quot; counts&quot;</span>))</a>
+<a class="sourceLine" id="cb66-6" data-line-number="6"><span class="kw">lines</span>(X, poisson.exp, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">1</span>, <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>)</a></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="figures/02_combinatorix_fitting_plot_h-1.png" alt="Fitting of a Poisson distribution on dinucleotide counts" width="60%" />
+<img src="figures/kmer_distrib_fitting_plot_h-1.png" alt="Fitting of a Poisson distribution on dinucleotide counts" width="60%" />
 <p class="caption">
 Fitting of a Poisson distribution on dinucleotide counts
 </p>
 </div>
 <p>We can now generate the same drawing for each k-mer.</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">4</span>))</a>
-<a class="sourceLine" id="cb66-2" data-line-number="2"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>m) {</a>
-<a class="sourceLine" id="cb66-3" data-line-number="3">  kmer &lt;-<span class="st"> </span><span class="kw">names</span>(kmer.table)[i]</a>
-<a class="sourceLine" id="cb66-4" data-line-number="4">  counts &lt;-<span class="st"> </span>kmer.table[, kmer]</a>
-<a class="sourceLine" id="cb66-5" data-line-number="5">  <span class="co">## plot the histogram</span></a>
-<a class="sourceLine" id="cb66-6" data-line-number="6">  h &lt;-<span class="st"> </span><span class="kw">kmer.hist</span>(counts, kmer, </a>
-<a class="sourceLine" id="cb66-7" data-line-number="7">                 <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(poisson.exp)), </a>
-<a class="sourceLine" id="cb66-8" data-line-number="8">                 <span class="dt">class.interval =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;#BBBBBB&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;#BBBBBB&quot;</span>,</a>
-<a class="sourceLine" id="cb66-9" data-line-number="9">                 <span class="dt">main =</span> <span class="kw">paste0</span>(<span class="st">&quot;Poisson fit on &quot;</span>, kmer, <span class="st">&quot; counts&quot;</span>))</a>
-<a class="sourceLine" id="cb66-10" data-line-number="10">  <span class="kw">lines</span>(X, poisson.exp, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="fl">0.5</span>, <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>)</a>
-<a class="sourceLine" id="cb66-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb66-12" data-line-number="12">}</a></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">4</span>))</a>
+<a class="sourceLine" id="cb67-2" data-line-number="2"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>m) {</a>
+<a class="sourceLine" id="cb67-3" data-line-number="3">  kmer &lt;-<span class="st"> </span><span class="kw">names</span>(kmer.table)[i]</a>
+<a class="sourceLine" id="cb67-4" data-line-number="4">  counts &lt;-<span class="st"> </span>kmer.table[, kmer]</a>
+<a class="sourceLine" id="cb67-5" data-line-number="5">  <span class="co">## plot the histogram</span></a>
+<a class="sourceLine" id="cb67-6" data-line-number="6">  h &lt;-<span class="st"> </span><span class="kw">kmer.hist</span>(counts, kmer, </a>
+<a class="sourceLine" id="cb67-7" data-line-number="7">                 <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(poisson.exp)), </a>
+<a class="sourceLine" id="cb67-8" data-line-number="8">                 <span class="dt">class.interval =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;#BBBBBB&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;#BBBBBB&quot;</span>,</a>
+<a class="sourceLine" id="cb67-9" data-line-number="9">                 <span class="dt">main =</span> <span class="kw">paste0</span>(<span class="st">&quot;Poisson fit on &quot;</span>, kmer, <span class="st">&quot; counts&quot;</span>))</a>
+<a class="sourceLine" id="cb67-10" data-line-number="10">  </a>
+<a class="sourceLine" id="cb67-11" data-line-number="11">  lambda &lt;-<span class="st"> </span><span class="kw">mean</span>(counts)</a>
+<a class="sourceLine" id="cb67-12" data-line-number="12">  poisson.exp &lt;-<span class="st"> </span><span class="kw">dpois</span>(<span class="dt">x =</span> X, <span class="dt">lambda =</span> lambda) <span class="op">*</span><span class="st"> </span>nb.genes</a>
+<a class="sourceLine" id="cb67-13" data-line-number="13">  <span class="kw">lines</span>(X, poisson.exp, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="fl">0.5</span>, <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>)</a>
+<a class="sourceLine" id="cb67-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb67-15" data-line-number="15">}</a></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="figures/02_combinatorix_poisson_fit_all_kmers-1.png" alt="Poisson fit on dinucleotide counts from Human promoter sequences. " width="100%" />
+<img src="figures/kmer_distrib_poisson_fit_all_kmers-1.png" alt="Poisson fit on dinucleotide counts from Human promoter sequences. " width="100%" />
 <p class="caption">
 Poisson fit on dinucleotide counts from Human promoter sequences.
 </p>
 </div>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</a></code></pre></div>
+</div>
+<div id="using-the-sample-median-as-estimator-of-the-population-mean" class="section level3">
+<h3>Using the sample median as estimator of the population mean</h3>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">4</span>))</a>
+<a class="sourceLine" id="cb69-2" data-line-number="2"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>m) {</a>
+<a class="sourceLine" id="cb69-3" data-line-number="3">  kmer &lt;-<span class="st"> </span><span class="kw">names</span>(kmer.table)[i]</a>
+<a class="sourceLine" id="cb69-4" data-line-number="4">  counts &lt;-<span class="st"> </span>kmer.table[, kmer]</a>
+<a class="sourceLine" id="cb69-5" data-line-number="5">  <span class="co">## plot the histogram</span></a>
+<a class="sourceLine" id="cb69-6" data-line-number="6">  h &lt;-<span class="st"> </span><span class="kw">kmer.hist</span>(counts, kmer, </a>
+<a class="sourceLine" id="cb69-7" data-line-number="7">                 <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(poisson.exp)), </a>
+<a class="sourceLine" id="cb69-8" data-line-number="8">                 <span class="dt">class.interval =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;#BBBBBB&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;#BBBBBB&quot;</span>,</a>
+<a class="sourceLine" id="cb69-9" data-line-number="9">                 <span class="dt">main =</span> <span class="kw">paste0</span>(<span class="st">&quot;Poisson fit on &quot;</span>, kmer, <span class="st">&quot; counts&quot;</span>))</a>
+<a class="sourceLine" id="cb69-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb69-11" data-line-number="11">  lambda &lt;-<span class="st"> </span><span class="kw">median</span>(counts)</a>
+<a class="sourceLine" id="cb69-12" data-line-number="12">  poisson.exp &lt;-<span class="st"> </span><span class="kw">dpois</span>(<span class="dt">x =</span> X, <span class="dt">lambda =</span> lambda) <span class="op">*</span><span class="st"> </span>nb.genes</a>
+<a class="sourceLine" id="cb69-13" data-line-number="13">  <span class="kw">lines</span>(X, poisson.exp, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="fl">0.5</span>, <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>)</a>
+<a class="sourceLine" id="cb69-14" data-line-number="14">  </a>
+<a class="sourceLine" id="cb69-15" data-line-number="15">  <span class="kw">lines</span>(X, poisson.exp, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="fl">0.5</span>, <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>)</a>
+<a class="sourceLine" id="cb69-16" data-line-number="16">  </a>
+<a class="sourceLine" id="cb69-17" data-line-number="17">}</a></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="figures/kmer_distrib_poisson_fit_all_kmers_median-1.png" alt="Poisson fit on dinucleotide counts from Human promoter sequences. " width="100%" />
+<p class="caption">
+Poisson fit on dinucleotide counts from Human promoter sequences.
+</p>
+</div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</a></code></pre></div>
 </div>
 <div id="q-q-plots" class="section level3">
 <h3>Q-Q plots</h3>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" data-line-number="1"><span class="co">## Selevct a k-mer</span></a>
-<a class="sourceLine" id="cb68-2" data-line-number="2">kmer &lt;-<span class="st"> &quot;AC&quot;</span></a>
-<a class="sourceLine" id="cb68-3" data-line-number="3">counts &lt;-<span class="st"> </span>kmer.table[, kmer]</a>
-<a class="sourceLine" id="cb68-4" data-line-number="4">lambda &lt;-<span class="st"> </span><span class="kw">mean</span>(counts)</a>
-<a class="sourceLine" id="cb68-5" data-line-number="5">X &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span>(<span class="kw">max</span>(counts))</a>
-<a class="sourceLine" id="cb68-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb68-7" data-line-number="7"><span class="co">## Generate random counts that follow a Poisson loaw</span></a>
-<a class="sourceLine" id="cb68-8" data-line-number="8">rcounts &lt;-<span class="st">  </span><span class="kw">rpois</span>(<span class="dt">n =</span> <span class="kw">length</span>(counts), <span class="dt">lambda =</span> lambda)</a>
-<a class="sourceLine" id="cb68-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb68-10" data-line-number="10"><span class="co">## Draw a Q-Q plot with the random counts versus actual counts</span></a>
-<a class="sourceLine" id="cb68-11" data-line-number="11"><span class="kw">qqplot</span>(<span class="dt">x =</span> counts, <span class="dt">y =</span> rcounts, </a>
-<a class="sourceLine" id="cb68-12" data-line-number="12">       <span class="dt">main =</span> <span class="st">&quot;QQplot - counts vs random Poisson&quot;</span>,</a>
-<a class="sourceLine" id="cb68-13" data-line-number="13">       <span class="dt">col =</span> <span class="st">&quot;#88AABB&quot;</span>,</a>
-<a class="sourceLine" id="cb68-14" data-line-number="14">       <span class="dt">xlab =</span> <span class="st">&quot;Counts&quot;</span>,</a>
-<a class="sourceLine" id="cb68-15" data-line-number="15">       <span class="dt">ylab =</span> <span class="st">&quot;Random counts (rpois)&quot;</span>)</a>
-<a class="sourceLine" id="cb68-16" data-line-number="16"><span class="kw">grid</span>()</a>
-<a class="sourceLine" id="cb68-17" data-line-number="17"><span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>)</a></code></pre></div>
-<p><img src="figures/02_combinatorix_unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1"><span class="co">## Selevct a k-mer</span></a>
+<a class="sourceLine" id="cb71-2" data-line-number="2">kmer &lt;-<span class="st"> &quot;AC&quot;</span></a>
+<a class="sourceLine" id="cb71-3" data-line-number="3">counts &lt;-<span class="st"> </span>kmer.table[, kmer]</a>
+<a class="sourceLine" id="cb71-4" data-line-number="4">lambda &lt;-<span class="st"> </span><span class="kw">mean</span>(counts)</a>
+<a class="sourceLine" id="cb71-5" data-line-number="5">X &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span>(<span class="kw">max</span>(counts))</a>
+<a class="sourceLine" id="cb71-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb71-7" data-line-number="7"><span class="co">## Generate random counts that follow a Poisson loaw</span></a>
+<a class="sourceLine" id="cb71-8" data-line-number="8">rcounts &lt;-<span class="st">  </span><span class="kw">rpois</span>(<span class="dt">n =</span> <span class="kw">length</span>(counts), <span class="dt">lambda =</span> lambda)</a>
+<a class="sourceLine" id="cb71-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb71-10" data-line-number="10"><span class="co">## Draw a Q-Q plot with the random counts versus actual counts</span></a>
+<a class="sourceLine" id="cb71-11" data-line-number="11"><span class="kw">qqplot</span>(<span class="dt">x =</span> counts, <span class="dt">y =</span> rcounts, </a>
+<a class="sourceLine" id="cb71-12" data-line-number="12">       <span class="dt">main =</span> <span class="st">&quot;QQplot - counts vs random Poisson&quot;</span>,</a>
+<a class="sourceLine" id="cb71-13" data-line-number="13">       <span class="dt">col =</span> <span class="st">&quot;#88AABB&quot;</span>,</a>
+<a class="sourceLine" id="cb71-14" data-line-number="14">       <span class="dt">xlab =</span> <span class="st">&quot;Counts&quot;</span>,</a>
+<a class="sourceLine" id="cb71-15" data-line-number="15">       <span class="dt">ylab =</span> <span class="st">&quot;Random counts (rpois)&quot;</span>)</a>
+<a class="sourceLine" id="cb71-16" data-line-number="16"><span class="kw">grid</span>()</a>
+<a class="sourceLine" id="cb71-17" data-line-number="17"><span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>)</a></code></pre></div>
+<p><img src="figures/kmer_distrib_unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="goodness-of-fit" class="section level2">
@@ -1299,33 +1331,33 @@ Poisson fit on dinucleotide counts from Human promoter sequences.
 <li>Check if the assumptions are met for the validity of the chi2 test.</li>
 </ul></li>
 </ol>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1"><span class="co">## Choose a k-mer and select its counts</span></a>
-<a class="sourceLine" id="cb69-2" data-line-number="2">kmer &lt;-<span class="st"> &quot;TC&quot;</span></a>
-<a class="sourceLine" id="cb69-3" data-line-number="3">counts &lt;-<span class="st"> </span>kmer.table[, kmer]</a>
-<a class="sourceLine" id="cb69-4" data-line-number="4">max.count &lt;-<span class="st"> </span><span class="kw">max</span>(counts)</a>
-<a class="sourceLine" id="cb69-5" data-line-number="5">X &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span>max.count <span class="co"># all possible values of X</span></a>
-<a class="sourceLine" id="cb69-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb69-7" data-line-number="7"><span class="co">## Get the number of genes per k-mer counts with hist() </span></a>
-<a class="sourceLine" id="cb69-8" data-line-number="8"><span class="co">## but do not plot the histogram</span></a>
-<a class="sourceLine" id="cb69-9" data-line-number="9">h &lt;-<span class="st"> </span><span class="kw">hist</span>(counts, </a>
-<a class="sourceLine" id="cb69-10" data-line-number="10">          <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">0</span>, </a>
-<a class="sourceLine" id="cb69-11" data-line-number="11">                       <span class="dt">to =</span> max.count <span class="op">+</span><span class="st"> </span><span class="dv">1</span>, </a>
-<a class="sourceLine" id="cb69-12" data-line-number="12">                       <span class="dt">by =</span> <span class="dv">1</span>), </a>
-<a class="sourceLine" id="cb69-13" data-line-number="13">          <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb69-14" data-line-number="14">obs &lt;-<span class="st"> </span>h<span class="op">$</span>counts <span class="co">## Observed counts</span></a>
-<a class="sourceLine" id="cb69-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb69-16" data-line-number="16"><span class="co">## Compute the probabilities from a  Poisson distribution</span></a>
-<a class="sourceLine" id="cb69-17" data-line-number="17">poisson.p &lt;-<span class="st"> </span><span class="kw">dpois</span>(X, <span class="dt">lambda =</span> <span class="kw">mean</span>(counts))</a>
-<a class="sourceLine" id="cb69-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb69-19" data-line-number="19"><span class="co">## Run the chi2 test</span></a>
-<a class="sourceLine" id="cb69-20" data-line-number="20">chi2.result &lt;-<span class="st"> </span><span class="kw">chisq.test</span>(<span class="dt">x =</span> obs, <span class="dt">p =</span> poisson.p)</a>
-<a class="sourceLine" id="cb69-21" data-line-number="21"><span class="kw">print</span>(chi2.result)</a></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" data-line-number="1"><span class="co">## Choose a k-mer and select its counts</span></a>
+<a class="sourceLine" id="cb72-2" data-line-number="2">kmer &lt;-<span class="st"> &quot;TC&quot;</span></a>
+<a class="sourceLine" id="cb72-3" data-line-number="3">counts &lt;-<span class="st"> </span>kmer.table[, kmer]</a>
+<a class="sourceLine" id="cb72-4" data-line-number="4">max.count &lt;-<span class="st"> </span><span class="kw">max</span>(counts)</a>
+<a class="sourceLine" id="cb72-5" data-line-number="5">X &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span>max.count <span class="co"># all possible values of X</span></a>
+<a class="sourceLine" id="cb72-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb72-7" data-line-number="7"><span class="co">## Get the number of genes per k-mer counts with hist() </span></a>
+<a class="sourceLine" id="cb72-8" data-line-number="8"><span class="co">## but do not plot the histogram</span></a>
+<a class="sourceLine" id="cb72-9" data-line-number="9">h &lt;-<span class="st"> </span><span class="kw">hist</span>(counts, </a>
+<a class="sourceLine" id="cb72-10" data-line-number="10">          <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">0</span>, </a>
+<a class="sourceLine" id="cb72-11" data-line-number="11">                       <span class="dt">to =</span> max.count <span class="op">+</span><span class="st"> </span><span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb72-12" data-line-number="12">                       <span class="dt">by =</span> <span class="dv">1</span>), </a>
+<a class="sourceLine" id="cb72-13" data-line-number="13">          <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb72-14" data-line-number="14">obs &lt;-<span class="st"> </span>h<span class="op">$</span>counts <span class="co">## Observed counts</span></a>
+<a class="sourceLine" id="cb72-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb72-16" data-line-number="16"><span class="co">## Compute the probabilities from a  Poisson distribution</span></a>
+<a class="sourceLine" id="cb72-17" data-line-number="17">poisson.p &lt;-<span class="st"> </span><span class="kw">dpois</span>(X, <span class="dt">lambda =</span> <span class="kw">mean</span>(counts))</a>
+<a class="sourceLine" id="cb72-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb72-19" data-line-number="19"><span class="co">## Run the chi2 test</span></a>
+<a class="sourceLine" id="cb72-20" data-line-number="20">chi2.result &lt;-<span class="st"> </span><span class="kw">chisq.test</span>(<span class="dt">x =</span> obs, <span class="dt">p =</span> poisson.p)</a>
+<a class="sourceLine" id="cb72-21" data-line-number="21"><span class="kw">print</span>(chi2.result)</a></code></pre></div>
 <pre><code>
     Chi-squared test for given probabilities
 
 data:  obs
 X-squared = 8.8208e+41, df = 139, p-value &lt; 2.2e-16</code></pre>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1">pval &lt;-<span class="st"> </span>chi2.result<span class="op">$</span>p.value</a></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" data-line-number="1">pval &lt;-<span class="st"> </span>chi2.result<span class="op">$</span>p.value</a></code></pre></div>
 </div>
 <div id="with-a-custom-chisquare.test-function" class="section level3">
 <h3>With a custom chisquare.test() function</h3>
@@ -1350,153 +1382,153 @@ X-squared = 8.8208e+41, df = 139, p-value &lt; 2.2e-16</code></pre>
 <ul>
 <li><strong>Beware</strong>, the input vector should not be the counts of vector per sequences, but a vector of counts per class (e.g. how many genes had between 0 and 4 k-mer occurrences, betwen 5 and 9, betwen 10 and 14, …) returned by the histogram</li>
 </ul>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" data-line-number="1"><span class="co">#&#39; @title chi-squared test</span></a>
-<a class="sourceLine" id="cb72-2" data-line-number="2"><span class="co">#&#39; @author Jacques van Helden</span></a>
-<a class="sourceLine" id="cb72-3" data-line-number="3"><span class="co">#&#39; @description Run a chi2 test with convenient options enabling to automatically group the tails of the input vector if the expected values are too small</span></a>
-<a class="sourceLine" id="cb72-4" data-line-number="4"><span class="co">#&#39; @param obs a vector of observed values. These must be absolut e counts and not relative frequncies. </span></a>
-<a class="sourceLine" id="cb72-5" data-line-number="5"><span class="co">#&#39; @param exp a vector of expected values. Should have the same length and same sum as the observed values</span></a>
-<a class="sourceLine" id="cb72-6" data-line-number="6"><span class="co">#&#39; @param X X values for the histogram</span></a>
-<a class="sourceLine" id="cb72-7" data-line-number="7"><span class="co">#&#39; @param main main title for the histogram</span></a>
-<a class="sourceLine" id="cb72-8" data-line-number="8"><span class="co">#&#39;@return a vector of statistics related to the chi2 test: chi2 statistics, number of classes of the input vectors, numnber of classes after tail grouping, degrees of freedom, p-value</span></a>
-<a class="sourceLine" id="cb72-9" data-line-number="9">chisq.test.grouped.tails &lt;-<span class="st"> </span><span class="cf">function</span>(obs, </a>
-<a class="sourceLine" id="cb72-10" data-line-number="10">                                     exp,</a>
-<a class="sourceLine" id="cb72-11" data-line-number="11">                                     X,</a>
-<a class="sourceLine" id="cb72-12" data-line-number="12">                                     <span class="dt">main =</span> <span class="st">&quot;chi2 test&quot;</span>) {</a>
-<a class="sourceLine" id="cb72-13" data-line-number="13">  <span class="co">## Group the left tail</span></a>
-<a class="sourceLine" id="cb72-14" data-line-number="14">  first.ok &lt;-<span class="st"> </span><span class="kw">head</span>(<span class="kw">which</span>(exp <span class="op">&gt;=</span><span class="st"> </span><span class="dv">5</span>), <span class="dt">n =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb72-15" data-line-number="15">  last.ok &lt;-<span class="st"> </span><span class="kw">tail</span>(<span class="kw">which</span>(exp <span class="op">&gt;=</span><span class="st"> </span><span class="dv">5</span>), <span class="dt">n =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb72-16" data-line-number="16">  <span class="cf">if</span> (first.ok <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>) {</a>
-<a class="sourceLine" id="cb72-17" data-line-number="17">    exp.grouped &lt;-<span class="st">   </span><span class="kw">c</span>(<span class="kw">sum</span>(exp[<span class="dv">1</span><span class="op">:</span>(first.ok <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)]), </a>
-<a class="sourceLine" id="cb72-18" data-line-number="18">                       exp[first.ok<span class="op">:</span>last.ok])</a>
-<a class="sourceLine" id="cb72-19" data-line-number="19">    obs.grouped &lt;-<span class="st">   </span><span class="kw">c</span>(<span class="kw">sum</span>(obs[<span class="dv">1</span><span class="op">:</span>(first.ok <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)]), </a>
-<a class="sourceLine" id="cb72-20" data-line-number="20">                       obs[first.ok<span class="op">:</span>last.ok])</a>
-<a class="sourceLine" id="cb72-21" data-line-number="21">    X.grouped &lt;-<span class="st">   </span><span class="kw">c</span>(X[first.ok <span class="op">-</span><span class="st"> </span><span class="dv">1</span>], </a>
-<a class="sourceLine" id="cb72-22" data-line-number="22">                     X[first.ok<span class="op">:</span>last.ok])</a>
-<a class="sourceLine" id="cb72-23" data-line-number="23">  } <span class="cf">else</span> {</a>
-<a class="sourceLine" id="cb72-24" data-line-number="24">    exp.grouped &lt;-<span class="st"> </span>exp[first.ok<span class="op">:</span>last.ok]</a>
-<a class="sourceLine" id="cb72-25" data-line-number="25">    obs.grouped &lt;-<span class="st"> </span>obs[first.ok<span class="op">:</span>last.ok]</a>
-<a class="sourceLine" id="cb72-26" data-line-number="26">    X.grouped &lt;-<span class="st"> </span>X[first.ok<span class="op">:</span>last.ok]</a>
-<a class="sourceLine" id="cb72-27" data-line-number="27">  }</a>
-<a class="sourceLine" id="cb72-28" data-line-number="28">  </a>
-<a class="sourceLine" id="cb72-29" data-line-number="29">  <span class="cf">if</span> (last.ok <span class="op">&lt;</span><span class="st"> </span><span class="kw">length</span>(exp)) {</a>
-<a class="sourceLine" id="cb72-30" data-line-number="30">    exp.grouped &lt;-<span class="st"> </span><span class="kw">c</span>(exp.grouped, <span class="kw">sum</span>(exp[(last.ok <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span><span class="kw">length</span>(exp)]))</a>
-<a class="sourceLine" id="cb72-31" data-line-number="31">    obs.grouped &lt;-<span class="st"> </span><span class="kw">c</span>(obs.grouped, <span class="kw">sum</span>(obs[(last.ok <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span><span class="kw">length</span>(obs)]))</a>
-<a class="sourceLine" id="cb72-32" data-line-number="32">    X.grouped &lt;-<span class="st"> </span><span class="kw">c</span>(X.grouped, X[last.ok <span class="op">+</span><span class="st"> </span><span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb72-33" data-line-number="33">  }</a>
-<a class="sourceLine" id="cb72-34" data-line-number="34">  test &lt;-<span class="st"> </span><span class="kw">chisq.test</span>(<span class="dt">x =</span> obs.grouped, <span class="dt">p =</span> exp.grouped, <span class="dt">rescale.p =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb72-35" data-line-number="35">  </a>
-<a class="sourceLine" id="cb72-36" data-line-number="36">  <span class="co">## Collect the result</span></a>
-<a class="sourceLine" id="cb72-37" data-line-number="37">  result &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
-<a class="sourceLine" id="cb72-38" data-line-number="38">    <span class="dt">chi2.stat =</span> test<span class="op">$</span>statistic, </a>
-<a class="sourceLine" id="cb72-39" data-line-number="39">    <span class="dt">nclasses.input =</span> <span class="kw">length</span>(obs),  </a>
-<a class="sourceLine" id="cb72-40" data-line-number="40">    <span class="dt">nclasses.grouped =</span> <span class="kw">length</span>(obs.grouped),</a>
-<a class="sourceLine" id="cb72-41" data-line-number="41">    <span class="dt">df =</span> test<span class="op">$</span>parameter,</a>
-<a class="sourceLine" id="cb72-42" data-line-number="42">    <span class="dt">p.value =</span> test<span class="op">$</span>p.value)</a>
-<a class="sourceLine" id="cb72-43" data-line-number="43">  </a>
-<a class="sourceLine" id="cb72-44" data-line-number="44">  </a>
-<a class="sourceLine" id="cb72-45" data-line-number="45">  <span class="co">## Plot the distributions before and after grouping</span></a>
-<a class="sourceLine" id="cb72-46" data-line-number="46">  </a>
-<a class="sourceLine" id="cb72-47" data-line-number="47">  <span class="cf">if</span> (<span class="kw">class</span>(X) <span class="op">==</span><span class="st"> &quot;numeric&quot;</span>) {</a>
-<a class="sourceLine" id="cb72-48" data-line-number="48">    <span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb72-49" data-line-number="49">    </a>
-<a class="sourceLine" id="cb72-50" data-line-number="50">    <span class="co">## Plot distrib before grouping</span></a>
-<a class="sourceLine" id="cb72-51" data-line-number="51">    ymax =<span class="st"> </span><span class="kw">ceiling</span>(<span class="kw">max</span>(obs.grouped, exp.grouped)) <span class="co">## Compute max value for Y axis</span></a>
-<a class="sourceLine" id="cb72-52" data-line-number="52">    <span class="kw">plot</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> obs, <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, </a>
-<a class="sourceLine" id="cb72-53" data-line-number="53">         <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, ymax),</a>
-<a class="sourceLine" id="cb72-54" data-line-number="54">         <span class="dt">xlim =</span> <span class="kw">range</span>(X),</a>
-<a class="sourceLine" id="cb72-55" data-line-number="55">         <span class="dt">ylab =</span> <span class="st">&quot;Number of sequences&quot;</span>, </a>
-<a class="sourceLine" id="cb72-56" data-line-number="56">         <span class="dt">xlab =</span> <span class="st">&quot;K-mer occurrences&quot;</span>,</a>
-<a class="sourceLine" id="cb72-57" data-line-number="57">         <span class="dt">las =</span> <span class="dv">1</span>, </a>
-<a class="sourceLine" id="cb72-58" data-line-number="58">         <span class="dt">main =</span> main)</a>
-<a class="sourceLine" id="cb72-59" data-line-number="59">    <span class="kw">lines</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> exp, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</a>
-<a class="sourceLine" id="cb72-60" data-line-number="60">    <span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="dt">legend =</span> <span class="kw">paste0</span>(<span class="kw">sum</span>(exp <span class="op">&lt;</span><span class="st"> </span><span class="dv">5</span>), <span class="st">&quot; counts with exp &lt; 5&quot;</span>))</a>
-<a class="sourceLine" id="cb72-61" data-line-number="61"></a>
-<a class="sourceLine" id="cb72-62" data-line-number="62">    <span class="co">## Plot distrib after grouping</span></a>
-<a class="sourceLine" id="cb72-63" data-line-number="63">    <span class="kw">plot</span>(<span class="dt">x =</span> X.grouped, <span class="dt">y =</span> obs.grouped, </a>
-<a class="sourceLine" id="cb72-64" data-line-number="64">         <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, </a>
-<a class="sourceLine" id="cb72-65" data-line-number="65">         <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, ymax),</a>
-<a class="sourceLine" id="cb72-66" data-line-number="66">         <span class="dt">xlim =</span> <span class="kw">range</span>(X),</a>
-<a class="sourceLine" id="cb72-67" data-line-number="67">         <span class="dt">ylab =</span> <span class="st">&quot;Number of sequences&quot;</span>, </a>
-<a class="sourceLine" id="cb72-68" data-line-number="68">         <span class="dt">xlab =</span> <span class="st">&quot;K-mer occurrences&quot;</span>,</a>
-<a class="sourceLine" id="cb72-69" data-line-number="69">         <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">main =</span> <span class="kw">paste0</span>(main, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">grouped tails&quot;</span>))</a>
-<a class="sourceLine" id="cb72-70" data-line-number="70">    <span class="kw">lines</span>(<span class="dt">x =</span> X.grouped, <span class="dt">y =</span> exp.grouped, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;darkgreen&quot;</span>)</a>
-<a class="sourceLine" id="cb72-71" data-line-number="71">    <span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.7</span>,</a>
-<a class="sourceLine" id="cb72-72" data-line-number="72">           <span class="dt">legend =</span> <span class="kw">paste0</span>(<span class="kw">names</span>(result), </a>
-<a class="sourceLine" id="cb72-73" data-line-number="73">                           <span class="st">&quot; = &quot;</span>, </a>
-<a class="sourceLine" id="cb72-74" data-line-number="74">                           <span class="kw">signif</span>(result, <span class="dt">digits =</span> <span class="dv">3</span>))</a>
-<a class="sourceLine" id="cb72-75" data-line-number="75">    )</a>
-<a class="sourceLine" id="cb72-76" data-line-number="76"></a>
-<a class="sourceLine" id="cb72-77" data-line-number="77">    <span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb72-78" data-line-number="78"></a>
-<a class="sourceLine" id="cb72-79" data-line-number="79">  }  </a>
-<a class="sourceLine" id="cb72-80" data-line-number="80"></a>
-<a class="sourceLine" id="cb72-81" data-line-number="81">  <span class="kw">return</span>(result)</a>
-<a class="sourceLine" id="cb72-82" data-line-number="82">}</a></code></pre></div>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" data-line-number="1"><span class="co">#&#39; @title Poisson fit</span></a>
-<a class="sourceLine" id="cb73-2" data-line-number="2"><span class="co">#&#39; @description Compute the distribution of counts and fit a Poisson distribution</span></a>
-<a class="sourceLine" id="cb73-3" data-line-number="3"><span class="co">#&#39; @param counts </span></a>
-<a class="sourceLine" id="cb73-4" data-line-number="4"><span class="co">#&#39; @param kmer=&quot;k-mer&quot;</span></a>
-<a class="sourceLine" id="cb73-5" data-line-number="5">poisson.fit &lt;-<span class="st"> </span><span class="cf">function</span>(counts, <span class="dt">main =</span> <span class="st">&quot;Poisson fit&quot;</span>) {</a>
-<a class="sourceLine" id="cb73-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb73-7" data-line-number="7">  <span class="co">## Compute the number of occurrences for each count value</span></a>
-<a class="sourceLine" id="cb73-8" data-line-number="8">  h &lt;-<span class="st"> </span><span class="kw">hist</span>(counts, </a>
-<a class="sourceLine" id="cb73-9" data-line-number="9">            <span class="dt">breaks =</span> <span class="kw">seq</span>(</a>
-<a class="sourceLine" id="cb73-10" data-line-number="10">              <span class="dt">from =</span> <span class="kw">min</span>(counts) <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>,</a>
-<a class="sourceLine" id="cb73-11" data-line-number="11">              <span class="dt">to =</span> <span class="kw">max</span>(counts) <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span>, </a>
-<a class="sourceLine" id="cb73-12" data-line-number="12">              <span class="dt">by =</span> <span class="dv">1</span>), <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb73-13" data-line-number="13">  obs &lt;-<span class="st"> </span>h<span class="op">$</span>counts <span class="co"># note: the right tail contains many zeros</span></a>
-<a class="sourceLine" id="cb73-14" data-line-number="14">  X &lt;-<span class="st"> </span>h<span class="op">$</span>mids</a>
-<a class="sourceLine" id="cb73-15" data-line-number="15">  mean.counts &lt;-<span class="st"> </span><span class="kw">mean</span>(counts)</a>
-<a class="sourceLine" id="cb73-16" data-line-number="16">  </a>
-<a class="sourceLine" id="cb73-17" data-line-number="17">  <span class="co">## Compute expected counts</span></a>
-<a class="sourceLine" id="cb73-18" data-line-number="18">  exp &lt;-<span class="st"> </span><span class="kw">dpois</span>(<span class="dt">x =</span> X, <span class="dt">lambda =</span> mean.counts) <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>(obs)</a>
-<a class="sourceLine" id="cb73-19" data-line-number="19">  chi2.result &lt;-<span class="st"> </span><span class="kw">chisq.test.grouped.tails</span>(<span class="dt">obs =</span> obs, <span class="dt">exp =</span> exp, <span class="dt">X =</span> X, <span class="dt">main =</span> main)</a>
-<a class="sourceLine" id="cb73-20" data-line-number="20">  <span class="kw">return</span>(chi2.result)</a>
-<a class="sourceLine" id="cb73-21" data-line-number="21">}</a>
-<a class="sourceLine" id="cb73-22" data-line-number="22"></a>
-<a class="sourceLine" id="cb73-23" data-line-number="23"><span class="co">## Run the chi2 test with tail grouping</span></a>
-<a class="sourceLine" id="cb73-24" data-line-number="24">kmer &lt;-<span class="st"> &quot;CT&quot;</span></a>
-<a class="sourceLine" id="cb73-25" data-line-number="25">counts &lt;-<span class="st"> </span>kmer.table[, kmer]</a>
-<a class="sourceLine" id="cb73-26" data-line-number="26"><span class="kw">poisson.fit</span>(counts, <span class="dt">main =</span> <span class="st">&quot;CT poisson fit&quot;</span>)</a></code></pre></div>
-<p><img src="figures/02_combinatorix_TC_fitting-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1"><span class="co">#&#39; @title chi-squared test</span></a>
+<a class="sourceLine" id="cb75-2" data-line-number="2"><span class="co">#&#39; @author Jacques van Helden</span></a>
+<a class="sourceLine" id="cb75-3" data-line-number="3"><span class="co">#&#39; @description Run a chi2 test with convenient options enabling to automatically group the tails of the input vector if the expected values are too small</span></a>
+<a class="sourceLine" id="cb75-4" data-line-number="4"><span class="co">#&#39; @param obs a vector of observed values. These must be absolut e counts and not relative frequncies. </span></a>
+<a class="sourceLine" id="cb75-5" data-line-number="5"><span class="co">#&#39; @param exp a vector of expected values. Should have the same length and same sum as the observed values</span></a>
+<a class="sourceLine" id="cb75-6" data-line-number="6"><span class="co">#&#39; @param X X values for the histogram</span></a>
+<a class="sourceLine" id="cb75-7" data-line-number="7"><span class="co">#&#39; @param main main title for the histogram</span></a>
+<a class="sourceLine" id="cb75-8" data-line-number="8"><span class="co">#&#39;@return a vector of statistics related to the chi2 test: chi2 statistics, number of classes of the input vectors, numnber of classes after tail grouping, degrees of freedom, p-value</span></a>
+<a class="sourceLine" id="cb75-9" data-line-number="9">chisq.test.grouped.tails &lt;-<span class="st"> </span><span class="cf">function</span>(obs, </a>
+<a class="sourceLine" id="cb75-10" data-line-number="10">                                     exp,</a>
+<a class="sourceLine" id="cb75-11" data-line-number="11">                                     X,</a>
+<a class="sourceLine" id="cb75-12" data-line-number="12">                                     <span class="dt">main =</span> <span class="st">&quot;chi2 test&quot;</span>) {</a>
+<a class="sourceLine" id="cb75-13" data-line-number="13">  <span class="co">## Group the left tail</span></a>
+<a class="sourceLine" id="cb75-14" data-line-number="14">  first.ok &lt;-<span class="st"> </span><span class="kw">head</span>(<span class="kw">which</span>(exp <span class="op">&gt;=</span><span class="st"> </span><span class="dv">5</span>), <span class="dt">n =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb75-15" data-line-number="15">  last.ok &lt;-<span class="st"> </span><span class="kw">tail</span>(<span class="kw">which</span>(exp <span class="op">&gt;=</span><span class="st"> </span><span class="dv">5</span>), <span class="dt">n =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb75-16" data-line-number="16">  <span class="cf">if</span> (first.ok <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb75-17" data-line-number="17">    exp.grouped &lt;-<span class="st">   </span><span class="kw">c</span>(<span class="kw">sum</span>(exp[<span class="dv">1</span><span class="op">:</span>(first.ok <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)]), </a>
+<a class="sourceLine" id="cb75-18" data-line-number="18">                       exp[first.ok<span class="op">:</span>last.ok])</a>
+<a class="sourceLine" id="cb75-19" data-line-number="19">    obs.grouped &lt;-<span class="st">   </span><span class="kw">c</span>(<span class="kw">sum</span>(obs[<span class="dv">1</span><span class="op">:</span>(first.ok <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)]), </a>
+<a class="sourceLine" id="cb75-20" data-line-number="20">                       obs[first.ok<span class="op">:</span>last.ok])</a>
+<a class="sourceLine" id="cb75-21" data-line-number="21">    X.grouped &lt;-<span class="st">   </span><span class="kw">c</span>(X[first.ok <span class="op">-</span><span class="st"> </span><span class="dv">1</span>], </a>
+<a class="sourceLine" id="cb75-22" data-line-number="22">                     X[first.ok<span class="op">:</span>last.ok])</a>
+<a class="sourceLine" id="cb75-23" data-line-number="23">  } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb75-24" data-line-number="24">    exp.grouped &lt;-<span class="st"> </span>exp[first.ok<span class="op">:</span>last.ok]</a>
+<a class="sourceLine" id="cb75-25" data-line-number="25">    obs.grouped &lt;-<span class="st"> </span>obs[first.ok<span class="op">:</span>last.ok]</a>
+<a class="sourceLine" id="cb75-26" data-line-number="26">    X.grouped &lt;-<span class="st"> </span>X[first.ok<span class="op">:</span>last.ok]</a>
+<a class="sourceLine" id="cb75-27" data-line-number="27">  }</a>
+<a class="sourceLine" id="cb75-28" data-line-number="28">  </a>
+<a class="sourceLine" id="cb75-29" data-line-number="29">  <span class="cf">if</span> (last.ok <span class="op">&lt;</span><span class="st"> </span><span class="kw">length</span>(exp)) {</a>
+<a class="sourceLine" id="cb75-30" data-line-number="30">    exp.grouped &lt;-<span class="st"> </span><span class="kw">c</span>(exp.grouped, <span class="kw">sum</span>(exp[(last.ok <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span><span class="kw">length</span>(exp)]))</a>
+<a class="sourceLine" id="cb75-31" data-line-number="31">    obs.grouped &lt;-<span class="st"> </span><span class="kw">c</span>(obs.grouped, <span class="kw">sum</span>(obs[(last.ok <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span><span class="kw">length</span>(obs)]))</a>
+<a class="sourceLine" id="cb75-32" data-line-number="32">    X.grouped &lt;-<span class="st"> </span><span class="kw">c</span>(X.grouped, X[last.ok <span class="op">+</span><span class="st"> </span><span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb75-33" data-line-number="33">  }</a>
+<a class="sourceLine" id="cb75-34" data-line-number="34">  test &lt;-<span class="st"> </span><span class="kw">chisq.test</span>(<span class="dt">x =</span> obs.grouped, <span class="dt">p =</span> exp.grouped, <span class="dt">rescale.p =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb75-35" data-line-number="35">  </a>
+<a class="sourceLine" id="cb75-36" data-line-number="36">  <span class="co">## Collect the result</span></a>
+<a class="sourceLine" id="cb75-37" data-line-number="37">  result &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
+<a class="sourceLine" id="cb75-38" data-line-number="38">    <span class="dt">chi2.stat =</span> test<span class="op">$</span>statistic, </a>
+<a class="sourceLine" id="cb75-39" data-line-number="39">    <span class="dt">nclasses.input =</span> <span class="kw">length</span>(obs),  </a>
+<a class="sourceLine" id="cb75-40" data-line-number="40">    <span class="dt">nclasses.grouped =</span> <span class="kw">length</span>(obs.grouped),</a>
+<a class="sourceLine" id="cb75-41" data-line-number="41">    <span class="dt">df =</span> test<span class="op">$</span>parameter,</a>
+<a class="sourceLine" id="cb75-42" data-line-number="42">    <span class="dt">p.value =</span> test<span class="op">$</span>p.value)</a>
+<a class="sourceLine" id="cb75-43" data-line-number="43">  </a>
+<a class="sourceLine" id="cb75-44" data-line-number="44">  </a>
+<a class="sourceLine" id="cb75-45" data-line-number="45">  <span class="co">## Plot the distributions before and after grouping</span></a>
+<a class="sourceLine" id="cb75-46" data-line-number="46">  </a>
+<a class="sourceLine" id="cb75-47" data-line-number="47">  <span class="cf">if</span> (<span class="kw">class</span>(X) <span class="op">==</span><span class="st"> &quot;numeric&quot;</span>) {</a>
+<a class="sourceLine" id="cb75-48" data-line-number="48">    <span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb75-49" data-line-number="49">    </a>
+<a class="sourceLine" id="cb75-50" data-line-number="50">    <span class="co">## Plot distrib before grouping</span></a>
+<a class="sourceLine" id="cb75-51" data-line-number="51">    ymax =<span class="st"> </span><span class="kw">ceiling</span>(<span class="kw">max</span>(obs.grouped, exp.grouped)) <span class="co">## Compute max value for Y axis</span></a>
+<a class="sourceLine" id="cb75-52" data-line-number="52">    <span class="kw">plot</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> obs, <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb75-53" data-line-number="53">         <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, ymax),</a>
+<a class="sourceLine" id="cb75-54" data-line-number="54">         <span class="dt">xlim =</span> <span class="kw">range</span>(X),</a>
+<a class="sourceLine" id="cb75-55" data-line-number="55">         <span class="dt">ylab =</span> <span class="st">&quot;Number of sequences&quot;</span>, </a>
+<a class="sourceLine" id="cb75-56" data-line-number="56">         <span class="dt">xlab =</span> <span class="st">&quot;K-mer occurrences&quot;</span>,</a>
+<a class="sourceLine" id="cb75-57" data-line-number="57">         <span class="dt">las =</span> <span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb75-58" data-line-number="58">         <span class="dt">main =</span> main)</a>
+<a class="sourceLine" id="cb75-59" data-line-number="59">    <span class="kw">lines</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> exp, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</a>
+<a class="sourceLine" id="cb75-60" data-line-number="60">    <span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="dt">legend =</span> <span class="kw">paste0</span>(<span class="kw">sum</span>(exp <span class="op">&lt;</span><span class="st"> </span><span class="dv">5</span>), <span class="st">&quot; counts with exp &lt; 5&quot;</span>))</a>
+<a class="sourceLine" id="cb75-61" data-line-number="61"></a>
+<a class="sourceLine" id="cb75-62" data-line-number="62">    <span class="co">## Plot distrib after grouping</span></a>
+<a class="sourceLine" id="cb75-63" data-line-number="63">    <span class="kw">plot</span>(<span class="dt">x =</span> X.grouped, <span class="dt">y =</span> obs.grouped, </a>
+<a class="sourceLine" id="cb75-64" data-line-number="64">         <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb75-65" data-line-number="65">         <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, ymax),</a>
+<a class="sourceLine" id="cb75-66" data-line-number="66">         <span class="dt">xlim =</span> <span class="kw">range</span>(X),</a>
+<a class="sourceLine" id="cb75-67" data-line-number="67">         <span class="dt">ylab =</span> <span class="st">&quot;Number of sequences&quot;</span>, </a>
+<a class="sourceLine" id="cb75-68" data-line-number="68">         <span class="dt">xlab =</span> <span class="st">&quot;K-mer occurrences&quot;</span>,</a>
+<a class="sourceLine" id="cb75-69" data-line-number="69">         <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">main =</span> <span class="kw">paste0</span>(main, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">grouped tails&quot;</span>))</a>
+<a class="sourceLine" id="cb75-70" data-line-number="70">    <span class="kw">lines</span>(<span class="dt">x =</span> X.grouped, <span class="dt">y =</span> exp.grouped, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;darkgreen&quot;</span>)</a>
+<a class="sourceLine" id="cb75-71" data-line-number="71">    <span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.7</span>,</a>
+<a class="sourceLine" id="cb75-72" data-line-number="72">           <span class="dt">legend =</span> <span class="kw">paste0</span>(<span class="kw">names</span>(result), </a>
+<a class="sourceLine" id="cb75-73" data-line-number="73">                           <span class="st">&quot; = &quot;</span>, </a>
+<a class="sourceLine" id="cb75-74" data-line-number="74">                           <span class="kw">signif</span>(result, <span class="dt">digits =</span> <span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb75-75" data-line-number="75">    )</a>
+<a class="sourceLine" id="cb75-76" data-line-number="76"></a>
+<a class="sourceLine" id="cb75-77" data-line-number="77">    <span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb75-78" data-line-number="78"></a>
+<a class="sourceLine" id="cb75-79" data-line-number="79">  }  </a>
+<a class="sourceLine" id="cb75-80" data-line-number="80"></a>
+<a class="sourceLine" id="cb75-81" data-line-number="81">  <span class="kw">return</span>(result)</a>
+<a class="sourceLine" id="cb75-82" data-line-number="82">}</a></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" data-line-number="1"><span class="co">#&#39; @title Poisson fit</span></a>
+<a class="sourceLine" id="cb76-2" data-line-number="2"><span class="co">#&#39; @description Compute the distribution of counts and fit a Poisson distribution</span></a>
+<a class="sourceLine" id="cb76-3" data-line-number="3"><span class="co">#&#39; @param counts </span></a>
+<a class="sourceLine" id="cb76-4" data-line-number="4"><span class="co">#&#39; @param kmer=&quot;k-mer&quot;</span></a>
+<a class="sourceLine" id="cb76-5" data-line-number="5">poisson.fit &lt;-<span class="st"> </span><span class="cf">function</span>(counts, <span class="dt">main =</span> <span class="st">&quot;Poisson fit&quot;</span>) {</a>
+<a class="sourceLine" id="cb76-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb76-7" data-line-number="7">  <span class="co">## Compute the number of occurrences for each count value</span></a>
+<a class="sourceLine" id="cb76-8" data-line-number="8">  h &lt;-<span class="st"> </span><span class="kw">hist</span>(counts, </a>
+<a class="sourceLine" id="cb76-9" data-line-number="9">            <span class="dt">breaks =</span> <span class="kw">seq</span>(</a>
+<a class="sourceLine" id="cb76-10" data-line-number="10">              <span class="dt">from =</span> <span class="kw">min</span>(counts) <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>,</a>
+<a class="sourceLine" id="cb76-11" data-line-number="11">              <span class="dt">to =</span> <span class="kw">max</span>(counts) <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span>, </a>
+<a class="sourceLine" id="cb76-12" data-line-number="12">              <span class="dt">by =</span> <span class="dv">1</span>), <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb76-13" data-line-number="13">  obs &lt;-<span class="st"> </span>h<span class="op">$</span>counts <span class="co"># note: the right tail contains many zeros</span></a>
+<a class="sourceLine" id="cb76-14" data-line-number="14">  X &lt;-<span class="st"> </span>h<span class="op">$</span>mids</a>
+<a class="sourceLine" id="cb76-15" data-line-number="15">  mean.counts &lt;-<span class="st"> </span><span class="kw">mean</span>(counts)</a>
+<a class="sourceLine" id="cb76-16" data-line-number="16">  </a>
+<a class="sourceLine" id="cb76-17" data-line-number="17">  <span class="co">## Compute expected counts</span></a>
+<a class="sourceLine" id="cb76-18" data-line-number="18">  exp &lt;-<span class="st"> </span><span class="kw">dpois</span>(<span class="dt">x =</span> X, <span class="dt">lambda =</span> mean.counts) <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>(obs)</a>
+<a class="sourceLine" id="cb76-19" data-line-number="19">  chi2.result &lt;-<span class="st"> </span><span class="kw">chisq.test.grouped.tails</span>(<span class="dt">obs =</span> obs, <span class="dt">exp =</span> exp, <span class="dt">X =</span> X, <span class="dt">main =</span> main)</a>
+<a class="sourceLine" id="cb76-20" data-line-number="20">  <span class="kw">return</span>(chi2.result)</a>
+<a class="sourceLine" id="cb76-21" data-line-number="21">}</a>
+<a class="sourceLine" id="cb76-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb76-23" data-line-number="23"><span class="co">## Run the chi2 test with tail grouping</span></a>
+<a class="sourceLine" id="cb76-24" data-line-number="24">kmer &lt;-<span class="st"> &quot;CT&quot;</span></a>
+<a class="sourceLine" id="cb76-25" data-line-number="25">counts &lt;-<span class="st"> </span>kmer.table[, kmer]</a>
+<a class="sourceLine" id="cb76-26" data-line-number="26"><span class="kw">poisson.fit</span>(counts, <span class="dt">main =</span> <span class="st">&quot;CT poisson fit&quot;</span>)</a></code></pre></div>
+<p><img src="figures/kmer_distrib_TC_fitting-1.png" width="80%" style="display: block; margin: auto;" /></p>
 <pre><code>          chi2.stat nclasses.input nclasses.grouped df p.value
 X-squared  105307.7            138               45 44       0</code></pre>
 <p>As a matter of control we will fit a Poisson distribution on a vector of random numbers generated according to a Poisson distribution.</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1"><span class="co">## Run the chi2 test with random numbers following a Poisson distribution</span></a>
-<a class="sourceLine" id="cb75-2" data-line-number="2"><span class="kw">poisson.fit</span>(<span class="kw">rpois</span>(<span class="dt">n =</span> <span class="kw">length</span>(counts), <span class="dt">lambda =</span> <span class="kw">mean</span>(counts)), <span class="dt">main =</span> <span class="st">&quot;Random Poisson numbers&quot;</span>)</a></code></pre></div>
-<p><img src="figures/02_combinatorix_unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>          chi2.stat nclasses.input nclasses.grouped df     p.value
-X-squared  73.51619             47               45 44 0.003463129</code></pre>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" data-line-number="1"><span class="co">## Run the chi2 test with random numbers following a Poisson distribution</span></a>
+<a class="sourceLine" id="cb78-2" data-line-number="2"><span class="kw">poisson.fit</span>(<span class="kw">rpois</span>(<span class="dt">n =</span> <span class="kw">length</span>(counts), <span class="dt">lambda =</span> <span class="kw">mean</span>(counts)), <span class="dt">main =</span> <span class="st">&quot;Random Poisson numbers&quot;</span>)</a></code></pre></div>
+<p><img src="figures/kmer_distrib_rpois_fitting-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<pre><code>          chi2.stat nclasses.input nclasses.grouped df   p.value
+X-squared  31.97509             54               45 44 0.9113029</code></pre>
 </div>
 </div>
 <div id="fitting-a-binomial-distribution" class="section level2">
 <h2>Fitting a binomial distribution</h2>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1">kmer &lt;-<span class="st"> &quot;TC&quot;</span></a>
-<a class="sourceLine" id="cb77-2" data-line-number="2">counts &lt;-<span class="st"> </span>kmer.table[, kmer]</a>
-<a class="sourceLine" id="cb77-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb77-4" data-line-number="4">h &lt;-<span class="st"> </span><span class="kw">hist</span>(counts,</a>
-<a class="sourceLine" id="cb77-5" data-line-number="5">          <span class="dt">breaks =</span> <span class="kw">seq</span>(</a>
-<a class="sourceLine" id="cb77-6" data-line-number="6">            <span class="dt">from =</span> <span class="kw">min</span>(counts <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>),</a>
-<a class="sourceLine" id="cb77-7" data-line-number="7">            <span class="dt">to =</span> <span class="kw">max</span>(counts <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span>),</a>
-<a class="sourceLine" id="cb77-8" data-line-number="8">            <span class="dt">by =</span> <span class="dv">1</span>), <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb77-9" data-line-number="9">obs &lt;-<span class="st"> </span>h<span class="op">$</span>counts</a>
-<a class="sourceLine" id="cb77-10" data-line-number="10">X &lt;-<span class="st"> </span>h<span class="op">$</span>mids</a>
-<a class="sourceLine" id="cb77-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb77-12" data-line-number="12"><span class="co">## Estimate prior k-mer probabilities by computing their</span></a>
-<a class="sourceLine" id="cb77-13" data-line-number="13"><span class="co">## frequency in the whole data set</span></a>
-<a class="sourceLine" id="cb77-14" data-line-number="14">total.per.kmer &lt;-<span class="st"> </span><span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, sum)</a>
-<a class="sourceLine" id="cb77-15" data-line-number="15">freq.per.kmer &lt;-<span class="st"> </span>total.per.kmer <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(total.per.kmer)</a>
-<a class="sourceLine" id="cb77-16" data-line-number="16">n &lt;-<span class="st"> </span><span class="kw">max</span>(stats.per.gene<span class="op">$</span>sum) <span class="co"># number of k-mer positions per sequence</span></a>
-<a class="sourceLine" id="cb77-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb77-18" data-line-number="18">exp &lt;-<span class="st"> </span><span class="kw">sum</span>(obs) <span class="op">*</span><span class="st"> </span><span class="kw">dbinom</span>(<span class="dt">x =</span> X, </a>
-<a class="sourceLine" id="cb77-19" data-line-number="19">                         <span class="dt">size =</span> n, </a>
-<a class="sourceLine" id="cb77-20" data-line-number="20">                         <span class="dt">prob =</span> freq.per.kmer[kmer])</a>
-<a class="sourceLine" id="cb77-21" data-line-number="21"><span class="kw">length</span>(exp)</a>
-<a class="sourceLine" id="cb77-22" data-line-number="22"><span class="kw">length</span>(obs)</a>
-<a class="sourceLine" id="cb77-23" data-line-number="23"><span class="kw">length</span>(X)</a>
-<a class="sourceLine" id="cb77-24" data-line-number="24">chi2.result &lt;-<span class="st"> </span><span class="kw">chisq.test.grouped.tails</span>(</a>
-<a class="sourceLine" id="cb77-25" data-line-number="25">  <span class="dt">obs =</span> obs, <span class="dt">exp =</span> exp, </a>
-<a class="sourceLine" id="cb77-26" data-line-number="26">  <span class="dt">X =</span> X, <span class="dt">main =</span> <span class="kw">paste0</span>(kmer, <span class="st">&quot;; binomial fitting&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" data-line-number="1">kmer &lt;-<span class="st"> &quot;TC&quot;</span></a>
+<a class="sourceLine" id="cb80-2" data-line-number="2">counts &lt;-<span class="st"> </span>kmer.table[, kmer]</a>
+<a class="sourceLine" id="cb80-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb80-4" data-line-number="4">h &lt;-<span class="st"> </span><span class="kw">hist</span>(counts,</a>
+<a class="sourceLine" id="cb80-5" data-line-number="5">          <span class="dt">breaks =</span> <span class="kw">seq</span>(</a>
+<a class="sourceLine" id="cb80-6" data-line-number="6">            <span class="dt">from =</span> <span class="kw">min</span>(counts <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>),</a>
+<a class="sourceLine" id="cb80-7" data-line-number="7">            <span class="dt">to =</span> <span class="kw">max</span>(counts <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span>),</a>
+<a class="sourceLine" id="cb80-8" data-line-number="8">            <span class="dt">by =</span> <span class="dv">1</span>), <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb80-9" data-line-number="9">obs &lt;-<span class="st"> </span>h<span class="op">$</span>counts</a>
+<a class="sourceLine" id="cb80-10" data-line-number="10">X &lt;-<span class="st"> </span>h<span class="op">$</span>mids</a>
+<a class="sourceLine" id="cb80-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb80-12" data-line-number="12"><span class="co">## Estimate prior k-mer probabilities by computing their</span></a>
+<a class="sourceLine" id="cb80-13" data-line-number="13"><span class="co">## frequency in the whole data set</span></a>
+<a class="sourceLine" id="cb80-14" data-line-number="14">total.per.kmer &lt;-<span class="st"> </span><span class="kw">apply</span>(kmer.table, <span class="dv">2</span>, sum)</a>
+<a class="sourceLine" id="cb80-15" data-line-number="15">freq.per.kmer &lt;-<span class="st"> </span>total.per.kmer <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(total.per.kmer)</a>
+<a class="sourceLine" id="cb80-16" data-line-number="16">n &lt;-<span class="st"> </span><span class="kw">max</span>(stats.per.gene<span class="op">$</span>sum) <span class="co"># number of k-mer positions per sequence</span></a>
+<a class="sourceLine" id="cb80-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb80-18" data-line-number="18">exp &lt;-<span class="st"> </span><span class="kw">sum</span>(obs) <span class="op">*</span><span class="st"> </span><span class="kw">dbinom</span>(<span class="dt">x =</span> X, </a>
+<a class="sourceLine" id="cb80-19" data-line-number="19">                         <span class="dt">size =</span> n, </a>
+<a class="sourceLine" id="cb80-20" data-line-number="20">                         <span class="dt">prob =</span> freq.per.kmer[kmer])</a>
+<a class="sourceLine" id="cb80-21" data-line-number="21"><span class="kw">length</span>(exp)</a>
+<a class="sourceLine" id="cb80-22" data-line-number="22"><span class="kw">length</span>(obs)</a>
+<a class="sourceLine" id="cb80-23" data-line-number="23"><span class="kw">length</span>(X)</a>
+<a class="sourceLine" id="cb80-24" data-line-number="24">chi2.result &lt;-<span class="st"> </span><span class="kw">chisq.test.grouped.tails</span>(</a>
+<a class="sourceLine" id="cb80-25" data-line-number="25">  <span class="dt">obs =</span> obs, <span class="dt">exp =</span> exp, </a>
+<a class="sourceLine" id="cb80-26" data-line-number="26">  <span class="dt">X =</span> X, <span class="dt">main =</span> <span class="kw">paste0</span>(kmer, <span class="st">&quot;; binomial fitting&quot;</span>))</a></code></pre></div>
 </div>
 <div id="fitting-a-normal-distribution" class="section level2">
 <h2>Fitting a normal distribution</h2>

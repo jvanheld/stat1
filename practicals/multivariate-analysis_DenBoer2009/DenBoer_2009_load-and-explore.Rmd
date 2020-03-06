@@ -141,6 +141,8 @@ Draw a plot that displays the empirical distribution of normalised expression va
 
 Draw another plot that displays the empirical distribution of normalised expression values in the different samples (one polygon frequency per sample).
 
+Compute a table with the mean expression profile per cancer type (one row per gene, one column per cancer type) and draw them with box plots. 
+
 ## Sample classes
 
 Load the pheno table. We will use the three following columns: 

@@ -24,23 +24,6 @@ output:
     smaller: yes
     toc: yes
     widescreen: yes
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
-    toc: yes
-    toc_depth: 3
-  word_document:
-    toc: yes
-    toc_depth: '3'
-  html_document:
-    code_folding: hide
-    fig_caption: yes
-    highlight: zenburn
-    self_contained: no
-    theme: cerulean
-    toc: yes
-    toc_depth: 3
-    toc_float: yes
   beamer_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -53,6 +36,23 @@ output:
     slide_level: 2
     theme: Montpellier
     toc: yes
+  word_document:
+    toc: yes
+    toc_depth: '3'
+  html_document:
+    code_folding: hide
+    fig_caption: yes
+    highlight: zenburn
+    self_contained: no
+    theme: cerulean
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
 font-import: http://fonts.googleapis.com/css?family=Risque
 subtitle:  (STAT2)
 font-family: Garamond
@@ -100,7 +100,7 @@ It contains the following files.
 |--|--|--|
 | [GSE13425_group_descriptions.tsv.gz](../../data/DenBoer_2009/GSE13425_group_descriptions.tsv.gz) | Description of the patient groups | Tab-delimited file with one row per group and one column per type of description (group name, label) |
 | [phenoData_GSE13425.tsv.gz](../../data/DenBoer_2009/phenoData_GSE13425.tsv.gz) | Metadata (sample descriptions) | Tab-delimited file with one row per biological sample (one per patient) and one column per type of information about the biological sample |
-| [GSE13425_AMP_Whole.tsv.gz](../../data/DenBoer_2009/GSE13425_AMP_Whole.tsv.gz) | Normalised microarray data | Tab-delimited file with one row per gene and one column per patient |
+| [GSE13425_Norm_Whole.tsv.gz](../../data/DenBoer_2009/GSE13425_Norm_Whole.tsv.gz) | Normalised microarray data | Tab-delimited file with one row per gene and one column per patient |
 | [GSE13425_AMP_Whole.tsv.gz](../../data/DenBoer_2009/GSE13425_AMP_Whole.tsv.gz) | Detection status of each gene in each sample (Absent, Marginal, Present) | Tab-delimited file with one row per gene and one column per patient|
 
 ## Data download

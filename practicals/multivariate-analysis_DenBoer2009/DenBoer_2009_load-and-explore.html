@@ -421,7 +421,7 @@ Jacques van Helden
 <li><strong>DOI</strong>: [<a href="http://doi.org/10.1016/S1470-2045(08)70339-5">doi: 10.1016/S1470-2045(08)70339-5</a>]</li>
 <li><strong>Pubmed</strong>: [<a href="https://www.ncbi.nlm.nih.gov/pubmed/19138562">PMID 19138562</a>].</li>
 <li><strong>Raw data</strong> available at Gene Expression Omnibus, series [<a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE13425">GSE13425</a>]</li>
-<li><strong>Preprocessed data</strong>: <a href="https://github.com/jvanheld/stat1/data/DenBoer_2009" class="uri">https://github.com/jvanheld/stat1/data/DenBoer_2009</a></li>
+<li><strong>Preprocessed data</strong>: <a href="https://github.com/jvanheld/stat1/tree/master/data/DenBoer_2009" class="uri">https://github.com/jvanheld/stat1/tree/master/data/DenBoer_2009</a>.</li>
 </ul>
 </div>
 <div id="data-pre-processing" class="slide section level2">
@@ -435,7 +435,7 @@ Jacques van Helden
 </div>
 <div id="availability-of-the-pre-processed-data" class="slide section level2">
 <h1>Availability of the pre-processed data</h1>
-<p>The preprocessed data is available here: <a href="https://github.com/jvanheld/stat1/data/DenBoer_2009" class="uri">https://github.com/jvanheld/stat1/data/DenBoer_2009</a>.</p>
+<p>The preprocessed data is available here: <a href="https://github.com/jvanheld/stat1/tree/master/data/DenBoer_2009" class="uri">https://github.com/jvanheld/stat1/tree/master/data/DenBoer_2009</a>.</p>
 <p>It contains the following files.</p>
 <table>
 <colgroup>
@@ -477,12 +477,13 @@ Jacques van Helden
 <div id="data-download" class="slide section level2">
 <h1>Data download</h1>
 <p>Write an R script that perform the following operations</p>
-<ul>
-<li>creates a directory to store a local copy for this practical on your computer (<code>~/STAT2_CMB_practicals/den-boer-2009/</code>).</li>
-<li>creates a sub-directory for the data (<code>~/STAT2_CMB_practicals/den-boer-2009/data/</code>).</li>
-<li>lists the files available on the data Web site (<a href="https://github.com/jvanheld/stat1/data/DenBoer_2009" class="uri">https://github.com/jvanheld/stat1/data/DenBoer_2009</a>)</li>
-<li>For each of these files, check if it is already present in your local local data directory, and download it if it is not already there.</li>
-</ul>
+<ol style="list-style-type: decimal">
+<li>Creates a directory to store a local copy for this practical on your computer. (<code>~/STAT2_CMB_practicals/den-boer-2009/</code>).</li>
+<li>Creates a sub-directory for the data (<code>~/STAT2_CMB_practicals/den-boer-2009/data/</code>).</li>
+<li>Lists the files available on the data Web site (<a href="https://github.com/jvanheld/stat1/data/DenBoer_2009" class="uri">https://github.com/jvanheld/stat1/data/DenBoer_2009</a>).</li>
+<li>For each of these files, checkS if it is already present in your local local data directory, and downloads it if it is not the case.</li>
+</ol>
+<p>Try to make your code re-usable, in the perspective to apply it soon in order to download data sets from other web sites.</p>
 </div>
 <div id="data-loading" class="slide section level2">
 <h1>Data loading</h1>
@@ -497,6 +498,7 @@ Jacques van Helden
 <h1>Empirical distributions</h1>
 <p>Draw a plot that displays the empirical distribution of normalised expression values in the whole data table.</p>
 <p>Draw another plot that displays the empirical distribution of normalised expression values in the different samples (one polygon frequency per sample).</p>
+<p>Compute a table with the mean expression profile per cancer type (one row per gene, one column per cancer type) and draw them with box plots.</p>
 </div>
 <div id="sample-classes" class="slide section level2">
 <h1>Sample classes</h1>

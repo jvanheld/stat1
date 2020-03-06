@@ -79,7 +79,7 @@ In this practical, we will load a dataset that will be used as study case to app
 - **DOI**: [[doi: 10.1016/S1470-2045(08)70339-5](http://doi.org/10.1016/S1470-2045(08)70339-5)]
 - **Pubmed**: [[PMID 19138562](https://www.ncbi.nlm.nih.gov/pubmed/19138562)]. 
 - **Raw data** available at Gene Expression Omnibus, series [[GSE13425](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE13425)]
-- **Preprocessed data**: <https://github.com/jvanheld/stat1/data/DenBoer_2009>
+- **Preprocessed data**: <https://github.com/jvanheld/stat1/tree/master/data/DenBoer_2009>.
 
 ## Data pre-processing
 
@@ -92,7 +92,7 @@ The raw microarray data has been pre-processed in order to dispose of a ready-to
 ## Availability of the pre-processed data
 
 
-The preprocessed data is available here:  <https://github.com/jvanheld/stat1/data/DenBoer_2009>.
+The preprocessed data is available here:  <https://github.com/jvanheld/stat1/tree/master/data/DenBoer_2009>.
 
 It contains the following files.
 
@@ -107,10 +107,12 @@ It contains the following files.
 
 Write an R script that perform the following operations
 
-- creates a directory to store a local copy for this practical on your computer (`~/STAT2_CMB_practicals/den-boer-2009/`).
-- creates a sub-directory for the data  (`~/STAT2_CMB_practicals/den-boer-2009/data/`).
-- lists the files available on the data Web site (<https://github.com/jvanheld/stat1/data/DenBoer_2009>)
-- For each of these files, check if it is already present in your local local data directory, and download it if it is not already there. 
+1. Creates a directory to store a local copy for this practical on your computer. (`~/STAT2_CMB_practicals/den-boer-2009/`).
+2. Creates a sub-directory for the data  (`~/STAT2_CMB_practicals/den-boer-2009/data/`).
+3. Lists the files available on the data Web site (<https://github.com/jvanheld/stat1/data/DenBoer_2009>).
+4. For each of these files, checkS if it is already present in your local local data directory, and  downloads it if it is not the case. 
+
+Try to make your code re-usable, in the perspective to apply it soon in order to download data sets from other web sites. 
 
 ## Data loading
 
@@ -127,6 +129,8 @@ Do the same for each column (patient).
 Draw a plot that displays the empirical distribution of normalised expression values in the whole data table.
 
 Draw another plot that displays the empirical distribution of normalised expression values in the different samples (one polygon frequency per sample).
+
+Compute a table with the mean expression profile per cancer type (one row per gene, one column per cancer type) and draw them with box plots. 
 
 ## Sample classes
 

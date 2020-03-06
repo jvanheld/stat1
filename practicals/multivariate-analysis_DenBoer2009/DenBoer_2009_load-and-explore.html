@@ -264,6 +264,97 @@ div.tocify {
 </div>
 <div id="study-case" class="section level2">
 <h2>Study case</h2>
+<p><strong>Reference:</strong> Den Boer ML <em>et al.</em> (2009). A subtype of childhood acute lymphoblastic leukaemia with poor treatment outcome: a genome-wide classification study. Lancet Oncol. 2009 10:125-34.</p>
+<ul>
+<li><strong>DOI</strong>: [<a href="http://doi.org/10.1016/S1470-2045(08)70339-5">doi: 10.1016/S1470-2045(08)70339-5</a>]</li>
+<li><strong>Pubmed</strong>: [<a href="https://www.ncbi.nlm.nih.gov/pubmed/19138562">PMID 19138562</a>].</li>
+<li><strong>Raw data</strong> available at Gene Expression Omnibus, series [<a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE13425">GSE13425</a>]</li>
+<li><strong>Preprocessed data</strong>: <a href="https://github.com/jvanheld/stat1/data/DenBoer_2009" class="uri">https://github.com/jvanheld/stat1/data/DenBoer_2009</a></li>
+</ul>
+</div>
+<div id="data-pre-processing" class="section level2">
+<h2>Data pre-processing</h2>
+<p>The raw microarray data has been pre-processed in order to dispose of a ready-to-use dataset. pre-processing included</p>
+<ul>
+<li>filtering of barely detected or poorly expressed genes,</li>
+<li>log2 transformation to normalise the raw measurements</li>
+<li>between-sample standardisation to enable comparison between the different samples.</li>
+</ul>
+</div>
+<div id="availability-of-the-pre-processed-data" class="section level2">
+<h2>Availability of the pre-processed data</h2>
+<p>The preprocessed data is available here: <a href="https://github.com/jvanheld/stat1/data/DenBoer_2009" class="uri">https://github.com/jvanheld/stat1/data/DenBoer_2009</a>.</p>
+<p>It contains the following files.</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>File</th>
+<th>Contents</th>
+<th>Structure</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="../../data/DenBoer_2009/GSE13425_group_descriptions.tsv.gz">GSE13425_group_descriptions.tsv.gz</a></td>
+<td>Description of the patient groups</td>
+<td>Tab-delimited file with one row per group and one column per type of description (group name, label)</td>
+</tr>
+<tr class="even">
+<td><a href="../../data/DenBoer_2009/phenoData_GSE13425.tsv.gz">phenoData_GSE13425.tsv.gz</a></td>
+<td>Metadata (sample descriptions)</td>
+<td>Tab-delimited file with one row per biological sample (one per patient) and one column per type of information about the biological sample</td>
+</tr>
+<tr class="odd">
+<td><a href="../../data/DenBoer_2009/GSE13425_AMP_Whole.tsv.gz">GSE13425_AMP_Whole.tsv.gz</a></td>
+<td>Normalised microarray data</td>
+<td>Tab-delimited file with one row per gene and one column per patient</td>
+</tr>
+<tr class="even">
+<td><a href="../../data/DenBoer_2009/GSE13425_AMP_Whole.tsv.gz">GSE13425_AMP_Whole.tsv.gz</a></td>
+<td>Detection status of each gene in each sample (Absent, Marginal, Present)</td>
+<td>Tab-delimited file with one row per gene and one column per patient</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="data-download" class="section level2">
+<h2>Data download</h2>
+<p>Write an R script that perform the following operations</p>
+<ul>
+<li>creates a directory to store a local copy for this practical on your computer (<code>~/STAT2_CMB_practicals/den-boer-2009/</code>).</li>
+<li>creates a sub-directory for the data (<code>~/STAT2_CMB_practicals/den-boer-2009/data/</code>).</li>
+<li>lists the files available on the data Web site (<a href="https://github.com/jvanheld/stat1/data/DenBoer_2009" class="uri">https://github.com/jvanheld/stat1/data/DenBoer_2009</a>)</li>
+<li>For each of these files, check if it is already present in your local local data directory, and download it if it is not already there.</li>
+</ul>
+</div>
+<div id="data-loading" class="section level2">
+<h2>Data loading</h2>
+<p>Write an R script that loads the data tables from your local data directory.</p>
+</div>
+<div id="marginal-statistics" class="section level2">
+<h2>Marginal statistics</h2>
+<p>Write an R script that computes marginal statistics (mean, sd, min, percentiles 5, 10, 25, 50, 75, 90, 95, max, IQR) on each row of the normalised data table (one row corresponds to one gene).</p>
+<p>Do the same for each column (patient).</p>
+</div>
+<div id="empirical-distributions" class="section level2">
+<h2>Empirical distributions</h2>
+<p>Draw a plot that displays the empirical distribution of normalised expression values in the whole data table.</p>
+<p>Draw another plot that displays the empirical distribution of normalised expression values in the different samples (one polygon frequency per sample).</p>
+</div>
+<div id="sample-classes" class="section level2">
+<h2>Sample classes</h2>
+<p>Load the pheno table. We will use the three following columns:</p>
+<ul>
+<li><code>Sample.GEO.ID</code>: the identifier of the sample in the Gene Expression Omnibus (GEO) database.</li>
+<li><code>Sample.title</code>: cancer type of each sample.</li>
+<li><code>sample.labels</code>: A short label (1 or 2 letters) for each cancer type</li>
+</ul>
+<p>Cound the number of samples per group and draw a barplot with the result.</p>
 </div>
 
 

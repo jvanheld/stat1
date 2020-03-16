@@ -310,3 +310,19 @@ Load the pheno table. We will use the three following columns:
 Cound the number of samples per group and draw a barplot with the result.
 
 
+## Extract R code from this markdown
+
+```{r}
+library(knitr)
+RmdFile <- "practicals/multivariate-analysis_DenBoer2009/DenBoer_2009_load-and-explore_solutions.Rmd"
+RFile <- "practicals/multivariate-analysis_DenBoer2009/DenBoer_2009_load-and-explore_solutions.R"
+## purl(RmdFile, RFile)
+```
+
+
+## Sessiokn info
+
+```{r}
+sessionInfo()
+```
+

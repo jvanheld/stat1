@@ -2,12 +2,12 @@
 library(knitr)
 options(width = 300)
 knitr::opts_chunk$set(
-  fig.width = 7, fig.height = 5, 
+  fig.width = 7, fig.height = 5,
   fig.path = 'figures/02_combinatorix_',
-  fig.align = "center", 
-  size = "tiny", 
-  echo = TRUE, eval = TRUE, 
-  warning = FALSE, message = FALSE, 
+  fig.align = "center",
+  size = "tiny",
+  echo = TRUE, eval = TRUE,
+  warning = FALSE, message = FALSE,
   results = TRUE, comment = "")
 # knitr::asis_output("\\footnotesize")
 
@@ -16,24 +16,24 @@ knitr::opts_chunk$set(
 ## ---------------------------------------------------------------------
 #' @title Download a set of files from a Web site
 #' @author Jacques van Helden
-#' @description Download a set of files from a Web site and store them in a destination directory if they do not exist yet there. 
+#' @description Download a set of files from a Web site and store them in a destination directory if they do not exist yet there.
 #' @param files a vector with the file names
 #' @param dataURL the URL of the folder containing the files to download
-#' @param destDir local destination directory. Will be created if it does not exist. 
+#' @param destDir local destination directory. Will be created if it does not exist.
 #' @return no return value
 #' @export
-DownloadMyFiles <- function(files, 
+DownloadMyFiles <- function(files,
                             dataURL,
                             destDir) {
-  
+
   ## Create local directory
   dir.create(destDir, recursive = TRUE, showWarnings = FALSE)
-  
+
   for (f in files) {
-    
+
     ## Destination file
     destFile <- file.path(destDir, f)
-    
+
     ## Check if file exists
     if (file.exists(destFile)) {
       message("skipping download because file exists: ", destFile)
@@ -57,7 +57,13 @@ files <- c(
 )
 
 ## Local data dir
-destDir <- "~/STAT2_CMB_practicals/den-boer-2009/data/"
+myHome <- Sys.getenv("HOME")
+destDir <- file.path(myHome,
+                     "STAT2_CMB_practicals",
+                     "den-boer-2009",
+                     "data")
+message("Local data dir: ", destDir)
+
 
 ## Call the function to download the files
 DownloadMyFiles(files = files, dataURL = dataURL, destDir = destDir)
@@ -71,9 +77,9 @@ kable(data.frame(list.files(destDir)), caption = "Content of the destination dir
 #### Load data tables ####
 
 ## Load expression table
-exprTable <- read.table(file.path(destDir, files["expr"]), 
-                        sep = "\t", 
-                        header = TRUE, 
+exprTable <- read.table(file.path(destDir, files["expr"]),
+                        sep = "\t",
+                        header = TRUE,
                         quote = "",
                         row.names = 1)
 # dim(exprTable)
@@ -81,9 +87,9 @@ exprTable <- read.table(file.path(destDir, files["expr"]),
 # head(exprTable)
 
 ## Load metadescriptions (pheno table)
-phenoTable <- read.table(file.path(destDir, files["pheno"]), 
-                         sep = "\t", 
-                         header = TRUE, 
+phenoTable <- read.table(file.path(destDir, files["pheno"]),
+                         sep = "\t",
+                         header = TRUE,
                          quote = "",
                          row.names = 1)
 # dim(phenoTable)
@@ -92,9 +98,9 @@ phenoTable <- read.table(file.path(destDir, files["pheno"]),
 sampleGroup <- as.vector(phenoTable$Sample.title)
 
 ## Load group descriptions
-groupDescriptions <- read.table(file.path(destDir, files["groups"]), 
-                                sep = "\t", 
-                                header = TRUE, 
+groupDescriptions <- read.table(file.path(destDir, files["groups"]),
+                                sep = "\t",
+                                header = TRUE,
                                 quote = "",
                                 row.names = 1)
 # dim(phenoTable)

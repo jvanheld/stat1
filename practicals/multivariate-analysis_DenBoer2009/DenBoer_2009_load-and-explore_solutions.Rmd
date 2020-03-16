@@ -185,25 +185,117 @@ kable(data.frame(list.files(destDir)), caption = "Content of the destination dir
 
 Write an R script that loads the data tables from your local data directory. 
 
+Some indication about the checks we do when we load the data tables. 
+
+- Load the expression table in a data frame named `exprTable`, with one row per gene, one column per sample. 
+**Tip:** row names should indicate gene names, and column names the sample IDs.
+
+- Load the metadata in a table named `phenoTable`, with one row per sample and one column per description field. **Tip: ** row name should indicate sample names.
+
+- Check that the samples have the same order in the columns of the expression table and the rows of the pheno table.
+
+- Create a vector named `sampleGroup` with the group membership of each sample. **Tip: ** don't forget to convert the factor (coming from the data.frame column) into a vector. 
+
+- Load the group descriptions in a data frame named  `groupDescriptions`, with one row per group. 
+
 ```{r}
 
-exprTable <- read.table(file.path(destDir, files["expr"]))
-dim(exprTable)
+#### Load data tables ####
+
+## Load expression table
+exprTable <- read.table(file.path(destDir, files["expr"]), 
+                        sep = "\t", 
+                        header = TRUE, 
+                        quote = "",
+                        row.names = 1)
+# dim(exprTable)
+# names(exprTable)
+# head(exprTable)
+
+## Load metadescriptions (pheno table)
+phenoTable <- read.table(file.path(destDir, files["pheno"]), 
+                         sep = "\t", 
+                         header = TRUE, 
+                         quote = "",
+                         row.names = 1)
+# dim(phenoTable)
+# View(phenoTable)
+# names(phenoTable)
+sampleGroup <- as.vector(phenoTable$Sample.title)
+
+## Load group descriptions
+groupDescriptions <- read.table(file.path(destDir, files["groups"]), 
+                                sep = "\t", 
+                                header = TRUE, 
+                                quote = "",
+                                row.names = 1)
+# dim(phenoTable)
+
 
 ```
 
+The expression table has been loaded in a data.frame named `exprTable`, which contains `r nrow(exprTable)` rows and `r ncol(exprTable)` columns.
+
+The metadata ("pheno" table) contains  `r nrow(phenoTable)` rows and `r ncol(phenoTable)` columns.
 
 ## Marginal statistics
 
-Write an R script that computes marginal statistics (mean, sd, min, percentiles 5, 10, 25, 50, 75, 90, 95, max, IQR) on each row of the normalised data table (one row corresponds to one gene). 
+Write an R script that computes marginal statistics (mean, standard deviation, variance, min, percentiles 5, 10, 25, 50, 75, 90, 95, max, IQR) on each row of the normalised data table (one row corresponds to one gene). 
 
 Do the same for each column (patient). 
 
+**Tips: **
+
+- Use the function `apply()` to compute statistics on each row (margin = 1) or column (margin = 2) of a data.frame.
+- Since the function `apply()` returns a vector, one possibility would be to store in separate vectors the mean, sd, var, min, etc. However it will be more convenient to regroup all the statistics in a single data frame with one row per object of interest (individuals or variables, depending on whether we compute margins on columns or rows, resp.) and one column per statistics (mean, sd, var, mean, ...). This can be done with the `data.frame()` function. 
+
+
+```{r row°stats}
+#### Compute statistics on each column ####
+colStat <- data.frame(
+  mean = apply(exprTable, 2, mean, na.rm = TRUE),
+  var = apply(exprTable, 2, var, na.rm = TRUE),
+  sd = apply(exprTable, 2, sd, na.rm = TRUE),
+  min = apply(exprTable, 2, min, na.rm = TRUE),
+  perc05 = apply(exprTable, 2, quantile, probs = 0.05, na.rm = TRUE),
+  perc25 = apply(exprTable, 2, quantile, probs = 0.25, na.rm = TRUE),
+  perc50 = apply(exprTable, 2, quantile, probs = 0.50, na.rm = TRUE),
+  perc75 = apply(exprTable, 2, quantile, probs = 0.75, na.rm = TRUE),
+  perc95 = apply(exprTable, 2, quantile, probs = 0.95, na.rm = TRUE),
+  max = apply(exprTable, 2, max, na.rm = TRUE),
+  IQR = apply(exprTable, 2, IQR, na.rm = TRUE)
+)
+```
+
+```{r col_stats}
+#### Compute statistics on each row ####
+rowStat <- data.frame(
+  mean = apply(exprTable, 1, mean),
+  var = apply(exprTable, 1, var),
+  sd = apply(exprTable, 1, sd),
+  min = apply(exprTable, 1, min),
+  perc05 = apply(exprTable, 1, quantile, probs = 0.05),
+  perc25 = apply(exprTable, 1, quantile, probs = 0.25),
+  perc50 = apply(exprTable, 1, quantile, probs = 0.50),
+  perc75 = apply(exprTable, 1, quantile, probs = 0.75),
+  perc95 = apply(exprTable, 1, quantile, probs = 0.95),
+  max = apply(exprTable, 1, max),
+  IQR = apply(exprTable, 1, IQR)
+)
+```
+
+
+
 ## Empirical distributions
 
-Draw a plot that displays the empirical distribution of normalised expression values in the whole data table.
+Draw a plot that displays the empirical distribution of normalised expression values in the whole data table. Comment the shape of the distribution. Is it normal ? Symmetrical ? Unimodal ?
 
-Draw another plot that displays the empirical distribution of normalised expression values in the different samples (one polygon frequency per sample).
+```{r expr_distrib_all, fig.width=7, fig.height=5, fig.cap="Empirical distribution of all the expression values. "}
+#### Distribution of values across all samples ####
+hist(unlist(exprTable), breaks = 100)
+```
+
+
 
 Compute a table with the mean expression profile per cancer type (one row per gene, one column per cancer type) and draw them with box plots. 
 

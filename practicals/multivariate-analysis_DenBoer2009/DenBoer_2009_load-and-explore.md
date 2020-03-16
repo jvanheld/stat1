@@ -1,7 +1,7 @@
 ---
 title: "Practical -- Microarray analysis -- Data loading and exploration"
 author: "Jacques van Helden"
-date: "2020-03-06"
+date: "2020-03-16"
 output:
   slidy_presentation:
     fig_caption: yes
@@ -126,9 +126,7 @@ Do the same for each column (patient).
 
 ## Empirical distributions
 
-Draw a plot that displays the empirical distribution of normalised expression values in the whole data table.
-
-Draw another plot that displays the empirical distribution of normalised expression values in the different samples (one polygon frequency per sample).
+Draw a plot that displays the empirical distribution of normalised expression values in the whole data table. Comment the shape of the distribution. Is it normal ? Symmetrical ? Unimodal ?
 
 Compute a table with the mean expression profile per cancer type (one row per gene, one column per cancer type) and draw them with box plots. 
 

@@ -110,7 +110,10 @@ groupDescriptions <- read.table(file.path(destDir, files["groups"]),
 kable(groupDescriptions)
 
 ## Define a color for each sample
-
+sampleGroup
+rownames(groupDescriptions)
+sampleColor <-  as.vector(groupDescriptions[sampleGroup, "group.colors"])
+sampleLabel <-  as.vector(groupDescriptions[sampleGroup, "group.labels"])
 
 ## ----row°stats--------------------------------------------------------
 #### Compute statistics on each column ####
@@ -151,6 +154,16 @@ rowStat <- data.frame(
 hist(unlist(exprTable), breaks = 100)
 
 
+#### Plot biological samples (individuals) by selecting the genes with highest variance ####
+plot(t(exprTable[order(rowStat$var, decreasing = TRUE)[c(1,2)], ]), col = sampleColor)
+legend("topright",
+       legend = as.vector(groupDescriptions$group.labels),
+       col = as.vector(groupDescriptions$group.colors), pch = 1)
+
+## Comment: we see here that
+## - IL23A is strongly expresdsed in the T cell
+## - CD9 is poorly expressed in T + Bt cells and strongly in the other types, except Bo which spread the whole range
+
 #### Principal component analysis ####
 
 ## Visualise the data on the first principal components
@@ -163,6 +176,18 @@ plot(exprPCs, las = 1)
 
 ## Plot the first two components
 plot(exprPCs$x[, c(1,2)])
+
+## Plot the first components with sample-wise colors and labels
+plot(exprPCs$x[, c(1,2)], col = sampleColor, type = "none", panel.first = grid())
+text(exprPCs$x[, c(1,2)], col = sampleColor, labels = sampleLabel)
+
+## Plot components 3 and 4 with sample-wise colors and labels
+plot(exprPCs$x[, c(3,4)], col = sampleColor, type = "none", panel.first = grid())
+text(exprPCs$x[, c(3,4)], col = sampleColor, labels = sampleLabel)
+
+## Plot components 5 and 6 with sample-wise colors and labels
+plot(exprPCs$x[, c(5,6)], col = sampleColor, type = "none", panel.first = grid())
+text(exprPCs$x[, c(5,6)], col = sampleColor, labels = sampleLabel)
 
 
 #### Copmpute the number of samples per group (cancer type) ####

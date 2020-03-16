@@ -85,6 +85,7 @@ exprTable <- read.table(file.path(destDir, files["expr"]),
 # dim(exprTable)
 # names(exprTable)
 # head(exprTable)
+# View(exprTable)
 
 ## Load metadescriptions (pheno table)
 phenoTable <- read.table(file.path(destDir, files["pheno"]),
@@ -97,15 +98,18 @@ phenoTable <- read.table(file.path(destDir, files["pheno"]),
 # names(phenoTable)
 sampleGroup <- as.vector(phenoTable$Sample.title)
 
+
 ## Load group descriptions
 groupDescriptions <- read.table(file.path(destDir, files["groups"]),
                                 sep = "\t",
                                 header = TRUE,
                                 quote = "",
                                 row.names = 1)
-# dim(phenoTable)
+# dim(groupDescriptions)
+# print(groupDescriptions)
+kable(groupDescriptions)
 
-
+## Define a color for each sample
 
 
 ## ----row°stats--------------------------------------------------------
@@ -147,9 +151,23 @@ rowStat <- data.frame(
 hist(unlist(exprTable), breaks = 100)
 
 
-## ---------------------------------------------------------------------
-library(knitr)
-purl(Rmd = "Den_Boer_use_case.Rmd",  = "Den_Boer_use_case.R")
+#### Principal component analysis ####
+
+## Visualise the data on the first principal components
+exprPCs <- prcomp(x = t(exprTable))
+class(exprPCs)
+attributes(exprPCs)
+
+## Plot the distribution of variance for the first components
+plot(exprPCs, las = 1)
+
+## Plot the first two components
+plot(exprPCs$x[, c(1,2)])
+
+
+#### Copmpute the number of samples per group (cancer type) ####
+individualsPerGroup <- sort(table(sampleGroup), decreasing = TRUE)
+
 
 
 ## ---------------------------------------------------------------------

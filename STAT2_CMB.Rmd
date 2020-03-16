@@ -142,6 +142,8 @@ The following notions will be investigated :
 | |**Multivariate analysis** |  | |
 | 2020-03-05 | Study case: the DenBoer 2009 dataset | Slides | [[html](practicals/multivariate-analysis_DenBoer2009/Den_Boer_use_case.html)] [[pdf](practicals/multivariate-analysis_DenBoer2009/Den_Boer_use_case.pdf)] [[Rmd](https://raw.githubusercontent.com/jvanheld/stat1/master/practicals/multivariate-analysis_DenBoer2009/Den_Boer_use_case.Rmd)] |
 |  |  Den Boer (2009): data loading and exploring | Practical | [[html](practicals/multivariate-analysis_DenBoer2009/DenBoer_2009_load-and-explore.html)] [[pdf](practicals/practicals/multivariate-analysis_DenBoer2009/DenBoer_2009_load-and-explore.pdf)] [[Rmd](https://raw.githubusercontent.com/jvanheld/stat1/master/practicals/multivariate-analysis_DenBoer2009/DenBoer_2009_load-and-explore.Rmd)]  |
+|  |  Den Boer (2009): data loading and exploring | Practical | [[html](practicals/multivariate-analysis_DenBoer2009/DenBoer_2009_load-and-explore_solutions.html)] [[pdf](practicals/practicals/multivariate-analysis_DenBoer2009/DenBoer_2009_load-and-explore_solutions.pdf)] [[Rmd](https://raw.githubusercontent.com/jvanheld/stat1/master/practicals/multivariate-analysis_DenBoer2009/DenBoer_2009_load-and-explore_solutions.Rmd)]
+[[R](https://raw.githubusercontent.com/jvanheld/stat1/master/practicals/multivariate-analysis_DenBoer2009/DenBoer_2009_load-and-explore_solutions.R)] |
 
 
 ## Skills expected to be acquired at the end of this course

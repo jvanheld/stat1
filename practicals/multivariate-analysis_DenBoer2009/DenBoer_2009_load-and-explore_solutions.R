@@ -13,6 +13,28 @@ knitr::opts_chunk$set(
 
 
 
+
+####  Define Local directories and files ####
+
+## Find the home directory
+myHome <- Sys.getenv("HOME")
+
+## Define the main directory for the  data and results
+mainDir <- file.path(myHome,
+                     "STAT2_CMB_practicals",
+                     "den-boer-2009")
+dir.create(path = mainDir)
+message("Main dir: ", mainDir)
+
+## Define a file where we wills tore the memory image
+memImageFile <- file.path(mainDir, "DenBoerData_loaded.Rdata")
+
+## Define the dir where we will download the data
+destDir <- file.path(mainDir, "data")
+message("Local data dir: ", destDir)
+
+
+
 ## ---------------------------------------------------------------------
 #' @title Download a set of files from a Web site
 #' @author Jacques van Helden
@@ -56,13 +78,6 @@ files <- c(
   groups = "GSE13425_group_descriptions.tsv.gz"
 )
 
-## Local data dir
-myHome <- Sys.getenv("HOME")
-destDir <- file.path(myHome,
-                     "STAT2_CMB_practicals",
-                     "den-boer-2009",
-                     "data")
-message("Local data dir: ", destDir)
 
 
 ## Call the function to download the files
@@ -193,8 +208,12 @@ text(exprPCs$x[, c(5,6)], col = sampleColor, labels = sampleLabel)
 #### Copmpute the number of samples per group (cancer type) ####
 individualsPerGroup <- sort(table(sampleGroup), decreasing = TRUE)
 
+#### Save a memory image, that will enable me to reload the data in a single command ####
+save.image(file = memImageFile)
 
 
-## ---------------------------------------------------------------------
+#### Always use sessionInfo() to keep a trace of the versions ####
 sessionInfo()
 
+#### Command to reload the memory from the saved memory image ####
+load(memImageFile)

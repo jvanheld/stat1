@@ -408,7 +408,7 @@ div.tocify {
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">message</span>(<span class="st">&quot;Loading data from memory image file&quot;</span>)</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">system.time</span>(<span class="kw">load</span>(memImageFile))</a></code></pre></div>
 <pre><code>   user  system elapsed 
-  0.677   0.041   0.734 </code></pre>
+  0.667   0.037   0.709 </code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">message</span>(<span class="st">&quot;Data loaded&quot;</span>)</a></code></pre></div>
 </div>
 <div id="recommendations" class="section level2">
@@ -450,7 +450,22 @@ div.tocify {
 <li>PC plots (PC1 vs PC2, PC3 vs PC4, …) with a coloring of the classes</li>
 </ul></li>
 <li><p>Normalisation (no need here, the data we loaded was previously pre-processed)</p></li>
-<li><p>Supervised classification</p></li>
+<li><p>Supervised classification, with 3 steps</p>
+<p>4.1. Split the data into training and testing subsets 4.2. Train a classifier with the training subset 4.3. Evaluate the performances of the trained classifier with the testing subset 4.4. Apply the classification to an independent dataset</p></li>
+<li><p>Evaluate the impact of parameters on the performances. Examples</p>
+<ul>
+<li>KNN: impact of K, the number of neighbours</li>
+<li>SVM: impact of the kernel</li>
+<li>Random Forest: impact of number of iterations, … other parameters</li>
+<li>Discriminant analysis: impact of the homoscedasticity assumption (compare LDA with QDA).</li>
+</ul></li>
+<li><p>Reduction of dimensionality. Choose one among the following approaches</p>
+<ul>
+<li>Very simple (rudimentary) criterion: variable ordering by decreasing variance, and keep the <span class="math inline">\(n\)</span> top variables. Analyse the impact of <span class="math inline">\(n\)</span></li>
+<li>PCA: keep the <span class="math inline">\(n\)</span> first components</li>
+<li>Differential analysis: keep the <span class="math inline">\(n\)</span> most significant genes from differential analysis (I will provide you with the sorted list of genes)</li>
+</ul></li>
+<li><p>Compare the performances of 2 different classification methods (e.g. LDA, QDA, SVM, RF, KNN)</p></li>
 </ol>
 </div>
 

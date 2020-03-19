@@ -181,7 +181,29 @@ The code needs to be conceived with this in mind.
     
 3. Normalisation (no need here, the data we loaded was previously pre-processed)
 
-4. Supervised classification
+4. Supervised classification, with 3 steps
+
+    4.1. Split the data into training and testing subsets
+    4.2. Train a classifier with the training subset
+    4.3. Evaluate the performances of the trained classifier with the testing subset
+    4.4. Apply the classification to an independent dataset
+
+5. Evaluate the impact of parameters on the performances. Examples
+
+    - KNN: impact of K, the number of neighbours
+    - SVM: impact of the kernel
+    - Random Forest: impact of number of iterations, ... other parameters
+    - Discriminant analysis: impact of the homoscedasticity assumption (compare LDA with QDA). 
+
+6. Reduction of dimensionality. Choose one among the following approaches
+
+    - Very simple (rudimentary) criterion: variable ordering by decreasing variance, and keep the $n$ top variables. Analyse the impact of $n$
+    - PCA: keep the $n$ first components
+    - Differential analysis: keep the $n$ most significant genes from differential analysis (I will provide you with the sorted list of genes)
+
+7. Compare the performances of 2 different classification methods (e.g. LDA, QDA, SVM, RF, KNN)
+
+
 
 
 

@@ -401,6 +401,27 @@ div.tocify {
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">#### Load the data from a memory image ####</span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">load</span>(memImageFile)</a></code></pre></div>
 </div>
+<div id="recommendations" class="section level2">
+<h2>Recommendations</h2>
+<p>Remember that we might need to run the same analyses</p>
+<ul>
+<li>with different datasets</li>
+<li>with different classifiers (to compare their performances)</li>
+<li>with different parameter settings (to optimise a classifer)</li>
+</ul>
+<p>The code needs to be conceived with this in mind.</p>
+<ol style="list-style-type: decimal">
+<li><p>Split your code in modular sections. Whenever useful, write functions that can be called to run the different steps of an analysis.</p></li>
+<li><p>The code should be re-usable by other people. For this, you need to document it.</p>
+<ul>
+<li>for developers who would reuse it and modify it (code documentation with hash comments)</li>
+<li>for users (roxygen2 documentation for all the functions, tutorials, vignettes)</li>
+</ul></li>
+</ol>
+</div>
+<div id="tasks" class="section level2">
+<h2>Tasks</h2>
+</div>
 
 
 

@@ -135,6 +135,26 @@ At the end of this practical we saved a memory image with the data. We provide h
 load(memImageFile)
 ```
 
+## Recommendations
+
+Remember that we might need to run the same analyses
+
+- with different datasets
+- with different classifiers (to compare their performances)
+- with different parameter settings (to optimise a classifer)
+
+
+The code needs to be conceived with this in mind.
+
+1. Split your code in modular sections. Whenever useful, write functions that can be called to run the different steps of an analysis. 
+
+2. The code should be re-usable by other people. For this, you need to document it. 
+
+    - for developers who would reuse it and modify it (code documentation with hash comments)
+    - for users (roxygen2 documentation for all the functions, tutorials, vignettes)
+
+## Tasks
+
 
 
 

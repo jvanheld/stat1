@@ -59,7 +59,7 @@ font-family: Garamond
 transition: linear
 ---
 
-```{r include=FALSE, echo=FALSE, eval=TRUE}
+```{r knitr_settings, include=FALSE, echo=FALSE, eval=TRUE}
 library(knitr)
 options(width = 300)
 knitr::opts_chunk$set(
@@ -111,15 +111,21 @@ myHome <- Sys.getenv("HOME")
 mainDir <- file.path(myHome,
                      "STAT2_CMB_practicals",
                      "den-boer-2009")
-dir.create(path = mainDir)
+dir.create(path = mainDir, 
+           recursive = TRUE, 
+           showWarnings = FALSE)
 message("Main dir: ", mainDir)
-
-## Define a file where we wills tore the memory image
-memImageFile <- file.path(mainDir, "DenBoerData_loaded.Rdata")
 
 ## Define the dir where we will download the data
 destDir <- file.path(mainDir, "data")
+dir.create(path = destDir, 
+           recursive = TRUE, 
+           showWarnings = FALSE)
 message("Local data dir: ", destDir)
+
+## Define a file where we wills tore the memory image
+memImageFile <- file.path(mainDir, "DenBoerData_loaded.Rdata")
+message("Memory image file of the loaded data: ", memImageFile)
 
 ```
 
@@ -132,12 +138,14 @@ At the end of this practical we saved a memory image with the data. We provide h
 
 ```{r load_data_from_memory_image}
 #### Load the data from a memory image ####
-load(memImageFile)
+message("Loading data from memory image file")
+system.time(load(memImageFile))
+message("Data loaded")
 ```
 
 ## Recommendations
 
-Remember that we might need to run the same analyses
+0. Remember that we might need to run the same analyses
 
 - with different datasets
 - with different classifiers (to compare their performances)
@@ -152,8 +160,29 @@ The code needs to be conceived with this in mind.
 
     - for developers who would reuse it and modify it (code documentation with hash comments)
     - for users (roxygen2 documentation for all the functions, tutorials, vignettes)
+    
+3. Use the `message()` function (but not too many) to indicate when you start a task and finish a task + the main information (e.g. datadir, result dir, ...). 
 
-## Tasks
+4. Beware: traditionally, omics datasets (transcriptome, metabolome, proteome) are provided as matrices with 1 row per individual and 1 column per feature (variable),n but supervised classification methods expect martrices with individuals as rows and features as columns --> you will need to transpose the matrix. 
+
+
+### R markdown recommendations
+
+1. Name each chunk of code (you need to give a unique name)
+
+## Pipeline for the final report
+
+1. Load the data (done above)
+2. Exploring the data (done last time)
+
+    - histogram with the distribution of values
+    - boxplots (if we have too many individuals, take subsets of them)
+    - PC plots (PC1 vs PC2, PC3 vs PC4, ...) with a coloring of the classes
+    
+3. Normalisation (no need here, the data we loaded was previously pre-processed)
+
+4. Supervised classification
+
 
 
 

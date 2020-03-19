@@ -384,26 +384,38 @@ div.tocify {
 <a class="sourceLine" id="cb1-7" data-line-number="7">mainDir &lt;-<span class="st"> </span><span class="kw">file.path</span>(myHome,</a>
 <a class="sourceLine" id="cb1-8" data-line-number="8">                     <span class="st">&quot;STAT2_CMB_practicals&quot;</span>,</a>
 <a class="sourceLine" id="cb1-9" data-line-number="9">                     <span class="st">&quot;den-boer-2009&quot;</span>)</a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw">dir.create</span>(<span class="dt">path =</span> mainDir)</a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="kw">message</span>(<span class="st">&quot;Main dir: &quot;</span>, mainDir)</a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">## Define a file where we wills tore the memory image</span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14">memImageFile &lt;-<span class="st"> </span><span class="kw">file.path</span>(mainDir, <span class="st">&quot;DenBoerData_loaded.Rdata&quot;</span>)</a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">## Define the dir where we will download the data</span></a>
-<a class="sourceLine" id="cb1-17" data-line-number="17">destDir &lt;-<span class="st"> </span><span class="kw">file.path</span>(mainDir, <span class="st">&quot;data&quot;</span>)</a>
-<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="kw">message</span>(<span class="st">&quot;Local data dir: &quot;</span>, destDir)</a></code></pre></div>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw">dir.create</span>(<span class="dt">path =</span> mainDir, </a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">           <span class="dt">recursive =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb1-12" data-line-number="12">           <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="kw">message</span>(<span class="st">&quot;Main dir: &quot;</span>, mainDir)</a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">## Define the dir where we will download the data</span></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16">destDir &lt;-<span class="st"> </span><span class="kw">file.path</span>(mainDir, <span class="st">&quot;data&quot;</span>)</a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="kw">dir.create</span>(<span class="dt">path =</span> destDir, </a>
+<a class="sourceLine" id="cb1-18" data-line-number="18">           <span class="dt">recursive =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb1-19" data-line-number="19">           <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="kw">message</span>(<span class="st">&quot;Local data dir: &quot;</span>, destDir)</a>
+<a class="sourceLine" id="cb1-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb1-22" data-line-number="22"><span class="co">## Define a file where we wills tore the memory image</span></a>
+<a class="sourceLine" id="cb1-23" data-line-number="23">memImageFile &lt;-<span class="st"> </span><span class="kw">file.path</span>(mainDir, <span class="st">&quot;DenBoerData_loaded.Rdata&quot;</span>)</a>
+<a class="sourceLine" id="cb1-24" data-line-number="24"><span class="kw">message</span>(<span class="st">&quot;Memory image file of the loaded data: &quot;</span>, memImageFile)</a></code></pre></div>
 </div>
 <div id="re-loading-the-pre-proocessed-data" class="section level2">
 <h2>Re-loading the pre-proocessed data</h2>
 <p>The detailed procedure to build the data set from tab-delimited files was described in the practical <a href="DenBoer_2009_load-and-explore_solutions.html"><strong>Data loading and exploration</strong></a>.</p>
 <p>At the end of this practical we saved a memory image with the data. We provide hereby a few lines of code that should enable you to reload this data.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">#### Load the data from a memory image ####</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">load</span>(memImageFile)</a></code></pre></div>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">message</span>(<span class="st">&quot;Loading data from memory image file&quot;</span>)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">system.time</span>(<span class="kw">load</span>(memImageFile))</a></code></pre></div>
+<pre><code>   user  system elapsed 
+  0.677   0.041   0.734 </code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">message</span>(<span class="st">&quot;Data loaded&quot;</span>)</a></code></pre></div>
 </div>
 <div id="recommendations" class="section level2">
 <h2>Recommendations</h2>
-<p>Remember that we might need to run the same analyses</p>
+<ol start="0" style="list-style-type: decimal">
+<li>Remember that we might need to run the same analyses</li>
+</ol>
 <ul>
 <li>with different datasets</li>
 <li>with different classifiers (to compare their performances)</li>
@@ -417,10 +429,29 @@ div.tocify {
 <li>for developers who would reuse it and modify it (code documentation with hash comments)</li>
 <li>for users (roxygen2 documentation for all the functions, tutorials, vignettes)</li>
 </ul></li>
+<li><p>Use the <code>message()</code> function (but not too many) to indicate when you start a task and finish a task + the main information (e.g. datadir, result dir, …).</p></li>
+<li><p>Beware: traditionally, omics datasets (transcriptome, metabolome, proteome) are provided as matrices with 1 row per individual and 1 column per feature (variable),n but supervised classification methods expect martrices with individuals as rows and features as columns –&gt; you will need to transpose the matrix.</p></li>
+</ol>
+<div id="r-markdown-recommendations" class="section level3">
+<h3>R markdown recommendations</h3>
+<ol style="list-style-type: decimal">
+<li>Name each chunk of code (you need to give a unique name)</li>
 </ol>
 </div>
-<div id="tasks" class="section level2">
-<h2>Tasks</h2>
+</div>
+<div id="pipeline-for-the-final-report" class="section level2">
+<h2>Pipeline for the final report</h2>
+<ol style="list-style-type: decimal">
+<li>Load the data (done above)</li>
+<li><p>Exploring the data (done last time)</p>
+<ul>
+<li>histogram with the distribution of values</li>
+<li>boxplots (if we have too many individuals, take subsets of them)</li>
+<li>PC plots (PC1 vs PC2, PC3 vs PC4, …) with a coloring of the classes</li>
+</ul></li>
+<li><p>Normalisation (no need here, the data we loaded was previously pre-processed)</p></li>
+<li><p>Supervised classification</p></li>
+</ol>
 </div>
 
 

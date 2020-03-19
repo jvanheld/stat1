@@ -161,8 +161,8 @@ DownloadMyFiles <- function(files,
 ```
 
 
-```{r}
-## URL fo the folder containing the data fle
+```{r }
+## URL of the folder containing the data fle
 dataURL <- "https://github.com/jvanheld/stat1/raw/master/data/DenBoer_2009/"
 
 files <- c(

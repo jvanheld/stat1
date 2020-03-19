@@ -35,7 +35,7 @@ message("Local data dir: ", destDir)
 
 
 
-## ---------------------------------------------------------------------
+#### DownloadMFiles function definition ####
 #' @title Download a set of files from a Web site
 #' @author Jacques van Helden
 #' @description Download a set of files from a Web site and store them in a destination directory if they do not exist yet there.
@@ -216,4 +216,4 @@ save.image(file = memImageFile)
 sessionInfo()
 
 #### Command to reload the memory from the saved memory image ####
-load(memImageFile)
+# load(memImageFile)

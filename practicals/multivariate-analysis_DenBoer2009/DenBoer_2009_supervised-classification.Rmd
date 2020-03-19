@@ -99,12 +99,41 @@ The raw microarray data has been pre-processed in order to dispose of a ready-to
 - log2 transformation to normalise the raw measurements
 - between-sample standardisation to enable comparison between the different samples.
 
+## Defining the local folders for this practical
+
+```{r folder_definition}
+####  Define Local directories and files ####
+
+## Find the home directory
+myHome <- Sys.getenv("HOME")
+
+## Define the main directory for the  data and results
+mainDir <- file.path(myHome,
+                     "STAT2_CMB_practicals",
+                     "den-boer-2009")
+dir.create(path = mainDir)
+message("Main dir: ", mainDir)
+
+## Define a file where we wills tore the memory image
+memImageFile <- file.path(mainDir, "DenBoerData_loaded.Rdata")
+
+## Define the dir where we will download the data
+destDir <- file.path(mainDir, "data")
+message("Local data dir: ", destDir)
+
+```
+
+
 ## Re-loading the pre-proocessed data
 
 The detailed procedure to build the data set from tab-delimited files was described in the practical [**Data loading and exploration**](DenBoer_2009_load-and-explore_solutions.html).
 
 At the end of this practical we saved a memory image with the data. We provide hereby a few lines of code that should enable you to reload this data. 
 
+```{r load_data_from_memory_image}
+#### Load the data from a memory image ####
+load(memImageFile)
+```
 
 
 

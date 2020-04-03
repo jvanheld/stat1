@@ -181,31 +181,80 @@ The code needs to be conceived with this in mind.
     
 3. Normalisation (no need here, the data we loaded was previously pre-processed)
 
+4. Class filtering: suppress the classes with less than 30 individuals, because it will be very difficult to train a program properly with so scsarse data. 
+
 4. Supervised classification, with 3 steps
 
-    4.1. Split the data into training and testing subsets
-    4.2. Train a classifier with the training subset
-    4.3. Evaluate the performances of the trained classifier with the testing subset
+    - Split the data into training and testing subsets
+    
+        - stratified subsampling: same proprotions of the 4 classes in the training as in the testing
+        - iterative subsampling with 2/3 for training and 1/3 for testing. 
+        - run the subsampling 10 times independently
+    
+    - Train a classifier with the training subset
+    - Evaluate the performances of the trained classifier with the testing subset
     4.4. Apply the classification to an independent dataset
 
-5. Evaluate the impact of parameters on the performances. Examples
+5. Reduction of dimensionality. Choose one among the following approaches
+
+    - Very simple (rudimentary) criterion: variable ordering by decreasing variance, and keep the $n$ top variables. Analyse the impact of $n$
+    - PCA: keep the $n$ first components
+    - Differential analysis: keep the $n$ most significant genes from differential analysis (I will provide you with the sorted list of genes)
+
+6. Evaluate the impact of parameters on the performances. Examples
 
     - KNN: impact of K, the number of neighbours
     - SVM: impact of the kernel
     - Random Forest: impact of number of iterations, ... other parameters
     - Discriminant analysis: impact of the homoscedasticity assumption (compare LDA with QDA). 
 
-6. Reduction of dimensionality. Choose one among the following approaches
-
-    - Very simple (rudimentary) criterion: variable ordering by decreasing variance, and keep the $n$ top variables. Analyse the impact of $n$
-    - PCA: keep the $n$ first components
-    - Differential analysis: keep the $n$ most significant genes from differential analysis (I will provide you with the sorted list of genes)
 
 7. Compare the performances of 2 different classification methods (e.g. LDA, QDA, SVM, RF, KNN)
 
+8. Interpret the results
+
+    - statistical performances
+    
+    - try to explain why some method or some parameter combination works better for your dataset that some other one, relationship with the data structure, the dimensionality of the feature space, ...
+    
+    - biological relevance
+    
+## Hints
+
+### Relevant packages for supervised classification
+
+| Method | Package::Function(s) |
+|------------------------------|------------------------|
+| Support vector machines (SVM) | `e1071::svm()` |
+| K nearest neighbours (KNN) | `class::knn()` |
+| Random forest (RF)  | `randomForest::randomForest()` |
+| Linear discriminant analysis |  `MASS::lda()` |
+| Utilities for supervised classification | `caret` package |
 
 
+### Support
+
+- We interact via the Ametice forum for this job. 
+- A support session by videoconference is scheduled on April 3, 10:00 - 12:00.
+
+## To do
+
+- JvH: ask accounts for each student + a shared folder for this course, in order to give you access to the IFB-core RStudio server
+
+    done
+
+- JvH will add an independent dataset for evaluation, in the form of a Rdata memory image
+
+- JvH will give some hints, clues about some pieces of this work
 
 
+    - for each step indicate the relevant R functions (for example `sample()`, ...)
+    
+    - for some step, provide an example of a properly documented function that does the job.
+
+- Define some shared space for the code
+
+
+- 
 
 

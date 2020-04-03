@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 <meta name="author" content="Jacques van Helden" />
 
-<meta name="date" content="2020-03-16" />
+<meta name="date" content="2020-04-03" />
 
 <title>Practical – Microarray analysis – Data loading and exploration</title>
 
@@ -233,6 +232,7 @@ summary {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -264,6 +264,12 @@ summary {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -345,11 +351,29 @@ div.tocify {
 <h1 class="title toc-ignore">Practical – Microarray analysis – Data loading and exploration</h1>
 <h3 class="subtitle">(STAT2)</h3>
 <h4 class="author">Jacques van Helden</h4>
-<h4 class="date">2020-03-16</h4>
+<h4 class="date">2020-04-03</h4>
 
 </div>
 
 
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">####  Define Local directories and files for the data and result ####</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">## Find the home directory</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">myHome &lt;-<span class="st"> </span><span class="kw">Sys.getenv</span>(<span class="st">&quot;HOME&quot;</span>)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">## Define the main directory for the  data and results</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">mainDir &lt;-<span class="st"> </span><span class="kw">file.path</span>(myHome,</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">                     <span class="st">&quot;STAT2_CMB_practicals&quot;</span>,</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">                     <span class="st">&quot;den-boer-2009&quot;</span>)</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw">dir.create</span>(<span class="dt">path =</span> mainDir)</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="kw">message</span>(<span class="st">&quot;Main dir: &quot;</span>, mainDir)</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">## Define a file where we wills tore the memory image</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">memImageFile &lt;-<span class="st"> </span><span class="kw">file.path</span>(mainDir, <span class="st">&quot;DenBoerData_loaded.Rdata&quot;</span>)</a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">## Define the dir where we will download the data</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17">dataDir &lt;-<span class="st"> </span><span class="kw">file.path</span>(mainDir, <span class="st">&quot;data&quot;</span>)</a>
+<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="kw">message</span>(<span class="st">&quot;Local data dir: &quot;</span>, dataDir)</a></code></pre></div>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>In this practical, we will load a dataset that will be used as study case to apply different approaches of multivariate analysis:</p>
@@ -431,56 +455,58 @@ div.tocify {
 <li>For each of these files, checkS if it is already present in your local local data directory, and downloads it if it is not the case.</li>
 </ol>
 <p>Try to make your code re-usable, in the perspective to apply it soon in order to download data sets from other web sites.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">#&#39; @title Download a set of files from a Web site</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&#39; @author Jacques van Helden</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&#39; @description Download a set of files from a Web site and store them in a destination directory if they do not exist yet there. </span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&#39; @param files a vector with the file names</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&#39; @param dataURL the URL of the folder containing the files to download</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&#39; @param destDir local destination directory. Will be created if it does not exist. </span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&#39; @return no return value</span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&#39; @export</span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9">DownloadMyFiles &lt;-<span class="st"> </span><span class="cf">function</span>(files, </a>
-<a class="sourceLine" id="cb1-10" data-line-number="10">                            dataURL,</a>
-<a class="sourceLine" id="cb1-11" data-line-number="11">                            destDir) {</a>
-<a class="sourceLine" id="cb1-12" data-line-number="12">  </a>
-<a class="sourceLine" id="cb1-13" data-line-number="13">  <span class="co">## Create local directory</span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14">  <span class="kw">dir.create</span>(destDir, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb1-15" data-line-number="15">  </a>
-<a class="sourceLine" id="cb1-16" data-line-number="16">  <span class="cf">for</span> (f <span class="cf">in</span> files) {</a>
-<a class="sourceLine" id="cb1-17" data-line-number="17">    </a>
-<a class="sourceLine" id="cb1-18" data-line-number="18">    <span class="co">## Destination file</span></a>
-<a class="sourceLine" id="cb1-19" data-line-number="19">    destFile &lt;-<span class="st"> </span><span class="kw">file.path</span>(destDir, f)</a>
-<a class="sourceLine" id="cb1-20" data-line-number="20">    </a>
-<a class="sourceLine" id="cb1-21" data-line-number="21">    <span class="co">## Check if file exists</span></a>
-<a class="sourceLine" id="cb1-22" data-line-number="22">    <span class="cf">if</span> (<span class="kw">file.exists</span>(destFile)) {</a>
-<a class="sourceLine" id="cb1-23" data-line-number="23">      <span class="kw">message</span>(<span class="st">&quot;skipping download because file exists: &quot;</span>, destFile)</a>
-<a class="sourceLine" id="cb1-24" data-line-number="24">    } <span class="cf">else</span> {</a>
-<a class="sourceLine" id="cb1-25" data-line-number="25">      sourceURL &lt;-<span class="st"> </span><span class="kw">file.path</span>(dataURL, f)</a>
-<a class="sourceLine" id="cb1-26" data-line-number="26">      <span class="kw">download.file</span>(<span class="dt">url =</span> sourceURL, <span class="dt">destfile =</span> destFile)</a>
-<a class="sourceLine" id="cb1-27" data-line-number="27">    }</a>
-<a class="sourceLine" id="cb1-28" data-line-number="28">  }</a>
-<a class="sourceLine" id="cb1-29" data-line-number="29">}</a></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">## URL fo the folder containing the data fle</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">dataURL &lt;-<span class="st"> &quot;https://github.com/jvanheld/stat1/raw/master/data/DenBoer_2009/&quot;</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">files &lt;-<span class="st"> </span><span class="kw">c</span>(</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5">  <span class="dt">expr =</span> <span class="st">&quot;GSE13425_Norm_Whole.tsv.gz&quot;</span>,</a>
-<a class="sourceLine" id="cb2-6" data-line-number="6">  <span class="dt">pheno =</span> <span class="st">&quot;phenoData_GSE13425.tsv.gz&quot;</span>,</a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">  <span class="dt">groups =</span> <span class="st">&quot;GSE13425_group_descriptions.tsv.gz&quot;</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8">)</a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">## Local data dir</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11">destDir &lt;-<span class="st"> &quot;~/STAT2_CMB_practicals/den-boer-2009/data/&quot;</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">## Call the function to download the files</span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="kw">DownloadMyFiles</span>(<span class="dt">files =</span> files, <span class="dt">dataURL =</span> dataURL, <span class="dt">destDir =</span> destDir)</a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="kw">kable</span>(<span class="kw">data.frame</span>(<span class="kw">list.files</span>(destDir)), <span class="dt">caption =</span> <span class="st">&quot;Content of the destination directory after file download. &quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">#&#39; @title Download a set of files from a Web site</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&#39; @author Jacques van Helden</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&#39; @description Download a set of files from a Web site and store them in a destination directory if they do not exist yet there. </span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&#39; @param files a vector with the file names</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&#39; @param dataURL the URL of the folder containing the files to download</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&#39; @param destDir local destination directory. Will be created if it does not exist. </span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&#39; @return no return value</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&#39; @export</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">DownloadMyFiles &lt;-<span class="st"> </span><span class="cf">function</span>(files, </a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">                            dataURL,</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">                            destDir) {</a>
+<a class="sourceLine" id="cb2-12" data-line-number="12">  </a>
+<a class="sourceLine" id="cb2-13" data-line-number="13">  <span class="co">## Create local directory</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14">  <span class="kw">dir.create</span>(destDir, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb2-15" data-line-number="15">  </a>
+<a class="sourceLine" id="cb2-16" data-line-number="16">  <span class="cf">for</span> (f <span class="cf">in</span> files) {</a>
+<a class="sourceLine" id="cb2-17" data-line-number="17">    </a>
+<a class="sourceLine" id="cb2-18" data-line-number="18">    <span class="co">## Destination file</span></a>
+<a class="sourceLine" id="cb2-19" data-line-number="19">    destFile &lt;-<span class="st"> </span><span class="kw">file.path</span>(destDir, f)</a>
+<a class="sourceLine" id="cb2-20" data-line-number="20">    </a>
+<a class="sourceLine" id="cb2-21" data-line-number="21">    <span class="co">## Check if file exists</span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22">    <span class="cf">if</span> (<span class="kw">file.exists</span>(destFile)) {</a>
+<a class="sourceLine" id="cb2-23" data-line-number="23">      <span class="kw">message</span>(<span class="st">&quot;skipping download because file exists: &quot;</span>, destFile)</a>
+<a class="sourceLine" id="cb2-24" data-line-number="24">    } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb2-25" data-line-number="25">      sourceURL &lt;-<span class="st"> </span><span class="kw">file.path</span>(dataURL, f)</a>
+<a class="sourceLine" id="cb2-26" data-line-number="26">      <span class="kw">download.file</span>(<span class="dt">url =</span> sourceURL, <span class="dt">destfile =</span> destFile)</a>
+<a class="sourceLine" id="cb2-27" data-line-number="27">    }</a>
+<a class="sourceLine" id="cb2-28" data-line-number="28">  }</a>
+<a class="sourceLine" id="cb2-29" data-line-number="29">}</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">## URL of the folder containing the data fle</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">dataURL &lt;-<span class="st"> &quot;https://github.com/jvanheld/stat1/raw/master/data/DenBoer_2009/&quot;</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">files &lt;-<span class="st"> </span><span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">  <span class="dt">expr =</span> <span class="st">&quot;GSE13425_Norm_Whole.tsv.gz&quot;</span>,</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">  <span class="dt">pheno =</span> <span class="st">&quot;phenoData_GSE13425.tsv.gz&quot;</span>,</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">  <span class="dt">groups =</span> <span class="st">&quot;GSE13425_group_descriptions.tsv.gz&quot;</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">)</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co"># ## Local data dir</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co"># destDir &lt;- &quot;~/STAT2_CMB_practicals/den-boer-2009/data/&quot;</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">## Call the function to download the files</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="kw">DownloadMyFiles</span>(<span class="dt">files =</span> files, <span class="dt">dataURL =</span> dataURL, <span class="dt">destDir =</span> dataDir)</a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="kw">kable</span>(<span class="kw">data.frame</span>(<span class="kw">list.files</span>(dataDir)), </a>
+<a class="sourceLine" id="cb3-18" data-line-number="18">      <span class="dt">caption =</span> <span class="st">&quot;Content of the destination directory after file download. &quot;</span>)</a></code></pre></div>
 <table>
 <caption>Content of the destination directory after file download.</caption>
 <thead>
 <tr class="header">
-<th align="left">list.files.destDir.</th>
+<th align="left">list.files.dataDir.</th>
 </tr>
 </thead>
 <tbody>
@@ -499,9 +525,156 @@ div.tocify {
 <div id="data-loading" class="section level2">
 <h2>Data loading</h2>
 <p>Write an R script that loads the data tables from your local data directory.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">exprTable &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">file.path</span>(destDir, files[<span class="st">&quot;expr&quot;</span>]))</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">dim</span>(exprTable)</a></code></pre></div>
-<pre><code>[1] 22283   190</code></pre>
+<p>Some indication about the checks we do when we load the data tables.</p>
+<ul>
+<li><p>Load the expression table in a data frame named <code>exprTable</code>, with one row per gene, one column per sample. <strong>Tip:</strong> row names should indicate gene names, and column names the sample IDs.</p></li>
+<li><p>Load the metadata in a table named <code>phenoTable</code>, with one row per sample and one column per description field. <strong>Tip: </strong> row name should indicate sample names.</p></li>
+<li><p>Check that the samples have the same order in the columns of the expression table and the rows of the pheno table.</p></li>
+<li><p>Create a vector named <code>sampleGroup</code> with the group membership of each sample. <strong>Tip: </strong> don’t forget to convert the factor (coming from the data.frame column) into a vector.</p></li>
+<li><p>Load the group descriptions in a data frame named <code>groupDescriptions</code>, with one row per group.</p></li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co">#### Load data tables ####</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">message</span>(<span class="st">&quot;Loading data tables&quot;</span>)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">## Load expression table</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="kw">message</span>(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">Loading expression table&quot;</span>)</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">exprTable &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">file.path</span>(dataDir, files[<span class="st">&quot;expr&quot;</span>]), </a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">                        <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, </a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">                        <span class="dt">header =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">                        <span class="dt">quote =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb4-10" data-line-number="10">                        <span class="dt">row.names =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co"># dim(exprTable)</span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co"># names(exprTable)</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co"># head(exprTable)</span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">## Compute the number of samples (columns) and genes (rows) in the expression table</span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16">nbSamples &lt;-<span class="st"> </span><span class="kw">ncol</span>(exprTable)</a>
+<a class="sourceLine" id="cb4-17" data-line-number="17">nbGenes &lt;-<span class="st"> </span><span class="kw">nrow</span>(exprTable)</a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">## Load metadescriptions (pheno table)</span></a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="kw">message</span>(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">Loading metadata table (pheno)&quot;</span>)</a>
+<a class="sourceLine" id="cb4-21" data-line-number="21">phenoTable &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">file.path</span>(dataDir, files[<span class="st">&quot;pheno&quot;</span>]), </a>
+<a class="sourceLine" id="cb4-22" data-line-number="22">                         <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, </a>
+<a class="sourceLine" id="cb4-23" data-line-number="23">                         <span class="dt">header =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb4-24" data-line-number="24">                         <span class="dt">quote =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb4-25" data-line-number="25">                         <span class="dt">row.names =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb4-26" data-line-number="26"><span class="co"># dim(phenoTable)</span></a>
+<a class="sourceLine" id="cb4-27" data-line-number="27"><span class="co"># View(phenoTable)</span></a>
+<a class="sourceLine" id="cb4-28" data-line-number="28"><span class="co"># names(phenoTable)</span></a>
+<a class="sourceLine" id="cb4-29" data-line-number="29">sampleGroup &lt;-<span class="st"> </span><span class="kw">as.vector</span>(phenoTable<span class="op">$</span>Sample.title)</a>
+<a class="sourceLine" id="cb4-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb4-31" data-line-number="31"><span class="co">## Load group descriptions</span></a>
+<a class="sourceLine" id="cb4-32" data-line-number="32"><span class="kw">message</span>(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">Loading group descriptions&quot;</span>)</a>
+<a class="sourceLine" id="cb4-33" data-line-number="33">groupDescriptions &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">file.path</span>(dataDir, files[<span class="st">&quot;groups&quot;</span>]), </a>
+<a class="sourceLine" id="cb4-34" data-line-number="34">                                <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, </a>
+<a class="sourceLine" id="cb4-35" data-line-number="35">                                <span class="dt">header =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb4-36" data-line-number="36">                                <span class="dt">quote =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb4-37" data-line-number="37">                                <span class="dt">row.names =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb4-38" data-line-number="38"><span class="co"># dim(phenoTable)</span></a>
+<a class="sourceLine" id="cb4-39" data-line-number="39"></a>
+<a class="sourceLine" id="cb4-40" data-line-number="40"><span class="co">## Define a color and label for each sample</span></a>
+<a class="sourceLine" id="cb4-41" data-line-number="41">sampleColor &lt;-<span class="st">  </span><span class="kw">as.vector</span>(phenoTable<span class="op">$</span>sample.colors)</a>
+<a class="sourceLine" id="cb4-42" data-line-number="42">sampleLabel &lt;-<span class="st">  </span><span class="kw">as.vector</span>(phenoTable<span class="op">$</span>sample.labels)</a>
+<a class="sourceLine" id="cb4-43" data-line-number="43"></a>
+<a class="sourceLine" id="cb4-44" data-line-number="44"></a>
+<a class="sourceLine" id="cb4-45" data-line-number="45"></a>
+<a class="sourceLine" id="cb4-46" data-line-number="46"><span class="co">#### Number of samples per group ####</span></a>
+<a class="sourceLine" id="cb4-47" data-line-number="47"></a>
+<a class="sourceLine" id="cb4-48" data-line-number="48"><span class="co">## Count the number of biological samples per cancer group</span></a>
+<a class="sourceLine" id="cb4-49" data-line-number="49">samplesPerGroup &lt;-<span class="st"> </span><span class="kw">table</span>(sampleGroup)</a>
+<a class="sourceLine" id="cb4-50" data-line-number="50"></a>
+<a class="sourceLine" id="cb4-51" data-line-number="51"><span class="co">## Add a column with group sizes</span></a>
+<a class="sourceLine" id="cb4-52" data-line-number="52">groupDescriptions[, <span class="st">&quot;samples&quot;</span>] &lt;-<span class="st"> </span>samplesPerGroup[<span class="kw">rownames</span>(groupDescriptions)]</a>
+<a class="sourceLine" id="cb4-53" data-line-number="53"></a>
+<a class="sourceLine" id="cb4-54" data-line-number="54"><span class="co">## Sort the group description table by decreasing size</span></a>
+<a class="sourceLine" id="cb4-55" data-line-number="55">groupDescriptions &lt;-<span class="st"> </span>groupDescriptions[<span class="kw">order</span>(groupDescriptions<span class="op">$</span>samples, <span class="dt">decreasing =</span> <span class="ot">TRUE</span>), ]</a>
+<a class="sourceLine" id="cb4-56" data-line-number="56"></a>
+<a class="sourceLine" id="cb4-57" data-line-number="57"><span class="co">#### Print a table with group descriptions  ####</span></a>
+<a class="sourceLine" id="cb4-58" data-line-number="58"><span class="kw">kable</span>(groupDescriptions)</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">group.labels</th>
+<th align="left">group.colors</th>
+<th align="right">samples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>hyperdiploid</td>
+<td align="left">Bh</td>
+<td align="left">brown</td>
+<td align="right">44</td>
+</tr>
+<tr class="even">
+<td>pre-B ALL</td>
+<td align="left">Bo</td>
+<td align="left">darkblue</td>
+<td align="right">44</td>
+</tr>
+<tr class="odd">
+<td>TEL-AML1</td>
+<td align="left">Bt</td>
+<td align="left">red</td>
+<td align="right">43</td>
+</tr>
+<tr class="even">
+<td>T-ALL</td>
+<td align="left">T</td>
+<td align="left">darkgreen</td>
+<td align="right">36</td>
+</tr>
+<tr class="odd">
+<td>E2A-rearranged (EP)</td>
+<td align="left">BEp</td>
+<td align="left">orange</td>
+<td align="right">8</td>
+</tr>
+<tr class="even">
+<td>E2A-rearranged (E-sub)</td>
+<td align="left">BEs</td>
+<td align="left">darkgray</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td>BCR-ABL</td>
+<td align="left">Bc</td>
+<td align="left">cyan</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td>MLL</td>
+<td align="left">BM</td>
+<td align="left">violet</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td>TEL-AML1 + hyperdiploidy</td>
+<td align="left">Bth</td>
+<td align="left">blue</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td>E2A-rearranged (E)</td>
+<td align="left">BE</td>
+<td align="left">green</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td>BCR-ABL + hyperdiploidy</td>
+<td align="left">Bch</td>
+<td align="left">black</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+<p>The expression table has been loaded in a data.frame named <code>exprTable</code>, which contains</p>
+<ul>
+<li>22283 variables (rows) representing gens</li>
+<li>190 individuals (columns) corresponding to biological samples.</li>
+</ul>
+<p>The metadata (“pheno” table) contains 190 rows and 6 columns.</p>
 </div>
 <div id="marginal-statistics" class="section level2">
 <h2>Marginal statistics</h2>
@@ -513,38 +686,53 @@ div.tocify {
 <li>Since the function <code>apply()</code> returns a vector, one possibility would be to store in separate vectors the mean, sd, var, min, etc. However it will be more convenient to regroup all the statistics in a single data frame with one row per object of interest (individuals or variables, depending on whether we compute margins on columns or rows, resp.) and one column per statistics (mean, sd, var, mean, …). This can be done with the <code>data.frame()</code> function.</li>
 </ul>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co">#### Compute statistics on each column ####</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">colStat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="dt">mean =</span> <span class="kw">apply</span>(exprTable, <span class="dv">2</span>, mean),</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="dt">var =</span> <span class="kw">apply</span>(exprTable, <span class="dv">2</span>, var),</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">  <span class="dt">sd =</span> <span class="kw">apply</span>(exprTable, <span class="dv">2</span>, sd),</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">  <span class="dt">min =</span> <span class="kw">apply</span>(exprTable, <span class="dv">2</span>, min),</a>
-<a class="sourceLine" id="cb5-7" data-line-number="7">  <span class="dt">perc05 =</span> <span class="kw">apply</span>(exprTable, <span class="dv">2</span>, quantile, <span class="dt">probs =</span> <span class="fl">0.05</span>),</a>
-<a class="sourceLine" id="cb5-8" data-line-number="8">  <span class="dt">perc25 =</span> <span class="kw">apply</span>(exprTable, <span class="dv">2</span>, quantile, <span class="dt">probs =</span> <span class="fl">0.25</span>),</a>
-<a class="sourceLine" id="cb5-9" data-line-number="9">  <span class="dt">perc50 =</span> <span class="kw">apply</span>(exprTable, <span class="dv">2</span>, quantile, <span class="dt">probs =</span> <span class="fl">0.50</span>),</a>
-<a class="sourceLine" id="cb5-10" data-line-number="10">  <span class="dt">perc75 =</span> <span class="kw">apply</span>(exprTable, <span class="dv">2</span>, quantile, <span class="dt">probs =</span> <span class="fl">0.75</span>),</a>
-<a class="sourceLine" id="cb5-11" data-line-number="11">  <span class="dt">perc95 =</span> <span class="kw">apply</span>(exprTable, <span class="dv">2</span>, quantile, <span class="dt">probs =</span> <span class="fl">0.95</span>),</a>
-<a class="sourceLine" id="cb5-12" data-line-number="12">  <span class="dt">max =</span> <span class="kw">apply</span>(exprTable, <span class="dv">2</span>, max),</a>
-<a class="sourceLine" id="cb5-13" data-line-number="13">  <span class="dt">IQR =</span> <span class="kw">apply</span>(exprTable, <span class="dv">2</span>, IQR)</a>
-<a class="sourceLine" id="cb5-14" data-line-number="14">)</a></code></pre></div>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">message</span>(<span class="st">&quot;Computing column statistics&quot;</span>)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">colStat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="dt">mean =</span> <span class="kw">apply</span>(exprTable, <span class="dv">2</span>, mean, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">  <span class="dt">var =</span> <span class="kw">apply</span>(exprTable, <span class="dv">2</span>, var, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">  <span class="dt">sd =</span> <span class="kw">apply</span>(exprTable, <span class="dv">2</span>, sd, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">  <span class="dt">min =</span> <span class="kw">apply</span>(exprTable, <span class="dv">2</span>, min, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">  <span class="dt">perc05 =</span> <span class="kw">apply</span>(exprTable, <span class="dv">2</span>, quantile, <span class="dt">probs =</span> <span class="fl">0.05</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb5-9" data-line-number="9">  <span class="dt">perc25 =</span> <span class="kw">apply</span>(exprTable, <span class="dv">2</span>, quantile, <span class="dt">probs =</span> <span class="fl">0.25</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb5-10" data-line-number="10">  <span class="dt">perc50 =</span> <span class="kw">apply</span>(exprTable, <span class="dv">2</span>, quantile, <span class="dt">probs =</span> <span class="fl">0.50</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb5-11" data-line-number="11">  <span class="dt">perc75 =</span> <span class="kw">apply</span>(exprTable, <span class="dv">2</span>, quantile, <span class="dt">probs =</span> <span class="fl">0.75</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb5-12" data-line-number="12">  <span class="dt">perc95 =</span> <span class="kw">apply</span>(exprTable, <span class="dv">2</span>, quantile, <span class="dt">probs =</span> <span class="fl">0.95</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb5-13" data-line-number="13">  <span class="dt">max =</span> <span class="kw">apply</span>(exprTable, <span class="dv">2</span>, max, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb5-14" data-line-number="14">  <span class="dt">IQR =</span> <span class="kw">apply</span>(exprTable, <span class="dv">2</span>, IQR, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb5-15" data-line-number="15">)</a></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co">#### Compute statistics on each row ####</span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">rowStat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">  <span class="dt">mean =</span> <span class="kw">apply</span>(exprTable, <span class="dv">1</span>, mean),</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4">  <span class="dt">var =</span> <span class="kw">apply</span>(exprTable, <span class="dv">1</span>, var),</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5">  <span class="dt">sd =</span> <span class="kw">apply</span>(exprTable, <span class="dv">1</span>, sd),</a>
-<a class="sourceLine" id="cb6-6" data-line-number="6">  <span class="dt">min =</span> <span class="kw">apply</span>(exprTable, <span class="dv">1</span>, min),</a>
-<a class="sourceLine" id="cb6-7" data-line-number="7">  <span class="dt">perc05 =</span> <span class="kw">apply</span>(exprTable, <span class="dv">1</span>, quantile, <span class="dt">probs =</span> <span class="fl">0.05</span>),</a>
-<a class="sourceLine" id="cb6-8" data-line-number="8">  <span class="dt">perc25 =</span> <span class="kw">apply</span>(exprTable, <span class="dv">1</span>, quantile, <span class="dt">probs =</span> <span class="fl">0.25</span>),</a>
-<a class="sourceLine" id="cb6-9" data-line-number="9">  <span class="dt">perc50 =</span> <span class="kw">apply</span>(exprTable, <span class="dv">1</span>, quantile, <span class="dt">probs =</span> <span class="fl">0.50</span>),</a>
-<a class="sourceLine" id="cb6-10" data-line-number="10">  <span class="dt">perc75 =</span> <span class="kw">apply</span>(exprTable, <span class="dv">1</span>, quantile, <span class="dt">probs =</span> <span class="fl">0.75</span>),</a>
-<a class="sourceLine" id="cb6-11" data-line-number="11">  <span class="dt">perc95 =</span> <span class="kw">apply</span>(exprTable, <span class="dv">1</span>, quantile, <span class="dt">probs =</span> <span class="fl">0.95</span>),</a>
-<a class="sourceLine" id="cb6-12" data-line-number="12">  <span class="dt">max =</span> <span class="kw">apply</span>(exprTable, <span class="dv">1</span>, max),</a>
-<a class="sourceLine" id="cb6-13" data-line-number="13">  <span class="dt">IQR =</span> <span class="kw">apply</span>(exprTable, <span class="dv">1</span>, IQR)</a>
-<a class="sourceLine" id="cb6-14" data-line-number="14">)</a></code></pre></div>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">message</span>(<span class="st">&quot;Computing row statistics&quot;</span>)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">rowStat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">  <span class="dt">mean =</span> <span class="kw">apply</span>(exprTable, <span class="dv">1</span>, mean),</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">  <span class="dt">var =</span> <span class="kw">apply</span>(exprTable, <span class="dv">1</span>, var),</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">  <span class="dt">sd =</span> <span class="kw">apply</span>(exprTable, <span class="dv">1</span>, sd),</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">  <span class="dt">min =</span> <span class="kw">apply</span>(exprTable, <span class="dv">1</span>, min),</a>
+<a class="sourceLine" id="cb6-8" data-line-number="8">  <span class="dt">perc05 =</span> <span class="kw">apply</span>(exprTable, <span class="dv">1</span>, quantile, <span class="dt">probs =</span> <span class="fl">0.05</span>),</a>
+<a class="sourceLine" id="cb6-9" data-line-number="9">  <span class="dt">perc25 =</span> <span class="kw">apply</span>(exprTable, <span class="dv">1</span>, quantile, <span class="dt">probs =</span> <span class="fl">0.25</span>),</a>
+<a class="sourceLine" id="cb6-10" data-line-number="10">  <span class="dt">perc50 =</span> <span class="kw">apply</span>(exprTable, <span class="dv">1</span>, quantile, <span class="dt">probs =</span> <span class="fl">0.50</span>),</a>
+<a class="sourceLine" id="cb6-11" data-line-number="11">  <span class="dt">perc75 =</span> <span class="kw">apply</span>(exprTable, <span class="dv">1</span>, quantile, <span class="dt">probs =</span> <span class="fl">0.75</span>),</a>
+<a class="sourceLine" id="cb6-12" data-line-number="12">  <span class="dt">perc95 =</span> <span class="kw">apply</span>(exprTable, <span class="dv">1</span>, quantile, <span class="dt">probs =</span> <span class="fl">0.95</span>),</a>
+<a class="sourceLine" id="cb6-13" data-line-number="13">  <span class="dt">max =</span> <span class="kw">apply</span>(exprTable, <span class="dv">1</span>, max),</a>
+<a class="sourceLine" id="cb6-14" data-line-number="14">  <span class="dt">IQR =</span> <span class="kw">apply</span>(exprTable, <span class="dv">1</span>, IQR)</a>
+<a class="sourceLine" id="cb6-15" data-line-number="15">)</a></code></pre></div>
 </div>
 <div id="empirical-distributions" class="section level2">
 <h2>Empirical distributions</h2>
-<p>Draw a plot that displays the empirical distribution of normalised expression values in the whole data table.</p>
-<p>Draw another plot that displays the empirical distribution of normalised expression values in the different samples (one polygon frequency per sample).</p>
+<p>Draw a plot that displays the empirical distribution of normalised expression values in the whole data table. Comment the shape of the distribution. Is it normal ? Symmetrical ? Unimodal ?</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co">#### Distribution of values across all samples ####</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw">message</span>(<span class="st">&quot;Drawing empirical distribution of expression values&quot;</span>)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw">hist</span>(<span class="kw">unlist</span>(exprTable), <span class="dt">breaks =</span> <span class="dv">100</span>,</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">     <span class="dt">xlab =</span> <span class="st">&quot;Normalised expression values&quot;</span>, </a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">     <span class="dt">ylab =</span> <span class="st">&quot;Number of observations&quot;</span>,</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">     <span class="dt">col =</span> <span class="st">&quot;#BBDDFF&quot;</span>,</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">     <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">cex.axis =</span> <span class="fl">0.7</span>,</a>
+<a class="sourceLine" id="cb7-8" data-line-number="8">     <span class="dt">main =</span> <span class="st">&quot;Distribution of expression values</span><span class="ch">\n</span><span class="st">(Den Boer 2009, all samples)&quot;</span>)</a></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="figures/02_combinatorix_expr_distrib_all-1.png" alt="Empirical distribution of all the expression values. " width="672" />
+<p class="caption">
+Empirical distribution of all the expression values.
+</p>
+</div>
 <p>Compute a table with the mean expression profile per cancer type (one row per gene, one column per cancer type) and draw them with box plots.</p>
 </div>
 <div id="sample-classes" class="section level2">
@@ -555,7 +743,100 @@ div.tocify {
 <li><code>Sample.title</code>: cancer type of each sample.</li>
 <li><code>sample.labels</code>: A short label (1 or 2 letters) for each cancer type</li>
 </ul>
-<p>Cound the number of samples per group and draw a barplot with the result.</p>
+<p>Count the number of samples per group and draw a barplot with the result.</p>
+</div>
+<div id="exploring-the-data-space" class="section level2">
+<h2>Exploring the data space</h2>
+<p>The expression table contains 190 biological samples (columns) characterized by an expression profile covering 22283 genes (rows). We can thus consider that each individual (biological sample) is a point in an hyperspace with 22283 dimensions.</p>
+<div id="highest-variance-genes" class="section level3">
+<h3>Highest variance genes</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co">#### Dot plots with the genes having the highest variance ####</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>)) {</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">  <span class="kw">plot</span>(<span class="kw">t</span>(exprTable[<span class="kw">order</span>(rowStat<span class="op">$</span>var, <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)[<span class="kw">c</span>(i, i <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)], ]), </a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">       <span class="dt">panel.first =</span> <span class="kw">grid</span>(),</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7">       <span class="dt">col =</span> sampleColor)</a>
+<a class="sourceLine" id="cb8-8" data-line-number="8">  <span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, </a>
+<a class="sourceLine" id="cb8-9" data-line-number="9">         <span class="dt">cex =</span> <span class="fl">0.7</span>,</a>
+<a class="sourceLine" id="cb8-10" data-line-number="10">         <span class="dt">legend =</span> <span class="kw">as.vector</span>(groupDescriptions<span class="op">$</span>group.labels),</a>
+<a class="sourceLine" id="cb8-11" data-line-number="11">         <span class="dt">col =</span> <span class="kw">as.vector</span>(groupDescriptions<span class="op">$</span>group.colors), <span class="dt">pch =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb8-12" data-line-number="12">}</a></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="figures/02_combinatorix_highest_var_dotplot-1.png" alt="Dot plot of,the individuals on the two variables (genes) having the highest variance. Colors and letters denote the cancer subtypes. " width="100%" />
+<p class="caption">
+Dot plot of,the individuals on the two variables (genes) having the highest variance. Colors and letters denote the cancer subtypes.
+</p>
+</div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">par</span>(par.ori) <span class="co">## Restore original parameters</span></a></code></pre></div>
+</div>
+<div id="data-reduction-with-principal-component-analysis" class="section level3">
+<h3>Data reduction with Principal Component Analysis</h3>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co">#### Compute principal components ####</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw">message</span>(<span class="st">&quot;Computing principal components&quot;</span>)</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">exprPCs &lt;-<span class="st"> </span><span class="kw">prcomp</span>(<span class="dt">x =</span> <span class="kw">t</span>(exprTable))</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co"># class(exprPCs)</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co"># attributes(exprPCs)</span></a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co">#### Visualise the data on the first principal components ####</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">1</span>, <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">## Plot the distribution of variance for the first components</span></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="kw">plot</span>(exprPCs, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">xlab =</span> <span class="st">&quot;Components&quot;</span>, <span class="dt">main =</span> <span class="ot">NULL</span>)</a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">## Plot the first components with sample-wise colors and labels</span></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="kw">plot</span>(exprPCs<span class="op">$</span>x[, <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)], <span class="dt">type =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">las =</span> <span class="dv">1</span>,  <span class="dt">panel.first =</span> <span class="kw">grid</span>())</a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="kw">text</span>(exprPCs<span class="op">$</span>x[, <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)], <span class="dt">col =</span> sampleColor, <span class="dt">labels =</span> sampleLabel, <span class="dt">cex =</span> <span class="fl">0.8</span>)</a>
+<a class="sourceLine" id="cb11-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="co">## Plot components 3 and 4 with sample-wise colors and labels</span></a>
+<a class="sourceLine" id="cb11-13" data-line-number="13"><span class="kw">plot</span>(exprPCs<span class="op">$</span>x[, <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">4</span>)], <span class="dt">type =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">panel.first =</span> <span class="kw">grid</span>())</a>
+<a class="sourceLine" id="cb11-14" data-line-number="14"><span class="kw">text</span>(exprPCs<span class="op">$</span>x[, <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">4</span>)], <span class="dt">col =</span> sampleColor, <span class="dt">labels =</span> sampleLabel, <span class="dt">cex =</span> <span class="fl">0.8</span>)</a>
+<a class="sourceLine" id="cb11-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb11-16" data-line-number="16"><span class="co">## Plot components 5 and 6 with sample-wise colors and labels</span></a>
+<a class="sourceLine" id="cb11-17" data-line-number="17"><span class="kw">plot</span>(exprPCs<span class="op">$</span>x[, <span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">6</span>)], <span class="dt">type =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">panel.first =</span> <span class="kw">grid</span>())</a>
+<a class="sourceLine" id="cb11-18" data-line-number="18"><span class="kw">text</span>(exprPCs<span class="op">$</span>x[, <span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">6</span>)], <span class="dt">col =</span> sampleColor, <span class="dt">labels =</span> sampleLabel, <span class="dt">cex =</span> <span class="fl">0.8</span>)</a></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="figures/02_combinatorix_pc_plots-1.png" alt="Data reduction with PCA. Topleft: variance of the first components" width="100%" />
+<p class="caption">
+Data reduction with PCA. Topleft: variance of the first components
+</p>
+</div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">par</span>(par.ori)</a></code></pre></div>
+</div>
+</div>
+<div id="extract-r-code-from-this-markdown" class="section level2">
+<h2>Extract R code from this markdown</h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">library</span>(knitr)</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">RmdFile &lt;-<span class="st"> </span><span class="kw">file.path</span>(<span class="st">&quot;practicals&quot;</span>, </a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">                     <span class="st">&quot;multivariate-analysis_DenBoer2009&quot;</span>,</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4">                     <span class="st">&quot;DenBoer_2009_load-and-explore_solutions.Rmd&quot;</span>)</a>
+<a class="sourceLine" id="cb13-5" data-line-number="5">RFile &lt;-<span class="st"> </span><span class="kw">file.path</span>(<span class="st">&quot;practicals&quot;</span>, </a>
+<a class="sourceLine" id="cb13-6" data-line-number="6">                   <span class="st">&quot;multivariate-analysis_DenBoer2009&quot;</span>, </a>
+<a class="sourceLine" id="cb13-7" data-line-number="7">                   <span class="st">&quot;DenBoer_2009_load-and-explore_solutions.R&quot;</span>)</a>
+<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">## purl(RmdFile, RFile)</span></a></code></pre></div>
+</div>
+<div id="sessiokn-info" class="section level2">
+<h2>Sessiokn info</h2>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
+<pre><code>R version 3.6.1 (2019-07-05)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS Mojave 10.14.6
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] knitr_1.28
+
+loaded via a namespace (and not attached):
+ [1] compiler_3.6.1  magrittr_1.5    tools_3.6.1     htmltools_0.4.0 yaml_2.2.1      Rcpp_1.0.4      stringi_1.4.6   rmarkdown_2.1   highr_0.8       stringr_1.4.0   xfun_0.12       digest_0.6.25   rlang_0.4.5     evaluate_0.14  </code></pre>
 </div>
 
 

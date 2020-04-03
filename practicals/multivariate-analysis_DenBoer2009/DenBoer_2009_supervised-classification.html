@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 <meta name="author" content="Jacques van Helden" />
 
-<meta name="date" content="2020-03-19" />
+<meta name="date" content="2020-04-03" />
 
 <title>Practical – Supervised classification – Microarrays</title>
 
@@ -233,6 +232,7 @@ summary {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -264,6 +264,12 @@ summary {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -345,7 +351,7 @@ div.tocify {
 <h1 class="title toc-ignore">Practical – Supervised classification – Microarrays</h1>
 <h3 class="subtitle">STAT2</h3>
 <h4 class="author">Jacques van Helden</h4>
-<h4 class="date">2020-03-19</h4>
+<h4 class="date">2020-04-03</h4>
 
 </div>
 
@@ -408,7 +414,7 @@ div.tocify {
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">message</span>(<span class="st">&quot;Loading data from memory image file&quot;</span>)</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">system.time</span>(<span class="kw">load</span>(memImageFile))</a></code></pre></div>
 <pre><code>   user  system elapsed 
-  0.667   0.037   0.709 </code></pre>
+  0.653   0.046   0.705 </code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">message</span>(<span class="st">&quot;Data loaded&quot;</span>)</a></code></pre></div>
 </div>
 <div id="recommendations" class="section level2">
@@ -450,14 +456,17 @@ div.tocify {
 <li>PC plots (PC1 vs PC2, PC3 vs PC4, …) with a coloring of the classes</li>
 </ul></li>
 <li><p>Normalisation (no need here, the data we loaded was previously pre-processed)</p></li>
+<li><p>Class filtering: suppress the classes with less than 30 individuals, because it will be very difficult to train a program properly with so scsarse data.</p></li>
 <li><p>Supervised classification, with 3 steps</p>
-<p>4.1. Split the data into training and testing subsets 4.2. Train a classifier with the training subset 4.3. Evaluate the performances of the trained classifier with the testing subset 4.4. Apply the classification to an independent dataset</p></li>
-<li><p>Evaluate the impact of parameters on the performances. Examples</p>
 <ul>
-<li>KNN: impact of K, the number of neighbours</li>
-<li>SVM: impact of the kernel</li>
-<li>Random Forest: impact of number of iterations, … other parameters</li>
-<li>Discriminant analysis: impact of the homoscedasticity assumption (compare LDA with QDA).</li>
+<li><p>Split the data into training and testing subsets</p>
+<ul>
+<li>stratified subsampling: same proprotions of the 4 classes in the training as in the testing</li>
+<li>iterative subsampling with 2/3 for training and 1/3 for testing.</li>
+<li>run the subsampling 10 times independently</li>
+</ul></li>
+<li>Train a classifier with the training subset</li>
+<li><p>Evaluate the performances of the trained classifier with the testing subset 4.4. Apply the classification to an independent dataset</p></li>
 </ul></li>
 <li><p>Reduction of dimensionality. Choose one among the following approaches</p>
 <ul>
@@ -465,8 +474,79 @@ div.tocify {
 <li>PCA: keep the <span class="math inline">\(n\)</span> first components</li>
 <li>Differential analysis: keep the <span class="math inline">\(n\)</span> most significant genes from differential analysis (I will provide you with the sorted list of genes)</li>
 </ul></li>
+<li><p>Evaluate the impact of parameters on the performances. Examples</p>
+<ul>
+<li>KNN: impact of K, the number of neighbours</li>
+<li>SVM: impact of the kernel</li>
+<li>Random Forest: impact of number of iterations, … other parameters</li>
+<li>Discriminant analysis: impact of the homoscedasticity assumption (compare LDA with QDA).</li>
+</ul></li>
 <li><p>Compare the performances of 2 different classification methods (e.g. LDA, QDA, SVM, RF, KNN)</p></li>
+<li><p>Interpret the results</p>
+<ul>
+<li><p>statistical performances</p></li>
+<li><p>try to explain why some method or some parameter combination works better for your dataset that some other one, relationship with the data structure, the dimensionality of the feature space, …</p></li>
+<li><p>biological relevance</p></li>
+</ul></li>
 </ol>
+</div>
+<div id="hints" class="section level2">
+<h2>Hints</h2>
+<div id="relevant-packages-for-supervised-classification" class="section level3">
+<h3>Relevant packages for supervised classification</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Package::Function(s)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Support vector machines (SVM)</td>
+<td><code>e1071::svm()</code></td>
+</tr>
+<tr class="even">
+<td>K nearest neighbours (KNN)</td>
+<td><code>class::knn()</code></td>
+</tr>
+<tr class="odd">
+<td>Random forest (RF)</td>
+<td><code>randomForest::randomForest()</code></td>
+</tr>
+<tr class="even">
+<td>Linear discriminant analysis</td>
+<td><code>MASS::lda()</code></td>
+</tr>
+<tr class="odd">
+<td>Utilities for supervised classification</td>
+<td><code>caret</code> package</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="support" class="section level3">
+<h3>Support</h3>
+<ul>
+<li>We interact via the Ametice forum for this job.</li>
+<li>A support session by videoconference is scheduled on April 3, 10:00 - 12:00.</li>
+</ul>
+</div>
+</div>
+<div id="to-do" class="section level2">
+<h2>To do</h2>
+<ul>
+<li><p>JvH: ask accounts for each student + a shared folder for this course, in order to give you access to the IFB-core RStudio server</p>
+<p>done</p></li>
+<li><p>JvH will add an independent dataset for evaluation, in the form of a Rdata memory image</p></li>
+<li><p>JvH will give some hints, clues about some pieces of this work</p>
+<ul>
+<li><p>for each step indicate the relevant R functions (for example <code>sample()</code>, …)</p></li>
+<li><p>for some step, provide an example of a properly documented function that does the job.</p></li>
+</ul></li>
+<li><p>Define some shared space for the code</p></li>
+<li></li>
+</ul>
 </div>
 
 

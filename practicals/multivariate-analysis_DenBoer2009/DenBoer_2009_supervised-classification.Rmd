@@ -169,10 +169,13 @@ The code needs to be conceived with this in mind.
 ### R markdown recommendations
 
 1. Name each chunk of code (you need to give a unique name)
+2. In the chunk header, you can use different options to specify the figure size (e.g. `fig.width=7, fig.height=5`, and the relative width they will occupy on the output page (e.g. òut.width="80%")
+3. When you interpret your data, do not hard-code the numerical results (e.g. performance metrics obtained at the end). Instead, you can insert dynamically their values in the text of the report with pieces of R code. 
 
 ## Pipeline for the final report
 
 1. Load the data (done above)
+
 2. Exploring the data (done last time)
 
     - histogram with the distribution of values
@@ -183,7 +186,7 @@ The code needs to be conceived with this in mind.
 
 4. Class filtering: suppress the classes with less than 30 individuals, because it will be very difficult to train a program properly with so scsarse data. 
 
-4. Supervised classification, with 3 steps
+5. Supervised classification, with 3 steps
 
     - Split the data into training and testing subsets
     
@@ -195,13 +198,13 @@ The code needs to be conceived with this in mind.
     - Evaluate the performances of the trained classifier with the testing subset
     4.4. Apply the classification to an independent dataset
 
-5. Reduction of dimensionality. Choose one among the following approaches
+6. Reduction of dimensionality. Choose one among the following approaches
 
     - Very simple (rudimentary) criterion: variable ordering by decreasing variance, and keep the $n$ top variables. Analyse the impact of $n$
     - PCA: keep the $n$ first components
     - Differential analysis: keep the $n$ most significant genes from differential analysis (I will provide you with the sorted list of genes)
 
-6. Evaluate the impact of parameters on the performances. Examples
+7. Evaluate the impact of parameters on the performances. Examples
 
     - KNN: impact of K, the number of neighbours
     - SVM: impact of the kernel
@@ -209,15 +212,31 @@ The code needs to be conceived with this in mind.
     - Discriminant analysis: impact of the homoscedasticity assumption (compare LDA with QDA). 
 
 
-7. Compare the performances of 2 different classification methods (e.g. LDA, QDA, SVM, RF, KNN)
+8. Compare the performances of 2 different classification methods (e.g. LDA, QDA, SVM, RF, KNN)
 
-8. Interpret the results
+0. Interpret the results
 
     - statistical performances
     
     - try to explain why some method or some parameter combination works better for your dataset that some other one, relationship with the data structure, the dimensionality of the feature space, ...
     
     - biological relevance
+
+## Reporting
+
+- Each figure must be understandable by itself --> documented by a legend, a title, labels on the axes, ... Imagine that a reader starts by reading the figures before reading your interpretation text. The legends must be sufficient to understand the data that is displayed, but not include the interpretation of the figure. 
+
+- Interpretation: for the readability, I would expect 1 - 2âragraphs at the end of each section, to interpret what can be seen in the figures / tables, results. 
+
+- In  particular, I expect your interpretation about the performance statistics. How trustable is a classifier with the observed rate of false positive, sensitivity, positive predictive value ? Can it be considered as valuable for diagnostics. Beyond the raw values of  performance estimator, discuss about the distinct consequences of the different elements: for example the consequence of a false positive is not the same as a false negative. 
+
+- The general discussion should provide the conclusion about the initial question (that you must formulate in the introduction). 
+
+- The markdown should not specifically contain much detail about the code (it is meant as a scientific report) but you can (should) include one section with a general discussion about the organisation of your code. For example, in my case I will attempt to organise as much as possible of the code in re-usable functions, one function per basic operation (class filtering, data exploration, splitting between test and train, running the different classifiers, testing different parameters, integrating and comparing the results). I will write each funciton in a separate R file, and then the markdown will contain chunks that successively load  the different functions, runs them and display the results. One possibility is to include *relative* links from the markdown to the individual functions, in order to facilitte their access to the reader. 
+
+
+
+
     
 ## Hints
 
@@ -255,6 +274,181 @@ The code needs to be conceived with this in mind.
 - Define some shared space for the code
 
 
-- 
+## Solutions
+
+
+### Data loading
+
+
+This was treated in the tuto on Data loading and exploration.
+
+Basically we have 3 tables
+
+- expression data
+- metadata ("pheno"): table describing each biological sample / individual of the data
+- group descriptions
+
+The data has been saved as memory image that can be conveniently reloadded in less than 1 second. 
+
+### Class filtering
+
+We filter out the class that contain less than 30 individuals. 
+
+The initial data contained 11 classes, after filtering we are left with 4 classes. 
+
+- T-ALL
+- TEL-AML1
+- hyperdiploid
+- pre-B ALL
+
+```{r class_sizes_before_filtering}
+kable(sort(table(phenoTable$Sample.title)))
+```
+
+Alternative: do not apply the class filtering, but then refine the interpretation by  discussing not only the general performance indicators, but also the capability to predict individual classes. 
+
+#### My trick
+
+My filtering function returns a list (conceptually an "object" even though I don't implement it in object-oriented way) that gather all the pieces of information together. 
+
+
+ names(filteredData)
+```{r eval=FALSE}
+> names(filteredData)
+[1] "x"             "classes"       "nbIndividuals" "nbVariables"  
+[5] "classNames"    "classSizes"   
+
+```
+
+I will then progressively add fields to this list with the results of the different steps: 
+
+- the test/train splits
+- the results of the evaluations for each method and parameter value
+- the comparisons
+
+This means that a whole evaluation experiment comes together in a single variable (my list) and facilitates the consistency. 
+
+
+### Splitting of the data set in testing / training sets
+
+Hint: the simplest way to do a random split is via the R function `sample()`. Two approaches: 
+
+- first sample the test set (for instance) and define the trainings set with `setdiff()`. Example: 
+
+```{r eval=FALSE}
+
+for (class in filteredData$classNames)
+
+test <- sample(rownames(phenoTable), replace = FALSE, size = length(classMembers) / 3)
+train <- setdiff(classMembers, test)
+
+## Alternative: use the probs option of sample()
+
+```
+
+**Important**
+
+- You need to sample the different classes separately to ensure a stratified subsampling
+- Make sure to run a sampling without replacement (replace=FALSE)
+- It is better to run the test/train split once in the beginning (with all the iterations) and store the test/train status of each sample at each iteration in a table, because this will enable you to use exaclty the same splits for each method you have to compare. 
+
+### Alternative approaches
+
+- I sugested an iterative subsampling: 10 times select a random subset as test and the rest as training sets. It is important to run it iteratively because each sample must be used sometimes for testing and sometimes for training. At each iteration, you can compute a confusion table (with 1/3 of the data) and then you compute the average of all the confusion tables. 
+
+- An alternative is k-fold cross-validation. Split the data in K parts (for example 5-times CV --> typically 32 samples for training and 8 samples for testing). In this case you iterate over the K subsets, each one becomes in turn a testing set, the other ones are sued for training. You collect the predicted class for each testing subset, and at the end you build a single confusion table with all the samples. This procedure guarantees that each sample is found one time in the test, adn K-1 times in a training set. 
+
+- Some methods (but not all) are equipped with a CV (cross-validation) option, which does a particular modality of cross-vlaidation: the leave-one-one (LOO). This can be considered as an extreme form of the  K-fold CV, where $K = m$ (number of samples). Since you need to compare methods, you will anyway need to implement your own train/test splitting function for the methods that do not support LOO, so the simplest is to use it all the time. 
+
+If you want (for the sake of curiosity) you could also do some rapid test of the performance of a classifier with LOO. 
+
+In any case, the splitting sqhould be **stratified**, i.e. the different classes must be balanced between the testing and training sets. 
+
+Note: the `claret` package contains a lot of functions to run and evaluate supervised classification methods. It includes several functions to split a dataset into testing / training:  `createDataPartition()`,  `createFolds`, `createMultiFolds` , `createResample`. 
+
+The principle of the course is to teach you the principles. You are allowed to use `caret` but in this case  you must be sure to understand exaclty what the functions you use are doing, and to configure their parameters properly. In particular, make sure that your splitting is stratified (balanced between the different classes).  
+
+
+## Training the classifier
+
+
+Two possible approaches 
+
+- use the native methods (e.g. `lda()`, `knn()`, `svm()`, `randomForest()`) 
+- use  `caret::train()` which is a wrapper around these native functions. 
+
+In the latter case, you must make sure that you understand how train() works, what idt does, what are its parameters, how to pass parameters from train to the native functions (for example, how do you use train() to pass the kernel to the svm() function ?).  Actually `train()` passes all the parameter it does not know to the native function (e.g. `k`to `knn()`, or `kernel`to `svm()`). 
+
+
+```{r train_svm}
+
+sampleNb <- ncol(filteredData$x)
+test <- sample(1:sampleNb, sampleNb / 3, replace = TRUE)
+length(test)
+train <- setdiff(1:sampleNb, test)
+trainingSet <- as.matrix(t(filteredData$x[,train]))
+dim(trainingSet)
+trainingLabels <- as.factor(filteredData$classes[train])
+table(trainingLabels)
+
+svmTrained <- svm(x = trainingSet, 
+                  y = trainingLabels,
+                  kernel = "linear")
+
+```
+
+
+## Testing
+
+
+Hint: `stat::predict()`
+
+```{r predict_svm}
+testset <- as.matrix(t(filteredData$x[,test]))
+dim(testset)
+svmPrediction <- predict(object = svmTrained, x = testset)
+attributes(svmPrediction)
+svmPrediction$class
+
+class(svmPrediction)
+length(svmPrediction)
+table(svmPrediction)
+```
+
+
+
+## Cross-table
+
+
+Manually: use the function `table()` to compare the annotated classes with the predicted ones. 
+
+
+
+
+### Evaluation of the performances
+
+This is a multi-group classification. The primary statistics is thus the Misclassification Error Rate (MER). 
+
+If we run iterative subsampling, we should display the distribution of MER values obtained across the iterations (box plot). 
+
+An (optional) refinement could be to compute for each class the Sn and the FPR, and to display this on an XY plot (Y is Sn, and X is the FPR), and to display a different color / letter for each class. 
+
+```{r compute_multigroup_stats}
+
+```
+
+```{r compute_groupwise_stats}
+
+```
+
+
+### Comparison between results
+
+Comparison between results obtained with:
+
+- the smae classifier and different parameters
+- different classifiers (assuming that you first selected the best parameters for each one)
+
+
 
 

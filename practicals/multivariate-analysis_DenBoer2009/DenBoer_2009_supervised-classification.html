@@ -414,7 +414,7 @@ div.tocify {
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">message</span>(<span class="st">&quot;Loading data from memory image file&quot;</span>)</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">system.time</span>(<span class="kw">load</span>(memImageFile))</a></code></pre></div>
 <pre><code>   user  system elapsed 
-  0.653   0.046   0.705 </code></pre>
+  0.642   0.035   0.682 </code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">message</span>(<span class="st">&quot;Data loaded&quot;</span>)</a></code></pre></div>
 </div>
 <div id="recommendations" class="section level2">
@@ -442,13 +442,15 @@ div.tocify {
 <h3>R markdown recommendations</h3>
 <ol style="list-style-type: decimal">
 <li>Name each chunk of code (you need to give a unique name)</li>
+<li>In the chunk header, you can use different options to specify the figure size (e.g. <code>fig.width=7, fig.height=5</code>, and the relative width they will occupy on the output page (e.g. òut.width=“80%”)</li>
+<li>When you interpret your data, do not hard-code the numerical results (e.g. performance metrics obtained at the end). Instead, you can insert dynamically their values in the text of the report with pieces of R code.</li>
 </ol>
 </div>
 </div>
 <div id="pipeline-for-the-final-report" class="section level2">
 <h2>Pipeline for the final report</h2>
 <ol style="list-style-type: decimal">
-<li>Load the data (done above)</li>
+<li><p>Load the data (done above)</p></li>
 <li><p>Exploring the data (done last time)</p>
 <ul>
 <li>histogram with the distribution of values</li>
@@ -489,6 +491,16 @@ div.tocify {
 <li><p>biological relevance</p></li>
 </ul></li>
 </ol>
+</div>
+<div id="reporting" class="section level2">
+<h2>Reporting</h2>
+<ul>
+<li><p>Each figure must be understandable by itself –&gt; documented by a legend, a title, labels on the axes, … Imagine that a reader starts by reading the figures before reading your interpretation text. The legends must be sufficient to understand the data that is displayed, but not include the interpretation of the figure.</p></li>
+<li><p>Interpretation: for the readability, I would expect 1 - 2âragraphs at the end of each section, to interpret what can be seen in the figures / tables, results.</p></li>
+<li><p>In particular, I expect your interpretation about the performance statistics. How trustable is a classifier with the observed rate of false positive, sensitivity, positive predictive value ? Can it be considered as valuable for diagnostics. Beyond the raw values of performance estimator, discuss about the distinct consequences of the different elements: for example the consequence of a false positive is not the same as a false negative.</p></li>
+<li><p>The general discussion should provide the conclusion about the initial question (that you must formulate in the introduction).</p></li>
+<li><p>The markdown should not specifically contain much detail about the code (it is meant as a scientific report) but you can (should) include one section with a general discussion about the organisation of your code. For example, in my case I will attempt to organise as much as possible of the code in re-usable functions, one function per basic operation (class filtering, data exploration, splitting between test and train, running the different classifiers, testing different parameters, integrating and comparing the results). I will write each funciton in a separate R file, and then the markdown will contain chunks that successively load the different functions, runs them and display the results. One possibility is to include <em>relative</em> links from the markdown to the individual functions, in order to facilitte their access to the reader.</p></li>
+</ul>
 </div>
 <div id="hints" class="section level2">
 <h2>Hints</h2>
@@ -545,8 +557,115 @@ div.tocify {
 <li><p>for some step, provide an example of a properly documented function that does the job.</p></li>
 </ul></li>
 <li><p>Define some shared space for the code</p></li>
-<li></li>
 </ul>
+</div>
+<div id="solutions" class="section level2">
+<h2>Solutions</h2>
+<div id="data-loading" class="section level3">
+<h3>Data loading</h3>
+<p>This was treated in the tuto on Data loading and exploration.</p>
+<p>Basically we have 3 tables</p>
+<ul>
+<li>expression data</li>
+<li>metadata (“pheno”): table describing each biological sample / individual of the data</li>
+<li>group descriptions</li>
+</ul>
+<p>The data has been saved as memory image that can be conveniently reloadded in less than 1 second.</p>
+</div>
+<div id="class-filtering" class="section level3">
+<h3>Class filtering</h3>
+<p>We filter out the class that contain less than 30 individuals.</p>
+<p>The initial data contained 11 classes, after filtering we are left with 4 classes.</p>
+<ul>
+<li>T-ALL</li>
+<li>TEL-AML1</li>
+<li>hyperdiploid</li>
+<li>pre-B ALL</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">kable</span>(<span class="kw">sort</span>(<span class="kw">table</span>(phenoTable<span class="op">$</span>Sample.title)))</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Var1</th>
+<th align="right">Freq</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">BCR-ABL + hyperdiploidy</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">E2A-rearranged (E)</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">TEL-AML1 + hyperdiploidy</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">BCR-ABL</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">E2A-rearranged (E-sub)</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">MLL</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">E2A-rearranged (EP)</td>
+<td align="right">8</td>
+</tr>
+<tr class="even">
+<td align="left">T-ALL</td>
+<td align="right">36</td>
+</tr>
+<tr class="odd">
+<td align="left">TEL-AML1</td>
+<td align="right">43</td>
+</tr>
+<tr class="even">
+<td align="left">hyperdiploid</td>
+<td align="right">44</td>
+</tr>
+<tr class="odd">
+<td align="left">pre-B ALL</td>
+<td align="right">44</td>
+</tr>
+</tbody>
+</table>
+<p>Alternative: do not apply the class filtering, but then refine the interpretation by discussing not only the general performance indicators, but also the capability to predict individual classes.</p>
+</div>
+<div id="splitting-of-the-data-set-in-testing-training-sets" class="section level3">
+<h3>Splitting of the data set in testing / training sets</h3>
+<p>Alternative approaches</p>
+<ul>
+<li><p>I sugested an iterative subsampling: 10 times select a random subset as test and the rest as training sets. It is important to run it iteratively because each sample must be used sometimes for testing and sometimes for training. At each iteration, you can compute a confusion table (with 1/3 of the data) and then you compute the average of all the confusion tables.</p></li>
+<li><p>An alternative is k-fold cross-validation. Split the data in K parts (for example 5-times CV –&gt; typically 32 samples for training and 8 samples for testing). In this case you iterate over the K subsets, each one becomes in turn a testing set, the other ones are sued for training. You collect the predicted class for each testing subset, and at the end you build a single confusion table with all the samples. This procedure guarantees that each sample is found one time in the test, adn K-1 times in a training set.</p></li>
+<li><p>Some methods (but not all) are equipped with a CV (cross-validation) option, which does a particular modality of cross-vlaidation: the leave-one-one (LOO). This can be considered as an extreme form of the K-fold CV, where <span class="math inline">\(K = m\)</span> (number of samples). Since you need to compare methods, you will anyway need to implement your own train/test splitting function for the methods that do not support LOO, so the simplest is to use it all the time.</p></li>
+</ul>
+<p>If you want (for the sake of curiosity) you could also do some rapid test of the performance of a classifier with LOO.</p>
+<p>In any case, the splitting sqhould be <strong>stratified</strong>, i.e. the different classes must be balanced between the testing and training sets.</p>
+<p>Note: the <code>claret</code> package contains a lot of functions to run and evaluate supervised classification methods. It includes several functions to split a dataset into testing / training: <code>createDataPartition()</code>, <code>createFolds</code>, <code>createMultiFolds</code> , <code>createResample</code>.</p>
+<p>The principle of the course is to teach you the principles. You are allowed to use caret but in this case you must be sure to understand exaclty what the functions you use are doing, and to configure their parameters properly. In particular, make sure that your splitting is stratified (balanced between the different classes).</p>
+</div>
+<div id="evaluation-of-the-performances" class="section level3">
+<h3>Evaluation of the performances</h3>
+<p>This is a multi-group classification. The primary statistics is thus the Misclassification Error Rate (MER).</p>
+<p>If we run iterative subsampling, we should display the distribution of MER values obtained across the iterations (box plot).</p>
+<p>An (optional) refinement could be to compute for each class the Sn and the FPR, and to display this on an XY plot (Y is Sn, and X is the FPR), and to display a different color / letter for each class.</p>
+</div>
+<div id="comparison-between-results" class="section level3">
+<h3>Comparison between results</h3>
+<p>Comparison between results obtained with:</p>
+<ul>
+<li>the smae classifier and different parameters</li>
+<li>different classifiers (assuming that you first selected the best parameters for each one)</li>
+</ul>
+</div>
 </div>
 
 

@@ -442,6 +442,22 @@ par(par.ori)
 ```
 
 
+## Saving a memory image
+
+At the end of this tutorial, we downloaded data in tabular format (expression table, metadata, group descriptions) and loaded them in R. We will be led to re-use the same dataset for the subsequent tutorials. 
+
+For this, one possibility would be to re-run  this tutorial before running the next ones. An simpler alternative is to save the content of the R memory in a file that can be reloaded in a single command.
+
+
+```{r save_memory_image}
+#### Save a memory image ####
+message("Saving memory image in file ", memImageFile)
+save.image(file = memImageFile)
+
+```
+
+
+
 ## Extract R code from this markdown
 
 ```{r eval=FALSE}

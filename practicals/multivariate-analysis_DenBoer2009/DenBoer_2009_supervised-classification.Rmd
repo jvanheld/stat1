@@ -72,6 +72,10 @@ knitr::opts_chunk$set(
   results = TRUE, comment = "")
 # knitr::asis_output("\\footnotesize")
 
+
+## Store original graphic parameters to restore them after chunks
+par.ori <- par(no.readonly = TRUE)
+
 ```
 
 
@@ -302,22 +306,24 @@ The initial data contained 11 classes, after filtering we are left with 4 classe
 - pre-B ALL
 
 ```{r class_sizes_before_filtering}
-kable(sort(table(phenoTable$Sample.title)))
+kable(sort(table(phenoTable$Sample.title), decreasing = TRUE),
+      caption = "Group sizes")
 ```
 
 Alternative: do not apply the class filtering, but then refine the interpretation by  discussing not only the general performance indicators, but also the capability to predict individual classes. 
 
 #### My trick
 
-My filtering function returns a list (conceptually an "object" even though I don't implement it in object-oriented way) that gather all the pieces of information together. 
+My filtering function ([R/class_filtering.R]("R/class_filtering.R")) returns a list (conceptually an "object" even though I don't implement it in object-oriented way) that gather all the pieces of information together. 
 
 
- names(filteredData)
 ```{r eval=FALSE}
-> names(filteredData)
-[1] "x"             "classes"       "nbIndividuals" "nbVariables"  
-[5] "classNames"    "classSizes"   
+source("R/class_filtering.R")
+#### Filter out the classes having less than 30 individuals ####
+filteredData <- filterClasses(x = exprTable, classes = sampleGroup, minPerClass = 30)
 
+names(filteredData)
+## View(filteredData)
 ```
 
 I will then progressively add fields to this list with the results of the different steps: 
@@ -335,22 +341,72 @@ Hint: the simplest way to do a random split is via the R function `sample()`. Tw
 
 - first sample the test set (for instance) and define the trainings set with `setdiff()`. Example: 
 
-```{r eval=FALSE}
+```{r select_training_sets}
+#### Iterative stratified subsampling ####
 
-for (class in filteredData$classNames)
+## Parameters
+iterations <- 10 ## Number of train/test iterations
+trainProba <- 2/3 ## Proportion of the dataset for the training set
 
-test <- sample(rownames(phenoTable), replace = FALSE, size = length(classMembers) / 3)
-train <- setdiff(classMembers, test)
+## Message
+message("Spitting data set into train (", 
+        round(trainProba, digits = 2), ")", 
+        " and testing (", 
+        round(digits = 2, 1 - trainProba), ") sets for ",
+        iterations, " iterations. ")
 
+## Create a table with one row per individual and one column per iteration
+## with Boolean values indicating whether the individual belongs to the 
+## train set (TRUE) or testing set (FALSE°)
+trainSets <- data.frame(matrix(
+  nrow = filteredData$nbIndividuals, 
+  ncol = iterations, data = FALSE))
+rownames(trainSets) <- filteredData$individualNames
+colnames(trainSets) <- 1:iterations
+# dim(trainSets)
+# View(trainSets)
+
+## Select train / test sets for each iteration
+for (class in filteredData$classNames) { # iterate over classes
+  ## Select the indices of the class members
+  classMembers <- which(filteredData$classes == class)
+  trainSetSize <- round(length(classMembers) * trainProba)
+  if (trainSetSize < 1) {
+    message("\tWarning: train set size is 0 for class ", class)
+  }
+  for (i in 1:iterations) { # iterations
+    trainIndices <- sample(classMembers, replace = FALSE, size = trainSetSize)
+    trainSets[trainIndices, i] <- TRUE
+  }
+}
+# View(trainSets)
+# apply(trainSets, 2, sum) ## training set sizes per iteration
+# apply(!trainSets, 2, sum) ## testing set sizes per iteration
+filteredData$trainTable <- trainSets
 ## Alternative: use the probs option of sample()
 
 ```
+
+```{r check_train_test_balance, fig.width=12, heigh=12, out.width="100%"}
+#### Check group balance between training and testing sets ####
+i <- 1
+
+par(mfrow = c(ceiling(iterations/3), 3))
+par(mar = c(2,7,1,1))
+for (i in 1:iterations) {
+  barplot(table(filteredData$trainTable[, i], filteredData$classes), horiz = TRUE, las = 1)
+}
+
+par(par.ori)
+
+```
+
 
 **Important**
 
 - You need to sample the different classes separately to ensure a stratified subsampling
 - Make sure to run a sampling without replacement (replace=FALSE)
-- It is better to run the test/train split once in the beginning (with all the iterations) and store the test/train status of each sample at each iteration in a table, because this will enable you to use exaclty the same splits for each method you have to compare. 
+- It is better to run the train/test split once in the beginning (with all the iterations) and store the train/test status of each sample at each iteration in a table, because this will enable you to use exaclty the same splits for each method you have to compare. 
 
 ### Alternative approaches
 
@@ -379,22 +435,29 @@ Two possible approaches
 
 In the latter case, you must make sure that you understand how train() works, what idt does, what are its parameters, how to pass parameters from train to the native functions (for example, how do you use train() to pass the kernel to the svm() function ?).  Actually `train()` passes all the parameter it does not know to the native function (e.g. `k`to `knn()`, or `kernel`to `svm()`). 
 
+Note: I just show here the principle of the analysis with one particular training/test split. Since the results will vary depending on the particular subsets used for testing ant training, the experiment should be repeated a given number of times (e.g. 10 iterations) and the performance statistics averaged over the different repetitions. 
 
-```{r train_svm}
+It will also be interesting to analyse the variation of the performances across the repetitions of the test. 
 
-sampleNb <- ncol(filteredData$x)
-test <- sample(1:sampleNb, sampleNb / 3, replace = TRUE)
-length(test)
-train <- setdiff(1:sampleNb, test)
-trainingSet <- as.matrix(t(filteredData$x[,train]))
-dim(trainingSet)
-trainingLabels <- as.factor(filteredData$classes[train])
-table(trainingLabels)
 
+```{r svm_train_test_iterations}
+
+#### Training an SVM classifier ####
+
+# Note: here we arbitrarily set the iteration index to 1, but in the final work this should be iterated at least 10 times
+i <- 1 
+
+## Select the training set
+trainingIndices <- filteredData$trainTable[, i]
+trainingSet <- as.matrix(filteredData$x[trainingIndices,])
+trainingLabels <- as.factor(filteredData$classes[trainingIndices])
+# table(trainingLabels) # check the balance between classes in the training set
+
+## Train the SVM classifier
+svmKernel <- "linear"
 svmTrained <- svm(x = trainingSet, 
                   y = trainingLabels,
-                  kernel = "linear")
-
+                  kernel = svmKernel)
 ```
 
 
@@ -404,25 +467,39 @@ svmTrained <- svm(x = trainingSet,
 Hint: `stat::predict()`
 
 ```{r predict_svm}
-testset <- as.matrix(t(filteredData$x[,test]))
-dim(testset)
-svmPrediction <- predict(object = svmTrained, x = testset)
-attributes(svmPrediction)
-svmPrediction$class
+## Select the training set
+testingIndices <- !filteredData$trainTable[, i]
+testingSet <- as.matrix(filteredData$x[testingIndices,])
+testingLabels <- as.factor(filteredData$classes[testingIndices])
+# dim(testingSet)
+# table(testingLabels) # check the balance between classes in the training set
 
-class(svmPrediction)
-length(svmPrediction)
-table(svmPrediction)
+svmPrediction <- predict(svmTrained, testingSet)
+# View(svmPrediction)
+# attributes(svmPrediction)
+
+# class(svmPrediction)
+# length(svmPrediction)
 ```
 
 
 
-## Cross-table
+## Confusion table
 
 
 Manually: use the function `table()` to compare the annotated classes with the predicted ones. 
 
 
+```{r confusion_table}
+#### Confusion table ####
+
+## Compute confusion table
+confusionTable <- table(svmPrediction, testingLabels)
+
+## Print confusion table
+kable(confusionTable, caption = "Confusion table for SVM prediction in the testing set. Columns indicate the known class, rows the predicted class. The diagonal corresponds to correct classification, ant the outer triangles to misclassification errors. ")
+
+```
 
 
 ### Evaluation of the performances
@@ -434,6 +511,11 @@ If we run iterative subsampling, we should display the distribution of MER value
 An (optional) refinement could be to compute for each class the Sn and the FPR, and to display this on an XY plot (Y is Sn, and X is the FPR), and to display a different color / letter for each class. 
 
 ```{r compute_multigroup_stats}
+#### Compute misclassification error rate ####
+
+hits <- sum(diag(x = confusionTable))
+errors <- sum(confusionTable) - svmHits
+MER <- errors / sum(confusionTable) * 100
 
 ```
 

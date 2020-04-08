@@ -420,7 +420,7 @@ div.tocify {
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">message</span>(<span class="st">&quot;Loading data from memory image file&quot;</span>)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">system.time</span>(<span class="kw">load</span>(memImageFile))</a></code></pre></div>
 <pre><code>   user  system elapsed 
-  0.559   0.028   0.588 </code></pre>
+  0.551   0.027   0.579 </code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">message</span>(<span class="st">&quot;Data loaded&quot;</span>)</a></code></pre></div>
 </div>
 <div id="recommendations" class="section level2">
@@ -646,9 +646,24 @@ div.tocify {
 </tbody>
 </table>
 <p>Alternative: do not apply the class filtering, but then refine the interpretation by discussing not only the general performance indicators, but also the capability to predict individual classes.</p>
-<div id="my-trick" class="section level4">
-<h4>My trick</h4>
-<p>i define a function named <code>FilterClasses</code> that returns a list (conceptually an “object” even though I don’t implement it in object-oriented way) that gathers all the pieces of information together.</p>
+</div>
+<div id="organisation-of-the-data-and-results" class="section level3">
+<h3>Organisation of the data and results</h3>
+<p>There are several ways of handling the data to be used for the analyses.</p>
+<p>Basically, in supervised classification we will handle different data structures</p>
+<ol style="list-style-type: decimal">
+<li><p>a 2-dimensional table (in R, a <code>data.frame</code>) containing the input variables (one row per individual, one column per variable).</p></li>
+<li><p>a 1-dimensional vector indicating the class membership of the individuals</p></li>
+<li><p>some data structure to define which individuals will be used for training and testing. Since we will perform an iterative subsampling (split <span class="math inline">\(i\)</span> times the data into training and testing sets) we need either a set of <span class="math inline">\(i\)</span> vectors or a table with one column per iteration.</p></li>
+<li><p>some data structure to hold the prediction results (each iteration will produce a vector indicating the predicted class for each individual, and we might store all these vectors in a data.frame for example)</p></li>
+<li><p>Some data structures to hold the evaluation statistics: confusion matrix, measures of performance, …</p></li>
+</ol>
+<p>Then we need to redo all this for the different classifiers and parameter settings that we want to compare.</p>
+<p>I personnally find it cumbersome to keep all these data structures in separate variables. To facilitate their handling, I regroup the data parameters and results of a given experiment (training/testing process) in a <code>list</code>, which is a convenient R structure to put together several objects of different natures.</p>
+</div>
+<div id="definition-of-the-filterclasses-function" class="section level3">
+<h3>Definition of the FilterClasses() function</h3>
+<p>We define hereby a function named <code>FilterClasses</code> that returns a list (conceptually an “object” even though I don’t implement it in object-oriented way) that gathers all the pieces of information together: filtered data matrix, filtered vector of class memberships, and which will subsequently be populated with the results of the analyses.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co">#&#39; @title Class filtering</span></a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&#39; @author Jacques van Helden</span></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&#39; @description Given a data table and a vector of class memberships, discard the classes having less than a users-specified number of individuals.</span></a>
@@ -767,7 +782,6 @@ div.tocify {
 <li>the comparisons</li>
 </ul>
 <p>This means that a whole evaluation experiment comes together in a single variable (my list) and facilitates the consistency.</p>
-</div>
 </div>
 <div id="splitting-of-the-data-set-in-testing-training-sets" class="section level3">
 <h3>Splitting of the data set in testing / training sets</h3>
@@ -924,7 +938,7 @@ div.tocify {
 <tr class="even">
 <td>pre-B ALL</td>
 <td align="right">1</td>
-<td align="right">15</td>
+<td align="right">14</td>
 <td align="right">0</td>
 <td align="right">0</td>
 </tr>
@@ -938,7 +952,7 @@ div.tocify {
 <tr class="even">
 <td>TEL-AML1</td>
 <td align="right">0</td>
-<td align="right">0</td>
+<td align="right">1</td>
 <td align="right">0</td>
 <td align="right">14</td>
 </tr>

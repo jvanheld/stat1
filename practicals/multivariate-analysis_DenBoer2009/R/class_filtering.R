@@ -6,7 +6,7 @@
 #' @param minPerClass=20 minimal number of inidividuals per class
 #' @return a list containing the filtered data table and vector of class memberships
 #' @export
-filterClasses <- function(x,
+FilterClasses <- function(x,
                           classes,
                           minPerClass=20) {
 
@@ -15,32 +15,46 @@ filterClasses <- function(x,
     stop("The number of columns of x shoudl be identical to the length of classes")
   }
 
+  ## Prepare a list that will hold the different pieces of result
   result <- list()
-  result$x <- data.frame()
-  result$classes <- vector()
+  result$x <- data.frame() ## will contain the subset of the data table restricted to the selected individuals
+  result$classes <- vector() ## will contain the class membership for the selected individuals
 
   ## Extract  class names
-  classNames <- unique(classes)
-  classSizes <- table(classes)
+  classNames <- unique(classes) ## get a vector with unique values for class names
+  classSizes <- table(classes) ## compute class sizes
+  # print(classsSizes)
 
+  ## iterate over classes
   for (class in classNames) {
+
+    ## apply the threshold on class size
     if (classSizes[class] >= minPerClass) {
-      selected <- classes == class
+
+      ## Identify the individuals that belong to the current class
+      selected <- (classes == class)
+
+      ## A bit tricky: rbind will not work for the first class.
+      ## create the data table with the first class, or append rows for subsequent classes.
       if (ncol(result$x) == 0) {
         result$x <- t(x[, selected])
       } else {
         result$x <- rbind(result$x, t(x[, selected]))
       }
+
+      ## Append the class name for the individuals of the current class
       result$classes <- append(result$classes, classes[selected])
     }
   }
 
-  ## Compute sizes of the filtered classes
-  result$individualNames <- rownames(result$x)
-  result$variableNames <- colnames(result$x)
+  ## Build the result object (list) by adding fields with the relevant information
+  result$nbClasses <- length(result$classes) ## Number of classes after filtering
   result$nbIndividuals <- nrow(result$x) ## Number of individuals
   result$nbVariables <- ncol(result$x) ## Number of variables
-  result$classNames <- unique(result$classes)
-  result$classSizes <- table(result$classes)
+  result$classNames <- unique(result$classes) ## class names after filtering
+  result$individualNames <- rownames(result$x) ## names of the remaining individuals after class filtering
+  result$variableNames <- colnames(result$x) ## variable names
+  result$classSizes <- table(result$classes) ## class sizes after filtering
   return(result)
+
 }

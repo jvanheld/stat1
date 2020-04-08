@@ -11,7 +11,7 @@
 
 <meta name="author" content="Jacques van Helden" />
 
-<meta name="date" content="2020-04-03" />
+<meta name="date" content="2020-04-08" />
 
 <title>Practical – Supervised classification – Microarrays</title>
 
@@ -351,11 +351,17 @@ div.tocify {
 <h1 class="title toc-ignore">Practical – Supervised classification – Microarrays</h1>
 <h3 class="subtitle">STAT2</h3>
 <h4 class="author">Jacques van Helden</h4>
-<h4 class="date">2020-04-03</h4>
+<h4 class="date">2020-04-08</h4>
 
 </div>
 
 
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">pkg &lt;-<span class="st"> &quot;e1071&quot;</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="cf">if</span> (<span class="op">!</span><span class="kw">require</span>(pkg, <span class="dt">character.only =</span> <span class="ot">TRUE</span>)) {</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">  <span class="kw">message</span>(<span class="st">&quot;Installing package &quot;</span>, pkg)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">  <span class="kw">install.packages</span>(pkg, <span class="dt">dependencies =</span> <span class="ot">TRUE</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">  <span class="kw">require</span>(pkg)</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">}</a></code></pre></div>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>In this practical we will define a pipeline to run supervised classification on a multivariate dataset (transcriptome microarrays of leukemia from Den Boer 2009).</p>
@@ -381,41 +387,41 @@ div.tocify {
 </div>
 <div id="defining-the-local-folders-for-this-practical" class="section level2">
 <h2>Defining the local folders for this practical</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">####  Define Local directories and files ####</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">## Find the home directory</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">myHome &lt;-<span class="st"> </span><span class="kw">Sys.getenv</span>(<span class="st">&quot;HOME&quot;</span>)</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">## Define the main directory for the  data and results</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7">mainDir &lt;-<span class="st"> </span><span class="kw">file.path</span>(myHome,</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8">                     <span class="st">&quot;STAT2_CMB_practicals&quot;</span>,</a>
-<a class="sourceLine" id="cb1-9" data-line-number="9">                     <span class="st">&quot;den-boer-2009&quot;</span>)</a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw">dir.create</span>(<span class="dt">path =</span> mainDir, </a>
-<a class="sourceLine" id="cb1-11" data-line-number="11">           <span class="dt">recursive =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb1-12" data-line-number="12">           <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="kw">message</span>(<span class="st">&quot;Main dir: &quot;</span>, mainDir)</a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">## Define the dir where we will download the data</span></a>
-<a class="sourceLine" id="cb1-16" data-line-number="16">destDir &lt;-<span class="st"> </span><span class="kw">file.path</span>(mainDir, <span class="st">&quot;data&quot;</span>)</a>
-<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="kw">dir.create</span>(<span class="dt">path =</span> destDir, </a>
-<a class="sourceLine" id="cb1-18" data-line-number="18">           <span class="dt">recursive =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb1-19" data-line-number="19">           <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="kw">message</span>(<span class="st">&quot;Local data dir: &quot;</span>, destDir)</a>
-<a class="sourceLine" id="cb1-21" data-line-number="21"></a>
-<a class="sourceLine" id="cb1-22" data-line-number="22"><span class="co">## Define a file where we wills tore the memory image</span></a>
-<a class="sourceLine" id="cb1-23" data-line-number="23">memImageFile &lt;-<span class="st"> </span><span class="kw">file.path</span>(mainDir, <span class="st">&quot;DenBoerData_loaded.Rdata&quot;</span>)</a>
-<a class="sourceLine" id="cb1-24" data-line-number="24"><span class="kw">message</span>(<span class="st">&quot;Memory image file of the loaded data: &quot;</span>, memImageFile)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">####  Define Local directories and files ####</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">## Find the home directory</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">myHome &lt;-<span class="st"> </span><span class="kw">Sys.getenv</span>(<span class="st">&quot;HOME&quot;</span>)</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">## Define the main directory for the  data and results</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">mainDir &lt;-<span class="st"> </span><span class="kw">file.path</span>(myHome,</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">                     <span class="st">&quot;STAT2_CMB_practicals&quot;</span>,</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">                     <span class="st">&quot;den-boer-2009&quot;</span>)</a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="kw">dir.create</span>(<span class="dt">path =</span> mainDir, </a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">           <span class="dt">recursive =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb2-12" data-line-number="12">           <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="kw">message</span>(<span class="st">&quot;Main dir: &quot;</span>, mainDir)</a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">## Define the dir where we will download the data</span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16">destDir &lt;-<span class="st"> </span><span class="kw">file.path</span>(mainDir, <span class="st">&quot;data&quot;</span>)</a>
+<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="kw">dir.create</span>(<span class="dt">path =</span> destDir, </a>
+<a class="sourceLine" id="cb2-18" data-line-number="18">           <span class="dt">recursive =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb2-19" data-line-number="19">           <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="kw">message</span>(<span class="st">&quot;Local data dir: &quot;</span>, destDir)</a>
+<a class="sourceLine" id="cb2-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">## Define a file where we wills tore the memory image</span></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23">memImageFile &lt;-<span class="st"> </span><span class="kw">file.path</span>(mainDir, <span class="st">&quot;DenBoerData_loaded.Rdata&quot;</span>)</a>
+<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="kw">message</span>(<span class="st">&quot;Memory image file of the loaded data: &quot;</span>, memImageFile)</a></code></pre></div>
 </div>
 <div id="re-loading-the-pre-proocessed-data" class="section level2">
 <h2>Re-loading the pre-proocessed data</h2>
 <p>The detailed procedure to build the data set from tab-delimited files was described in the practical <a href="DenBoer_2009_load-and-explore_solutions.html"><strong>Data loading and exploration</strong></a>.</p>
 <p>At the end of this practical we saved a memory image with the data. We provide hereby a few lines of code that should enable you to reload this data.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">#### Load the data from a memory image ####</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">message</span>(<span class="st">&quot;Loading data from memory image file&quot;</span>)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">system.time</span>(<span class="kw">load</span>(memImageFile))</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">#### Load the data from a memory image ####</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">message</span>(<span class="st">&quot;Loading data from memory image file&quot;</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">system.time</span>(<span class="kw">load</span>(memImageFile))</a></code></pre></div>
 <pre><code>   user  system elapsed 
-  0.642   0.035   0.682 </code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">message</span>(<span class="st">&quot;Data loaded&quot;</span>)</a></code></pre></div>
+  0.563   0.026   0.590 </code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">message</span>(<span class="st">&quot;Data loaded&quot;</span>)</a></code></pre></div>
 </div>
 <div id="recommendations" class="section level2">
 <h2>Recommendations</h2>
@@ -582,8 +588,10 @@ div.tocify {
 <li>hyperdiploid</li>
 <li>pre-B ALL</li>
 </ul>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">kable</span>(<span class="kw">sort</span>(<span class="kw">table</span>(phenoTable<span class="op">$</span>Sample.title)))</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">kable</span>(<span class="kw">sort</span>(<span class="kw">table</span>(phenoTable<span class="op">$</span>Sample.title), <span class="dt">decreasing =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">      <span class="dt">caption =</span> <span class="st">&quot;Group sizes&quot;</span>)</a></code></pre></div>
 <table>
+<caption>Group sizes</caption>
 <thead>
 <tr class="header">
 <th align="left">Var1</th>
@@ -592,16 +600,24 @@ div.tocify {
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">BCR-ABL + hyperdiploidy</td>
-<td align="right">1</td>
+<td align="left">hyperdiploid</td>
+<td align="right">44</td>
 </tr>
 <tr class="even">
-<td align="left">E2A-rearranged (E)</td>
-<td align="right">1</td>
+<td align="left">pre-B ALL</td>
+<td align="right">44</td>
 </tr>
 <tr class="odd">
-<td align="left">TEL-AML1 + hyperdiploidy</td>
-<td align="right">1</td>
+<td align="left">TEL-AML1</td>
+<td align="right">43</td>
+</tr>
+<tr class="even">
+<td align="left">T-ALL</td>
+<td align="right">36</td>
+</tr>
+<tr class="odd">
+<td align="left">E2A-rearranged (EP)</td>
+<td align="right">8</td>
 </tr>
 <tr class="even">
 <td align="left">BCR-ABL</td>
@@ -616,32 +632,211 @@ div.tocify {
 <td align="right">4</td>
 </tr>
 <tr class="odd">
-<td align="left">E2A-rearranged (EP)</td>
-<td align="right">8</td>
+<td align="left">BCR-ABL + hyperdiploidy</td>
+<td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">T-ALL</td>
-<td align="right">36</td>
+<td align="left">E2A-rearranged (E)</td>
+<td align="right">1</td>
 </tr>
 <tr class="odd">
-<td align="left">TEL-AML1</td>
-<td align="right">43</td>
-</tr>
-<tr class="even">
-<td align="left">hyperdiploid</td>
-<td align="right">44</td>
-</tr>
-<tr class="odd">
-<td align="left">pre-B ALL</td>
-<td align="right">44</td>
+<td align="left">TEL-AML1 + hyperdiploidy</td>
+<td align="right">1</td>
 </tr>
 </tbody>
 </table>
 <p>Alternative: do not apply the class filtering, but then refine the interpretation by discussing not only the general performance indicators, but also the capability to predict individual classes.</p>
+<div id="my-trick" class="section level4">
+<h4>My trick</h4>
+<p>i define a function named <code>FilterClasses</code> that returns a list (conceptually an “object” even though I don’t implement it in object-oriented way) that gathers all the pieces of information together.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co">#&#39; @title Class filtering</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&#39; @author Jacques van Helden</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&#39; @description Given a data table and a vector of class memberships, discard the classes having less than a users-specified number of individuals.</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&#39; @param x a data frame with one row per variable and one column per individual</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&#39; @param classes a vector indicating the class of each individual</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&#39; @param minPerClass=20 minimal number of inidividuals per class</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&#39; @return a list containing the filtered data table and vector of class memberships</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&#39; @export</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9">FilterClasses &lt;-<span class="st"> </span><span class="cf">function</span>(x,</a>
+<a class="sourceLine" id="cb7-10" data-line-number="10">                          classes,</a>
+<a class="sourceLine" id="cb7-11" data-line-number="11">                          <span class="dt">minPerClass=</span><span class="dv">20</span>) {</a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13">  <span class="co">## Check that the data table and class vector have consistent dimensions</span></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14">  <span class="cf">if</span> (<span class="kw">length</span>(classes) <span class="op">!=</span><span class="st"> </span><span class="kw">ncol</span>(x)) {</a>
+<a class="sourceLine" id="cb7-15" data-line-number="15">    <span class="kw">stop</span>(<span class="st">&quot;The number of columns of x shoudl be identical to the length of classes&quot;</span>)</a>
+<a class="sourceLine" id="cb7-16" data-line-number="16">  }</a>
+<a class="sourceLine" id="cb7-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb7-18" data-line-number="18">  <span class="co">## Prepare a list that will hold the different pieces of result</span></a>
+<a class="sourceLine" id="cb7-19" data-line-number="19">  result &lt;-<span class="st"> </span><span class="kw">list</span>()</a>
+<a class="sourceLine" id="cb7-20" data-line-number="20">  result<span class="op">$</span>x &lt;-<span class="st"> </span><span class="kw">data.frame</span>() <span class="co">## will contain the subset of the data table restricted to the selected individuals</span></a>
+<a class="sourceLine" id="cb7-21" data-line-number="21">  result<span class="op">$</span>classes &lt;-<span class="st"> </span><span class="kw">vector</span>() <span class="co">## will contain the class membership for the selected individuals</span></a>
+<a class="sourceLine" id="cb7-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb7-23" data-line-number="23">  <span class="co">## Extract  class names</span></a>
+<a class="sourceLine" id="cb7-24" data-line-number="24">  classNames &lt;-<span class="st"> </span><span class="kw">unique</span>(classes) <span class="co">## get a vector with unique values for class names</span></a>
+<a class="sourceLine" id="cb7-25" data-line-number="25">  classSizes &lt;-<span class="st"> </span><span class="kw">table</span>(classes) <span class="co">## compute class sizes</span></a>
+<a class="sourceLine" id="cb7-26" data-line-number="26">  <span class="co"># print(classsSizes)</span></a>
+<a class="sourceLine" id="cb7-27" data-line-number="27"></a>
+<a class="sourceLine" id="cb7-28" data-line-number="28">  <span class="co">## iterate over classes</span></a>
+<a class="sourceLine" id="cb7-29" data-line-number="29">  <span class="cf">for</span> (class <span class="cf">in</span> classNames) {</a>
+<a class="sourceLine" id="cb7-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb7-31" data-line-number="31">    <span class="co">## apply the threshold on class size</span></a>
+<a class="sourceLine" id="cb7-32" data-line-number="32">    <span class="cf">if</span> (classSizes[class] <span class="op">&gt;=</span><span class="st"> </span>minPerClass) {</a>
+<a class="sourceLine" id="cb7-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb7-34" data-line-number="34">      <span class="co">## Identify the individuals that belong to the current class</span></a>
+<a class="sourceLine" id="cb7-35" data-line-number="35">      selected &lt;-<span class="st"> </span>(classes <span class="op">==</span><span class="st"> </span>class)</a>
+<a class="sourceLine" id="cb7-36" data-line-number="36"></a>
+<a class="sourceLine" id="cb7-37" data-line-number="37">      <span class="co">## A bit tricky: rbind will not work for the first class.</span></a>
+<a class="sourceLine" id="cb7-38" data-line-number="38">      <span class="co">## create the data table with the first class, or append rows for subsequent classes.</span></a>
+<a class="sourceLine" id="cb7-39" data-line-number="39">      <span class="cf">if</span> (<span class="kw">ncol</span>(result<span class="op">$</span>x) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb7-40" data-line-number="40">        result<span class="op">$</span>x &lt;-<span class="st"> </span><span class="kw">t</span>(x[, selected])</a>
+<a class="sourceLine" id="cb7-41" data-line-number="41">      } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb7-42" data-line-number="42">        result<span class="op">$</span>x &lt;-<span class="st"> </span><span class="kw">rbind</span>(result<span class="op">$</span>x, <span class="kw">t</span>(x[, selected]))</a>
+<a class="sourceLine" id="cb7-43" data-line-number="43">      }</a>
+<a class="sourceLine" id="cb7-44" data-line-number="44"></a>
+<a class="sourceLine" id="cb7-45" data-line-number="45">      <span class="co">## Append the class name for the individuals of the current class</span></a>
+<a class="sourceLine" id="cb7-46" data-line-number="46">      result<span class="op">$</span>classes &lt;-<span class="st"> </span><span class="kw">append</span>(result<span class="op">$</span>classes, classes[selected])</a>
+<a class="sourceLine" id="cb7-47" data-line-number="47">    }</a>
+<a class="sourceLine" id="cb7-48" data-line-number="48">  }</a>
+<a class="sourceLine" id="cb7-49" data-line-number="49"></a>
+<a class="sourceLine" id="cb7-50" data-line-number="50">  <span class="co">## Build the result object (list) by adding fields with the relevant information</span></a>
+<a class="sourceLine" id="cb7-51" data-line-number="51">  result<span class="op">$</span>nbIndividuals &lt;-<span class="st"> </span><span class="kw">nrow</span>(result<span class="op">$</span>x) <span class="co">## Number of individuals</span></a>
+<a class="sourceLine" id="cb7-52" data-line-number="52">  result<span class="op">$</span>nbVariables &lt;-<span class="st"> </span><span class="kw">ncol</span>(result<span class="op">$</span>x) <span class="co">## Number of variables</span></a>
+<a class="sourceLine" id="cb7-53" data-line-number="53">  result<span class="op">$</span>nbClasses &lt;-<span class="st"> </span><span class="kw">length</span>(result<span class="op">$</span>classes) <span class="co">## Number of variables</span></a>
+<a class="sourceLine" id="cb7-54" data-line-number="54">  result<span class="op">$</span>individualNames &lt;-<span class="st"> </span><span class="kw">rownames</span>(result<span class="op">$</span>x) <span class="co">## names of the remaining individuals after class filtering</span></a>
+<a class="sourceLine" id="cb7-55" data-line-number="55">  result<span class="op">$</span>variableNames &lt;-<span class="st"> </span><span class="kw">colnames</span>(result<span class="op">$</span>x) <span class="co">## variable names</span></a>
+<a class="sourceLine" id="cb7-56" data-line-number="56">  result<span class="op">$</span>classNames &lt;-<span class="st"> </span><span class="kw">unique</span>(result<span class="op">$</span>classes) <span class="co">## class names after filtering</span></a>
+<a class="sourceLine" id="cb7-57" data-line-number="57">  result<span class="op">$</span>classSizes &lt;-<span class="st"> </span><span class="kw">table</span>(result<span class="op">$</span>classes) <span class="co">## class sizes after filtering</span></a>
+<a class="sourceLine" id="cb7-58" data-line-number="58">  <span class="kw">return</span>(result)</a>
+<a class="sourceLine" id="cb7-59" data-line-number="59">}</a></code></pre></div>
+<p>This function can then be used with user-specified parameters.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co">#### Filter out the classes having less than 30 individuals ####</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">filteredData &lt;-<span class="st"> </span><span class="kw">FilterClasses</span>(<span class="dt">x =</span> exprTable, </a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">                              <span class="dt">classes =</span> sampleGroup, </a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">                              <span class="dt">minPerClass =</span> <span class="dv">30</span>)</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="kw">kable</span>(<span class="kw">names</span>(filteredData), <span class="dt">col.names =</span> <span class="st">&quot;field&quot;</span>, </a>
+<a class="sourceLine" id="cb8-7" data-line-number="7">      <span class="dt">caption =</span> <span class="st">&quot;fields of the filteredData list&quot;</span>)</a></code></pre></div>
+<table>
+<caption>fields of the filteredData list</caption>
+<thead>
+<tr class="header">
+<th align="left">field</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">x</td>
+</tr>
+<tr class="even">
+<td align="left">classes</td>
+</tr>
+<tr class="odd">
+<td align="left">nbIndividuals</td>
+</tr>
+<tr class="even">
+<td align="left">nbVariables</td>
+</tr>
+<tr class="odd">
+<td align="left">nbClasses</td>
+</tr>
+<tr class="even">
+<td align="left">individualNames</td>
+</tr>
+<tr class="odd">
+<td align="left">variableNames</td>
+</tr>
+<tr class="even">
+<td align="left">classNames</td>
+</tr>
+<tr class="odd">
+<td align="left">classSizes</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co">## View(filteredData)</span></a></code></pre></div>
+<p>The resulting list contains the following fields</p>
+<ul>
+<li><code>x</code> a data frame with the subset of individuals that belong to the selected classes (those having passed the class size threshold)</li>
+<li><code>classes</code> a vector indicating the class membership for the selected individuals</li>
+<li>additional variables indicating the numbers and the names of the individuals, the variables and the classes</li>
+</ul>
+<p>I will then progressively add fields to this list with the results of the different steps:</p>
+<ul>
+<li>the test/train splits</li>
+<li>the results of the evaluations for each method and parameter value</li>
+<li>the comparisons</li>
+</ul>
+<p>This means that a whole evaluation experiment comes together in a single variable (my list) and facilitates the consistency.</p>
+</div>
 </div>
 <div id="splitting-of-the-data-set-in-testing-training-sets" class="section level3">
 <h3>Splitting of the data set in testing / training sets</h3>
-<p>Alternative approaches</p>
+<p>Hint: the simplest way to do a random split is via the R function <code>sample()</code>. Two approaches:</p>
+<ul>
+<li>first sample the test set (for instance) and define the trainings set with <code>setdiff()</code>. Example:</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co">#### Iterative stratified subsampling ####</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">## Parameters</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">iterations &lt;-<span class="st"> </span><span class="dv">10</span> <span class="co">## Number of train/test iterations</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">trainProba &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">/</span><span class="dv">3</span> <span class="co">## Proportion of the dataset for the training set</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">## Message</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="kw">message</span>(<span class="st">&quot;Splitting data set into train (&quot;</span>, </a>
+<a class="sourceLine" id="cb10-9" data-line-number="9">        <span class="kw">round</span>(trainProba, <span class="dt">digits =</span> <span class="dv">2</span>), <span class="st">&quot;)&quot;</span>, </a>
+<a class="sourceLine" id="cb10-10" data-line-number="10">        <span class="st">&quot; and testing (&quot;</span>, </a>
+<a class="sourceLine" id="cb10-11" data-line-number="11">        <span class="kw">round</span>(<span class="dt">digits =</span> <span class="dv">2</span>, <span class="dv">1</span> <span class="op">-</span><span class="st"> </span>trainProba), <span class="st">&quot;) sets for &quot;</span>,</a>
+<a class="sourceLine" id="cb10-12" data-line-number="12">        iterations, <span class="st">&quot; iterations. &quot;</span>)</a>
+<a class="sourceLine" id="cb10-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">## Create a table with one row per individual and one column per iteration</span></a>
+<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">## with Boolean values indicating whether the individual belongs to the </span></a>
+<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">## train set (TRUE) or testing set (FALSE°)</span></a>
+<a class="sourceLine" id="cb10-17" data-line-number="17">trainSets &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">matrix</span>(</a>
+<a class="sourceLine" id="cb10-18" data-line-number="18">  <span class="dt">nrow =</span> filteredData<span class="op">$</span>nbIndividuals, </a>
+<a class="sourceLine" id="cb10-19" data-line-number="19">  <span class="dt">ncol =</span> iterations, <span class="dt">data =</span> <span class="ot">FALSE</span>))</a>
+<a class="sourceLine" id="cb10-20" data-line-number="20"><span class="kw">rownames</span>(trainSets) &lt;-<span class="st"> </span>filteredData<span class="op">$</span>individualNames</a>
+<a class="sourceLine" id="cb10-21" data-line-number="21"><span class="kw">colnames</span>(trainSets) &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>iterations</a>
+<a class="sourceLine" id="cb10-22" data-line-number="22"><span class="co"># dim(trainSets)</span></a>
+<a class="sourceLine" id="cb10-23" data-line-number="23"><span class="co"># View(trainSets)</span></a>
+<a class="sourceLine" id="cb10-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb10-25" data-line-number="25"><span class="co">## Select train / test sets for each iteration</span></a>
+<a class="sourceLine" id="cb10-26" data-line-number="26"><span class="cf">for</span> (class <span class="cf">in</span> filteredData<span class="op">$</span>classNames) { <span class="co"># iterate over classes</span></a>
+<a class="sourceLine" id="cb10-27" data-line-number="27">  <span class="co">## Select the indices of the class members</span></a>
+<a class="sourceLine" id="cb10-28" data-line-number="28">  classMembers &lt;-<span class="st"> </span><span class="kw">which</span>(filteredData<span class="op">$</span>classes <span class="op">==</span><span class="st"> </span>class)</a>
+<a class="sourceLine" id="cb10-29" data-line-number="29">  trainSetSize &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">length</span>(classMembers) <span class="op">*</span><span class="st"> </span>trainProba)</a>
+<a class="sourceLine" id="cb10-30" data-line-number="30">  <span class="cf">if</span> (trainSetSize <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb10-31" data-line-number="31">    <span class="kw">message</span>(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">Warning: train set size is 0 for class &quot;</span>, class)</a>
+<a class="sourceLine" id="cb10-32" data-line-number="32">  }</a>
+<a class="sourceLine" id="cb10-33" data-line-number="33">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>iterations) { <span class="co"># iterations</span></a>
+<a class="sourceLine" id="cb10-34" data-line-number="34">    trainIndices &lt;-<span class="st"> </span><span class="kw">sample</span>(classMembers, <span class="dt">replace =</span> <span class="ot">FALSE</span>, <span class="dt">size =</span> trainSetSize)</a>
+<a class="sourceLine" id="cb10-35" data-line-number="35">    trainSets[trainIndices, i] &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb10-36" data-line-number="36">  }</a>
+<a class="sourceLine" id="cb10-37" data-line-number="37">}</a>
+<a class="sourceLine" id="cb10-38" data-line-number="38"><span class="co"># View(trainSets)</span></a>
+<a class="sourceLine" id="cb10-39" data-line-number="39"><span class="co"># apply(trainSets, 2, sum) ## training set sizes per iteration</span></a>
+<a class="sourceLine" id="cb10-40" data-line-number="40"><span class="co"># apply(!trainSets, 2, sum) ## testing set sizes per iteration</span></a>
+<a class="sourceLine" id="cb10-41" data-line-number="41">filteredData<span class="op">$</span>trainTable &lt;-<span class="st"> </span>trainSets</a>
+<a class="sourceLine" id="cb10-42" data-line-number="42"><span class="co">## Alternative: use the probs option of sample()</span></a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co">#### Check group balance between training and testing sets ####</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">i &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="kw">ceiling</span>(iterations<span class="op">/</span><span class="dv">3</span>), <span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">7</span>,<span class="dv">1</span>,<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>iterations) {</a>
+<a class="sourceLine" id="cb11-7" data-line-number="7">  <span class="kw">barplot</span>(<span class="kw">table</span>(filteredData<span class="op">$</span>trainTable[, i], filteredData<span class="op">$</span>classes), <span class="dt">horiz =</span> <span class="ot">TRUE</span>, <span class="dt">las =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb11-8" data-line-number="8">}</a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="kw">par</span>(par.ori)</a></code></pre></div>
+<p><img src="figures/02_combinatorix_check_train_test_balance-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><strong>Important</strong></p>
+<ul>
+<li>You need to sample the different classes separately to ensure a stratified subsampling</li>
+<li>Make sure to run a sampling without replacement (replace=FALSE)</li>
+<li>It is better to run the train/test split once in the beginning (with all the iterations) and store the train/test status of each sample at each iteration in a table, because this will enable you to use exaclty the same splits for each method you have to compare.</li>
+</ul>
+</div>
+<div id="alternative-approaches" class="section level3">
+<h3>Alternative approaches</h3>
 <ul>
 <li><p>I sugested an iterative subsampling: 10 times select a random subset as test and the rest as training sets. It is important to run it iteratively because each sample must be used sometimes for testing and sometimes for training. At each iteration, you can compute a confusion table (with 1/3 of the data) and then you compute the average of all the confusion tables.</p></li>
 <li><p>An alternative is k-fold cross-validation. Split the data in K parts (for example 5-times CV –&gt; typically 32 samples for training and 8 samples for testing). In this case you iterate over the K subsets, each one becomes in turn a testing set, the other ones are sued for training. You collect the predicted class for each testing subset, and at the end you build a single confusion table with all the samples. This procedure guarantees that each sample is found one time in the test, adn K-1 times in a training set.</p></li>
@@ -650,14 +845,129 @@ div.tocify {
 <p>If you want (for the sake of curiosity) you could also do some rapid test of the performance of a classifier with LOO.</p>
 <p>In any case, the splitting sqhould be <strong>stratified</strong>, i.e. the different classes must be balanced between the testing and training sets.</p>
 <p>Note: the <code>claret</code> package contains a lot of functions to run and evaluate supervised classification methods. It includes several functions to split a dataset into testing / training: <code>createDataPartition()</code>, <code>createFolds</code>, <code>createMultiFolds</code> , <code>createResample</code>.</p>
-<p>The principle of the course is to teach you the principles. You are allowed to use caret but in this case you must be sure to understand exaclty what the functions you use are doing, and to configure their parameters properly. In particular, make sure that your splitting is stratified (balanced between the different classes).</p>
+<p>The principle of the course is to teach you the principles. You are allowed to use <code>caret</code> but in this case you must be sure to understand exaclty what the functions you use are doing, and to configure their parameters properly. In particular, make sure that your splitting is stratified (balanced between the different classes).</p>
 </div>
-<div id="evaluation-of-the-performances" class="section level3">
-<h3>Evaluation of the performances</h3>
+</div>
+<div id="training-the-classifier" class="section level2">
+<h2>Training the classifier</h2>
+<p>Two possible approaches</p>
+<ul>
+<li>use the native methods (e.g. <code>lda()</code>, <code>knn()</code>, <code>svm()</code>, <code>randomForest()</code>)</li>
+<li>use <code>caret::train()</code> which is a wrapper around these native functions.</li>
+</ul>
+<p>In the latter case, you must make sure that you understand how train() works, what idt does, what are its parameters, how to pass parameters from train to the native functions (for example, how do you use train() to pass the kernel to the svm() function ?). Actually <code>train()</code> passes all the parameter it does not know to the native function (e.g. <code>k</code>to <code>knn()</code>, or <code>kernel</code>to <code>svm()</code>).</p>
+<p>Note: I just show here the principle of the analysis with one particular training/test split. Since the results will vary depending on the particular subsets used for testing ant training, the experiment should be repeated a given number of times (e.g. 10 iterations) and the performance statistics averaged over the different repetitions.</p>
+<p>It will also be interesting to analyse the variation of the performances across the repetitions of the test.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co">#### Training an SVM classifier ####</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co"># Note: here we arbitrarily set the iteration index to 1, but in the final work this should be iterated at least 10 times</span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">i &lt;-<span class="st"> </span><span class="dv">1</span> </a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">## Select the training set</span></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7">trainingIndices &lt;-<span class="st"> </span>filteredData<span class="op">$</span>trainTable[, i]</a>
+<a class="sourceLine" id="cb12-8" data-line-number="8">trainingSet &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(filteredData<span class="op">$</span>x[trainingIndices,])</a>
+<a class="sourceLine" id="cb12-9" data-line-number="9">trainingLabels &lt;-<span class="st"> </span><span class="kw">as.factor</span>(filteredData<span class="op">$</span>classes[trainingIndices])</a>
+<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co"># table(trainingLabels) # check the balance between classes in the training set</span></a>
+<a class="sourceLine" id="cb12-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb12-12" data-line-number="12"><span class="co">## Train the SVM classifier</span></a>
+<a class="sourceLine" id="cb12-13" data-line-number="13">svmKernel &lt;-<span class="st"> &quot;linear&quot;</span></a>
+<a class="sourceLine" id="cb12-14" data-line-number="14">svmTrained &lt;-<span class="st"> </span><span class="kw">svm</span>(<span class="dt">x =</span> trainingSet, </a>
+<a class="sourceLine" id="cb12-15" data-line-number="15">                  <span class="dt">y =</span> trainingLabels,</a>
+<a class="sourceLine" id="cb12-16" data-line-number="16">                  <span class="dt">kernel =</span> svmKernel)</a></code></pre></div>
+</div>
+<div id="testing" class="section level2">
+<h2>Testing</h2>
+<p>Hint: <code>stat::predict()</code></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co">## Select the training set</span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">testingIndices &lt;-<span class="st"> </span><span class="op">!</span>filteredData<span class="op">$</span>trainTable[, i]</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">testingSet &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(filteredData<span class="op">$</span>x[testingIndices,])</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4">testingLabels &lt;-<span class="st"> </span><span class="kw">as.factor</span>(filteredData<span class="op">$</span>classes[testingIndices])</a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co"># dim(testingSet)</span></a>
+<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co"># table(testingLabels) # check the balance between classes in the training set</span></a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb13-8" data-line-number="8">svmPrediction &lt;-<span class="st"> </span><span class="kw">predict</span>(svmTrained, testingSet)</a>
+<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co"># View(svmPrediction)</span></a>
+<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co"># attributes(svmPrediction)</span></a>
+<a class="sourceLine" id="cb13-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="co"># class(svmPrediction)</span></a>
+<a class="sourceLine" id="cb13-13" data-line-number="13"><span class="co"># length(svmPrediction)</span></a></code></pre></div>
+</div>
+<div id="confusion-table" class="section level2">
+<h2>Confusion table</h2>
+<p>Manually: use the function <code>table()</code> to compare the annotated classes with the predicted ones.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="co">#### Confusion table ####</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="co">## Compute confusion table</span></a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">confusionTable &lt;-<span class="st"> </span><span class="kw">table</span>(svmPrediction, testingLabels)</a>
+<a class="sourceLine" id="cb14-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">## Print confusion table</span></a>
+<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="kw">kable</span>(confusionTable, <span class="dt">caption =</span> <span class="st">&quot;Confusion table for SVM prediction in the testing set. Columns indicate the known class, rows the predicted class. The diagonal corresponds to correct classification, ant the outer triangles to misclassification errors. &quot;</span>)</a></code></pre></div>
+<table>
+<caption>Confusion table for SVM prediction in the testing set. Columns indicate the known class, rows the predicted class. The diagonal corresponds to correct classification, ant the outer triangles to misclassification errors.</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">hyperdiploid</th>
+<th align="right">pre-B ALL</th>
+<th align="right">T-ALL</th>
+<th align="right">TEL-AML1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>hyperdiploid</td>
+<td align="right">11</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>pre-B ALL</td>
+<td align="right">4</td>
+<td align="right">15</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td>T-ALL</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">12</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>TEL-AML1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">13</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="evaluation-of-the-performances" class="section level2">
+<h2>Evaluation of the performances</h2>
+<div id="global-performances-misclassification-error-rate-mer-and-accuracy" class="section level3">
+<h3>Global performances: misclassification error rate (MER) and accuracy</h3>
 <p>This is a multi-group classification. The primary statistics is thus the Misclassification Error Rate (MER).</p>
 <p>If we run iterative subsampling, we should display the distribution of MER values obtained across the iterations (box plot).</p>
 <p>An (optional) refinement could be to compute for each class the Sn and the FPR, and to display this on an XY plot (Y is Sn, and X is the FPR), and to display a different color / letter for each class.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co">#### Compute hit rate and misclassification error rate ####</span></a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="co">## First approach : compute the sum of diagonal of the confusion matrix</span></a>
+<a class="sourceLine" id="cb15-4" data-line-number="4">svmHits &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">diag</span>(<span class="dt">x =</span> confusionTable))</a>
+<a class="sourceLine" id="cb15-5" data-line-number="5">svmErrors &lt;-<span class="st"> </span><span class="kw">sum</span>(confusionTable) <span class="op">-</span><span class="st"> </span>svmHits</a>
+<a class="sourceLine" id="cb15-6" data-line-number="6">MER &lt;-<span class="st"> </span>svmErrors <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(confusionTable) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></a>
+<a class="sourceLine" id="cb15-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">## Second approach (simpler): compare the training and predicted classes</span></a>
+<a class="sourceLine" id="cb15-9" data-line-number="9">svmHits =<span class="st"> </span><span class="kw">sum</span>(svmPrediction <span class="op">==</span><span class="st"> </span>testingLabels)</a>
+<a class="sourceLine" id="cb15-10" data-line-number="10">svmErrors =<span class="st"> </span><span class="kw">sum</span>(svmPrediction <span class="op">!=</span><span class="st"> </span>testingLabels)</a>
+<a class="sourceLine" id="cb15-11" data-line-number="11">svmMER &lt;-<span class="st"> </span>svmErrors <span class="op">/</span><span class="st"> </span>(svmErrors <span class="op">+</span><span class="st"> </span>svmHits)</a>
+<a class="sourceLine" id="cb15-12" data-line-number="12">svmAcc &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>svmMER</a></code></pre></div>
 </div>
+</div>
+<div id="group-wise-statistics" class="section level2">
+<h2>Group-wise statistics</h2>
 <div id="comparison-between-results" class="section level3">
 <h3>Comparison between results</h3>
 <p>Comparison between results obtained with:</p>

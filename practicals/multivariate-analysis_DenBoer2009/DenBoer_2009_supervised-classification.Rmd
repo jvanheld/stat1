@@ -3,15 +3,11 @@ title: "Practical -- Supervised classification -- Microarrays"
 author: "Jacques van Helden"
 date: "`r Sys.Date()`"
 output:
-  html_document:
-    code_folding: hide
+  pdf_document:
     fig_caption: yes
     highlight: zenburn
-    self_contained: no
-    theme: cerulean
     toc: yes
     toc_depth: 3
-    toc_float: yes
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -48,11 +44,15 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
-  pdf_document:
+  html_document:
+    code_folding: hide
     fig_caption: yes
     highlight: zenburn
+    self_contained: no
+    theme: cerulean
     toc: yes
     toc_depth: 3
+    toc_float: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
 subtitle:  STAT2
 font-family: Garamond
@@ -76,6 +76,15 @@ knitr::opts_chunk$set(
 ## Store original graphic parameters to restore them after chunks
 par.ori <- par(no.readonly = TRUE)
 
+```
+
+```{r libraries}
+pkg <- "e1071"
+if (!require(pkg, character.only = TRUE)) {
+  message("Installing package ", pkg)
+  install.packages(pkg, dependencies = TRUE, quiet = TRUE)
+  require(pkg)
+}
 ```
 
 
@@ -314,17 +323,89 @@ Alternative: do not apply the class filtering, but then refine the interpretatio
 
 #### My trick
 
-My filtering function ([R/class_filtering.R]("R/class_filtering.R")) returns a list (conceptually an "object" even though I don't implement it in object-oriented way) that gather all the pieces of information together. 
+i define a function named `FilterClasses` that returns a list (conceptually an "object" even though I don't implement it in object-oriented way) that gathers all the pieces of information together. 
 
+```{r}
+#' @title Class filtering
+#' @author Jacques van Helden
+#' @description Given a data table and a vector of class memberships, discard the classes having less than a users-specified number of individuals.
+#' @param x a data frame with one row per variable and one column per individual
+#' @param classes a vector indicating the class of each individual
+#' @param minPerClass=20 minimal number of inidividuals per class
+#' @return a list containing the filtered data table and vector of class memberships
+#' @export
+FilterClasses <- function(x,
+                          classes,
+                          minPerClass=20) {
 
-```{r eval=FALSE}
-source("R/class_filtering.R")
+  ## Check that the data table and class vector have consistent dimensions
+  if (length(classes) != ncol(x)) {
+    stop("The number of columns of x shoudl be identical to the length of classes")
+  }
+
+  ## Prepare a list that will hold the different pieces of result
+  result <- list()
+  result$x <- data.frame() ## will contain the subset of the data table restricted to the selected individuals
+  result$classes <- vector() ## will contain the class membership for the selected individuals
+
+  ## Extract  class names
+  classNames <- unique(classes) ## get a vector with unique values for class names
+  classSizes <- table(classes) ## compute class sizes
+  # print(classsSizes)
+
+  ## iterate over classes
+  for (class in classNames) {
+
+    ## apply the threshold on class size
+    if (classSizes[class] >= minPerClass) {
+
+      ## Identify the individuals that belong to the current class
+      selected <- (classes == class)
+
+      ## A bit tricky: rbind will not work for the first class.
+      ## create the data table with the first class, or append rows for subsequent classes.
+      if (ncol(result$x) == 0) {
+        result$x <- t(x[, selected])
+      } else {
+        result$x <- rbind(result$x, t(x[, selected]))
+      }
+
+      ## Append the class name for the individuals of the current class
+      result$classes <- append(result$classes, classes[selected])
+    }
+  }
+
+  ## Build the result object (list) by adding fields with the relevant information
+  result$nbClasses <- length(result$classes) ## Number of classes after filtering
+  result$nbIndividuals <- nrow(result$x) ## Number of individuals
+  result$nbVariables <- ncol(result$x) ## Number of variables
+  result$classNames <- unique(result$classes) ## class names after filtering
+  result$individualNames <- rownames(result$x) ## names of the remaining individuals after class filtering
+  result$variableNames <- colnames(result$x) ## variable names
+  result$classSizes <- table(result$classes) ## class sizes after filtering
+  return(result)
+}
+
+```
+
+This function can then be used with user-specified parameters.
+
+```{r filter_classes}
 #### Filter out the classes having less than 30 individuals ####
-filteredData <- filterClasses(x = exprTable, classes = sampleGroup, minPerClass = 30)
+filteredData <- FilterClasses(x = exprTable, 
+                              classes = sampleGroup, 
+                              minPerClass = 30)
 
-names(filteredData)
+kable(names(filteredData), col.names = "field", 
+      caption = "fields of the filteredData list")
 ## View(filteredData)
 ```
+
+The resulting list contains the following fields
+
+- `x` a data frame with the subset of individuals that belong to the selected classes (those having passed the class size threshold)
+- `classes` a vector indicating the class membership for the selected individuals
+- additional variables indicating the numbers and the names of the individuals, the variables and the classes
 
 I will then progressively add fields to this list with the results of the different steps: 
 
@@ -349,7 +430,7 @@ iterations <- 10 ## Number of train/test iterations
 trainProba <- 2/3 ## Proportion of the dataset for the training set
 
 ## Message
-message("Spitting data set into train (", 
+message("Splitting data set into train (", 
         round(trainProba, digits = 2), ")", 
         " and testing (", 
         round(digits = 2, 1 - trainProba), ") sets for ",
@@ -502,7 +583,9 @@ kable(confusionTable, caption = "Confusion table for SVM prediction in the testi
 ```
 
 
-### Evaluation of the performances
+## Evaluation of the performances
+
+### Global performances: misclassification error rate (MER) and accuracy
 
 This is a multi-group classification. The primary statistics is thus the Misclassification Error Rate (MER). 
 
@@ -511,13 +594,22 @@ If we run iterative subsampling, we should display the distribution of MER value
 An (optional) refinement could be to compute for each class the Sn and the FPR, and to display this on an XY plot (Y is Sn, and X is the FPR), and to display a different color / letter for each class. 
 
 ```{r compute_multigroup_stats}
-#### Compute misclassification error rate ####
+#### Compute hit rate and misclassification error rate ####
 
-hits <- sum(diag(x = confusionTable))
-errors <- sum(confusionTable) - svmHits
-MER <- errors / sum(confusionTable) * 100
+## First approach : compute the sum of diagonal of the confusion matrix
+svmHits <- sum(diag(x = confusionTable))
+svmErrors <- sum(confusionTable) - svmHits
+MER <- svmErrors / sum(confusionTable) * 100
+
+## Second approach (simpler): compare the training and predicted classes
+svmHits = sum(svmPrediction == testingLabels)
+svmErrors = sum(svmPrediction != testingLabels)
+svmMER <- svmErrors / (svmErrors + svmHits)
+svmAcc <- 1 - svmMER
 
 ```
+
+## Group-wise statistics
 
 ```{r compute_groupwise_stats}
 

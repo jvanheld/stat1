@@ -3,15 +3,11 @@ title: "Practical -- Supervised classification -- Microarrays"
 author: "Jacques van Helden"
 date: "`r Sys.Date()`"
 output:
-  html_document:
-    code_folding: hide
+  pdf_document:
     fig_caption: yes
     highlight: zenburn
-    self_contained: no
-    theme: cerulean
     toc: yes
     toc_depth: 3
-    toc_float: yes
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -48,11 +44,15 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
-  pdf_document:
+  html_document:
+    code_folding: hide
     fig_caption: yes
     highlight: zenburn
+    self_contained: no
+    theme: cerulean
     toc: yes
     toc_depth: 3
+    toc_float: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
 subtitle:  STAT2
 font-family: Garamond
@@ -321,9 +321,31 @@ kable(sort(table(phenoTable$Sample.title), decreasing = TRUE),
 
 Alternative: do not apply the class filtering, but then refine the interpretation by  discussing not only the general performance indicators, but also the capability to predict individual classes. 
 
-#### My trick
+### Organisation of the data and results
 
-i define a function named `FilterClasses` that returns a list (conceptually an "object" even though I don't implement it in object-oriented way) that gathers all the pieces of information together. 
+There are several ways of handling the data to be used for the analyses. 
+
+Basically, in supervised classification we will handle different data structures
+
+1. a 2-dimensional table (in R, a `data.frame`) containing the input variables (one row per individual, one column per variable).
+
+2. a 1-dimensional vector indicating the class membership of the individuals
+
+3. some data structure to define which individuals will be used for training and testing. Since we will perform an iterative subsampling (split $i$ times the data into training and testing sets) we need either a set of $i$ vectors or a table with one column per iteration. 
+
+4. some data structure to hold the prediction results (each iteration will produce a vector indicating the predicted class for each individual, and we might store all these vectors in a data.frame for example)
+
+5. Some data structures to hold the evaluation statistics: confusion matrix, measures of performance, ...
+
+Then we need to redo all this for the different classifiers and parameter settings that we want to compare. 
+
+I personnally find it cumbersome to keep all these data structures in separate variables. To facilitate their handling, I regroup the data parameters and results of a given experiment (training/testing process) in a `list`, which is a convenient R structure to put together several objects of different natures. 
+
+
+### Definition of the FilterClasses() function
+
+
+We define hereby a function named `FilterClasses` that returns a list (conceptually an "object" even though I don't implement it in object-oriented way) that gathers all the pieces of information together: filtered data matrix, filtered vector of class memberships, and which will subsequently be populated with the results of the analyses. 
 
 ```{r}
 #' @title Class filtering

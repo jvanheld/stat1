@@ -420,7 +420,7 @@ div.tocify {
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">message</span>(<span class="st">&quot;Loading data from memory image file&quot;</span>)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">system.time</span>(<span class="kw">load</span>(memImageFile))</a></code></pre></div>
 <pre><code>   user  system elapsed 
-  0.563   0.026   0.590 </code></pre>
+  0.559   0.028   0.588 </code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">message</span>(<span class="st">&quot;Data loaded&quot;</span>)</a></code></pre></div>
 </div>
 <div id="recommendations" class="section level2">
@@ -699,12 +699,12 @@ div.tocify {
 <a class="sourceLine" id="cb7-48" data-line-number="48">  }</a>
 <a class="sourceLine" id="cb7-49" data-line-number="49"></a>
 <a class="sourceLine" id="cb7-50" data-line-number="50">  <span class="co">## Build the result object (list) by adding fields with the relevant information</span></a>
-<a class="sourceLine" id="cb7-51" data-line-number="51">  result<span class="op">$</span>nbIndividuals &lt;-<span class="st"> </span><span class="kw">nrow</span>(result<span class="op">$</span>x) <span class="co">## Number of individuals</span></a>
-<a class="sourceLine" id="cb7-52" data-line-number="52">  result<span class="op">$</span>nbVariables &lt;-<span class="st"> </span><span class="kw">ncol</span>(result<span class="op">$</span>x) <span class="co">## Number of variables</span></a>
-<a class="sourceLine" id="cb7-53" data-line-number="53">  result<span class="op">$</span>nbClasses &lt;-<span class="st"> </span><span class="kw">length</span>(result<span class="op">$</span>classes) <span class="co">## Number of variables</span></a>
-<a class="sourceLine" id="cb7-54" data-line-number="54">  result<span class="op">$</span>individualNames &lt;-<span class="st"> </span><span class="kw">rownames</span>(result<span class="op">$</span>x) <span class="co">## names of the remaining individuals after class filtering</span></a>
-<a class="sourceLine" id="cb7-55" data-line-number="55">  result<span class="op">$</span>variableNames &lt;-<span class="st"> </span><span class="kw">colnames</span>(result<span class="op">$</span>x) <span class="co">## variable names</span></a>
-<a class="sourceLine" id="cb7-56" data-line-number="56">  result<span class="op">$</span>classNames &lt;-<span class="st"> </span><span class="kw">unique</span>(result<span class="op">$</span>classes) <span class="co">## class names after filtering</span></a>
+<a class="sourceLine" id="cb7-51" data-line-number="51">  result<span class="op">$</span>nbClasses &lt;-<span class="st"> </span><span class="kw">length</span>(result<span class="op">$</span>classes) <span class="co">## Number of classes after filtering</span></a>
+<a class="sourceLine" id="cb7-52" data-line-number="52">  result<span class="op">$</span>nbIndividuals &lt;-<span class="st"> </span><span class="kw">nrow</span>(result<span class="op">$</span>x) <span class="co">## Number of individuals</span></a>
+<a class="sourceLine" id="cb7-53" data-line-number="53">  result<span class="op">$</span>nbVariables &lt;-<span class="st"> </span><span class="kw">ncol</span>(result<span class="op">$</span>x) <span class="co">## Number of variables</span></a>
+<a class="sourceLine" id="cb7-54" data-line-number="54">  result<span class="op">$</span>classNames &lt;-<span class="st"> </span><span class="kw">unique</span>(result<span class="op">$</span>classes) <span class="co">## class names after filtering</span></a>
+<a class="sourceLine" id="cb7-55" data-line-number="55">  result<span class="op">$</span>individualNames &lt;-<span class="st"> </span><span class="kw">rownames</span>(result<span class="op">$</span>x) <span class="co">## names of the remaining individuals after class filtering</span></a>
+<a class="sourceLine" id="cb7-56" data-line-number="56">  result<span class="op">$</span>variableNames &lt;-<span class="st"> </span><span class="kw">colnames</span>(result<span class="op">$</span>x) <span class="co">## variable names</span></a>
 <a class="sourceLine" id="cb7-57" data-line-number="57">  result<span class="op">$</span>classSizes &lt;-<span class="st"> </span><span class="kw">table</span>(result<span class="op">$</span>classes) <span class="co">## class sizes after filtering</span></a>
 <a class="sourceLine" id="cb7-58" data-line-number="58">  <span class="kw">return</span>(result)</a>
 <a class="sourceLine" id="cb7-59" data-line-number="59">}</a></code></pre></div>
@@ -731,22 +731,22 @@ div.tocify {
 <td align="left">classes</td>
 </tr>
 <tr class="odd">
-<td align="left">nbIndividuals</td>
-</tr>
-<tr class="even">
-<td align="left">nbVariables</td>
-</tr>
-<tr class="odd">
 <td align="left">nbClasses</td>
 </tr>
 <tr class="even">
-<td align="left">individualNames</td>
+<td align="left">nbIndividuals</td>
 </tr>
 <tr class="odd">
-<td align="left">variableNames</td>
+<td align="left">nbVariables</td>
 </tr>
 <tr class="even">
 <td align="left">classNames</td>
+</tr>
+<tr class="odd">
+<td align="left">individualNames</td>
+</tr>
+<tr class="even">
+<td align="left">variableNames</td>
 </tr>
 <tr class="odd">
 <td align="left">classSizes</td>
@@ -916,17 +916,17 @@ div.tocify {
 <tbody>
 <tr class="odd">
 <td>hyperdiploid</td>
-<td align="right">11</td>
+<td align="right">14</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
 <td>pre-B ALL</td>
-<td align="right">4</td>
+<td align="right">1</td>
 <td align="right">15</td>
 <td align="right">0</td>
-<td align="right">1</td>
+<td align="right">0</td>
 </tr>
 <tr class="odd">
 <td>T-ALL</td>
@@ -940,10 +940,14 @@ div.tocify {
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">13</td>
+<td align="right">14</td>
 </tr>
 </tbody>
 </table>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">heatmap</span>(confusionTable, <span class="dt">Rowv =</span> <span class="ot">NA</span>, <span class="dt">Colv =</span> <span class="ot">NA</span>, <span class="dt">scale =</span> <span class="st">&quot;none&quot;</span>, </a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">        <span class="dt">cexRow =</span> <span class="fl">0.9</span>, <span class="dt">cexCol =</span> <span class="fl">0.9</span>,</a>
+<a class="sourceLine" id="cb15-3" data-line-number="3">        <span class="dt">col =</span> <span class="kw">gray</span>(<span class="dt">level =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">1</span>, <span class="dt">to =</span> <span class="dv">0</span>, <span class="dt">length.out =</span> <span class="dv">100</span>)))</a></code></pre></div>
+<p><img src="figures/02_combinatorix_confusion_table_heatmap-1.png" width="50%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="evaluation-of-the-performances" class="section level2">
 <h2>Evaluation of the performances</h2>
@@ -952,18 +956,18 @@ div.tocify {
 <p>This is a multi-group classification. The primary statistics is thus the Misclassification Error Rate (MER).</p>
 <p>If we run iterative subsampling, we should display the distribution of MER values obtained across the iterations (box plot).</p>
 <p>An (optional) refinement could be to compute for each class the Sn and the FPR, and to display this on an XY plot (Y is Sn, and X is the FPR), and to display a different color / letter for each class.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co">#### Compute hit rate and misclassification error rate ####</span></a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="co">## First approach : compute the sum of diagonal of the confusion matrix</span></a>
-<a class="sourceLine" id="cb15-4" data-line-number="4">svmHits &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">diag</span>(<span class="dt">x =</span> confusionTable))</a>
-<a class="sourceLine" id="cb15-5" data-line-number="5">svmErrors &lt;-<span class="st"> </span><span class="kw">sum</span>(confusionTable) <span class="op">-</span><span class="st"> </span>svmHits</a>
-<a class="sourceLine" id="cb15-6" data-line-number="6">MER &lt;-<span class="st"> </span>svmErrors <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(confusionTable) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></a>
-<a class="sourceLine" id="cb15-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">## Second approach (simpler): compare the training and predicted classes</span></a>
-<a class="sourceLine" id="cb15-9" data-line-number="9">svmHits =<span class="st"> </span><span class="kw">sum</span>(svmPrediction <span class="op">==</span><span class="st"> </span>testingLabels)</a>
-<a class="sourceLine" id="cb15-10" data-line-number="10">svmErrors =<span class="st"> </span><span class="kw">sum</span>(svmPrediction <span class="op">!=</span><span class="st"> </span>testingLabels)</a>
-<a class="sourceLine" id="cb15-11" data-line-number="11">svmMER &lt;-<span class="st"> </span>svmErrors <span class="op">/</span><span class="st"> </span>(svmErrors <span class="op">+</span><span class="st"> </span>svmHits)</a>
-<a class="sourceLine" id="cb15-12" data-line-number="12">svmAcc &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>svmMER</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co">#### Compute hit rate and misclassification error rate ####</span></a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co">## First approach : compute the sum of diagonal of the confusion matrix</span></a>
+<a class="sourceLine" id="cb16-4" data-line-number="4">svmHits &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">diag</span>(<span class="dt">x =</span> confusionTable))</a>
+<a class="sourceLine" id="cb16-5" data-line-number="5">svmErrors &lt;-<span class="st"> </span><span class="kw">sum</span>(confusionTable) <span class="op">-</span><span class="st"> </span>svmHits</a>
+<a class="sourceLine" id="cb16-6" data-line-number="6">MER &lt;-<span class="st"> </span>svmErrors <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(confusionTable) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></a>
+<a class="sourceLine" id="cb16-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">## Second approach (simpler): compare the training and predicted classes</span></a>
+<a class="sourceLine" id="cb16-9" data-line-number="9">svmHits =<span class="st"> </span><span class="kw">sum</span>(svmPrediction <span class="op">==</span><span class="st"> </span>testingLabels)</a>
+<a class="sourceLine" id="cb16-10" data-line-number="10">svmErrors =<span class="st"> </span><span class="kw">sum</span>(svmPrediction <span class="op">!=</span><span class="st"> </span>testingLabels)</a>
+<a class="sourceLine" id="cb16-11" data-line-number="11">svmMER &lt;-<span class="st"> </span>svmErrors <span class="op">/</span><span class="st"> </span>(svmErrors <span class="op">+</span><span class="st"> </span>svmHits)</a>
+<a class="sourceLine" id="cb16-12" data-line-number="12">svmAcc &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>svmMER</a></code></pre></div>
 </div>
 </div>
 <div id="group-wise-statistics" class="section level2">

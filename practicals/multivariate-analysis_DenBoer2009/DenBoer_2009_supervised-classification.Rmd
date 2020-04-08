@@ -3,15 +3,11 @@ title: "Practical -- Supervised classification -- Microarrays"
 author: "Jacques van Helden"
 date: "`r Sys.Date()`"
 output:
-  html_document:
-    code_folding: hide
+  pdf_document:
     fig_caption: yes
     highlight: zenburn
-    self_contained: no
-    theme: cerulean
     toc: yes
     toc_depth: 3
-    toc_float: yes
   ioslides_presentation:
     colortheme: dolphin
     fig_caption: yes
@@ -48,11 +44,15 @@ output:
     theme: cerulean
     toc: yes
     widescreen: yes
-  pdf_document:
+  html_document:
+    code_folding: hide
     fig_caption: yes
     highlight: zenburn
+    self_contained: no
+    theme: cerulean
     toc: yes
     toc_depth: 3
+    toc_float: yes
 font-import: http://fonts.googleapis.com/css?family=Risque
 subtitle:  STAT2
 font-family: Garamond
@@ -605,9 +605,13 @@ kable(confusionTable, caption = "Confusion table for SVM prediction in the testi
 ```
 
 ```{r confusion_table_heatmap, fig.width=5, fig.height=5, out.width="50%"}
+
+#### Heatmap of the confusion table ####
+greyPalette <- gray(level = seq(from = 1, to = 0, length.out = 100))
+
 heatmap(confusionTable, Rowv = NA, Colv = NA, scale = "none", 
         cexRow = 0.9, cexCol = 0.9,
-        col = gray(level = seq(from = 1, to = 0, length.out = 100)))
+        col = greyPalette)
 
 ```
 

@@ -11,7 +11,7 @@
 
 <meta name="author" content="Jacques van Helden" />
 
-<meta name="date" content="2020-04-03" />
+<meta name="date" content="2020-04-12" />
 
 <title>Practical – Microarray analysis – Data loading and exploration</title>
 
@@ -351,7 +351,7 @@ div.tocify {
 <h1 class="title toc-ignore">Practical – Microarray analysis – Data loading and exploration</h1>
 <h3 class="subtitle">(STAT2)</h3>
 <h4 class="author">Jacques van Helden</h4>
-<h4 class="date">2020-04-03</h4>
+<h4 class="date">2020-04-12</h4>
 
 </div>
 
@@ -804,20 +804,28 @@ Data reduction with PCA. Topleft: variance of the first components
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">par</span>(par.ori)</a></code></pre></div>
 </div>
 </div>
+<div id="saving-a-memory-image" class="section level2">
+<h2>Saving a memory image</h2>
+<p>At the end of this tutorial, we downloaded data in tabular format (expression table, metadata, group descriptions) and loaded them in R. We will be led to re-use the same dataset for the subsequent tutorials.</p>
+<p>For this, one possibility would be to re-run this tutorial before running the next ones. An simpler alternative is to save the content of the R memory in a file that can be reloaded in a single command.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co">#### Save a memory image ####</span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw">message</span>(<span class="st">&quot;Saving memory image in file &quot;</span>, memImageFile)</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="kw">save.image</span>(<span class="dt">file =</span> memImageFile)</a></code></pre></div>
+</div>
 <div id="extract-r-code-from-this-markdown" class="section level2">
 <h2>Extract R code from this markdown</h2>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">library</span>(knitr)</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">RmdFile &lt;-<span class="st"> </span><span class="kw">file.path</span>(<span class="st">&quot;practicals&quot;</span>, </a>
-<a class="sourceLine" id="cb13-3" data-line-number="3">                     <span class="st">&quot;multivariate-analysis_DenBoer2009&quot;</span>,</a>
-<a class="sourceLine" id="cb13-4" data-line-number="4">                     <span class="st">&quot;DenBoer_2009_load-and-explore_solutions.Rmd&quot;</span>)</a>
-<a class="sourceLine" id="cb13-5" data-line-number="5">RFile &lt;-<span class="st"> </span><span class="kw">file.path</span>(<span class="st">&quot;practicals&quot;</span>, </a>
-<a class="sourceLine" id="cb13-6" data-line-number="6">                   <span class="st">&quot;multivariate-analysis_DenBoer2009&quot;</span>, </a>
-<a class="sourceLine" id="cb13-7" data-line-number="7">                   <span class="st">&quot;DenBoer_2009_load-and-explore_solutions.R&quot;</span>)</a>
-<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">## purl(RmdFile, RFile)</span></a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">library</span>(knitr)</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">RmdFile &lt;-<span class="st"> </span><span class="kw">file.path</span>(<span class="st">&quot;practicals&quot;</span>, </a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">                     <span class="st">&quot;multivariate-analysis_DenBoer2009&quot;</span>,</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">                     <span class="st">&quot;DenBoer_2009_load-and-explore_solutions.Rmd&quot;</span>)</a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">RFile &lt;-<span class="st"> </span><span class="kw">file.path</span>(<span class="st">&quot;practicals&quot;</span>, </a>
+<a class="sourceLine" id="cb14-6" data-line-number="6">                   <span class="st">&quot;multivariate-analysis_DenBoer2009&quot;</span>, </a>
+<a class="sourceLine" id="cb14-7" data-line-number="7">                   <span class="st">&quot;DenBoer_2009_load-and-explore_solutions.R&quot;</span>)</a>
+<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">## purl(RmdFile, RFile)</span></a></code></pre></div>
 </div>
 <div id="sessiokn-info" class="section level2">
 <h2>Sessiokn info</h2>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
 <pre><code>R version 3.6.1 (2019-07-05)
 Platform: x86_64-apple-darwin15.6.0 (64-bit)
 Running under: macOS Mojave 10.14.6

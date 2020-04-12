@@ -354,7 +354,7 @@ We define hereby a function named `FilterClasses` that returns a list (conceptua
 #' @param x a data frame with one row per variable and one column per individual
 #' @param classes a vector indicating the class of each individual
 #' @param minPerClass=20 minimal number of inidividuals per class
-#' @return a list containing the filtered data table and vector of class memberships
+#' @return a list containing the filtered data table, a vector of class memberships, and other fields describing the numbers and names of the elements (variables, samples, classes)
 #' @export
 FilterClasses <- function(x,
                           classes,
@@ -362,7 +362,7 @@ FilterClasses <- function(x,
 
   ## Check that the data table and class vector have consistent dimensions
   if (length(classes) != ncol(x)) {
-    stop("The number of columns of x shoudl be identical to the length of classes")
+    stop("The number of columns of x should be identical to the length of classes")
   }
 
   ## Prepare a list that will hold the different pieces of result
@@ -398,7 +398,7 @@ FilterClasses <- function(x,
   }
 
   ## Build the result object (list) by adding fields with the relevant information
-  result$nbClasses <- length(result$classes) ## Number of classes after filtering
+  result$nbClasses <- length(classNames) ## Number of classes after filtering
   result$nbIndividuals <- nrow(result$x) ## Number of individuals
   result$nbVariables <- ncol(result$x) ## Number of variables
   result$classNames <- unique(result$classes) ## class names after filtering
@@ -654,8 +654,121 @@ svmAcc <- 1 - svmMER
 
 Comparison between results obtained with:
 
-- the smae classifier and different parameters
-- different classifiers (assuming that you first selected the best parameters for each one)
+
+- the same classifier and different parameters, in order to identify the optimal paramters.
+
+- once hti is done, run different classifiers (assuming that you first selected the best parameters for each one) and compare their performances
+
+
+
+For this you need to be able to run the whole procedure several times
+
+- iterating on the parameters
+
+    - iterating on the train/test session
+    
+        - select training and testing sets
+        - train the classifier
+        - run the test on the testing set
+        - aggregate the results
+        - compute the confusion table
+        - compute the performance statistics (MER)
+        
+    - summarise the results of the iterations
+    
+        - mean performance
+        - variations of performance index between iterations of training/testing
+        
+
+### Impact of the parameters
+
+I  propose to test the following parameters (but you are free to test other ones if you have a good reason to think they are relevant)
+
+- For SVM: the critical parameter is the kernel (linear, radial, polynomial, sigmoid). 
+
+    - To check: there is a function named `e1071::tune.svm()`, which might do the job. If so use it, it will facilitate your life.
+    
+- For KNN, the main parameter is the number of neighbours ($k$). Test: 3, 4, 5, 7, 10
+
+    - There is a function named: `e1071::tune.knn()` -> check if this enables you to automatically find the best parameteres
+    
+- Random Forest: 
+    
+    - random forest iterates many times (typically 500 times) training / testing on random subsets of the data (subset of individuals and variables). After the training, it tests the error rate on the individuals that were not retained for training. This is called **Out-of-bag error**. 
+    
+    - relevant parameters are
+    
+        - **number of trees** ("iterations")
+        - **mtry**: Number of variables randomly sampled as candidates at each split. Note that the default values are different for classification (sqrt(p) where p is number of variables in x) and regression (p/3)
+
+
+    - In ordre to see the best number of trees, you can simply ploit the RF model. This will display the Out-of-bag error rate as a function of the number of iterations. 
+
+    - Fabiana noted a function `tuneRF()`, that runs RF with different parameter values, gather the results and displays graphically the impact of the parameters on the performances. 
+    
+
+    - There is also a funciton `e1071::tune.randomForest()`. Check which one is the most convenient
+
+
+### Iterations of training/testing
+
+After having identified the best parameters for a given classifer (using the above-mentioned tune functions), you will run 10 iterations with the optimal parameters in order to measure the mean MER and its fluctuations.
+
+For each classifier that you will test, you should repeat the train/test evaluation because the result may vary depending on the random split of the dataset --> the idea is to run it e.g. $r = 10$ times in order to obtain a mean value + the dispersion (e.g. standard devation) or a graphical representation (e.g. box plot) that shows how much the MER varies between repetitions of the test. 
+
+At each iteration, you obtaine a given $MER$. Collect them, and then you can draw a boxplot (for example) of the MER values. Suggestion: use a scale from 0 to 1 for the MER boxplot, in order to always display the full range of possible values. 
+
+## Data reduction and feature selection
+
+### Variable ordering
+
+The principle is to sort all the variables based on a given criterion, and to keep the $n$ top variables only.
+
+Typical criteria. 
+
+- A simple criterion is the **variance**, but this is not always a relevant criterion. 
+
+- An alternative is to sort the variables (in this case, the genes) by decreasing significance of a **differential analysis test.**  So faw we saw how to run differential analysis with two groups. In this case we want to run a 4-group classification. One possibility is to run a test that compare multiple groups, e.g. anova (ANalysis Of Variance). Thi is a general method to analyse the impact of one or several factors on some osberver variable. In this case there would be a single factor (one-way ANOVA), the cancer class (subtype). 
+
+
+### PCA
+
+Keep the first components after PCA of the variable space. 
+
+### Stepwise selection
+
+Two modalities: forward and backward.
+
+**Forward selection**: 
+
+    - train / test with each variable alone. the results are supposedly porr but some variables will give som success. 
+    - Then run a train/test  combining the best variable with each other variable (2-variables test)
+    - Select the bets of these 2-variables combinations, and run train/test by combining it with each one the remaining variables (here you have combinations of 3 variables)
+    - ... do the same until $n$ variables, or stop if the performances start to decrease strongly
+
+
+This is heavy: if you have $n$ variables, the number of training/testing sets is. 
+
+- first round : $n$ tests, and keep 1 variable
+- second round: $n -1$ since you successively consider each vaaraiable that is not selected in the first round
+- third round: $n-1$ tests
+
+...
+
+For all the rounds
+
+$$n + (n-1) + (n-2) + \ldots + 2 + 1$$
+
+## To do for JvH
+
+- add an example of multi-group differential expression analysis with ANOVA. 
+
+- test the tune.XXX() methods
+
+
+
+
+
 
 
 

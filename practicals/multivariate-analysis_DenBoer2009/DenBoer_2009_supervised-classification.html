@@ -11,7 +11,7 @@
 
 <meta name="author" content="Jacques van Helden" />
 
-<meta name="date" content="2020-04-08" />
+<meta name="date" content="2020-04-12" />
 
 <title>Practical – Supervised classification – Microarrays</title>
 
@@ -351,7 +351,7 @@ div.tocify {
 <h1 class="title toc-ignore">Practical – Supervised classification – Microarrays</h1>
 <h3 class="subtitle">STAT2</h3>
 <h4 class="author">Jacques van Helden</h4>
-<h4 class="date">2020-04-08</h4>
+<h4 class="date">2020-04-12</h4>
 
 </div>
 
@@ -420,7 +420,7 @@ div.tocify {
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">message</span>(<span class="st">&quot;Loading data from memory image file&quot;</span>)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">system.time</span>(<span class="kw">load</span>(memImageFile))</a></code></pre></div>
 <pre><code>   user  system elapsed 
-  0.573   0.029   0.603 </code></pre>
+  0.604   0.030   0.636 </code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">message</span>(<span class="st">&quot;Data loaded&quot;</span>)</a></code></pre></div>
 </div>
 <div id="recommendations" class="section level2">
@@ -670,7 +670,7 @@ div.tocify {
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&#39; @param x a data frame with one row per variable and one column per individual</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&#39; @param classes a vector indicating the class of each individual</span></a>
 <a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&#39; @param minPerClass=20 minimal number of inidividuals per class</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&#39; @return a list containing the filtered data table and vector of class memberships</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&#39; @return a list containing the filtered data table, a vector of class memberships, and other fields describing the numbers and names of the elements (variables, samples, classes)</span></a>
 <a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&#39; @export</span></a>
 <a class="sourceLine" id="cb7-9" data-line-number="9">FilterClasses &lt;-<span class="st"> </span><span class="cf">function</span>(x,</a>
 <a class="sourceLine" id="cb7-10" data-line-number="10">                          classes,</a>
@@ -678,7 +678,7 @@ div.tocify {
 <a class="sourceLine" id="cb7-12" data-line-number="12"></a>
 <a class="sourceLine" id="cb7-13" data-line-number="13">  <span class="co">## Check that the data table and class vector have consistent dimensions</span></a>
 <a class="sourceLine" id="cb7-14" data-line-number="14">  <span class="cf">if</span> (<span class="kw">length</span>(classes) <span class="op">!=</span><span class="st"> </span><span class="kw">ncol</span>(x)) {</a>
-<a class="sourceLine" id="cb7-15" data-line-number="15">    <span class="kw">stop</span>(<span class="st">&quot;The number of columns of x shoudl be identical to the length of classes&quot;</span>)</a>
+<a class="sourceLine" id="cb7-15" data-line-number="15">    <span class="kw">stop</span>(<span class="st">&quot;The number of columns of x should be identical to the length of classes&quot;</span>)</a>
 <a class="sourceLine" id="cb7-16" data-line-number="16">  }</a>
 <a class="sourceLine" id="cb7-17" data-line-number="17"></a>
 <a class="sourceLine" id="cb7-18" data-line-number="18">  <span class="co">## Prepare a list that will hold the different pieces of result</span></a>
@@ -714,7 +714,7 @@ div.tocify {
 <a class="sourceLine" id="cb7-48" data-line-number="48">  }</a>
 <a class="sourceLine" id="cb7-49" data-line-number="49"></a>
 <a class="sourceLine" id="cb7-50" data-line-number="50">  <span class="co">## Build the result object (list) by adding fields with the relevant information</span></a>
-<a class="sourceLine" id="cb7-51" data-line-number="51">  result<span class="op">$</span>nbClasses &lt;-<span class="st"> </span><span class="kw">length</span>(result<span class="op">$</span>classes) <span class="co">## Number of classes after filtering</span></a>
+<a class="sourceLine" id="cb7-51" data-line-number="51">  result<span class="op">$</span>nbClasses &lt;-<span class="st"> </span><span class="kw">length</span>(classNames) <span class="co">## Number of classes after filtering</span></a>
 <a class="sourceLine" id="cb7-52" data-line-number="52">  result<span class="op">$</span>nbIndividuals &lt;-<span class="st"> </span><span class="kw">nrow</span>(result<span class="op">$</span>x) <span class="co">## Number of individuals</span></a>
 <a class="sourceLine" id="cb7-53" data-line-number="53">  result<span class="op">$</span>nbVariables &lt;-<span class="st"> </span><span class="kw">ncol</span>(result<span class="op">$</span>x) <span class="co">## Number of variables</span></a>
 <a class="sourceLine" id="cb7-54" data-line-number="54">  result<span class="op">$</span>classNames &lt;-<span class="st"> </span><span class="kw">unique</span>(result<span class="op">$</span>classes) <span class="co">## class names after filtering</span></a>
@@ -930,15 +930,15 @@ div.tocify {
 <tbody>
 <tr class="odd">
 <td>hyperdiploid</td>
-<td align="right">14</td>
+<td align="right">13</td>
 <td align="right">1</td>
 <td align="right">0</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
 <td>pre-B ALL</td>
-<td align="right">1</td>
-<td align="right">13</td>
+<td align="right">2</td>
+<td align="right">11</td>
 <td align="right">0</td>
 <td align="right">0</td>
 </tr>
@@ -952,7 +952,7 @@ div.tocify {
 <tr class="even">
 <td>TEL-AML1</td>
 <td align="right">0</td>
-<td align="right">1</td>
+<td align="right">3</td>
 <td align="right">0</td>
 <td align="right">14</td>
 </tr>
@@ -993,10 +993,103 @@ div.tocify {
 <h3>Comparison between results</h3>
 <p>Comparison between results obtained with:</p>
 <ul>
-<li>the smae classifier and different parameters</li>
-<li>different classifiers (assuming that you first selected the best parameters for each one)</li>
+<li><p>the same classifier and different parameters, in order to identify the optimal paramters.</p></li>
+<li><p>once hti is done, run different classifiers (assuming that you first selected the best parameters for each one) and compare their performances</p></li>
+</ul>
+<p>For this you need to be able to run the whole procedure several times</p>
+<ul>
+<li><p>iterating on the parameters</p>
+<ul>
+<li><p>iterating on the train/test session</p>
+<ul>
+<li>select training and testing sets</li>
+<li>train the classifier</li>
+<li>run the test on the testing set</li>
+<li>aggregate the results</li>
+<li>compute the confusion table</li>
+<li>compute the performance statistics (MER)</li>
+</ul></li>
+<li><p>summarise the results of the iterations</p>
+<ul>
+<li>mean performance</li>
+<li>variations of performance index between iterations of training/testing</li>
+</ul></li>
+</ul></li>
 </ul>
 </div>
+<div id="impact-of-the-parameters" class="section level3">
+<h3>Impact of the parameters</h3>
+<p>I propose to test the following parameters (but you are free to test other ones if you have a good reason to think they are relevant)</p>
+<ul>
+<li><p>For SVM: the critical parameter is the kernel (linear, radial, polynomial, sigmoid).</p>
+<ul>
+<li>To check: there is a function named <code>e1071::tune.svm()</code>, which might do the job. If so use it, it will facilitate your life.</li>
+</ul></li>
+<li><p>For KNN, the main parameter is the number of neighbours (<span class="math inline">\(k\)</span>). Test: 3, 4, 5, 7, 10</p>
+<ul>
+<li>There is a function named: <code>e1071::tune.knn()</code> -&gt; check if this enables you to automatically find the best parameteres</li>
+</ul></li>
+<li><p>Random Forest:</p>
+<ul>
+<li><p>random forest iterates many times (typically 500 times) training / testing on random subsets of the data (subset of individuals and variables). After the training, it tests the error rate on the individuals that were not retained for training. This is called <strong>Out-of-bag error</strong>.</p></li>
+<li><p>relevant parameters are</p>
+<ul>
+<li><strong>number of trees</strong> (“iterations”)</li>
+<li><strong>mtry</strong>: Number of variables randomly sampled as candidates at each split. Note that the default values are different for classification (sqrt(p) where p is number of variables in x) and regression (p/3)</li>
+</ul></li>
+<li><p>In ordre to see the best number of trees, you can simply ploit the RF model. This will display the Out-of-bag error rate as a function of the number of iterations.</p></li>
+<li><p>Fabiana noted a function <code>tuneRF()</code>, that runs RF with different parameter values, gather the results and displays graphically the impact of the parameters on the performances.</p></li>
+<li><p>There is also a funciton <code>e1071::tune.randomForest()</code>. Check which one is the most convenient</p></li>
+</ul></li>
+</ul>
+</div>
+<div id="iterations-of-trainingtesting" class="section level3">
+<h3>Iterations of training/testing</h3>
+<p>After having identified the best parameters for a given classifer (using the above-mentioned tune functions), you will run 10 iterations with the optimal parameters in order to measure the mean MER and its fluctuations.</p>
+<p>For each classifier that you will test, you should repeat the train/test evaluation because the result may vary depending on the random split of the dataset –&gt; the idea is to run it e.g. <span class="math inline">\(r = 10\)</span> times in order to obtain a mean value + the dispersion (e.g. standard devation) or a graphical representation (e.g. box plot) that shows how much the MER varies between repetitions of the test.</p>
+<p>At each iteration, you obtaine a given <span class="math inline">\(MER\)</span>. Collect them, and then you can draw a boxplot (for example) of the MER values. Suggestion: use a scale from 0 to 1 for the MER boxplot, in order to always display the full range of possible values.</p>
+</div>
+</div>
+<div id="data-reduction-and-feature-selection" class="section level2">
+<h2>Data reduction and feature selection</h2>
+<div id="variable-ordering" class="section level3">
+<h3>Variable ordering</h3>
+<p>The principle is to sort all the variables based on a given criterion, and to keep the <span class="math inline">\(n\)</span> top variables only.</p>
+<p>Typical criteria.</p>
+<ul>
+<li><p>A simple criterion is the <strong>variance</strong>, but this is not always a relevant criterion.</p></li>
+<li><p>An alternative is to sort the variables (in this case, the genes) by decreasing significance of a <strong>differential analysis test.</strong> So faw we saw how to run differential analysis with two groups. In this case we want to run a 4-group classification. One possibility is to run a test that compare multiple groups, e.g. anova (ANalysis Of Variance). Thi is a general method to analyse the impact of one or several factors on some osberver variable. In this case there would be a single factor (one-way ANOVA), the cancer class (subtype).</p></li>
+</ul>
+</div>
+<div id="pca" class="section level3">
+<h3>PCA</h3>
+<p>Keep the first components after PCA of the variable space.</p>
+</div>
+<div id="stepwise-selection" class="section level3">
+<h3>Stepwise selection</h3>
+<p>Two modalities: forward and backward.</p>
+<p><strong>Forward selection</strong>:</p>
+<pre><code>- train / test with each variable alone. the results are supposedly porr but some variables will give som success. 
+- Then run a train/test  combining the best variable with each other variable (2-variables test)
+- Select the bets of these 2-variables combinations, and run train/test by combining it with each one the remaining variables (here you have combinations of 3 variables)
+- ... do the same until $n$ variables, or stop if the performances start to decrease strongly</code></pre>
+<p>This is heavy: if you have <span class="math inline">\(n\)</span> variables, the number of training/testing sets is.</p>
+<ul>
+<li>first round : <span class="math inline">\(n\)</span> tests, and keep 1 variable</li>
+<li>second round: <span class="math inline">\(n -1\)</span> since you successively consider each vaaraiable that is not selected in the first round</li>
+<li>third round: <span class="math inline">\(n-1\)</span> tests</li>
+</ul>
+<p>…</p>
+<p>For all the rounds</p>
+<p><span class="math display">\[n + (n-1) + (n-2) + \ldots + 2 + 1\]</span></p>
+</div>
+</div>
+<div id="to-do-for-jvh" class="section level2">
+<h2>To do for JvH</h2>
+<ul>
+<li><p>add an example of multi-group differential expression analysis with ANOVA.</p></li>
+<li><p>test the tune.XXX() methods</p></li>
+</ul>
 </div>
 
 

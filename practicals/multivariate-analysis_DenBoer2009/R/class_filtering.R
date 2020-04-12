@@ -4,7 +4,7 @@
 #' @param x a data frame with one row per variable and one column per individual
 #' @param classes a vector indicating the class of each individual
 #' @param minPerClass=20 minimal number of inidividuals per class
-#' @return a list containing the filtered data table and vector of class memberships
+#' @return a list containing the filtered data table, a vector of class memberships, and other fields describing the numbers and names of the elements (variables, samples, classes)
 #' @export
 FilterClasses <- function(x,
                           classes,
@@ -12,7 +12,7 @@ FilterClasses <- function(x,
 
   ## Check that the data table and class vector have consistent dimensions
   if (length(classes) != ncol(x)) {
-    stop("The number of columns of x shoudl be identical to the length of classes")
+    stop("The number of columns of x should be identical to the length of classes")
   }
 
   ## Prepare a list that will hold the different pieces of result
@@ -48,7 +48,7 @@ FilterClasses <- function(x,
   }
 
   ## Build the result object (list) by adding fields with the relevant information
-  result$nbClasses <- length(result$classes) ## Number of classes after filtering
+  result$nbClasses <- length(classNames) ## Number of classes after filtering
   result$nbIndividuals <- nrow(result$x) ## Number of individuals
   result$nbVariables <- ncol(result$x) ## Number of variables
   result$classNames <- unique(result$classes) ## class names after filtering
@@ -56,5 +56,4 @@ FilterClasses <- function(x,
   result$variableNames <- colnames(result$x) ## variable names
   result$classSizes <- table(result$classes) ## class sizes after filtering
   return(result)
-
 }

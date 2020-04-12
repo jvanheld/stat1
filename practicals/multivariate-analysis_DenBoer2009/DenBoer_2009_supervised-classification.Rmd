@@ -59,7 +59,8 @@ font-family: Garamond
 transition: linear
 ---
 
-```{r knitr_settings, include=FALSE, echo=FALSE, eval=TRUE}
+```{r knitr_settings, include=TRUE, eval=TRUE}
+#### knitr options to generate reports from markdown ####
 library(knitr)
 options(width = 300)
 knitr::opts_chunk$set(
@@ -73,12 +74,10 @@ knitr::opts_chunk$set(
 # knitr::asis_output("\\footnotesize")
 
 
-## Store original graphic parameters to restore them after chunks
-par.ori <- par(no.readonly = TRUE)
-
 ```
 
 ```{r libraries}
+#### Load required libraries and install them if required ####
 pkg <- "e1071"
 if (!require(pkg, character.only = TRUE)) {
   message("Installing package ", pkg)
@@ -87,6 +86,13 @@ if (!require(pkg, character.only = TRUE)) {
 }
 ```
 
+```{r parameters}
+#### Parameters ####
+
+## Store original graphical parameters to restore them after chunks
+par.ori <- par(no.readonly = TRUE)
+
+```
 
 ## Introduction
 
